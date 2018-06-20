@@ -1,0 +1,51 @@
+.step-container {
+	/*padding: 15px;*/
+}
+.step-container .step-content {
+	background: #ffffff;
+}
+.step-container ul.step-list {
+	text-align: center;
+	padding: 5px 0;
+	font-size: 18px;
+}
+.step-container ul.step-list li {
+	background: url(./step-list-bg1.png) no-repeat left center;
+	padding: 10px 5px 10px 8px;
+	display:  inline-block;
+}
+.step-container ul.step-list li.step-active {
+	background: url(./step-list-active-bg1.png) no-repeat left center;
+	color: #d47027;
+}
+.step-container ul.step-list li:before {
+	color: #fff;
+	padding-right: 20px;
+	font-weight: 600;
+}
+.step-container ul.step-list li.step-active:after {
+	background-color: #ffffff;
+}
+.step-container ul.step-list li:last-child:after {
+	content: none;
+}
+.step-list-01:before {
+	content: "1";
+}
+.step-list-02:before {
+	content: "2";
+}
+.step-list-03:before {
+	content: "3";
+}
+.step-list-04:before {
+	content: "4";
+}
+.step-list-05:before {
+	content: "5";
+}
+.step-list-06:before {
+	content: "6";
+}
+
+			   
