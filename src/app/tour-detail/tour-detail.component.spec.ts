@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TourAvailabilityComponent } from './tour-availability.component';
+import { TourDetailComponent } from './tour-detail.component';
 
-describe('TourAvailabilityComponent', () => {
-  let component: TourAvailabilityComponent;
-  let fixture: ComponentFixture<TourAvailabilityComponent>;
+describe('TourDetailComponent', () => {
+  let component: TourDetailComponent;
+  let fixture: ComponentFixture<TourDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TourAvailabilityComponent ]
+      declarations: [ TourDetailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TourAvailabilityComponent);
+    fixture = TestBed.createComponent(TourDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
