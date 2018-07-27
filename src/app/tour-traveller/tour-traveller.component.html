@@ -4,26 +4,26 @@
   <div class="col-md-9">
     <div style="border: 1px solid #CCC; padding:10px">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h4>Total number of travellers:</h4>
         </div>
-        <div class="col-md-4 text-right">
+        <div class="col-md-2 text-right">
           <select class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
             <ng-container *ngFor="let q of trip.availabledTravellerQuantities">
-              <option [ngValue]="q">{{q.id}} ({{q.name}})</option>
+              <option [ngValue]="q">{{q.id}}</option>
             </ng-container>
           </select>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h4>Accomodation:</h4>
           <span>How many hotel rooms do you require?</span>
         </div>
-        <div class="col-md-4 text-right">
+        <div class="col-md-2 text-right">
           <select style="margin-top:10px;" class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedRoomQuantity" (ngModelChange)="roomChange($event)">
             <ng-container *ngFor="let q of trip.availabledRoomQuantities">
-              <option [ngValue]="q">{{q.id}} ({{q.name}})</option>
+              <option [ngValue]="q">{{q.id}}</option>
             </ng-container>
           </select>
         </div>

@@ -5,13 +5,13 @@ import { Traveller } from "../Models/traveller";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { Room } from "../Models/room";
-import {MockTourInfoSource } from "../Models/mock-tour-info-source";
+import { MockTourInfoSource } from "../Models/mock-tour-info-source";
 import { slideInDownAnimation } from "../animations";
 export class OptionSummary {
   name: string;
   price: number;
   quantity: number;
-  subtotal: number;
+  subTotal: number;
 }
 
 @Component({
@@ -37,7 +37,7 @@ export class TourReviewPaymentComponent implements OnInit {
     private router: Router
   ) {}
   optionTotal: number;
-  TotalPrice: number;
+  totalPrice: number;
   tourInfoSources: string[];
   ngOnInit() {
     this.msg = "";
@@ -68,17 +68,37 @@ export class TourReviewPaymentComponent implements OnInit {
     });
     this.optionSummary = new Array<OptionSummary>();
     for (let i = 0; i < this.travellers.length; i++) {
-      if (this.travellers[i].selectedOptions != null && this.travellers[i].selectedOptions.length > 0) {
+      if (
+        this.travellers[i].selectedOptions != null &&
+        this.travellers[i].selectedOptions.length > 0
+      ) {
         for (let j = 0; j < this.travellers[i].selectedOptions.length; j++) {
-          const os = new OptionSummary();
-          os.name = this.travellers[i].selectedOptions[j].name;
-          os.price = this.travellers[i].selectedOptions[j].price;
-          os.quantity = 1;
-          os.subtotal = os.price * 1;
-          this.optionSummary.push(os);
+          const optionInSummary = this.optionSummary.find(
+            c => c.name === this.travellers[i].selectedOptions[j].name
+          );
+          if (null == optionInSummary) {
+            const os = new OptionSummary();
+            os.name = this.travellers[i].selectedOptions[j].name;
+            os.price = this.travellers[i].selectedOptions[j].price;
+            os.quantity = 1;
+            os.subTotal = os.price * os.quantity;
+            this.optionSummary.push(os);
+          } else {
+            optionInSummary.quantity++;
+            optionInSummary.subTotal =
+              optionInSummary.price * optionInSummary.quantity;
+          }
         }
       }
     }
+    this.optionTotal = 0;
+    for (let i = 0; i < this.optionSummary.length; i++) {
+      this.optionTotal += this.optionSummary[i].subTotal;
+    }
+    this.totalPrice =
+      this.trip.tripCostForPerTraveller *
+        this.trip.selectedTravellerQuantity.id +
+      this.optionTotal;
   }
   gotoPayment() {
     localStorage.removeItem(this.tripId.toString());

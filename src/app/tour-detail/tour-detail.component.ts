@@ -27,34 +27,29 @@ export class TourDetailComponent implements OnInit {
     this.tourId = +this.activatedRoute.snapshot.paramMap.get("id");
     this.tour = this.tourService.getToursMockDataById(this.tourId);
     this.initTrip();
-    this.tourService.saveTrip(this.trip);
+    this.onSelectTrip(this.tour.trips[0]);
   }
   initTrip() {
-    this.trip = this.tour.trips.find(c => c.isSelected);
-    if (this.trip == null && this.tour.trips.length > 0) {
-      this.tour.trips[0].isSelected = true;
+    if (this.tour.trips != null) {
       this.trip = this.tour.trips[0];
+      this.tour.trips.forEach(trip => {
+        trip.notIncludeIn = this.tourService.getNotIncludeIn(
+          trip.tourId,
+          trip.id
+        );
+        trip.includedIn = this.tourService.getIncludeIn(trip.tourId, trip.id);
+      });
     }
-    this.tour.trips.forEach(trip => {
-      trip.notIncludeIn = this.tourService.getNotIncludeIn(
-        trip.tourId,
-        trip.id
-      );
-      trip.includedIn = this.tourService.getIncludeIn(trip.tourId, trip.id);
-    });
   }
   onSelectTrip(trip: Trip) {
     this.trip = trip;
-    this.tour.trips.forEach(t => {
-      t.id === trip.id ? (t.isSelected = true) : (t.isSelected = false);
-    });
-     this.tourService.saveTrip(this.trip);
+    this.tourService.saveTrip(this.trip);
   }
   gotoTraveller(tourId: number, tripId: number): void {
     this.onSelectTrip(this.tour.trips.find(c => c.id === tripId));
     localStorage.removeItem(this.trip.id.toString());
     localStorage.setItem(this.trip.id.toString(), JSON.stringify(this.trip));
-     this.router.navigate(["/travellers"], {
+    this.router.navigate(["/travellers"], {
       queryParams: { tourId: tourId, tripId: tripId }
     });
   }

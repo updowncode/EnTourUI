@@ -8,9 +8,8 @@ import { Trip } from "../Models/trip";
 import { Traveller } from "../Models/traveller";
 import { Quantity } from "../Models/quantity";
 import { BillingInfo } from "../Models/billing-info";
-import { AuthService } from "../auth/auth.service";
 import { Option } from "../Models/option";
-import { Passport } from "../Models/passport";
+
 @Component({
   selector: "app-tour-traveller",
   templateUrl: "./tour-traveller.component.html",
@@ -60,8 +59,8 @@ export class TourTravellerComponent implements OnInit {
       this.tripId,
       this.trip.availabledTravellerQuantities[0]
     );
-    this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[0];
-    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities[0];
+    this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[2];
+    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities[1];
     this.trip.billingInfo = new BillingInfo();
     this.trip.rooms = this.tourService
       .getRooms(this.tourId, this.tripId)
@@ -119,6 +118,28 @@ export class TourTravellerComponent implements OnInit {
         roomId: this.trip.rooms[0].id
       }
     );
+    this.trip.rooms[1].travellers = new Array<Traveller>();
+    this.trip.rooms[1].travellers.push({
+      id: 3,
+      title: "",
+      firstName: "David",
+      middleName: "",
+      lastName: "",
+      placeofbirth: "",
+      birthday: "",
+      passport: {
+        number: "",
+        issueDate: "",
+        expiryDate: "",
+        issuePlace: { id: 1, name: "Canada", code: "CA" }
+      },
+      countryorarea: null,
+      selectedOptions: null,
+      needVisa: true,
+      needInsuance: true,
+      specialRequest: "",
+      roomId: this.trip.rooms[1].id
+    });
     const ops = this.tourService.getOptions(this.tourId, this.tripId);
     this.trip.rooms[0].travellers[0].selectedOptions = new Array<Option>();
     this.trip.rooms[0].travellers[0].selectedOptions.push(ops[0]);
@@ -140,5 +161,8 @@ export class TourTravellerComponent implements OnInit {
     this.router.navigate(["/options"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
+  }
+  assignRoom(travellerQuantity: Quantity, roomQuantity: Quantity, trip: Trip) {
+
   }
 }

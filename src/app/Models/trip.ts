@@ -8,7 +8,6 @@ import { CountryOrArea } from "./countryorarea";
 export class Trip {
   id: number;
   name: string;
-  isSelected: boolean;
   selectedTravellerQuantity: Quantity;
   selectedRoomQuantity: Quantity;
   availabledRoomQuantities: Quantity[];
@@ -19,7 +18,8 @@ export class Trip {
   endCountryOrArea: CountryOrArea;
   startDate: string;
   endDate: string;
-  tripCost: string;
+  tripCostForPerTraveller: number;
+  tripCostForDefaultTravellerQuantity: number;
   tripSingleSupplement: string;
   tourInfoSource: string;
   billingInfo: BillingInfo;

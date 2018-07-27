@@ -40,7 +40,7 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <strong>{{trip.tripCost}}</strong>
+            <strong style="margin-right: 10px;">${{trip.tripCostForPerTraveller * trip.selectedTravellerQuantity.id}}</strong>
         </div>
     </div>
     <div class="row" *ngIf="optionSummary">
@@ -53,7 +53,7 @@
                     {{option.name}}
                 </div>
                 <div class="col-md-4">
-                    ${{option.price}} x {{option.quantity}} ({{option.subtotal}})
+                    <div style="margin-right: 10px;">${{option.price}} x {{option.quantity}} ({{option.subTotal}})</div>
                 </div>
             </div>
 
@@ -66,15 +66,14 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <strong>${{optionTotal}}</strong>
+            <strong style="margin-right: 10px;">${{optionTotal}}</strong>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <div style="background-color: black; color: white; padding-top:10px; padding-bottom:10px;">
-                <strong>Total Price: CAD ${{TotalPrice}}</strong>
+            <div style="background-color: black; color: white; padding:10px;">
+                <strong>Total Price: CAD ${{totalPrice}}</strong>
             </div>
-
         </div>
     </div>
     <div class="row">

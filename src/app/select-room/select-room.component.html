@@ -1,4 +1,4 @@
-<div style="border: 1px solid #CCC; padding:10px; margin-top:10px;" *ngIf="room">
+<div style="border: 1px solid #CCC; background-color: rgb(241, 238, 229); padding:10px; margin-top:10px;" *ngIf="room">
   <div class="row">
     <div class="col-md-12">
       <app-traveller-in-room [traveller]="traveller" [room]="room" [tripRooms]="tripRooms" *ngFor="let traveller of room.travellers"></app-traveller-in-room>

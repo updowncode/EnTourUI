@@ -22,7 +22,7 @@
                                             </span>
                                         </th>
                                         <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Trip Cost (for 2)
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Trip Cost (for {{trip.tripCostForDefaultTravellerQuantity}})
                                                 <br>
                                             </span>
                                         </th>
@@ -46,7 +46,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span style="font-size: 13px;">{{t.tripCost}}
+                                            <span style="font-size: 13px;">{{t.tripCostForPerTraveller * t.tripCostForDefaultTravellerQuantity}}
                                             </span>
                                         </td>
                                         <td>

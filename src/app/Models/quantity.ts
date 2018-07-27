@@ -4,6 +4,6 @@ export class Quantity {
     this.name = name;
   }
 
-  id: number;
-  name: string;
+  id: number; // Quantity
+  name: string; // spec
 }
