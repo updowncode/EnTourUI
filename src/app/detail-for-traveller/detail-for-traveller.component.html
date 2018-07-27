@@ -1,0 +1,75 @@
+<div style="border: 1px solid #ccc; padding:10px;margin-bottom:10px;background-color: #ccc">
+  <div class="row">
+    <div class="col-md-12">
+      <h5>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label>Title*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.title">
+    </div>
+    <div class="col-md-4">
+      <label>First Name*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.firstName">
+    </div>
+    <div class="col-md-2">
+      <label>Middle Name</label>
+      <input type="text" class="form-control" [(ngModel)]="traveller.middleName">
+    </div>
+    <div class="col-md-4">
+      <label>Last Name*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.lastName">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <label>Date of Birth*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.birthday">
+    </div>
+    <div class="col-md-4">
+      <label>Place of Birth*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.placeofbirth">
+    </div>
+    <div class="col-md-4">
+      <label>Nationality*</label>
+      <div>
+        <select class="form-control" [(ngModel)]="traveller.countryorarea">
+          <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
+            <option [ngValue]="countryorarea.id">{{countryorarea.name}}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Passport Number*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.passport.number">
+    </div>
+    <div class="col-md-3">
+      <label>Date of Issue*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.passport.issueDate">
+    </div>
+    <div class="col-md-3">
+      <label>Date of Expiry*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.passport.expiryDate">
+    </div>
+    <div class="col-md-3">
+      <label>Place of Issue*</label>
+      <div>
+        <select class="form-control" [(ngModel)]="traveller.passport.issuePlace">
+          <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
+            <option [ngValue]="countryorarea.id">{{countryorarea.name}}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>Other Comments / Special Requests:</label>
+      <textarea class="form-control" [(ngModel)]="traveller.specialRequest"></textarea>
+    </div>
+  </div>
+</div>

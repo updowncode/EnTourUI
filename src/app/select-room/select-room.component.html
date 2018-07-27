@@ -1,0 +1,6 @@
+<div class="row" *ngIf="room">
+  <div class="col-md-12">
+    <app-traveller-in-room [traveller]="traveller" [room]="room" [tripRooms]="tripRooms" *ngFor="let traveller of room.travellers"></app-traveller-in-room>
+
+  </div>
+</div>

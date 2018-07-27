@@ -1,20 +1,147 @@
 import { Injectable } from "@angular/core";
 import { Headers, Http } from "@angular/http";
+import { of, Observable, BehaviorSubject, Subject } from "rxjs";
+import { map, delay } from "rxjs/operators";
 import { MessageService } from "./message.service";
-import { Tour, MockTours } from "./tour";
-@Injectable({
-  providedIn: "root"
-})
+import { Tour } from "./Models/tour";
+import { MockTours } from "./Models/mock-tours";
+import { Trip } from "./Models/trip";
+import { Quantity } from "./Models/quantity";
+import { Room } from "./Models/room";
+import { MockIncludeIns } from "./Models/mock-include-in";
+import { MockNotIncludeIns } from "./Models/mock-not-include-in";
+import { MockTripInclude } from "./Models/mock-trip-include";
+import { MockRooms } from "./Models/mock-rooms";
+import { MockOptions } from "./Models/mock-options";
+import { Option } from "./Models/option";
+import { MockTourInfoSource } from "./Models/mock-tour-info-source";
+const FETCH_LATENCY = 500;
+
+@Injectable()
 export class EnTourService {
+  tour: Tour;
+  trip: Trip;
+  visible: boolean;
+  travellerQuantities = Array<Quantity>();
+  roomQuantities = Array<Quantity>();
+  private tourSelected = new BehaviorSubject<Tour>(null);
+  private tripShared = new BehaviorSubject(this.trip);
+  trip$ = this.tripShared.asObservable();
+  tour$ = this.tourSelected.asObservable();
+
   private toursUrl = "https://b2b.toureast.com/api/heroes"; // URL to web api
   private createtour = "https://b2b.toureast.com/api/createhero";
   private headers = new Headers({ "Content-Type": "application/json" });
+
+  private selectedTrip: Trip;
+  public saveTrip(value: Trip) {
+    this.selectedTrip = value;
+  }
+  public retrieveTrip() {
+    return this.selectedTrip;
+  }
+  ShareTrip(trip: Trip) {
+    this.trip$.next(trip);
+  }
+  shareTour(tour: Tour) {
+    this.tourSelected.next(tour);
+  }
   private handleError(error: any): Promise<any> {
     console.error("An error occurred", error); // for demo purposes only
-    this.messageService.add("An error occurred" + error);
+    this.messageService.clearMessage();
+    this.messageService.sendMessage("An error occurred" + error);
+    this.messageService.add("setup ok").subscribe((result: boolean) => {
+      if (!result) {
+        console.log("");
+        return;
+      }
+      console.log("error add");
+    });
     return Promise.reject(error.message || error);
   }
-  constructor(private http: Http, private messageService: MessageService) {}
+  constructor(private http: Http, private messageService: MessageService) {
+    this.visible = false;
+  }
+  getToursMockData(): Tour[] {
+    return MockTours;
+  }
+  getToursMockDataById(id: number): Tour {
+    return MockTours.find( c => c.id === id);
+  }
+  getRooms(tourId: number, tripId: number): Room[] {
+    return MockRooms.filter(c => c.tourId === tourId && c.tripId === tripId);
+  }
+  getOptions(tourId: number, tripId: number): Option[] {
+    return MockOptions.filter(c => c.tourId === tourId && c.tripId === tripId);
+  }
+  getTourInfoSource(): string[] {
+    return MockTourInfoSource;
+  }
+  getIncludeIn(tourId: number, tripId: number): MockTripInclude[] {
+    return MockIncludeIns.filter(
+      c => c.tourId === tourId && c.tripId === tripId
+    );
+  }
+
+  getNotIncludeIn(tourId: number, tripId: number): MockTripInclude[] {
+    return MockNotIncludeIns.filter(
+      c => c.tourId === tourId && c.tripId === tripId
+    );
+  }
+  show() {
+    this.visible = true;
+  }
+  hide() {
+    this.visible = false;
+  }
+  setTrip(trip: Trip) {
+    this.trip = trip;
+  }
+  getTourMockData(id: number): Tour {
+    if (this.tour == null) {
+      return MockTours.find(c => c.id === id);
+    }
+    return this.tour;
+  }
+  getAvailabledTravellerQuantities(tourId: number, tripId: number): Quantity[] {
+    this.travellerQuantities = Array<Quantity>();
+    this.travellerQuantities.push(new Quantity(1, "Adult"));
+    this.travellerQuantities.push(new Quantity(2, "Adult"));
+    this.travellerQuantities.push(new Quantity(3, "Adult"));
+    this.travellerQuantities.push(new Quantity(4, "Adult"));
+    // return of(this.travellerQuantities).pipe(delay(FETCH_LATENCY));
+    return this.travellerQuantities;
+  }
+  getAvailabledRoomQuantities(
+    tourId: number,
+    tripId: number,
+    travellerQuantity: Quantity
+  ): Quantity[] {
+    this.roomQuantities = Array<Quantity>();
+    this.roomQuantities.push(new Quantity(1, "Room"));
+    this.roomQuantities.push(new Quantity(2, "Room"));
+    this.roomQuantities.push(new Quantity(3, "Room"));
+    this.roomQuantities.push(new Quantity(4, "Room"));
+    return this.roomQuantities;
+  }
+  getTrip(tourId: number, tripId: number): Observable<Trip> {
+    if (this.trip == null) {
+      this.trip = this.getTourMockData(tourId).trips.find(c => c.id === tripId);
+    }
+    return of(this.trip);
+  }
+
+  quotePrice(
+    tourId: number,
+    tripId: number,
+    travellerQuantity: number,
+    roomQuantity: number
+  ): Tour {
+    const tour = this.getTourMockData(tourId);
+    tour.trips = new Array<Trip>();
+    tour.trips.push(tour.trips.find(c => c.id === tripId));
+    return new Tour();
+  }
   getTours(): Promise<Tour[]> {
     return this.http
       .get(this.toursUrl)
@@ -30,13 +157,17 @@ export class EnTourService {
       .then(response => response.json() as Tour)
       .catch(this.handleError);
   }
-  getToursMockData(): Tour[] {
-    return MockTours;
-  }
-  getTourMockData(id: number): Tour {
-    return MockTours.find(c => c.id === id);
+
+  getMockTours() {
+    return of(MockTours);
   }
 
+  getMockTour(id: number | string) {
+    return this.getMockTours().pipe(
+      // (+) before `id` turns the string into a number
+      map(tours => tours.find(tour => tour.id === +id))
+    );
+  }
   update(tour: Tour): Promise<Tour> {
     const url = `${this.toursUrl}/${tour.id}`;
     return this.http

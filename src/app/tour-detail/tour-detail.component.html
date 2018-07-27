@@ -1,138 +1,66 @@
-<div class="step-container">
-    <div class="step-content">
-        <ul class="step-list no-list-style">
-            <li class="step-list-01 step-active">DATE & PRICING</li>
-            <li class="step-list-02">TRAVELLER & ROOM</li>
-            <li class="step-list-03">OPTION</li>
-            <li class="step-list-04">TRAVELLER DETAIL</li>
-            <li class="step-list-05">REVIEW & CONFIRMATION</li>
-        </ul>
-        <div class="clearfix"></div>
-    </div>
-</div>
-<h3 style="color:#d47027;">Tour Dates & Availability</h3>
+<app-nav-bar [actived]="1"></app-nav-bar>
+<h3 class="tecolor">Tour Dates & Availability</h3>
 <app-message></app-message>
-<div class="row" *ngIf="tour">
-    <div class="wsc_pane col-md-12">
-        <div class="DnnModule DnnModule-DNN_HTML">
-            <div>
-                <div class="DNNModuleContent ModDNNHTMLC">
-                    <div class="Normal">
-                        <table class="table table-bordered table-striped" style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                                        <span style="font-size: 13px; color: #ffffff;">&nbsp;Start Date
-                                            <br>
-                                        </span>
-                                    </th>
-                                    <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                                        <span style="font-size: 13px; color: #ffffff;">&nbsp;End Date
-                                            <br>
-                                        </span>
-                                    </th>
-                                    <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                                        <span style="font-size: 13px; color: #ffffff;">&nbsp;Trip Cost (for 2)
-                                            <br>
-                                        </span>
-                                    </th>
-                                    <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                                        <span style="font-size: 13px; color: #ffffff;">&nbsp;Single Supplement
-                                            <br>
-                                        </span>
-                                    </th>
-                                    <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+<div style="border: 1px solid #CCC; padding:10px">
+    <div class="row" *ngIf="tour">
+        <div class="wsc_pane col-md-12">
+            <div class="DnnModule DnnModule-DNN_HTML">
+                <div>
+                    <div class="DNNModuleContent ModDNNHTMLC">
+                        <div class="Normal">
+                            <table class="table table-bordered" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Start Date
+                                                <br>
+                                            </span>
+                                        </th>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;End Date
+                                                <br>
+                                            </span>
+                                        </th>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Trip Cost (for 2)
+                                                <br>
+                                            </span>
+                                        </th>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Single Supplement
+                                                <br>
+                                            </span>
+                                        </th>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
 
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let trip of tour.trips">
-                                    <td>
-                                        <span style="font-size: 13px;">{{trip.startDate}}</span>
-                                    </td>
-                                    <td>
-                                        <span style="font-size: 13px;">{{trip.endDate}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span style="font-size: 13px;">{{trip.tripCost}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span style="font-size: 13px;">{{trip.tripSingleSupplement}}
-                                        </span>
-                                    </td>
-                                    <td style="text-align:center;vertical-align: middle;">
-                                        <button (click)="goToTraveller(trip.id)" style="color:white;background-color:#d47027;">Book ></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <p>
-                            <strong>
-                                <span style="font-size: 20px;">&nbsp;Not Included in your trip:</span>
-                            </strong>
-                        </p>
-                        <ul class="fa-ul">
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> Walking tour of Hoi An</span>
-                                </h4>
-                            </li>
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> Discover vibrant Ho Chi Minh City (Saigon)</span>
-                                </h4>
-                            </li>
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> Visit the Cu Chi Tunnels and Cao Dai Temple</span>
-                                </h4>
-                            </li>
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> Take a day trip to the Mekong Delta</span>
-                                </h4>
-                            </li>
-                        </ul>
-                        <p>
-                            <strong>
-                                <span style="font-size: 20px;">&nbsp; Included in your trip:</span>
-                            </strong>
-                        </p>
-                        <ul class="fa-ul">
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> Tour Hanoi's shaded boulevards and lakes</span>
-                                </h4>
-                            </li>
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> Visit Hanoi's bustling Old Quarter</span>
-                                </h4>
-                            </li>
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> See the One Pillar Pagoda and Ba Dinh Square</span>
-                                </h4>
-                            </li>
-                            <li>
-                                <h4>
-                                    <span style="font-size: 16px;">
-                                        <em class="fa-li fa fa-map-marker colour"></em> Cruise aboard a traditional junk on Halong Bay</span>
-                                </h4>
-                            </li>
-
-                        </ul>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let t of tour.trips" [class.trselected]="t === trip" (click)="onSelectTrip(t)">
+                                        <td>
+                                            <span style="font-size: 13px;">{{t.startDate}}</span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 13px;">{{t.endDate}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 13px;">{{t.tripCost}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 13px;">{{t.tripSingleSupplement}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align:center;vertical-align: middle;">
+                                            <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoTraveller(tour.id, t.id)">Select</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <app-trip-details [trip]="trip"></app-trip-details>
+                        </div>
                     </div>
                 </div>
             </div>

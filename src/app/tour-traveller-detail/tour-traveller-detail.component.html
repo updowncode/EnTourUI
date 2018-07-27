@@ -1,12 +1,23 @@
-<div class="step-container">
-  <div class="step-content">
-      <ul class="step-list no-list-style">
-          <li class="step-list-01">DATE & PRICING</li>
-          <li class="step-list-02">TRAVELLER & ROOM</li>
-          <li class="step-list-03">OPTION</li>
-          <li class="step-list-04 step-active">TRAVELLER DETAIL</li>
-          <li class="step-list-05">REVIEW & CONFIRMATION</li>
-      </ul>
-      <div class="clearfix"></div>
-  </div>
+<app-nav-bar [actived]="4"></app-nav-bar>
+<h3 class="tecolor">Traveller Details</h3>
+<app-message></app-message>
+<div class="row">
+    <div class="col-md-9">
+        <div style="border: 1px solid #CCC; padding:10px">
+            <app-detail-for-traveller [traveller]="t" [index]="i" [availabledTitles]="availabledTitles" [availabledCountryOrAreas]="availabledCountryOrAreas"
+                *ngFor="let t of travellers; let i = index"></app-detail-for-traveller>
+            <div class="text-right">
+                <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoReviewPayment()">Continue</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <app-trip-summary></app-trip-summary>
+        <!-- <p>The hero's birthday is {{ birthday | date:"MM/dd/yy" }} </p> -->
+
+
+        <!-- <input type="text" #box
+                  (keyup.enter)="addHero(box.value); box.value=''"
+                  placeholder="hero name"> -->
+    </div>
 </div>

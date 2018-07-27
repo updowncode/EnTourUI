@@ -1,9 +1,10 @@
-<div class="grid grid-pad">
-  <a *ngFor="let tour of tours" routerLink="/detail/{{tour.id}}"  class="col-1-4">
-    <div class="module hero">
-      <h4>{{tour.name}}</h4>
-    </div>
-    </a>
+<div class="row">
+    <mat-card class="col-md-4" *ngFor="let tour of tours$ | async">
+        <mat-card-content>
+            <h4>{{tour.name}}</h4>
+            <a class="btn btn-primary" [routerLink]="['/detail', tour.id]" target="_blank">
+                Select
+            </a>
+        </mat-card-content>
+    </mat-card>
 </div>
-
-

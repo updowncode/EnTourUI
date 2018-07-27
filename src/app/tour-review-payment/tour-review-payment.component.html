@@ -1,12 +1,124 @@
-<div class="step-container">
-  <div class="step-content">
-      <ul class="step-list no-list-style">
-          <li class="step-list-01">DATE & PRICING</li>
-          <li class="step-list-02">TRAVELLER & ROOM</li>
-          <li class="step-list-03">OPTION</li>
-          <li class="step-list-04">TRAVELLER DETAIL</li>
-          <li class="step-list-05 step-active">REVIEW & CONFIRMATION</li>
-      </ul>
-      <div class="clearfix"></div>
-  </div>
+<app-nav-bar [actived]="5"></app-nav-bar>
+<h3 class="tecolor">Review & Confirmation</h3>
+<app-message></app-message>
+<div style="border: 1px solid #ccc; padding:10px; margin-top:10px;">
+    <div class="row">
+        <div class="col-md-12">
+            <h5>You're almost there!</h5>
+            Please take a moment to review the details below and continue to the payment page when ready.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr style="color: #ccc;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>{{tour.name}} - {{trip.name}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr style="color: #ccc;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            Start: {{trip.startPlace}},&nbsp;{{trip.startCountryOrArea.name}}&nbsp;-&nbsp;{{trip.startDate}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            End: {{trip.endPlace}},&nbsp;{{trip.endCountryOrArea.name}}&nbsp;-&nbsp;{{trip.endDate}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr style="color: #ccc;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <strong>{{trip.tripCost}}</strong>
+        </div>
+    </div>
+    <div class="row" *ngIf="optionSummary">
+        <div class="col-md-12">
+            <strong>Options</strong>
+        </div>
+        <div class="col-md-12" *ngFor="let option of optionSummary">
+            <div class="row">
+                <div class="col-md-8">
+                    {{option.name}}
+                </div>
+                <div class="col-md-4">
+                    ${{option.price}} x {{option.quantity}} ({{option.subtotal}})
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr style="color: #ccc;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <strong>${{optionTotal}}</strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div style="background-color: black; color: white; padding-top:10px; padding-bottom:10px;">
+                <strong>Total Price: CAD ${{TotalPrice}}</strong>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr style="color: #ccc;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            How did ou hear about us?
+        </div>
+        <div class="col-md-3 col-sm-12 col-sm-12">
+            <select class="form-control" [(ngModel)]="trip.tourInfoSource">
+                <ng-container *ngFor="let info of tourInfoSources">
+                    <option [ngValue]="info">{{info}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr style="color: #ccc;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <input type="checkbox">I agree to the
+                <a class="tecolor" target="_blank" href="http://en.toureast.com/Portals/0/img/terms_conditions.pdf">Terms and Conditions</a> and
+                <a class="tecolor" target="_blank" href="http://en.toureast.com/terms">Privacy Statment</a>
+            </div>
+            <div></div>
+            <div>
+                <input type="checkbox">I have read the
+                <a class="tecolor" target="_blank" href="http://en.toureast.com/terms">trip notes</a>
+            </div>
+            <div>
+                <input type="checkbox">I would like to receive offers and updates from Tour East Holidays via email</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button mat-raised-button color="primary" style="background-color:#d47027!important">Continue to Payment</button>
+        </div>
+
+    </div>
 </div>

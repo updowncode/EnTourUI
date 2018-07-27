@@ -1,16 +1,23 @@
 import { Injectable } from "@angular/core";
-
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/observable/of";
 @Injectable({
   providedIn: "root"
 })
 export class MessageService {
-  messages: string[] = [];
-
-  add(message: string) {
-    this.messages.push(message);
+  private subject = new Subject<any>();
+  add(message: string): Observable<boolean> {
+    this.subject.next({ text: message });
+    return Observable.of(true);
   }
-
-  clear() {
-    this.messages = [];
+  sendMessage(message: string) {
+    this.subject.next({ text: message });
+  }
+  clearMessage() {
+    this.subject.next();
+  }
+  getMessage(): Observable<any> {
+    return this.subject.asObservable();
   }
 }

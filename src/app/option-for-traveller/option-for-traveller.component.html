@@ -1,0 +1,128 @@
+<div style="border: 1px solid #CCC; padding:10px; margin-bottom: 10px;">
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="wsc_pane col-md-12">
+            <div class="DnnModule DnnModule-DNN_HTML">
+                <div>
+                    <div class="DNNModuleContent ModDNNHTMLC">
+                        <div class="Normal">
+                            <table class="table table-bordered table-striped" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Location
+                                                <br>
+                                            </span>
+                                        </th>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Tour
+                                                <br>
+                                            </span>
+                                        </th>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Price
+                                                <br>
+                                            </span>
+                                        </th>
+                                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+                                        <td>
+                                            <span style="font-size: 13px;">{{option.location}}</span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 13px;">{{option.name}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 13px;">{{option.price}}
+                                            </span>
+                                        </td>
+                                        <td style="text-align:center;vertical-align: middle;">
+                                            <input type="checkbox" style="cursor: pointer;" name="{{'Options' + traveller.id + option.id }}" (change)="changeTravellerOption(traveller, option)"
+                                                [checked]="isTravellerOption(traveller, option)">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong style="font-size: 20px;">Travel Visa:</strong>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10">
+                                    Do you require an entry visa to China?
+                                </div>
+                                <div class="col-md-2">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="width:40%;text-align: right;">Yes</td>
+                                            <td>
+                                                <input type="radio" style="cursor: pointer;" name="{{'needVisa' + traveller.id}}" [value]="true" [(ngModel)]="traveller.needVisa">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    Canadian citizens using a Canadian passport require a visa to visit China.
+                                </div>
+                                <div class="col-md-2">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="width:40%;text-align: right;">No</td>
+                                            <td>
+                                                <input type="radio" style="cursor: pointer;" name="{{'needVisa' + traveller.id}}" [value]="false" [(ngModel)]="traveller.needVisa">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong style="font-size: 20px;">Travel Insurance:</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Travel Insurance is strongly recommended for your travel purchase. Tour East Holidays can offer travel insurance through
+                                    Manulife. You may visit our dedicated Manulife Travel Insurance page HERE or you may
+                                    contact one of our Travel Consultants for a free quote at tour@toureast.com.
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <input type="radio" style="cursor: pointer;" name="{{'needInsuance' + traveller.id}}" [value]="true" [(ngModel)]="traveller.needInsuance">&nbsp;I/We have been offered travel insurance by Tour East Holidays and have been informed
+                                    of the importance of purchase travel travel insurance after confirming this trips.
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <input type="radio" style="cursor: pointer;" name="{{'needInsuance' + traveller.id}}" [value]="false" [(ngModel)]="traveller.needInsuance">&nbsp;Declined - I/We do not require travel insurance from Tour East Holidays and understand
+                                    that penalties apply for cancellations and/or changes according to payment and cancellations
+                                    policy outlined on the Tour East Holidays Terms & Conditions found HERE.
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

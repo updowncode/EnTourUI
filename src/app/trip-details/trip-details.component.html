@@ -1,0 +1,22 @@
+<div *ngIf="trip">
+<p>
+  <strong>
+      <span style="font-size: 20px;">&nbsp;Not Included in your trip:</span>
+  </strong>
+</p>
+<ul class="fa-ul">
+  <li *ngFor="let nIn of trip.notIncludeIn">
+    <span>{{nIn.text}}</span>
+  </li>
+</ul>
+<p>
+  <strong>
+      <span style="font-size: 20px;">&nbsp; Included in your trip:</span>
+  </strong>
+</p>
+<ul class="fa-ul">
+  <li  *ngFor="let in of trip.includedIn">
+      <span>{{in.text}}</span>>
+  </li>
+</ul>
+</div>
