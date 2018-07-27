@@ -1,17 +1,21 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostBinding } from "@angular/core";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { Traveller } from "../Models/traveller";
 import { Room } from "../Models/room";
-
+import { slideInDownAnimation } from "../animations";
 @Component({
   selector: "app-tour-option",
   templateUrl: "./tour-option.component.html",
-  styleUrls: ["./tour-option.component.sass"]
+  styleUrls: ["./tour-option.component.sass"],
+  animations: [slideInDownAnimation]
 })
 export class TourOptionComponent implements OnInit {
+  @HostBinding("@routeAnimation") routeAnimation = true;
+  @HostBinding("style.display") display = "block";
+  @HostBinding("style.position") position = "related";
   tour: Tour;
   trip: Trip;
   tourId: number;

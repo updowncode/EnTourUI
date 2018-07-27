@@ -19,8 +19,8 @@ import { Passport } from "../Models/passport";
 })
 export class TourTravellerComponent implements OnInit {
   @HostBinding("@routeAnimation") routeAnimation = true;
-  // @HostBinding("style.display") display = "block";
-  // @HostBinding("style.position") position = "absolute";
+  @HostBinding("style.display") display = "block";
+  @HostBinding("style.position") position = "related";
   trip: Trip;
   tour: Tour;
   tourId: number;

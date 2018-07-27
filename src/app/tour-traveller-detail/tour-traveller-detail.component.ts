@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostBinding } from "@angular/core";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
 import { Traveller } from "../Models/traveller";
@@ -7,13 +7,17 @@ import { EnTourService } from "../en-tour.service";
 import { Room } from "../Models/room";
 import { CountryOrArea } from "../Models/countryorarea";
 import { Title } from "../Models/title";
-
+import { slideInDownAnimation } from "../animations";
 @Component({
   selector: "app-tour-traveller-detail",
   templateUrl: "./tour-traveller-detail.component.html",
-  styleUrls: ["./tour-traveller-detail.component.sass"]
+  styleUrls: ["./tour-traveller-detail.component.sass"],
+  animations: [slideInDownAnimation]
 })
 export class TourTravellerDetailComponent implements OnInit {
+  @HostBinding("@routeAnimation") routeAnimation = true;
+  @HostBinding("style.display") display = "block";
+  @HostBinding("style.position") position = "related";
   tour: Tour;
   trip: Trip;
   tourId: number;

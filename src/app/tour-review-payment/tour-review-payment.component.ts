@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostBinding } from "@angular/core";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
 import { Traveller } from "../Models/traveller";
@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { Room } from "../Models/room";
 import {MockTourInfoSource } from "../Models/mock-tour-info-source";
+import { slideInDownAnimation } from "../animations";
 export class OptionSummary {
   name: string;
   price: number;
@@ -16,9 +17,13 @@ export class OptionSummary {
 @Component({
   selector: "app-tour-review-payment",
   templateUrl: "./tour-review-payment.component.html",
-  styleUrls: ["./tour-review-payment.component.sass"]
+  styleUrls: ["./tour-review-payment.component.sass"],
+  animations: [slideInDownAnimation]
 })
 export class TourReviewPaymentComponent implements OnInit {
+  @HostBinding("@routeAnimation") routeAnimation = true;
+  @HostBinding("style.display") display = "block";
+  @HostBinding("style.position") position = "related";
   tour: Tour;
   trip: Trip;
   tourId: number;

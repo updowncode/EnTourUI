@@ -16,8 +16,8 @@ export class TourDetailComponent implements OnInit {
   tourId: number;
   tripId: number;
   @HostBinding("@routeAnimation") routeAnimation = true;
-  // @HostBinding('style.display')   display = 'block';
-  // @HostBinding('style.position')  position = 'absolute';
+  @HostBinding("style.display") display = "block";
+  @HostBinding("style.position") position = "related";
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
