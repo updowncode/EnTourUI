@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Room } from '../Models/room';
+import { Trip } from '../Models/trip';
 
 @Component({
   selector: 'app-select-room',
@@ -8,7 +9,8 @@ import { Room } from '../Models/room';
 })
 export class SelectRoomComponent implements OnInit {
   @Input() room: Room;
-  @Input() tripRooms: Room[];
+  @Input() trip: Trip;
+  @Input() roomIndex: number;
   constructor() { }
 
   ngOnInit() {

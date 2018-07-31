@@ -96,7 +96,7 @@ export class TourReviewPaymentComponent implements OnInit {
       this.optionTotal += this.optionSummary[i].subTotal;
     }
     this.totalPrice =
-      this.trip.tripCostForPerTraveller *
+      this.trip.tripCostForDefaultPerTraveller *
         this.trip.selectedTravellerQuantity.id +
       this.optionTotal;
   }

@@ -1,10 +1,11 @@
 <app-nav-bar [actived]="5"></app-nav-bar>
-<h3 class="tecolor">Review & Confirmation</h3>
+<strong class="tecolor">Review & Confirmation</strong>
 <app-message></app-message>
 <div style="border: 1px solid #ccc; padding:10px; margin-top:10px;">
     <div class="row">
         <div class="col-md-12">
-            <h5>You're almost there!</h5>
+            <strong style="font-size:18px;">You're almost there!</strong>
+            <br>
             Please take a moment to review the details below and continue to the payment page when ready.
         </div>
     </div>
@@ -15,7 +16,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <h4>{{tour.name}} - {{trip.name}}</h4>
+            <strong style="font-size:18px;">{{tour.name}} - {{trip.name}}</strong>
         </div>
     </div>
     <div class="row">
@@ -25,11 +26,13 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            <em class="fa fa-star colour">&nbsp;</em>
             Start: {{trip.startPlace}},&nbsp;{{trip.startCountryOrArea.name}}&nbsp;-&nbsp;{{trip.startDate}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
+            <em class="fa fa-star colour">&nbsp;</em>
             End: {{trip.endPlace}},&nbsp;{{trip.endCountryOrArea.name}}&nbsp;-&nbsp;{{trip.endDate}}
         </div>
     </div>
@@ -40,12 +43,12 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <strong style="margin-right: 10px;">${{trip.tripCostForPerTraveller * trip.selectedTravellerQuantity.id}}</strong>
+            <strong style="margin-right: 10px;">${{trip.tripCostForDefaultPerTraveller * trip.selectedTravellerQuantity.id}}</strong>
         </div>
     </div>
     <div class="row" *ngIf="optionSummary">
         <div class="col-md-12">
-            <strong>Options</strong>
+            <strong style="font-size:18px;">Options</strong>
         </div>
         <div class="col-md-12" *ngFor="let option of optionSummary">
             <div class="row">
@@ -83,7 +86,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            How did ou hear about us?
+            <strong style="font-size:18px;">How did ou hear about us?</strong>
         </div>
         <div class="col-md-3 col-sm-12 col-sm-12">
             <select class="form-control" [(ngModel)]="trip.tourInfoSource">
@@ -101,17 +104,17 @@
     <div class="row">
         <div class="col-md-12">
             <div>
-                <input type="checkbox">I agree to the
-                <a class="tecolor" target="_blank" href="http://en.toureast.com/Portals/0/img/terms_conditions.pdf">Terms and Conditions</a> and
-                <a class="tecolor" target="_blank" href="http://en.toureast.com/terms">Privacy Statment</a>
+                <input type="checkbox">&nbsp;I agree to the
+                <a class="tecolor" target="_blank" href="/Portals/0/img/terms_conditions.pdf">Terms and Conditions</a> and
+                <a class="tecolor" target="_blank" href="/terms">Privacy Statment</a>
             </div>
             <div></div>
             <div>
-                <input type="checkbox">I have read the
-                <a class="tecolor" target="_blank" href="http://en.toureast.com/terms">trip notes</a>
+                <input type="checkbox">&nbsp;I have read the
+                <a class="tecolor" target="_blank" href="/terms">trip notes</a>
             </div>
             <div>
-                <input type="checkbox">I would like to receive offers and updates from Tour East Holidays via email</div>
+                <input type="checkbox">&nbsp;I would like to receive offers and updates from Tour East Holidays via email</div>
         </div>
     </div>
     <div class="row">

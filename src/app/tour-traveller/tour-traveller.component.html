@@ -1,11 +1,11 @@
 <app-nav-bar [actived]="2"></app-nav-bar>
-<div *ngIf="msg" class="msg">{{msg}}</div>
 <div class="row">
   <div class="col-md-9">
+      <div *ngIf="msg" class="msg">{{msg}}</div>
     <div style="border: 1px solid #CCC; padding:10px">
       <div class="row">
         <div class="col-md-10">
-          <h4>Total number of travellers:</h4>
+          <strong style="font-size:18px;">Total number of travellers:</strong>
         </div>
         <div class="col-md-2 text-right">
           <select class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
@@ -17,8 +17,8 @@
       </div>
       <div class="row">
         <div class="col-md-10">
-          <h4>Accomodation:</h4>
-          <span>How many hotel rooms do you require?</span>
+          <div><strong style="font-size:18px;">Accomodation:</strong></div>
+          <div>How many hotel rooms do you require?</div>
         </div>
         <div class="col-md-2 text-right">
           <select style="margin-top:10px;" class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedRoomQuantity" (ngModelChange)="roomChange($event)">
@@ -30,16 +30,19 @@
       </div>
       <br />
       <app-billing-info [billingInfo]="trip.billingInfo"></app-billing-info>
-      <app-select-room [room]="room" [tripRooms]="trip.rooms" *ngFor="let room of trip.rooms"></app-select-room>
+      <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" *ngFor="let room of trip.rooms"></app-select-room>
       <br />
       <div class="row">
         <div class="col-md-12 text-right">
-          <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="goToOptions(tourId, tripId)">Continue</button>
+          <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="goToOptions()">Continue</button>
         </div>
       </div>
     </div>
   </div>
   <div class="col-md-3">
-    <app-trip-summary></app-trip-summary>
+      <div style="border: 1px solid #CCC; padding:10px">
+        <app-trip-summary></app-trip-summary>
+    </div>
+    
   </div>
 </div>

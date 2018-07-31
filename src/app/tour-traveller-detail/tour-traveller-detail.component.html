@@ -1,9 +1,9 @@
 <app-nav-bar [actived]="4"></app-nav-bar>
-<h3 class="tecolor">Traveller Details</h3>
-<app-message></app-message>
 <div class="row">
     <div class="col-md-9">
-        <div style="border: 1px solid #eee; padding:10px">
+        <div style="border: 1px solid #ccc; padding:10px">
+            <strong class="tecolor">Traveller Details</strong>
+            <app-message></app-message>
             <app-detail-for-traveller [traveller]="t" [index]="i" [availabledTitles]="availabledTitles" [availabledCountryOrAreas]="availabledCountryOrAreas"
                 *ngFor="let t of travellers; let i = index"></app-detail-for-traveller>
             <div class="text-right">
@@ -12,12 +12,8 @@
         </div>
     </div>
     <div class="col-md-3">
-        <app-trip-summary></app-trip-summary>
-        <!-- <p>The hero's birthday is {{ birthday | date:"MM/dd/yy" }} </p> -->
-
-
-        <!-- <input type="text" #box
-                  (keyup.enter)="addHero(box.value); box.value=''"
-                  placeholder="hero name"> -->
+        <div style="border: 1px solid #CCC; padding:10px">
+            <app-trip-summary></app-trip-summary>
+        </div>
     </div>
 </div>

@@ -18,7 +18,7 @@ export class Trip {
   endCountryOrArea: CountryOrArea;
   startDate: string;
   endDate: string;
-  tripCostForPerTraveller: number;
+  tripCostForDefaultPerTraveller: number;
   tripCostForDefaultTravellerQuantity: number;
   tripSingleSupplement: string;
   tourInfoSource: string;

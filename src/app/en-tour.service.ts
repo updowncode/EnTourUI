@@ -69,7 +69,15 @@ export class EnTourService {
     return MockTours.find( c => c.id === id);
   }
   getRooms(tourId: number, tripId: number): Room[] {
-    return MockRooms.filter(c => c.tourId === tourId && c.tripId === tripId);
+    return MockRooms.filter(c => c.tourId === tourId && c.tripId === tripId).sort((a, b) => {
+      if (a.roomPrice > b.roomPrice) {
+        return 1;
+      }
+      if (a.roomPrice < b.roomPrice) {
+        return -1;
+      }
+      return 0;
+    });
   }
   getOptions(tourId: number, tripId: number): Option[] {
     return MockOptions.filter(c => c.tourId === tourId && c.tripId === tripId);
@@ -105,10 +113,9 @@ export class EnTourService {
   }
   getAvailabledTravellerQuantities(tourId: number, tripId: number): Quantity[] {
     this.travellerQuantities = Array<Quantity>();
-    this.travellerQuantities.push(new Quantity(1, "Adult"));
-    this.travellerQuantities.push(new Quantity(2, "Adult"));
-    this.travellerQuantities.push(new Quantity(3, "Adult"));
-    this.travellerQuantities.push(new Quantity(4, "Adult"));
+    for (let quantity = 1; quantity <= 30; quantity++) {
+      this.travellerQuantities.push(new Quantity(quantity, "Adult"));
+    }
     // return of(this.travellerQuantities).pipe(delay(FETCH_LATENCY));
     return this.travellerQuantities;
   }
@@ -118,10 +125,9 @@ export class EnTourService {
     travellerQuantity: Quantity
   ): Quantity[] {
     this.roomQuantities = Array<Quantity>();
-    this.roomQuantities.push(new Quantity(1, "Room"));
-    this.roomQuantities.push(new Quantity(2, "Room"));
-    this.roomQuantities.push(new Quantity(3, "Room"));
-    this.roomQuantities.push(new Quantity(4, "Room"));
+    for (let quantity = 1; quantity <= 30; quantity++) {
+      this.roomQuantities.push(new Quantity(quantity, "Room"));
+    }
     return this.roomQuantities;
   }
   getTrip(tourId: number, tripId: number): Observable<Trip> {

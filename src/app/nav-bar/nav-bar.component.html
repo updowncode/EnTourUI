@@ -99,12 +99,12 @@
       </td>
     </tr>
     <tr>
-      <td style="text-align: center;">DATE & PRICING</td>
-      <td style="text-align: center;">TRAVELLER & ROOM</td>
-      <td style="text-align: center;">OPTION</td>
-      <td style="text-align: center;">TRAVELLER DETAIL</td>
-      <td style="text-align: center;">REVIEW & CONFIRMATION</td>
-      <td style="text-align: center;">PAYMENT</td>
+      <td style="text-align: center;" [ngClass]="{'tecolor':actived == 1}">DATE & PRICING</td>
+      <td style="text-align: center;" [ngClass]="{'tecolor':actived == 2}">TRAVELLER & ROOM</td>
+      <td style="text-align: center;" [ngClass]="{'tecolor':actived == 3}">OPTION</td>
+      <td style="text-align: center;" [ngClass]="{'tecolor':actived == 4}">TRAVELLER DETAIL</td>
+      <td style="text-align: center;" [ngClass]="{'tecolor':actived == 5}">REVIEW & CONFIRMATION</td>
+      <td style="text-align: center;" [ngClass]="{'tecolor':actived == 6}">PAYMENT</td>
     </tr>
   </table>
 
