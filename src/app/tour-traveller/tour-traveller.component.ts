@@ -68,7 +68,7 @@ export class TourTravellerComponent implements OnInit {
     );
 
     this.availabledRooms = this.tourService.getRooms(this.tourId, this.tripId);
-    this.capacities = this.getRoomCapacities(this.availabledRooms);
+    this.capacities = this.tourService.getRoomCapacities(this.availabledRooms);
     this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
       this.trip.tripCostForDefaultTravellerQuantity - 1
     ];
@@ -86,6 +86,11 @@ export class TourTravellerComponent implements OnInit {
     const ops = this.tourService.getOptions(this.tourId, this.tripId);
     this.trip.rooms[0].travellers[0].selectedOptions = new Array<Option>();
     this.trip.rooms[0].travellers[0].selectedOptions.push(ops[0]);
+  }
+  onRoomCanbeMovedTo(needUpdate: boolean) {
+    if (needUpdate) {
+      this.tourService.updateRoomsCanbeMovedTo();
+    }
   }
   assignRoom(remainedTravellers: number, roomQuantity: number) {
     const maxCapacity = Math.max(...this.capacities);
@@ -170,23 +175,6 @@ export class TourTravellerComponent implements OnInit {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
   }
-  getRoomCapacities(availabledRooms: Room[]): number[] {
-    const capacities = new Array<number>();
-    for (let i = 0; i < availabledRooms.length; i++) {
-      if (capacities.indexOf(availabledRooms[i].capacity) < 0) {
-        capacities.push(availabledRooms[i].capacity);
-      }
-    }
-    return capacities.sort((a, b) => {
-      if (a > b) {
-        return 1;
-      }
-      if (a < b) {
-        return -1;
-      }
-      return 0;
-    });
-  }
   defaultRoomQuantity(
     selectedTravellerQuantity: Quantity,
     availabledRoomQuantities: Quantity[],
@@ -235,7 +223,10 @@ export class TourTravellerComponent implements OnInit {
       this.msg = "";
     }
     this.clearRooms();
-    this.assignRoom(this.trip.selectedTravellerQuantity.id, this.trip.selectedRoomQuantity.id);
+    this.assignRoom(
+      this.trip.selectedTravellerQuantity.id,
+      this.trip.selectedRoomQuantity.id
+    );
     this.trip.selectedRoomQuantity = newValue;
 
     const appendEmptyRoomsQuantity =

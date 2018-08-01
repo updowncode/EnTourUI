@@ -1,7 +1,7 @@
 <app-nav-bar [actived]="2"></app-nav-bar>
 <div class="row">
   <div class="col-md-9">
-      <div *ngIf="msg" class="msg">{{msg}}</div>
+    <div *ngIf="msg" class="msg">{{msg}}</div>
     <div style="border: 1px solid #CCC; padding:10px">
       <div class="row">
         <div class="col-md-10">
@@ -17,7 +17,9 @@
       </div>
       <div class="row">
         <div class="col-md-10">
-          <div><strong style="font-size:18px;">Accomodation:</strong></div>
+          <div>
+            <strong style="font-size:18px;">Accomodation:</strong>
+          </div>
           <div>How many hotel rooms do you require?</div>
         </div>
         <div class="col-md-2 text-right">
@@ -30,7 +32,9 @@
       </div>
       <br />
       <app-billing-info [billingInfo]="trip.billingInfo"></app-billing-info>
-      <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" *ngFor="let room of trip.rooms"></app-select-room>
+      <div *ngIf="trip.rooms">
+        <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" (updateRoomsList)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-select-room>
+      </div>
       <br />
       <div class="row">
         <div class="col-md-12 text-right">
@@ -40,9 +44,9 @@
     </div>
   </div>
   <div class="col-md-3">
-      <div style="border: 1px solid #CCC; padding:10px">
-        <app-trip-summary></app-trip-summary>
+    <div style="border: 1px solid #CCC; padding:10px">
+      <app-trip-summary></app-trip-summary>
     </div>
-    
+
   </div>
 </div>

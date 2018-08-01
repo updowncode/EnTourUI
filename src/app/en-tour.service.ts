@@ -28,7 +28,10 @@ export class EnTourService {
   private tripShared = new BehaviorSubject(this.trip);
   trip$ = this.tripShared.asObservable();
   tour$ = this.tourSelected.asObservable();
-
+  private roomInfoUpdated = new BehaviorSubject<Boolean>(false);
+  updateRoomInfo$ = this.roomInfoUpdated.asObservable();
+  private roomsCanbeMovedTo = new BehaviorSubject<Boolean>(false);
+  roomsCanbeMovedTo$ = this.roomsCanbeMovedTo.asObservable();
   private toursUrl = "https://b2b.toureast.com/api/heroes"; // URL to web api
   private createtour = "https://b2b.toureast.com/api/createhero";
   private headers = new Headers({ "Content-Type": "application/json" });
@@ -39,6 +42,29 @@ export class EnTourService {
   }
   public retrieveTrip() {
     return this.selectedTrip;
+  }
+  public updateRoomInfo() {
+    this.roomInfoUpdated.next(true);
+  }
+  public updateRoomsCanbeMovedTo() {
+    this.roomsCanbeMovedTo.next(true);
+  }
+  public getRoomCapacities(availabledRooms: Room[]): number[] {
+    const capacities = new Array<number>();
+    for (let i = 0; i < availabledRooms.length; i++) {
+      if (capacities.indexOf(availabledRooms[i].capacity) < 0) {
+        capacities.push(availabledRooms[i].capacity);
+      }
+    }
+    return capacities.sort((a, b) => {
+      if (a > b) {
+        return 1;
+      }
+      if (a < b) {
+        return -1;
+      }
+      return 0;
+    });
   }
   ShareTrip(trip: Trip) {
     this.trip$.next(trip);
@@ -66,10 +92,12 @@ export class EnTourService {
     return MockTours;
   }
   getToursMockDataById(id: number): Tour {
-    return MockTours.find( c => c.id === id);
+    return MockTours.find(c => c.id === id);
   }
   getRooms(tourId: number, tripId: number): Room[] {
-    return MockRooms.filter(c => c.tourId === tourId && c.tripId === tripId).sort((a, b) => {
+    return MockRooms.filter(
+      c => c.tourId === tourId && c.tripId === tripId
+    ).sort((a, b) => {
       if (a.roomPrice > b.roomPrice) {
         return 1;
       }
