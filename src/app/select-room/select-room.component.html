@@ -2,7 +2,7 @@
   <div style="text-align: center; color:chocolate"><strong style="font-size:18px;">Room: #{{roomIndex}}/{{trip.rooms.length}}  RoomId:{{room.id}} Travellers/Room Capacity:{{room.travellers.length}}/{{room.capacity}}</strong></div> 
   <div class="row">
     <div class="col-md-12">
-      <app-traveller-in-room [traveller]="traveller" [roomsMoveTo]="roomsMoveTo" (travellerMoved)="onTravellerMoved($event)" [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers"></app-traveller-in-room>
+      <app-traveller-in-room [traveller]="traveller"  [roomsMoveTo]="roomsMoveTo" (roomMovedTo)="onRoomMovedTo($event)" [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers"></app-traveller-in-room>
     </div>
   </div>
 </div>

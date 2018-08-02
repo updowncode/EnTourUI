@@ -7,7 +7,7 @@
             <strong style="font-size:18px;">Passenger {{traveller.id + 1}}</strong>
           </td>
           <td>
-            <select class="form-control" [ngModel]="room.index" (ngModelChange)="moveRoom(traveller, $event)" >
+            <select class="form-control" [ngModel]="room.index" (ngModelChange)="onRoomMovedToModelChange(traveller, $event)" >
               <ng-container *ngFor="let room of roomsMoveTo">
                 <option [ngValue]="room.index">Room: #{{room.index}}</option>
               </ng-container>

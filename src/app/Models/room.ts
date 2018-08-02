@@ -5,7 +5,8 @@ export class Room {
   index: number;
   beddingConfig: string;
   capacity: number;
-  roomPrice: number;
+  roomPrice: number; // For each traveller
+  singleSupplement: number;
   isSmokingRoom: number; // 0: Non-Smoking, 1: Smoking, -1: unknown
   travellers: Traveller[];
   tourId: number;

@@ -33,7 +33,7 @@
       <br />
       <app-billing-info [billingInfo]="trip.billingInfo"></app-billing-info>
       <div *ngIf="trip.rooms">
-        <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" (updateRoomsList)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-select-room>
+        <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-select-room>
       </div>
       <br />
       <div class="row">

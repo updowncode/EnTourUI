@@ -20,7 +20,7 @@ export class Trip {
   endDate: string;
   tripCostForDefaultPerTraveller: number;
   tripCostForDefaultTravellerQuantity: number;
-  tripSingleSupplement: string;
+  tripSingleSupplement: number;
   tourInfoSource: string;
   billingInfo: BillingInfo;
   includedIn: MockTripInclude[];

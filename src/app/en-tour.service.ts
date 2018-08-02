@@ -15,6 +15,7 @@ import { MockRooms } from "./Models/mock-rooms";
 import { MockOptions } from "./Models/mock-options";
 import { Option } from "./Models/option";
 import { MockTourInfoSource } from "./Models/mock-tour-info-source";
+import { Traveller } from "./Models/traveller";
 const FETCH_LATENCY = 500;
 
 @Injectable()
@@ -71,6 +72,49 @@ export class EnTourService {
   }
   shareTour(tour: Tour) {
     this.tourSelected.next(tour);
+  }
+  getRoomsByTheTravellersInTheRoom(travellers: Traveller[], availabledRooms: Room[]): Room[] {
+    const roomsFitSelectedTravellersQuantity = JSON.parse(JSON.stringify(availabledRooms)); // Object.assign([], availabledRooms);
+    if (travellers.length === 1) {
+      for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
+        if (roomsFitSelectedTravellersQuantity[j].capacity >= 2) {
+          roomsFitSelectedTravellersQuantity[
+            j
+          ].roomPrice += roomsFitSelectedTravellersQuantity[
+            j
+          ].singleSupplement;
+        }
+      }
+      const rooms = roomsFitSelectedTravellersQuantity.sort((a, b) => {
+        if (a.roomPrice > b.roomPrice) {
+          return 1;
+        }
+        if (a.roomPrice < b.roomPrice) {
+          return -1;
+        }
+        return 0;
+      });
+      // for (let j = rooms.length - 1; j > 0; j--) {
+      //   if (rooms[j].capacity > 2) {
+      //     rooms.splice(j, 1);
+      //   }
+      // }
+      return rooms;
+    } else {
+      for (
+        let j = roomsFitSelectedTravellersQuantity.length - 1;
+        j >= 0;
+        j--
+      ) {
+        if (
+          roomsFitSelectedTravellersQuantity[j].capacity <
+          travellers.length
+        ) {
+          roomsFitSelectedTravellersQuantity.splice(j, 1);
+        }
+      }
+      return roomsFitSelectedTravellersQuantity;
+    }
   }
   private handleError(error: any): Promise<any> {
     console.error("An error occurred", error); // for demo purposes only

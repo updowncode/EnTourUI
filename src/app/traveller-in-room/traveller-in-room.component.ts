@@ -29,7 +29,8 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
   @Input() trip: Trip;
   @Input() roomIndex: number;
   @Input() roomsMoveTo: Room[];
-  @Output() travellerMoved = new EventEmitter<boolean>();
+  bedRoomsForSelectedTravellers: Room[];
+  @Output() roomMovedTo = new EventEmitter<boolean>();
   selectedBedConfig: string;
   availabledBedConfigForSameRoomCapatity: string[] = [];
   showRoomInfo: boolean;
@@ -58,45 +59,61 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
     this.updateRoomInfo();
   }
 
+  // updateRoomInfo() {
+  //   if (
+  //     this.traveller !== undefined &&
+  //     this.traveller === this.room.travellers[0]
+  //   ) {
+  //     this.showRoomInfo = true;
+
+  //     const roomsWithSameCapatity = new Array<Room>();
+  //     for (let i = 0; i < this.availabledRooms.length; i++) {
+  //       if (this.availabledRooms[i].capacity === this.room.capacity) {
+  //         roomsWithSameCapatity.push(this.availabledRooms[i]);
+  //       }
+  //     }
+  //     for (let i = 0; i < this.availabledRooms.length; i++) {
+  //       if (
+  //         this.availabledRooms[i].capacity === this.room.capacity &&
+  //         this.availabledRooms[i].roomPrice ===
+  //           Math.min(...roomsWithSameCapatity.map<number>(c => c.roomPrice))
+  //       ) {
+  //         this.selectedBedConfig = this.availabledRooms[i].beddingConfig;
+  //       }
+  //     }
+  //     for (let i = 0; i < this.availabledRooms.length; i++) {
+  //       if (this.availabledRooms[i].capacity === this.room.capacity) {
+  //         if (
+  //           this.availabledBedConfigForSameRoomCapatity.indexOf(
+  //             this.availabledRooms[i].beddingConfig
+  //           ) < 0
+  //         ) {
+  //           this.availabledBedConfigForSameRoomCapatity.push(
+  //             this.availabledRooms[i].beddingConfig
+  //           );
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     this.showRoomInfo = false;
+  //   }
+  // }
   updateRoomInfo() {
+    this.bedRoomsForSelectedTravellers = this.tourService.getRoomsByTheTravellersInTheRoom(this.room.travellers, this.availabledRooms);
     if (
       this.traveller !== undefined &&
       this.traveller === this.room.travellers[0]
     ) {
       this.showRoomInfo = true;
-      const roomsWithSameCapatity = new Array<Room>();
-      for (let i = 0; i < this.availabledRooms.length; i++) {
-        if (this.availabledRooms[i].capacity === this.room.capacity) {
-          roomsWithSameCapatity.push(this.availabledRooms[i]);
-        }
-      }
-      for (let i = 0; i < this.availabledRooms.length; i++) {
-        if (
-          this.availabledRooms[i].capacity === this.room.capacity &&
-          this.availabledRooms[i].roomPrice ===
-            Math.min(...roomsWithSameCapatity.map<number>(c => c.roomPrice))
-        ) {
-          this.selectedBedConfig = this.availabledRooms[i].beddingConfig;
-        }
-      }
-      for (let i = 0; i < this.availabledRooms.length; i++) {
-        if (this.availabledRooms[i].capacity === this.room.capacity) {
-          if (
-            this.availabledBedConfigForSameRoomCapatity.indexOf(
-              this.availabledRooms[i].beddingConfig
-            ) < 0
-          ) {
-            this.availabledBedConfigForSameRoomCapatity.push(
-              this.availabledRooms[i].beddingConfig
-            );
-          }
-        }
-      }
+      this.selectedBedConfig = this.bedRoomsForSelectedTravellers[0].beddingConfig;
+      this.availabledBedConfigForSameRoomCapatity = this.bedRoomsForSelectedTravellers.map(
+        c => c.beddingConfig
+      );
     } else {
       this.showRoomInfo = false;
     }
   }
-  moveRoom(traveller: Traveller, roomIndex: number) {
+  onRoomMovedToModelChange(traveller: Traveller, roomIndex: number) {
     for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
       for (let j = this.trip.rooms[i].travellers.length - 1; j >= 0; j--) {
         if (this.trip.rooms[i].travellers[j].id === traveller.id) {
@@ -112,6 +129,6 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.travellerMoved.emit(true);
+    this.roomMovedTo.emit(true);
   }
 }

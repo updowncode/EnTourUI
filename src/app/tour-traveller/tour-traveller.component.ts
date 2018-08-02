@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
 import { EnTourCoreService } from "../en-tour-core/en-tour-core.service";
 import { EnTourService } from "../en-tour.service";
 import { slideInDownAnimation } from "../animations";
@@ -11,6 +11,7 @@ import { BillingInfo } from "../Models/billing-info";
 import { Option } from "../Models/option";
 import { Room } from "../Models/room";
 import { Passport } from "../Models/passport";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-tour-traveller",
@@ -18,7 +19,7 @@ import { Passport } from "../Models/passport";
   styleUrls: ["./tour-traveller.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class TourTravellerComponent implements OnInit {
+export class TourTravellerComponent implements OnInit, OnDestroy {
   @HostBinding("@routeAnimation") routeAnimation = true;
   @HostBinding("style.display") display = "block";
   @HostBinding("style.position") position = "related";
@@ -30,12 +31,30 @@ export class TourTravellerComponent implements OnInit {
   capacities: number[];
   availabledRooms: Room[];
   minDefaultRoomQuantity: number;
+  subscription: Subscription;
   constructor(
     private tourService: EnTourService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    // this.subscription = tourService.updateRoomInfo$.subscribe(
+    //   isRoomInfoUpdated => {
+    //     if (isRoomInfoUpdated && this.trip.rooms !== undefined) {
+    //       for (let i = 0; i < this.trip.rooms.length; i++) {
+    //         const newRooms = this.tourService.getRoomsByTheTravellersInTheRoom(
+    //           this.trip.rooms[i].travellers,
+    //           this.availabledRooms
+    //         );
 
+    //         this.trip.rooms[i] = Object.assign({}, newRooms[0]);
+    //       }
+    //     }
+    //   }
+    // );
+  }
+  ngOnDestroy() {
+    // this.subscription.unsubscribe();
+  }
   ngOnInit() {
     this.msg = "";
     this.tourId = +this.activatedRoute.snapshot.queryParamMap.get("tourId");
@@ -92,54 +111,111 @@ export class TourTravellerComponent implements OnInit {
       this.tourService.updateRoomsCanbeMovedTo();
     }
   }
+
+  createRoom(
+    maxCapacity: number,
+    remainedTravellers: number,
+    selectedRoomQuantity: number,
+    assignedRoomQuantity: number
+  ): Room {
+    const travellers = new Array<Traveller>();
+    const startIndex =
+      maxCapacity * (selectedRoomQuantity - assignedRoomQuantity);
+    for (let k = 0; k < remainedTravellers; k++) {
+      travellers.push(this.createNewTraveller(k + startIndex, 0));
+    }
+    const rooms = this.tourService
+      .getRoomsByTheTravellersInTheRoom(travellers, this.availabledRooms)
+      .sort((a, b) => {
+        if (a.capacity > b.capacity) {
+          return 1;
+        }
+        if (a.capacity < b.capacity) {
+          return -1;
+        }
+        return 0;
+      });
+    const room = rooms[0];
+    travellers.map(c => (c.roomId = room.id));
+    room.travellers = Object.assign([], travellers);
+    return room;
+  }
   assignRoom(remainedTravellers: number, roomQuantity: number) {
     const maxCapacity = Math.max(...this.capacities);
-    if (remainedTravellers <= maxCapacity) {
-      for (let j = 0; j < this.availabledRooms.length; j++) {
-        if (this.availabledRooms[j].capacity >= remainedTravellers) {
-          const room = this.createNewRoom(this.availabledRooms[j].id);
-          room.travellers = new Array<Traveller>();
-          const startIndex =
-            maxCapacity * (this.trip.selectedRoomQuantity.id - roomQuantity);
-          for (let k = 0; k < remainedTravellers; k++) {
-            room.travellers.push(
-              this.createNewTraveller(k + startIndex, room.id)
-            );
-          }
-          this.trip.rooms.push(room);
-          break;
-        }
-      }
-    } else {
-      for (let j = 0; j < this.availabledRooms.length; j++) {
-        if (this.availabledRooms[j].capacity === maxCapacity) {
-          const room = this.createNewRoom(this.availabledRooms[j].id);
-          room.travellers = new Array<Traveller>();
-          const startIndex =
-            maxCapacity * (this.trip.selectedRoomQuantity.id - roomQuantity);
-          for (let k = 0; k < maxCapacity; k++) {
-            room.travellers.push(
-              this.createNewTraveller(k + startIndex, room.id)
-            );
-          }
-          this.trip.rooms.push(room);
-          break;
-        }
-      }
 
-      remainedTravellers = remainedTravellers - maxCapacity;
+    if (remainedTravellers <= maxCapacity) {
+      const room = this.createRoom(
+        maxCapacity,
+        remainedTravellers,
+        this.trip.selectedRoomQuantity.id,
+        roomQuantity
+      );
+      this.trip.rooms.push(room);
+    } else {
+      const room = this.createRoom(
+        maxCapacity,
+        maxCapacity,
+        this.trip.selectedRoomQuantity.id,
+        roomQuantity
+      );
+      this.trip.rooms.push(room);
+      remainedTravellers -= maxCapacity;
       roomQuantity--;
       this.assignRoom(remainedTravellers, roomQuantity);
     }
 
     this.assignRoomIndex();
   }
+  // assignRoom(remainedTravellers: number, roomQuantity: number) {
+  //   const maxCapacity = Math.max(...this.capacities);
+  //   if (remainedTravellers <= maxCapacity) {
+  //     for (let j = 0; j < this.availabledRooms.length; j++) {
+  //       if (this.availabledRooms[j].capacity >= remainedTravellers) {
+  //         const room = this.createNewRoom(this.availabledRooms[j].id);
+  //         room.travellers = new Array<Traveller>();
+  //         const startIndex =
+  //           maxCapacity * (this.trip.selectedRoomQuantity.id - roomQuantity);
+  //         for (let k = 0; k < remainedTravellers; k++) {
+  //           room.travellers.push(
+  //             this.createNewTraveller(k + startIndex, room.id)
+  //           );
+  //         }
+  //         this.trip.rooms.push(room);
+  //         break;
+  //       }
+  //     }
+  //   } else {
+  //     for (let j = 0; j < this.availabledRooms.length; j++) {
+  //       if (this.availabledRooms[j].capacity === maxCapacity) {
+  //         const room = this.createNewRoom(this.availabledRooms[j].id);
+  //         room.travellers = new Array<Traveller>();
+  //         const startIndex =
+  //           maxCapacity * (this.trip.selectedRoomQuantity.id - roomQuantity);
+  //         for (let k = 0; k < maxCapacity; k++) {
+  //           room.travellers.push(
+  //             this.createNewTraveller(k + startIndex, room.id)
+  //           );
+  //         }
+  //         this.trip.rooms.push(room);
+  //         break;
+  //       }
+  //     }
+
+  //     remainedTravellers = remainedTravellers - maxCapacity;
+  //     roomQuantity--;
+  //     this.assignRoom(remainedTravellers, roomQuantity);
+  //   }
+
+  //   this.assignRoomIndex();
+  // }
   assignRoomIndex() {
-    this.trip.rooms.forEach(c => (c.index = this.trip.rooms.indexOf(c) + 1));
+    for (let i = 0; i < this.trip.rooms.length; i++) {
+      this.trip.rooms[i].index = i + 1;
+    }
   }
   createNewRoom(roomId: number): Room {
-    const availabledRoom = this.availabledRooms.find(c => c.id === roomId);
-    return { ...availabledRoom };
+    const room = this.availabledRooms.find(c => c.id === roomId);
+    return { ...room };
   }
   createNewTraveller(id: number, roomId: number): Traveller {
     const traveller = new Traveller();
