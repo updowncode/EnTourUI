@@ -29,27 +29,16 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
   @Input() trip: Trip;
   @Input() roomIndex: number;
   @Input() roomsMoveTo: Room[];
-  bedRoomsForSelectedTravellers: Room[];
+  @Input() bedRoomsForSelectedTravellers: Room[];
   @Output() roomMovedTo = new EventEmitter<boolean>();
-  selectedBedConfig: string;
-  availabledBedConfigForSameRoomCapatity: string[] = [];
+  @Output() roomChangedTo = new EventEmitter<any>();
   showRoomInfo: boolean;
   availabledRooms: Room[];
-
+  newBedRoom: Room;
   subscription: Subscription;
 
-  constructor(private tourService: EnTourService) {
-    this.subscription = tourService.updateRoomInfo$.subscribe(
-      isRoomInfoUpdated => {
-        if (isRoomInfoUpdated) {
-          this.updateRoomInfo();
-        }
-      }
-    );
-  }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  constructor(private tourService: EnTourService) {}
+  ngOnDestroy() {}
   ngOnInit() {
     this.availabledRooms = this.tourService.getRooms(
       this.room.tourId,
@@ -58,60 +47,45 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
 
     this.updateRoomInfo();
   }
-
-  // updateRoomInfo() {
-  //   if (
-  //     this.traveller !== undefined &&
-  //     this.traveller === this.room.travellers[0]
-  //   ) {
-  //     this.showRoomInfo = true;
-
-  //     const roomsWithSameCapatity = new Array<Room>();
-  //     for (let i = 0; i < this.availabledRooms.length; i++) {
-  //       if (this.availabledRooms[i].capacity === this.room.capacity) {
-  //         roomsWithSameCapatity.push(this.availabledRooms[i]);
-  //       }
-  //     }
-  //     for (let i = 0; i < this.availabledRooms.length; i++) {
-  //       if (
-  //         this.availabledRooms[i].capacity === this.room.capacity &&
-  //         this.availabledRooms[i].roomPrice ===
-  //           Math.min(...roomsWithSameCapatity.map<number>(c => c.roomPrice))
-  //       ) {
-  //         this.selectedBedConfig = this.availabledRooms[i].beddingConfig;
-  //       }
-  //     }
-  //     for (let i = 0; i < this.availabledRooms.length; i++) {
-  //       if (this.availabledRooms[i].capacity === this.room.capacity) {
-  //         if (
-  //           this.availabledBedConfigForSameRoomCapatity.indexOf(
-  //             this.availabledRooms[i].beddingConfig
-  //           ) < 0
-  //         ) {
-  //           this.availabledBedConfigForSameRoomCapatity.push(
-  //             this.availabledRooms[i].beddingConfig
-  //           );
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     this.showRoomInfo = false;
-  //   }
-  // }
+  onBedConfigModelChange(roomIndex: number, newRoom: Room) {
+    this.roomChangedTo.emit({ roomIndex: roomIndex, newRoom: newRoom });
+  }
+  onSmokingSelectionChange(room: Room, isSmokingRoom: number) {
+    room.isSmokingRoom = isSmokingRoom;
+  }
   updateRoomInfo() {
-    this.bedRoomsForSelectedTravellers = this.tourService.getRoomsByTheTravellersInTheRoom(this.room.travellers, this.availabledRooms);
     if (
       this.traveller !== undefined &&
       this.traveller === this.room.travellers[0]
     ) {
       this.showRoomInfo = true;
-      this.selectedBedConfig = this.bedRoomsForSelectedTravellers[0].beddingConfig;
-      this.availabledBedConfigForSameRoomCapatity = this.bedRoomsForSelectedTravellers.map(
-        c => c.beddingConfig
-      );
+      this.reSortBedConfig();
+      this.newBedRoom = this.bedRoomsForSelectedTravellers[0];
     } else {
       this.showRoomInfo = false;
     }
+  }
+  reSortBedConfig() {
+    const newBedRoomsForSelectedTravellers: Room[] = [];
+    for (let j = 0; j < this.bedRoomsForSelectedTravellers.length; j++) {
+      if (this.bedRoomsForSelectedTravellers[j].id === this.room.id) {
+        newBedRoomsForSelectedTravellers.push(
+          this.bedRoomsForSelectedTravellers[j]
+        );
+        break;
+      }
+    }
+    for (let j = 0; j < this.bedRoomsForSelectedTravellers.length; j++) {
+      if (this.bedRoomsForSelectedTravellers[j].id !== this.room.id) {
+        newBedRoomsForSelectedTravellers.push(
+          this.bedRoomsForSelectedTravellers[j]
+        );
+      }
+    }
+    this.bedRoomsForSelectedTravellers = Object.assign(
+      [],
+      newBedRoomsForSelectedTravellers
+    );
   }
   onRoomMovedToModelChange(traveller: Traveller, roomIndex: number) {
     for (let i = this.trip.rooms.length - 1; i >= 0; i--) {

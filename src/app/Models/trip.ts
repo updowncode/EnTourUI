@@ -21,6 +21,7 @@ export class Trip {
   tripCostForDefaultPerTraveller: number;
   tripCostForDefaultTravellerQuantity: number;
   tripSingleSupplement: number;
+  visaPrice: number;
   tourInfoSource: string;
   billingInfo: BillingInfo;
   includedIn: MockTripInclude[];

@@ -73,16 +73,18 @@ export class EnTourService {
   shareTour(tour: Tour) {
     this.tourSelected.next(tour);
   }
-  getRoomsByTheTravellersInTheRoom(travellers: Traveller[], availabledRooms: Room[]): Room[] {
-    const roomsFitSelectedTravellersQuantity = JSON.parse(JSON.stringify(availabledRooms)); // Object.assign([], availabledRooms);
+  getRoomsByTheTravellersInTheRoom(
+    travellers: Traveller[],
+    availabledRooms: Room[]
+  ): Room[] {
+    const roomsFitSelectedTravellersQuantity = JSON.parse(
+      JSON.stringify(availabledRooms)
+    ) as Room[]; // Object.assign([], availabledRooms);
     if (travellers.length === 1) {
       for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
         if (roomsFitSelectedTravellersQuantity[j].capacity >= 2) {
-          roomsFitSelectedTravellersQuantity[
-            j
-          ].roomPrice += roomsFitSelectedTravellersQuantity[
-            j
-          ].singleSupplement;
+          roomsFitSelectedTravellersQuantity[j].roomPrice +=
+            roomsFitSelectedTravellersQuantity[j].singleSupplement;
         }
       }
       const rooms = roomsFitSelectedTravellersQuantity.sort((a, b) => {
@@ -99,20 +101,17 @@ export class EnTourService {
       //     rooms.splice(j, 1);
       //   }
       // }
+      rooms.map( c => c.travellers = Object.assign([], travellers));
       return rooms;
     } else {
-      for (
-        let j = roomsFitSelectedTravellersQuantity.length - 1;
-        j >= 0;
-        j--
-      ) {
+      for (let j = roomsFitSelectedTravellersQuantity.length - 1; j >= 0; j--) {
         if (
-          roomsFitSelectedTravellersQuantity[j].capacity <
-          travellers.length
+          roomsFitSelectedTravellersQuantity[j].capacity < travellers.length
         ) {
           roomsFitSelectedTravellersQuantity.splice(j, 1);
         }
       }
+      roomsFitSelectedTravellersQuantity.map( c => c.travellers = Object.assign([], travellers));
       return roomsFitSelectedTravellersQuantity;
     }
   }

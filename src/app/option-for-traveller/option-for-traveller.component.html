@@ -1,7 +1,7 @@
 <div style="border: 1px solid #CCC; padding:10px;margin-top:10px; margin-bottom: 10px;">
     <div class="row">
         <div class="col-md-12">
-            <strong>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</strong>
+            <strong>Passenger {{index + 1}}&nbsp;&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</strong>
         </div>
     </div>
     <br />
@@ -64,7 +64,8 @@
                 <tr>
                     <td style="width:40%;text-align: right;">Yes</td>
                     <td>
-                        <input type="radio" style="cursor: pointer;" name="{{'needVisa' + traveller.id}}" [value]="true" [(ngModel)]="traveller.needVisa">
+                        <input type="radio" style="cursor: pointer;" [value]="true" [checked]="traveller.needVisa === true" name="{{'needVisa' + traveller.id}}"
+                            (change)="onVisaChanged(traveller, true)">
                     </td>
                 </tr>
             </table>
@@ -79,7 +80,8 @@
                 <tr>
                     <td style="width:40%;text-align: right;">No</td>
                     <td>
-                        <input type="radio" style="cursor: pointer;" name="{{'needVisa' + traveller.id}}" [value]="false" [(ngModel)]="traveller.needVisa">
+                        <input type="radio" style="cursor: pointer;" [value]="false" [checked]="traveller.needVisa === false" name="{{'needVisa' + traveller.id}}"
+                            (change)="onVisaChanged(traveller, false)">
                     </td>
                 </tr>
             </table>
@@ -102,7 +104,8 @@
     <div class="row">
 
         <div class="col-md-12">
-            <input type="radio" style="cursor: pointer;" name="{{'needInsuance' + traveller.id}}" [value]="true" [(ngModel)]="traveller.needInsuance">&nbsp;I/We have been offered travel insurance by Tour East Holidays and have been informed of the importance
+            <input type="radio" style="cursor: pointer;" [value]="true" [checked]="traveller.needInsuance === true" name="{{'needInsuance' + traveller.id}}"
+                (change)="onInsuanceChanged(traveller, true)"> &nbsp;I/We have been offered travel insurance by Tour East Holidays and have been informed of the importance
             of purchase travel travel insurance after confirming this trips.
         </div>
 
@@ -110,9 +113,10 @@
     <div class="row">
 
         <div class="col-md-12">
-            <input type="radio" style="cursor: pointer;" name="{{'needInsuance' + traveller.id}}" [value]="false" [(ngModel)]="traveller.needInsuance">&nbsp;Declined - I/We do not require travel insurance from Tour East Holidays and understand that penalties apply
-            for cancellations and/or changes according to payment and cancellations policy outlined on the Tour East Holidays
-            Terms & Conditions found HERE.
+            <input type="radio" style="cursor: pointer;" [value]="false" [checked]="traveller.needInsuance === false" name="{{'needInsuance' + traveller.id}}"
+                (change)="onInsuanceChanged(traveller, false)"> &nbsp;Declined - I/We do not require travel insurance from Tour East Holidays and understand that penalties
+            apply for cancellations and/or changes according to payment and cancellations policy outlined on the Tour East
+            Holidays Terms & Conditions found HERE.
         </div>
 
     </div>

@@ -1,8 +1,20 @@
-<div [ngClass]="{evenbckcolor: roomIndex % 2 === 0, oddbckcolor: roomIndex % 2 !== 0}" style="border: 1px solid #CCC;  padding:10px; margin-top:10px;" *ngIf="room">
-  <div style="text-align: center; color:chocolate"><strong style="font-size:18px;">Room: #{{roomIndex}}/{{trip.rooms.length}}  RoomId:{{room.id}} Travellers/Room Capacity:{{room.travellers.length}}/{{room.capacity}}</strong></div> 
+<div [ngClass]="{evenbckcolor: roomIndex % 2 === 0, oddbckcolor: roomIndex % 2 !== 0}" style="border: 1px solid #CCC;  padding:10px; margin-top:10px;"
+  *ngIf="room">
+  <div style="text-align: center; color:chocolate">
+    <table style="width: 100%">
+      <tr>
+        <td>
+            <strong style="font-size:18px;">Room: #{{roomIndex}}/{{trip.rooms.length}} RoomId:{{room.id}} Travellers/Room Capacity:{{room.travellers.length}}/{{room.capacity}}</strong>
+        </td>
+        <td style="text-align: right;"><button *ngIf="room.travellers.length === 0" (click)="remove(room)" >Remove</button></td>
+      </tr>
+    </table>
+    
+  </div>
   <div class="row">
     <div class="col-md-12">
-      <app-traveller-in-room [traveller]="traveller"  [roomsMoveTo]="roomsMoveTo" (roomMovedTo)="onRoomMovedTo($event)" [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers"></app-traveller-in-room>
+      <app-traveller-in-room [traveller]="traveller" [roomsMoveTo]="roomsMoveTo" (roomChangedTo)="onRoomChangedTo($event)" (roomMovedTo)="onRoomMovedTo($event)" [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers"
+        [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers"></app-traveller-in-room>
     </div>
   </div>
 </div>

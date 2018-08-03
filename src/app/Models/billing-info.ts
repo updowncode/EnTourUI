@@ -1,3 +1,5 @@
+import { CountryOrArea } from "./countryorarea";
+
 export class BillingInfo {
   firstName: string;
   lastName: string;
@@ -6,7 +8,7 @@ export class BillingInfo {
   secondaryPhone: string;
   mailingAddress: string;
   city: string;
-  country: string;
+  country: CountryOrArea;
   provinceStates: string;
   postalCode: string;
   agreeTermAndCondition: boolean;

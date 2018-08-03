@@ -21,6 +21,7 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
   @Input() trip: Trip;
   @Input() roomIndex: number;
   @Output() roomCanbeMovedTo = new EventEmitter<boolean>();
+  @Output() removeRoom = new EventEmitter<Room>();
   bedRoomsForSelectedTravellers: Room[];
   roomsMoveTo: Room[];
   availabledRooms: Room[];
@@ -37,7 +38,6 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
         }
       }
     );
-
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -49,14 +49,23 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
     );
     this.capacities = this.tourService.getRoomCapacities(this.availabledRooms);
     this.maxCapacity = Math.max(...this.capacities);
- //   this.bedRoomsForSelectedTravellers = this.tourService.getRoomsByTheTravellersInTheRoom(this.room.travellers, this.availabledRooms);
-   // this.tourService.updateRoomInfo();
     this.updateRoomsCanbeMovedTo();
   }
-
+  remove(room: Room) {
+    this.removeRoom.emit(room);
+  }
   onRoomMovedTo(moved: boolean) {
     this.roomCanbeMovedTo.emit(true);
- //   this.bedRoomsForSelectedTravellers = this.tourService.getRoomsByTheTravellersInTheRoom(this.room.travellers, this.availabledRooms);
+  }
+  onRoomChangedTo(changed: any) {
+    for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
+      if (this.trip.rooms[i].index === changed.roomIndex) {
+        changed.newRoom.index = this.trip.rooms[i].index;
+        changed.newRoom.isSmokingRoom = this.trip.rooms[i].isSmokingRoom;
+        this.trip.rooms[i] = Object.assign({}, changed.newRoom);
+        break;
+      }
+    }
     this.tourService.updateRoomInfo();
   }
   updateRoomsCanbeMovedTo() {
@@ -78,6 +87,13 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
           }
         }
       }
+      this.bedRoomsForSelectedTravellers = Object.assign(
+        [],
+        this.tourService.getRoomsByTheTravellersInTheRoom(
+          this.room.travellers,
+          this.availabledRooms
+        )
+      );
     }
   }
 }

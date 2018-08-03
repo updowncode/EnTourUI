@@ -36,8 +36,13 @@ export class TourReviewPaymentComponent implements OnInit {
     private tourService: EnTourService,
     private router: Router
   ) {}
-  optionTotal: number;
-  totalPrice: number;
+
+  totalPrice = 0;
+  totalRoomPrice = 0;
+  totalOptionPrice = 0;
+  perVisaPrice = 0;
+  totalVisaQuantity = 0;
+  totalVisaPrice = 0;
   tourInfoSources: string[];
   ngOnInit() {
     this.msg = "";
@@ -91,15 +96,41 @@ export class TourReviewPaymentComponent implements OnInit {
         }
       }
     }
-    this.optionTotal = 0;
-    for (let i = 0; i < this.optionSummary.length; i++) {
-      this.optionTotal += this.optionSummary[i].subTotal;
+
+    this.totalPrice = this.getTotalPrice();
+  }
+  getTotalPrice(): number {
+    if (this.trip !== undefined) {
+      this.perVisaPrice = this.trip.visaPrice;
+      for (let i = 0; i < this.trip.rooms.length; i++) {
+        this.totalRoomPrice +=
+          this.trip.rooms[i].roomPrice * this.trip.rooms[i].travellers.length;
+      }
+      for (let i = 0; i < this.trip.rooms.length; i++) {
+        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
+            for (
+              let k = 0;
+              k < this.trip.rooms[i].travellers[j].selectedOptions.length - 1;
+              k++
+            ) {
+              this.totalOptionPrice += this.trip.rooms[i].travellers[
+                j
+              ].selectedOptions[k].price;
+            }
+          }
+          if (this.trip.rooms[i].travellers[j].needVisa) {
+            this.totalVisaQuantity++;
+            this.totalVisaPrice += this.trip.visaPrice;
+          }
+        }
+      }
     }
     this.totalPrice =
-      this.trip.tripCostForDefaultPerTraveller *
-        this.trip.selectedTravellerQuantity.id +
-      this.optionTotal;
+      this.totalRoomPrice + this.totalOptionPrice + this.totalVisaPrice;
+    return this.totalPrice;
   }
+
   gotoPayment() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));

@@ -31,19 +31,18 @@
     <div class="col-md-6">
       <label>Bedding Configuration*</label>
       <div>
-        <select class="form-control" [(ngModel)]="selectedBedConfig">
-          <ng-container *ngFor="let config of availabledBedConfigForSameRoomCapatity">
-            <option [ngValue]="config">{{config}}</option>
-          </ng-container>
-        </select>
+        <select class="form-control" [ngModel]="newBedRoom" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
+            <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
+              <option [ngValue]="room">{{room.beddingConfig}}</option>
+            </ng-container>
+          </select>
       </div>
     </div>
     <div class="col-md-3">
       <label>&nbsp;</label>
       <div>
         <label>Non-smoking Room
-          <input [attr.disabled]="true" *ngIf="room.isSmokingRoom == 1" type="radio" name="{{'isSmokingRoom' + room.id }}">
-          <input [attr.disabled]="true" *ngIf="room.isSmokingRoom == 0" checked type="radio" name="{{'isSmokingRoom' + room.id }}">
+            <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.isSmokingRoom === 0" name="{{'isSmokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 0)">
         </label>
       </div>
     </div>
@@ -51,8 +50,7 @@
       <label>&nbsp;</label>
       <div>
         <label>Smoking Room
-          <input [attr.disabled]="true" *ngIf="room.isSmokingRoom == 1" checked type="radio" name="{{'isSmokingRoom' + room.id }}">
-          <input [attr.disabled]="true" *ngIf="room.isSmokingRoom == 0" type="radio" name="{{'isSmokingRoom' + room.id }}">
+            <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.isSmokingRoom === 1" name="{{'isSmokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 1)">
         </label>
       </div>
     </div>

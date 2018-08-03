@@ -4,7 +4,7 @@ export const MockRooms: Room[] = [
   {
     id: 1100,
     index: 0,
-    beddingConfig: "One bed (king on request)",
+    beddingConfig: "$750X1 1100",
     capacity: 1,
     roomPrice: 750,
     singleSupplement: 299,
@@ -16,7 +16,7 @@ export const MockRooms: Room[] = [
   {
     id: 1101,
     index: 0,
-    beddingConfig: "One bed (king on request)",
+    beddingConfig: "$300X2 1101",
     capacity: 2,
     roomPrice: 300,
     singleSupplement: 299,
@@ -28,7 +28,7 @@ export const MockRooms: Room[] = [
   {
     id: 1102,
     index: 0,
-    beddingConfig: "Two bed (queen on request)",
+    beddingConfig: "$500X3 1102",
     capacity: 3,
     roomPrice: 500,
     singleSupplement: 299,
@@ -40,7 +40,7 @@ export const MockRooms: Room[] = [
   {
     id: 1103,
     index: 0,
-    beddingConfig: "Two bed (king on request)",
+    beddingConfig: "$560X3 1103",
     capacity: 3,
     roomPrice: 560,
     singleSupplement: 299,
@@ -52,7 +52,7 @@ export const MockRooms: Room[] = [
   {
     id: 1104,
     index: 0,
-    beddingConfig: "One bed (queen on request)",
+    beddingConfig: "$200X2 1104",
     capacity: 2,
     roomPrice: 200,
     singleSupplement: 299,
@@ -64,7 +64,7 @@ export const MockRooms: Room[] = [
   {
     id: 1201,
     index: 0,
-    beddingConfig: "Two bed (double on request)",
+    beddingConfig: "Two bed (double on request) 1201",
     capacity: 4,
     roomPrice: 600,
     singleSupplement: 299,
@@ -76,7 +76,7 @@ export const MockRooms: Room[] = [
   {
     id: 1202,
     index: 0,
-    beddingConfig: "One bed (double on request)",
+    beddingConfig: "One bed (double on request) 1202",
     capacity: 2,
     roomPrice: 260,
     singleSupplement: 299,
@@ -88,7 +88,7 @@ export const MockRooms: Room[] = [
   {
     id: 2101,
     index: 0,
-    beddingConfig: "One bed (double on request)",
+    beddingConfig: "One bed (double on request) 2101",
     capacity: 2,
     roomPrice: 260,
     singleSupplement: 299,
@@ -100,7 +100,7 @@ export const MockRooms: Room[] = [
   {
     id: 2102,
     index: 0,
-    beddingConfig: "Two bed (king on request)",
+    beddingConfig: "Two bed (king on request) 2102",
     capacity: 3,
     roomPrice: 270,
     singleSupplement: 299,
@@ -112,7 +112,7 @@ export const MockRooms: Room[] = [
   {
     id: 3101,
     index: 0,
-    beddingConfig: "One bed (king on request)",
+    beddingConfig: "One bed (king on request) 3101",
     capacity: 2,
     roomPrice: 280,
     singleSupplement: 299,
@@ -124,7 +124,7 @@ export const MockRooms: Room[] = [
   {
     id: 3102,
     index: 0,
-    beddingConfig: "Three single beds",
+    beddingConfig: "Three single beds 3102",
     capacity: 3,
     roomPrice: 290,
     singleSupplement: 299,
@@ -136,7 +136,7 @@ export const MockRooms: Room[] = [
   {
     id: 4101,
     index: 0,
-    beddingConfig: "Two Single Beds",
+    beddingConfig: "Two Single Beds 4101",
     capacity: 2,
     roomPrice: 310,
     singleSupplement: 299,
@@ -148,7 +148,7 @@ export const MockRooms: Room[] = [
   {
     id: 4102,
     index: 0,
-    beddingConfig: "One bed (double on request) and One Single Bed",
+    beddingConfig: "One bed (double on request) 4102",
     capacity: 3,
     roomPrice: 320,
     singleSupplement: 299,
@@ -160,7 +160,7 @@ export const MockRooms: Room[] = [
   {
     id: 4103,
     index: 0,
-    beddingConfig: "Two bed (queen on request)",
+    beddingConfig: "Two bed (queen on request) 4103",
     capacity: 4,
     roomPrice: 329,
     singleSupplement: 299,
