@@ -63,7 +63,7 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
           if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
             for (
               let k = 0;
-              k < this.trip.rooms[i].travellers[j].selectedOptions.length - 1;
+              k < this.trip.rooms[i].travellers[j].selectedOptions.length;
               k++
             ) {
               this.totalOptionPrice += this.trip.rooms[i].travellers[

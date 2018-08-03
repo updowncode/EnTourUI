@@ -88,9 +88,9 @@ export class TourTravellerComponent implements OnInit {
       this.trip.selectedRoomQuantity.id
     );
     this.minDefaultRoomQuantity = this.trip.rooms.length;
-    const ops = this.tourService.getOptions(this.tourId, this.tripId);
-    this.trip.rooms[0].travellers[0].selectedOptions = new Array<Option>();
-    this.trip.rooms[0].travellers[0].selectedOptions.push(ops[0]);
+    // const ops = this.tourService.getOptions(this.tourId, this.tripId);
+    // this.trip.rooms[0].travellers[0].selectedOptions = new Array<Option>();
+    // this.trip.rooms[0].travellers[0].selectedOptions.push(ops[0]);
     this.tourService.updateRoomInfo();
   }
   onRoomCanbeMovedTo(needUpdate: boolean) {
