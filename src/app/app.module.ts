@@ -6,7 +6,7 @@ import { HttpModule } from "@angular/http";
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EnTourService } from "./en-tour.service";
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from "./app.component";
 import { TourListComponent } from "./tour-list/tour-list.component";
 import { TourDetailComponent } from "./tour-detail/tour-detail.component";
@@ -62,6 +62,7 @@ import { TripSummaryComponent } from './trip-summary/trip-summary.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
     AppRoutingModule
   ],

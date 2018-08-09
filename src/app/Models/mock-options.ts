@@ -7,8 +7,8 @@ export const MockOptions: Option[] = [
     name: "Acrobatic Show",
     price: 50,
     enabled: true,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 1102,
@@ -16,8 +16,8 @@ export const MockOptions: Option[] = [
     name: "Romance of Song Dynasty Show",
     price: 60,
     enabled: true,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 1103,
@@ -25,8 +25,8 @@ export const MockOptions: Option[] = [
     name: "Huangpu River Cruise",
     price: 50,
     enabled: true,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 2101,
@@ -34,8 +34,8 @@ export const MockOptions: Option[] = [
     name: "Acrobatic Show",
     price: 50,
     enabled: true,
-    tourId: 2,
-    tripId: 1
+    tourId: "2",
+    tripId: "1"
   },
   {
     id: 2102,
@@ -43,8 +43,8 @@ export const MockOptions: Option[] = [
     name: "Romance of Song Dynasty Show",
     price: 60,
     enabled: true,
-    tourId: 2,
-    tripId: 1
+    tourId: "2",
+    tripId: "1"
   },
   {
     id: 2103,
@@ -52,8 +52,8 @@ export const MockOptions: Option[] = [
     name: "Huangpu River Cruise",
     price: 50,
     enabled: true,
-    tourId: 2,
-    tripId: 1
+    tourId: "2",
+    tripId: "1"
   },
   {
     id: 3101,
@@ -61,8 +61,8 @@ export const MockOptions: Option[] = [
     name: "Acrobatic Show",
     price: 50,
     enabled: true,
-    tourId: 3,
-    tripId: 1
+    tourId: "3",
+    tripId: "1"
   },
   {
     id: 3102,
@@ -70,8 +70,8 @@ export const MockOptions: Option[] = [
     name: "Romance of Song Dynasty Show",
     price: 60,
     enabled: true,
-    tourId: 3,
-    tripId: 1
+    tourId: "3",
+    tripId: "1"
   },
   {
     id: 3103,
@@ -79,8 +79,8 @@ export const MockOptions: Option[] = [
     name: "Huangpu River Cruise",
     price: 50,
     enabled: true,
-    tourId: 3,
-    tripId: 1
+    tourId: "3",
+    tripId: "1"
   },
   {
     id: 4101,
@@ -88,8 +88,8 @@ export const MockOptions: Option[] = [
     name: "Acrobatic Show",
     price: 50,
     enabled: true,
-    tourId: 4,
-    tripId: 1
+    tourId: "4",
+    tripId: "1"
   },
   {
     id: 4102,
@@ -97,7 +97,7 @@ export const MockOptions: Option[] = [
     name: "Romance of Song Dynasty Show",
     price: 60,
     enabled: true,
-    tourId: 4,
-    tripId: 1
+    tourId: "4",
+    tripId: "1"
   }
 ];

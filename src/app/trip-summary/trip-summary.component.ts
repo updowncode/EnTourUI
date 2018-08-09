@@ -13,8 +13,8 @@ import { Subscription } from "rxjs";
 export class TripSummaryComponent implements OnInit, OnDestroy {
   tour: Tour;
   trip: Trip;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
   totalPrice = 0;
   totalRoomPrice = 0;
   totalOptionPrice = 0;
@@ -37,8 +37,8 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
-    this.tourId = +this.activatedRoute.snapshot.queryParamMap.get("tourId");
-    this.tripId = +this.activatedRoute.snapshot.queryParamMap.get("tripId");
+    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
+    this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
     this.tour = this.tourService.getToursMockDataById(this.tourId);
     this.trip = this.tourService.retrieveTrip();
     if (this.trip === undefined) {

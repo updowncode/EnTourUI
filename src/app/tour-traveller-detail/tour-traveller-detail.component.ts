@@ -20,8 +20,8 @@ export class TourTravellerDetailComponent implements OnInit {
   @HostBinding("style.position") position = "related";
   tour: Tour;
   trip: Trip;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
   travellers: Traveller[] = [];
   msg = "Loading Traveller Details ...";
   availabledTitles: Title[] = [
@@ -45,8 +45,8 @@ export class TourTravellerDetailComponent implements OnInit {
 
   ngOnInit() {
     this.msg = "";
-    this.tourId = +this.activatedRoute.snapshot.queryParamMap.get("tourId");
-    this.tripId = +this.activatedRoute.snapshot.queryParamMap.get("tripId");
+    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
+    this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
     this.trip = this.tourService.retrieveTrip();
     if (this.trip === undefined) {
       if (localStorage.getItem(this.tripId.toString()) != null) {

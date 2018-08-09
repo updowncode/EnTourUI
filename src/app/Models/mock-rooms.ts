@@ -10,8 +10,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 1101,
@@ -22,8 +22,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 1,
     travellers: null,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 1102,
@@ -34,8 +34,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 1103,
@@ -46,8 +46,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 1104,
@@ -58,8 +58,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 1,
     travellers: null,
-    tourId: 1,
-    tripId: 1
+    tourId: "1",
+    tripId: "1"
   },
   {
     id: 1201,
@@ -70,8 +70,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 1,
-    tripId: 2
+    tourId: "1",
+    tripId: "2"
   },
   {
     id: 1202,
@@ -82,8 +82,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 1,
-    tripId: 2
+    tourId: "1",
+    tripId: "2"
   },
   {
     id: 2101,
@@ -94,8 +94,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 2,
-    tripId: 1
+    tourId: "2",
+    tripId: "1"
   },
   {
     id: 2102,
@@ -106,8 +106,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 2,
-    tripId: 1
+    tourId: "2",
+    tripId: "1"
   },
   {
     id: 3101,
@@ -118,8 +118,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 3,
-    tripId: 1
+    tourId: "3",
+    tripId: "1"
   },
   {
     id: 3102,
@@ -130,8 +130,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 3,
-    tripId: 1
+    tourId: "3",
+    tripId: "1"
   },
   {
     id: 4101,
@@ -142,8 +142,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 1,
     travellers: null,
-    tourId: 4,
-    tripId: 1
+    tourId: "4",
+    tripId: "1"
   },
   {
     id: 4102,
@@ -154,8 +154,8 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 4,
-    tripId: 1
+    tourId: "4",
+    tripId: "1"
   },
   {
     id: 4103,
@@ -166,7 +166,7 @@ export const MockRooms: Room[] = [
     singleSupplement: 299,
     isSmokingRoom: 0,
     travellers: null,
-    tourId: 4,
-    tripId: 1
+    tourId: "4",
+    tripId: "1"
   }
 ];

@@ -13,8 +13,8 @@ import { Trip } from "../Models/trip";
 export class TourDetailComponent implements OnInit {
   tour: Tour;
   trip: Trip;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
   @HostBinding("@routeAnimation") routeAnimation = true;
   @HostBinding("style.display") display = "block";
   @HostBinding("style.position") position = "related";
@@ -24,14 +24,20 @@ export class TourDetailComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    this.tourId = +this.activatedRoute.snapshot.paramMap.get("id");
-    this.tour = this.tourService.getToursMockDataById(this.tourId);
-    this.initTrip();
-    this.onSelectTrip(this.tour.trips[0]);
+    this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
+    this.tourService.getToursAsync().subscribe((tours: Tour[]) => {
+      this.tour = Object.assign(
+        {},
+        tours.find(tour => tour.id === this.tourId)
+      );
+      // this.tour = this.tourService.getToursMockDataById(this.tourId);
+      this.initTrip();
+      this.onSelectTrip(this.tour.trips[0]);
+    });
   }
   initTrip() {
     if (this.tour.trips != null) {
-      this.trip = this.tour.trips[0];
+      this.trip = Object.assign({}, this.tour.trips[0]);
       this.tour.trips.forEach(trip => {
         trip.notIncludeIn = this.tourService.getNotIncludeIn(
           trip.tourId,
@@ -45,7 +51,7 @@ export class TourDetailComponent implements OnInit {
     this.trip = trip;
     this.tourService.saveTrip(this.trip);
   }
-  gotoTraveller(tourId: number, tripId: number): void {
+  gotoTraveller(tourId: string, tripId: string): void {
     this.onSelectTrip(this.tour.trips.find(c => c.id === tripId));
     localStorage.removeItem(this.trip.id.toString());
     localStorage.setItem(this.trip.id.toString(), JSON.stringify(this.trip));

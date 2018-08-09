@@ -1,1 +1,1 @@
-export const MockTourInfoSource: string[] = ["Toronto Star", "Tour East Website"];
+export const MockTourInfoSource: string[] = ["", "Toronto Star", "Tour East Website"];

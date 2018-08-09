@@ -9,6 +9,6 @@ export class Room {
   singleSupplement: number;
   isSmokingRoom: number; // 0: Non-Smoking, 1: Smoking, -1: unknown
   travellers: Traveller[];
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
 }

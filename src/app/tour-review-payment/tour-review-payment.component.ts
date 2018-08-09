@@ -26,8 +26,8 @@ export class TourReviewPaymentComponent implements OnInit {
   @HostBinding("style.position") position = "related";
   tour: Tour;
   trip: Trip;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
   travellers: Traveller[] = [];
   optionSummary: OptionSummary[] = [];
   msg = "Loading Review  ...";
@@ -46,8 +46,8 @@ export class TourReviewPaymentComponent implements OnInit {
   tourInfoSources: string[];
   ngOnInit() {
     this.msg = "";
-    this.tourId = +this.activatedRoute.snapshot.queryParamMap.get("tourId");
-    this.tripId = +this.activatedRoute.snapshot.queryParamMap.get("tripId");
+    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
+    this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
     this.tour = this.tourService.getToursMockDataById(this.tourId);
     this.trip = this.tourService.retrieveTrip();
     if (this.trip === undefined) {
@@ -58,6 +58,7 @@ export class TourReviewPaymentComponent implements OnInit {
       }
     }
     this.initTrip();
+    this.trip.tourInfoSource = "";
     this.tourInfoSources = MockTourInfoSource;
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
@@ -111,7 +112,7 @@ export class TourReviewPaymentComponent implements OnInit {
           if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
             for (
               let k = 0;
-              k < this.trip.rooms[i].travellers[j].selectedOptions.length - 1;
+              k < this.trip.rooms[i].travellers[j].selectedOptions.length;
               k++
             ) {
               this.totalOptionPrice += this.trip.rooms[i].travellers[

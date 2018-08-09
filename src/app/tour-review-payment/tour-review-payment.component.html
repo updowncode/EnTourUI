@@ -110,13 +110,9 @@
         </div>
         <div class="col-md-3 col-sm-12 col-sm-12">
             <select class="form-control" [(ngModel)]="trip.tourInfoSource">
-                <ng-container>
-                    <option [selected]="trip.tourInfoSource === ''" [ngValue]="">--Select--</option>
-                </ng-container>
-
                 <ng-container *ngFor="let info of tourInfoSources">
-
-                    <option [ngValue]="info" *ngIf="info !==''">{{info}}</option>
+                    <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
+                    <option [ngValue]="info" *ngIf="info !== ''">{{info}}</option>
                 </ng-container>
             </select>
         </div>
@@ -129,17 +125,19 @@
     <div class="row">
         <div class="col-md-12">
             <div>
-                <input type="checkbox">&nbsp;I agree to the
+                <input type="checkbox" style="cursor: pointer;" name="TermsConditions" (change)="trip.billingInfo.agreeTermAndCondition = !trip.billingInfo.agreeTermAndCondition" [checked]="trip.billingInfo.agreeTermAndCondition"> &nbsp;I agree to the
                 <a class="tecolor" target="_blank" href="/Portals/0/img/terms_conditions.pdf">Terms and Conditions</a> and
                 <a class="tecolor" target="_blank" href="/terms">Privacy Statment</a>
             </div>
             <div></div>
             <div>
-                <input type="checkbox">&nbsp;I have read the
+                <input type="checkbox" style="cursor: pointer;" name="ReadsNotes" (change)="trip.billingInfo.haveReadTripNotes = !trip.billingInfo.haveReadTripNotes"
+                    [checked]="trip.billingInfo.haveReadTripNotes">&nbsp;I have read the
                 <a class="tecolor" target="_blank" href="/terms">trip notes</a>
             </div>
             <div>
-                <input type="checkbox">&nbsp;I would like to receive offers and updates from Tour East Holidays via email</div>
+                <input type="checkbox" style="cursor: pointer;" name="LikeReceiveMoreInfo" (change)="trip.billingInfo.canReceiveMoreInfo = !trip.billingInfo.canReceiveMoreInfo"
+                    [checked]="trip.billingInfo.canReceiveMoreInfo">&nbsp;I would like to receive offers and updates from Tour East Holidays via email</div>
         </div>
     </div>
     <div class="row">

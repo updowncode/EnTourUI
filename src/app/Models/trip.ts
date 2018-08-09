@@ -6,7 +6,7 @@ import { MockTripInclude } from "./mock-trip-include";
 import { CountryOrArea } from "./countryorarea";
 
 export class Trip {
-  id: number;
+  id: string;
   name: string;
   selectedTravellerQuantity: Quantity;
   selectedRoomQuantity: Quantity;
@@ -28,5 +28,5 @@ export class Trip {
   notIncludeIn: MockTripInclude[];
   options: Option[];
   rooms: Room[];
-  tourId: number;
+  tourId: string;
 }

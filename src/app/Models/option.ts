@@ -6,6 +6,6 @@ export class Option {
   name: string;
   price: number;
   enabled: boolean;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
 }

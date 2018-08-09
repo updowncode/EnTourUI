@@ -25,8 +25,8 @@ export class TourTravellerComponent implements OnInit {
   @HostBinding("style.position") position = "related";
   trip: Trip;
   tour: Tour;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
   msg = "Loading Traveller ...";
   capacities: number[];
   availabledRooms: Room[];
@@ -40,8 +40,8 @@ export class TourTravellerComponent implements OnInit {
 
   ngOnInit() {
     this.msg = "";
-    this.tourId = +this.activatedRoute.snapshot.queryParamMap.get("tourId");
-    this.tripId = +this.activatedRoute.snapshot.queryParamMap.get("tripId");
+    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
+    this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
     this.trip = this.tourService.retrieveTrip();
     if (this.trip === undefined) {
       if (localStorage.getItem(this.tripId.toString()) != null) {

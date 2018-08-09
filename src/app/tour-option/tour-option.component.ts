@@ -18,8 +18,8 @@ export class TourOptionComponent implements OnInit {
   @HostBinding("style.position") position = "related";
   tour: Tour;
   trip: Trip;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
   travellers: Traveller[] = [];
   msg = "Loading options ...";
   constructor(
@@ -30,8 +30,8 @@ export class TourOptionComponent implements OnInit {
 
   ngOnInit() {
     this.msg = "";
-    this.tourId = +this.activatedRoute.snapshot.queryParamMap.get("tourId");
-    this.tripId = +this.activatedRoute.snapshot.queryParamMap.get("tripId");
+    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
+    this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
 
     this.trip = this.tourService.retrieveTrip();
     if (this.trip === undefined) {

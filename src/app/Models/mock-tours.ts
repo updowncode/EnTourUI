@@ -1,11 +1,13 @@
 import { Tour } from "./tour";
 export const MockTours: Tour[] = [
   {
-    id: 1,
+    id: "1",
     name: "China Encounter",
+    availableTitles: ["Mr", "Mrs"],
+    availabledCountryOrAreas: [{ id: 1, name: "Canada", code: "CA" }, { id: 2, name: "American", code: "US" }],
     trips: [
       {
-        id: 1,
+        id: "1",
         name: "9 Days | 7 Nights",
         selectedTravellerQuantity: null,
         selectedRoomQuantity: null,
@@ -27,10 +29,10 @@ export const MockTours: Tour[] = [
         includedIn: [],
         options: [],
         rooms: [],
-        tourId: 1
+        tourId: "1"
       },
       {
-        id: 2,
+        id: "2",
         name: "7 Days",
         selectedTravellerQuantity: null,
         selectedRoomQuantity: null,
@@ -52,16 +54,18 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
-        tourId: 1
+        tourId: "1"
       }
     ]
   },
   {
-    id: 2,
+    id: "2",
     name: "South America",
+    availableTitles: ["Mr", "Mrs"],
+    availabledCountryOrAreas: [{ id: 1, name: "Canada", code: "CA" }, { id: 2, name: "American", code: "US" }],
     trips: [
       {
-        id: 1,
+        id: "1",
         name: "8 Days",
         selectedTravellerQuantity: null,
         selectedRoomQuantity: null,
@@ -83,16 +87,18 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
-        tourId: 2
+        tourId: "2"
       }
     ]
   },
   {
-    id: 3,
+    id: "3",
     name: "South America",
+    availableTitles: ["Mr", "Mrs"],
+    availabledCountryOrAreas: [{ id: 1, name: "Canada", code: "CA" }, { id: 2, name: "American", code: "US" }],
     trips: [
       {
-        id: 1,
+        id: "1",
         name: "9 Days",
         selectedTravellerQuantity: null,
         selectedRoomQuantity: null,
@@ -114,16 +120,18 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
-        tourId: 3
+        tourId: "3"
       }
     ]
   },
   {
-    id: 4,
+    id: "4",
     name: "South America",
+    availableTitles: ["Mr", "Mrs"],
+    availabledCountryOrAreas: [{ id: 1, name: "Canada", code: "CA" }, { id: 2, name: "American", code: "US" }],
     trips: [
       {
-        id: 1,
+        id: "1",
         name: "10 days",
         selectedTravellerQuantity: null,
         selectedRoomQuantity: null,
@@ -145,7 +153,7 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
-        tourId: 4
+        tourId: "4"
       }
     ]
   }
