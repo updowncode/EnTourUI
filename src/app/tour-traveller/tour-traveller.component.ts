@@ -32,13 +32,11 @@ export class TourTravellerComponent implements OnInit {
   tripId: string;
   msg = "Loading Traveller ...";
   capacities: number[];
-  availabledRooms: Room[];
-  minDefaultRoomQuantity: number;
   selectedTravellerQuantity: Quantity;
   availabledTravellerQuantities: Quantity[];
   selectedRoomQuantity: Quantity;
   availabledRoomQuantities: Quantity[];
-
+  maxCapacity: number;
   constructor(
     private tourService: EnTourService,
     private router: Router,
@@ -57,6 +55,7 @@ export class TourTravellerComponent implements OnInit {
       this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
       this.tourService.shareTour(this.tour);
       this.tourService.shareTrip(this.trip);
+      this.maxCapacity = Math.max(...this.trip.availabledRooms.filter( room => room.capacity > 0).map(room => room.capacity));
       if (this.trip.rooms.length === 0) {
         this.initTrip();
         this.tourService.updateRoomInfo();
@@ -65,22 +64,19 @@ export class TourTravellerComponent implements OnInit {
   }
 
   initTrip() {
-    this.availabledRooms = Object.assign([], this.trip.availabledRooms);
-    this.capacities = this.tourService.getRoomCapacities(this.availabledRooms);
     this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
       this.trip.tripCostForDefaultTravellerQuantity - 1
     ];
     this.trip.selectedRoomQuantity = this.defaultRoomQuantity(
       this.trip.selectedTravellerQuantity,
-      this.trip.availabledRoomQuantities,
-      this.availabledRooms
+      this.trip.availabledRoomQuantities
     );
     this.clearRooms();
     this.assignRoom(
       this.trip.selectedTravellerQuantity.id,
       this.trip.selectedRoomQuantity.id
     );
-    this.minDefaultRoomQuantity = this.trip.rooms.length;
+    this.trip.minRoomQuantityForTravellers = this.trip.rooms.length;
     // const ops = this.tourService.getOptions(this.tourId, this.tripId);
     // this.trip.rooms[0].travellers[0].selectedOptions = new Array<Option>();
     // this.trip.rooms[0].travellers[0].selectedOptions.push(ops[0]);
@@ -88,17 +84,15 @@ export class TourTravellerComponent implements OnInit {
   }
   defaultRoomQuantity(
     selectedTravellerQuantity: Quantity,
-    availabledRoomQuantities: Quantity[],
-    availabledRooms: Room[]
+    availabledRoomQuantities: Quantity[]
   ): Quantity {
     let pointer = 0;
-    const maxCapacity = Math.max(...this.capacities);
-    if (selectedTravellerQuantity.id > maxCapacity) {
+    if (selectedTravellerQuantity.id > this.maxCapacity) {
       let remained = selectedTravellerQuantity.id;
       do {
         pointer++;
-        remained -= maxCapacity;
-      } while (remained > maxCapacity);
+        remained -= this.maxCapacity;
+      } while (remained > this.maxCapacity);
     }
     return availabledRoomQuantities[pointer];
   }
@@ -112,7 +106,7 @@ export class TourTravellerComponent implements OnInit {
           [],
           this.tourService.getRoomsByTheTravellersInTheRoom(
             this.trip.rooms[i].travellers,
-            this.availabledRooms
+            this.trip.availabledRooms
           )
         );
         this.trip.rooms[i] = Object.assign({}, rooms[0]);
@@ -144,7 +138,7 @@ export class TourTravellerComponent implements OnInit {
     }
     const rooms = this.tourService.getRoomsByTheTravellersInTheRoom(
       travellers,
-      this.availabledRooms
+      this.trip.availabledRooms
     );
     const room = rooms[0];
     travellers.map(c => (c.roomId = room.id));
@@ -152,11 +146,9 @@ export class TourTravellerComponent implements OnInit {
     return room;
   }
   assignRoom(remainedTravellers: number, roomQuantity: number) {
-    const maxCapacity = Math.max(...this.capacities);
-
-    if (remainedTravellers <= maxCapacity) {
+    if (remainedTravellers <= this.maxCapacity) {
       const room = this.createRoom(
-        maxCapacity,
+        this.maxCapacity,
         remainedTravellers,
         this.trip.selectedRoomQuantity.id,
         roomQuantity
@@ -164,13 +156,13 @@ export class TourTravellerComponent implements OnInit {
       this.trip.rooms.push(room);
     } else {
       const room = this.createRoom(
-        maxCapacity,
-        maxCapacity,
+        this.maxCapacity,
+        this.maxCapacity,
         this.trip.selectedRoomQuantity.id,
         roomQuantity
       );
       this.trip.rooms.push(room);
-      remainedTravellers -= maxCapacity;
+      remainedTravellers -= this.maxCapacity;
       roomQuantity--;
       this.assignRoom(remainedTravellers, roomQuantity);
     }
@@ -183,7 +175,7 @@ export class TourTravellerComponent implements OnInit {
     }
   }
   createNewRoom(roomId: number): Room {
-    const room = this.availabledRooms.find(c => c.id === roomId);
+    const room = this.trip.availabledRooms.find(c => c.id === roomId);
     return { ...room };
   }
   createNewTraveller(id: number, roomId: number): Traveller {
@@ -229,10 +221,10 @@ export class TourTravellerComponent implements OnInit {
       this.trip.selectedTravellerQuantity.id,
       this.trip.selectedRoomQuantity.id
     );
-    this.minDefaultRoomQuantity = this.trip.rooms.length;
+    this.trip.minRoomQuantityForTravellers = this.trip.rooms.length;
     for (let i = 0; i < this.trip.availabledRoomQuantities.length; i++) {
       if (
-        this.trip.availabledRoomQuantities[i].id === this.minDefaultRoomQuantity
+        this.trip.availabledRoomQuantities[i].id === this.trip.minRoomQuantityForTravellers
       ) {
         this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities[i];
         break;
@@ -241,9 +233,9 @@ export class TourTravellerComponent implements OnInit {
     this.tourService.updateRoomInfo();
   }
   roomChange(newValue: Quantity) {
-    if (newValue.id < this.minDefaultRoomQuantity) {
+    if (newValue.id < this.trip.minRoomQuantityForTravellers) {
       this.msg =
-        "Room(s) quantity should not less than " + this.minDefaultRoomQuantity;
+        "Room(s) quantity should not less than " + this.trip.minRoomQuantityForTravellers;
       return;
     } else if (newValue.id >= this.trip.selectedTravellerQuantity.id) {
       this.msg = "";
@@ -262,14 +254,14 @@ export class TourTravellerComponent implements OnInit {
       this.trip.selectedRoomQuantity.id - this.trip.rooms.length;
     if (appendEmptyRoomsQuantity > 0) {
       for (let i = 0; i < appendEmptyRoomsQuantity; i++) {
-        for (let j = 0; j < this.availabledRooms.length; j++) {
+        for (let j = 0; j < this.trip.availabledRooms.length; j++) {
           if (
-            this.availabledRooms[j].roomPriceForPerTraveller ===
+            this.trip.availabledRooms[j].roomPriceForPerTraveller ===
             Math.min(
-              ...this.availabledRooms.map(c => c.roomPriceForPerTraveller)
+              ...this.trip.availabledRooms.map(c => c.roomPriceForPerTraveller)
             )
           ) {
-            const newRoom = this.createNewRoom(this.availabledRooms[j].id);
+            const newRoom = this.createNewRoom(this.trip.availabledRooms[j].id);
             newRoom.travellers = new Array<Traveller>();
             this.trip.rooms.push(newRoom); // Append the cheapest room
             break;

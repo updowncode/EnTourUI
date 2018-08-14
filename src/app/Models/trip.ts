@@ -21,6 +21,7 @@ export class Trip {
   tripCostForDefaultPerTraveller: number;
   tripCostForDefaultTravellerQuantity: number;
   tripSingleSupplement: number;
+  minRoomQuantityForTravellers: number;
   visaPrice: number;
   tourInfoSource: string;
   billingInfo: BillingInfo;

@@ -25,7 +25,6 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
   @Output() removeRoom = new EventEmitter<Room>();
   bedRoomsForSelectedTravellers: Room[];
   roomsMoveTo: Room[];
-  availabledRooms: Room[] = [];
   capacities: number[];
   maxCapacity: number;
 
@@ -44,10 +43,7 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
-    this.availabledRooms =  Object.assign([], this.trip.availabledRooms);
-    // this.availabledRooms = Object.assign([], this.trip.availabledRooms);
-    this.capacities = this.tourService.getRoomCapacities(this.availabledRooms);
-    this.maxCapacity = Math.max(...this.capacities);
+    this.maxCapacity = Math.max(...this.trip.availabledRooms.filter( room => room.capacity > 0).map(room => room.capacity));
     this.updateRoomsCanbeMovedTo();
   }
   remove(room: Room) {
@@ -90,7 +86,7 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
         [],
         this.tourService.getRoomsByTheTravellersInTheRoom(
           this.room.travellers,
-          this.availabledRooms
+          this.trip.availabledRooms
         )
       );
     }

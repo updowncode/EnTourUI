@@ -17,7 +17,6 @@ import { Option } from "./Models/option";
 import { MockTourInfoSource } from "./Models/mock-tour-info-source";
 import { Traveller } from "./Models/traveller";
 import { HttpClient } from "@angular/common/http";
-import { SSL_OP_SINGLE_DH_USE } from "constants";
 const FETCH_LATENCY = 500;
 
 @Injectable()
@@ -54,9 +53,18 @@ export class EnTourService {
     });
     this.trip$.subscribe(trip => {
       this.trip = trip;
-      const tourIndex = this.tours.findIndex( tour => tour.trips.find( d => d.id === trip.id).id === trip.id);
-      const tripIndex = this.tours[tourIndex].trips.findIndex( d => d.id === trip.id);
-      this.tours[tourIndex].trips[tripIndex] = this.trip;
+      if (trip) {
+        this.getToursAsync().subscribe(tours => {
+          this.tours = tours;
+          const tourIndex = this.tours.findIndex(
+            tour => tour.trips.find(d => d.id === trip.id).id === trip.id
+          );
+          const tripIndex = this.tours[tourIndex].trips.findIndex(
+            d => d.id === trip.id
+          );
+          this.tours[tourIndex].trips[tripIndex] = this.trip;
+        });
+      }
     });
   }
   public saveTours(value: Tour[]) {
@@ -76,42 +84,6 @@ export class EnTourService {
     return this.selectedTrip;
   }
 
-  getAvailabledRooms(tourId: string, tripId: string): Room[] {
-    this.availabledRooms = Object.assign(
-      [],
-      this.tours
-        .find(tour => tour.id === tourId)
-        .trips.find(trip => trip.id === tripId).availabledRooms
-    )
-      .filter(c => c.tourId === tourId && c.tripId === tripId)
-      .sort((a, b) => {
-        if (a.roomPriceForPerTraveller > b.roomPriceForPerTraveller) {
-          return 1;
-        }
-        if (a.roomPriceForPerTraveller < b.roomPriceForPerTraveller) {
-          return -1;
-        }
-        return 0;
-      });
-    return this.availabledRooms;
-  }
-  public getRoomCapacities(availabledRooms: Room[]): number[] {
-    const capacities = new Array<number>();
-    for (let i = 0; i < availabledRooms.length; i++) {
-      if (capacities.indexOf(availabledRooms[i].capacity) < 0) {
-        capacities.push(availabledRooms[i].capacity);
-      }
-    }
-    return capacities.sort((a, b) => {
-      if (a > b) {
-        return 1;
-      }
-      if (a < b) {
-        return -1;
-      }
-      return 0;
-    });
-  }
   public updateRoomInfo() {
     this.roomInfoUpdated.next(true);
   }
@@ -124,7 +96,7 @@ export class EnTourService {
   ): Room[] {
     const roomsFitSelectedTravellersQuantity = JSON.parse(
       JSON.stringify(availabledRooms)
-    ) as Room[]; // Object.assign([], availabledRooms);
+    ) as Room[];
     if (travellers.length === 1) {
       for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
         if (roomsFitSelectedTravellersQuantity[j].capacity >= 2) {

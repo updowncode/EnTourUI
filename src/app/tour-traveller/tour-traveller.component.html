@@ -9,8 +9,10 @@
         </div>
         <div class="col-md-2 text-right">
           <select class="form-control" *ngIf="trip" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
-            <ng-container *ngFor="let q of trip.availabledTravellerQuantities">
-              <option [ngValue]="q">{{q.id}}</option>
+            <ng-container *ngIf="trip">
+              <ng-container *ngFor="let q of trip.availabledTravellerQuantities">
+                <option [ngValue]="q">{{q.id}}</option>
+              </ng-container>
             </ng-container>
           </select>
         </div>
@@ -23,17 +25,21 @@
           <div>How many hotel rooms do you require?</div>
         </div>
         <div class="col-md-2 text-right">
-          <select style="margin-top:10px;"*ngIf="trip" class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedRoomQuantity" (ngModelChange)="roomChange($event)">
-            <ng-container *ngFor="let q of trip.availabledRoomQuantities">
-              <option [ngValue]="q">{{q.id}}</option>
+          <select style="margin-top:10px;" *ngIf="trip" class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedRoomQuantity"
+            (ngModelChange)="roomChange($event)">
+            <ng-container *ngIf="trip">
+              <ng-container *ngFor="let q of trip.availabledRoomQuantities">
+                <option [ngValue]="q">{{q.id}}</option>
+              </ng-container>
             </ng-container>
           </select>
         </div>
       </div>
       <br />
-      <app-billing-info  *ngIf="trip" [billingInfo]="trip.billingInfo"></app-billing-info>
+      <app-billing-info *ngIf="trip" [billingInfo]="trip.billingInfo"></app-billing-info>
       <div *ngIf="trip">
-        <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" (removeRoom)="onRemoveRoom(room)" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-select-room>
+        <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" (removeRoom)="onRemoveRoom(room)" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)"
+          *ngFor="let room of trip.rooms"></app-select-room>
       </div>
       <br />
       <div class="row">

@@ -44,14 +44,12 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
   @Output()
   roomChangedTo = new EventEmitter<any>();
   showRoomInfo: boolean;
-  availabledRooms: Room[] = [];
   newBedRoom: Room;
   subscription: Subscription;
 
   constructor(private tourService: EnTourService) {}
   ngOnDestroy() {}
   ngOnInit() {
-    this.availabledRooms = Object.assign([], this.trip.availabledRooms);
     this.updateRoomInfo();
   }
   onBedConfigModelChange(roomIndex: number, newRoom: Room) {
