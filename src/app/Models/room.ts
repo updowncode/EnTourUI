@@ -7,7 +7,7 @@ export class Room {
   capacity: number;
   roomPriceForPerTraveller: number; // For each traveller
   singleSupplement: number;
-  isSmokingRoom: number; // 0: Non-Smoking, 1: Smoking, -1: unknown
+  smokingRoom: number; // 0: Non-Smoking, 1: Smoking, -1: unknown
   travellers: Traveller[];
   tourId: string;
   tripId: string;

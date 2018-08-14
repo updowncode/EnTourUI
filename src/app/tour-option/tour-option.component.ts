@@ -23,44 +23,35 @@ export class TourOptionComponent implements OnInit {
   travellers: Traveller[] = [];
   msg = "Loading options ...";
   constructor(
-    private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.msg = "";
+    this.msg = "Load options";
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-
-    this.trip = this.tourService.retrieveTrip();
-    if (this.trip === undefined) {
-      if (localStorage.getItem(this.tripId.toString()) != null) {
-        this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
-      } else {
-        this.router.navigate(["/tours"]);
-      }
-    }
-    this.initTrip();
-    localStorage.removeItem(this.tripId.toString());
-    localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.saveTrip(this.trip);
-  }
-  initTrip() {
-    this.trip.options = this.tourService.getOptions(this.tourId, this.tripId);
-    this.trip.rooms.forEach((c: Room) => {
-      if (c.travellers != null) {
-        c.travellers.forEach(d => {
-          this.travellers.push(d);
-        });
-      }
+    this.tourService.getToursAsync().subscribe((tours: Tour[]) => {
+      this.tour = Object.assign(
+        {},
+        tours.find(tour => tour.id === this.tourId)
+      );
+      this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
+      // this.tourService.shareTour(this.tour);
+      // this.tourService.shareTrip(this.trip);
+      this.trip.rooms.forEach((c: Room) => {
+        if (c.travellers != null) {
+          c.travellers.forEach(d => {
+            this.travellers.push(d);
+          });
+        }
+      });
     });
   }
   gotoTravellerDetail() {
-    localStorage.removeItem(this.tripId.toString());
-    localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.saveTrip(this.trip);
-
+    this.tourService.shareTour(this.tour);
+    this.tourService.shareTrip(this.trip);
     this.router.navigate(["/travellerdetails"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });

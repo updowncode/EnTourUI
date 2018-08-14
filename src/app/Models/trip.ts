@@ -2,7 +2,7 @@ import { Option } from "./option";
 import { Quantity } from "./quantity";
 import { Room } from "./room";
 import { BillingInfo } from "./billing-info";
-import { MockTripInclude } from "./mock-trip-include";
+import { TripInclude } from "./trip-include";
 import { CountryOrArea } from "./countryorarea";
 
 export class Trip {
@@ -25,8 +25,8 @@ export class Trip {
   visaPrice: number;
   tourInfoSource: string;
   billingInfo: BillingInfo;
-  includedIn: MockTripInclude[];
-  notIncludeIn: MockTripInclude[];
+  includedIn: TripInclude[];
+  notIncludeIn: TripInclude[];
   options: Option[];
   availabledRooms: Room[];
   rooms: Room[];

@@ -56,7 +56,7 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
     for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
       if (this.trip.rooms[i].index === changed.roomIndex) {
         changed.newRoom.index = this.trip.rooms[i].index;
-        changed.newRoom.isSmokingRoom = this.trip.rooms[i].isSmokingRoom;
+        changed.newRoom.smokingRoom = this.trip.rooms[i].smokingRoom;
         this.trip.rooms[i] = Object.assign({}, changed.newRoom);
         break;
       }

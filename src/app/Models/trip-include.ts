@@ -1,4 +1,4 @@
-export class MockTripInclude {
+export class TripInclude {
     id: number;
     text: string;
     tourId: string;

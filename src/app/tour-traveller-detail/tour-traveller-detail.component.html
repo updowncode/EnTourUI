@@ -4,7 +4,7 @@
         <div style="border: 1px solid #ccc; padding:10px">
             <strong class="tecolor">Traveller Details</strong>
             <app-message></app-message>
-            <app-detail-for-traveller [traveller]="t" [index]="i" [availabledTitles]="availabledTitles" [availabledCountryOrAreas]="availabledCountryOrAreas"
+            <app-detail-for-traveller [traveller]="t" [index]="i"  [availabledCountryOrAreas]="availabledCountryOrAreas"
                 *ngFor="let t of travellers; let i = index"></app-detail-for-traveller>
             <div class="text-right">
                 <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoReviewPayment()">Continue</button>

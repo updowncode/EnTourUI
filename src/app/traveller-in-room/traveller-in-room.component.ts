@@ -47,7 +47,7 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
   newBedRoom: Room;
   subscription: Subscription;
 
-  constructor(private tourService: EnTourService) {}
+  constructor() {}
   ngOnDestroy() {}
   ngOnInit() {
     this.updateRoomInfo();
@@ -55,8 +55,8 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
   onBedConfigModelChange(roomIndex: number, newRoom: Room) {
     this.roomChangedTo.emit({ roomIndex: roomIndex, newRoom: newRoom });
   }
-  onSmokingSelectionChange(room: Room, isSmokingRoom: number) {
-    room.isSmokingRoom = isSmokingRoom;
+  onSmokingSelectionChange(room: Room, smokingRoom: number) {
+    room.smokingRoom = smokingRoom;
   }
   updateRoomInfo() {
     if (

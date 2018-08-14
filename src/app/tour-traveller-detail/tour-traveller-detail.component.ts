@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { Room } from "../Models/room";
 import { CountryOrArea } from "../Models/countryorarea";
-import { Title } from "../Models/title";
 import { slideInDownAnimation } from "../animations";
 @Component({
   selector: "app-tour-traveller-detail",
@@ -24,14 +23,7 @@ export class TourTravellerDetailComponent implements OnInit {
   tripId: string;
   travellers: Traveller[] = [];
   msg = "Loading Traveller Details ...";
-  availabledTitles: Title[] = [
-    { id: 1, name: "Mr" },
-    { id: 2, name: "Mrs" },
-    { id: 3, name: "Miss" },
-    { id: 4, name: "Ms" },
-    { id: 5, name: "Sir" },
-    { id: 6, name: "Dr" }
-  ];
+
   availabledCountryOrAreas: CountryOrArea[] = [
     { id: 1, name: "Canada", code: "CA" },
     { id: 2, name: "Unite States", code: "US" },

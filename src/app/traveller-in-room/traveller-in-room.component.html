@@ -42,7 +42,7 @@
       <label>&nbsp;</label>
       <div>
         <label>Non-smoking Room
-            <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.isSmokingRoom === 0" name="{{'isSmokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 0)">
+            <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.smokingRoom === 0" name="{{'smokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 0)">
         </label>
       </div>
     </div>
@@ -50,7 +50,7 @@
       <label>&nbsp;</label>
       <div>
         <label>Smoking Room
-            <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.isSmokingRoom === 1" name="{{'isSmokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 1)">
+            <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.smokingRoom === 1" name="{{'smokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 1)">
         </label>
       </div>
     </div>

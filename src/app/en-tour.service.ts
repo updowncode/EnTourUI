@@ -8,11 +8,6 @@ import { MockTours } from "./Models/mock-tours";
 import { Trip } from "./Models/trip";
 import { Quantity } from "./Models/quantity";
 import { Room } from "./Models/room";
-import { MockIncludeIns } from "./Models/mock-include-in";
-import { MockNotIncludeIns } from "./Models/mock-not-include-in";
-import { MockTripInclude } from "./Models/mock-trip-include";
-import { MockRooms } from "./Models/mock-rooms";
-import { MockOptions } from "./Models/mock-options";
 import { Option } from "./Models/option";
 import { MockTourInfoSource } from "./Models/mock-tour-info-source";
 import { Traveller } from "./Models/traveller";
@@ -39,7 +34,6 @@ export class EnTourService {
   private roomsCanbeMovedTo = new BehaviorSubject<Boolean>(false);
   roomsCanbeMovedTo$ = this.roomsCanbeMovedTo.asObservable();
   private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
-  private createtour = "https://b2b.toureast.com/api/createhero";
   private headers = new Headers({ "Content-Type": "application/json" });
   private selectedTrip: Trip;
   constructor(
@@ -162,24 +156,9 @@ export class EnTourService {
   getToursMockDataById(id: string): Tour {
     return MockTours.find(c => c.id === id);
   }
-
-  getOptions(tourId: string, tripId: string): Option[] {
-    return MockOptions.filter(c => c.tourId === tourId && c.tripId === tripId);
-  }
   getTourInfoSource(): string[] {
     return MockTourInfoSource;
   }
-  // getIncludeIn(tourId: string, tripId: string): MockTripInclude[] {
-  //   return MockIncludeIns.filter(
-  //     c => c.tourId === tourId && c.tripId === tripId
-  //   );
-  // }
-
-  // getNotIncludeIn(tourId: string, tripId: string): MockTripInclude[] {
-  //   return MockNotIncludeIns.filter(
-  //     c => c.tourId === tourId && c.tripId === tripId
-  //   );
-  // }
   show() {
     this.visible = true;
   }
@@ -198,25 +177,6 @@ export class EnTourService {
     }
     return this.tour;
   }
-  // getAvailabledTravellerQuantities(tourId: string, tripId: string): Quantity[] {
-  //   this.travellerQuantities = Array<Quantity>();
-  //   for (let quantity = 1; quantity <= 30; quantity++) {
-  //     this.travellerQuantities.push(new Quantity(quantity, "Adult"));
-  //   }
-  //   // return of(this.travellerQuantities).pipe(delay(FETCH_LATENCY));
-  //   return this.travellerQuantities;
-  // }
-  // getAvailabledRoomQuantities(
-  //   tourId: string,
-  //   tripId: string,
-  //   travellerQuantity: Quantity
-  // ): Quantity[] {
-  //   this.roomQuantities = Array<Quantity>();
-  //   for (let quantity = 1; quantity <= 30; quantity++) {
-  //     this.roomQuantities.push(new Quantity(quantity, "Room"));
-  //   }
-  //   return this.roomQuantities;
-  // }
   getTrip(tourId: string, tripId: string): Observable<Trip> {
     if (this.trip == null) {
       this.trip = this.getTourMockData(tourId).trips.find(c => c.id === tripId);
@@ -273,7 +233,7 @@ export class EnTourService {
   }
   create(name: string): Promise<Tour> {
     return this.http
-      .post(this.createtour, JSON.stringify({ name: name }), {
+      .post(this.toursUrl, JSON.stringify({ name: name }), {
         headers: this.headers
       })
       .toPromise()
