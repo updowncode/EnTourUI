@@ -8,8 +8,8 @@
           <strong style="font-size:18px;">Total number of travellers:</strong>
         </div>
         <div class="col-md-2 text-right">
-          <select class="form-control" [compareWith]="compareFn" [ngModel]="selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
-            <ng-container *ngFor="let q of availabledTravellerQuantities">
+          <select class="form-control" *ngIf="trip" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
+            <ng-container *ngFor="let q of trip.availabledTravellerQuantities">
               <option [ngValue]="q">{{q.id}}</option>
             </ng-container>
           </select>
@@ -23,8 +23,8 @@
           <div>How many hotel rooms do you require?</div>
         </div>
         <div class="col-md-2 text-right">
-          <select style="margin-top:10px;" class="form-control" [compareWith]="compareFn" [ngModel]="selectedRoomQuantity" (ngModelChange)="roomChange($event)">
-            <ng-container *ngFor="let q of availabledRoomQuantities">
+          <select style="margin-top:10px;"*ngIf="trip" class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedRoomQuantity" (ngModelChange)="roomChange($event)">
+            <ng-container *ngFor="let q of trip.availabledRoomQuantities">
               <option [ngValue]="q">{{q.id}}</option>
             </ng-container>
           </select>

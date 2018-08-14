@@ -57,30 +57,11 @@ export class TourTravellerComponent implements OnInit {
       this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
       this.tourService.shareTour(this.tour);
       this.tourService.shareTrip(this.trip);
-      this.selectedTravellerQuantity = this.trip.selectedTravellerQuantity;
-      this.selectedRoomQuantity = this.trip.selectedRoomQuantity;
-      this.availabledTravellerQuantities = this.trip.availabledTravellerQuantities;
-      this.availabledRoomQuantities = this.trip.availabledRoomQuantities;
       if (this.trip.rooms.length === 0) {
         this.initTrip();
         this.tourService.updateRoomInfo();
       }
     });
-    // this.trip = this.tourService.retrieveTrip();
-    // if (this.trip === undefined) {
-    //   if (localStorage.getItem(this.tripId.toString()) != null) {
-    //     this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
-    //   } else {
-    //     this.router.navigate(["/tours"]);
-    //   }
-    // }
-    // if (this.trip.rooms.length === 0) {
-    //   this.initTrip();
-    //   localStorage.removeItem(this.tripId.toString());
-    //   localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    //   this.tourService.saveTrip(this.trip);
-    //   this.tourService.updateRoomInfo();
-    // }
   }
 
   initTrip() {
@@ -231,10 +212,11 @@ export class TourTravellerComponent implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
   goToOptions(): void {
-    localStorage.removeItem(this.tripId.toString());
-    localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.saveTrip(this.trip);
-
+    // localStorage.removeItem(this.tripId.toString());
+    // localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
+    // this.tourService.saveTrip(this.trip);
+    this.tourService.shareTour(this.tour);
+    this.tourService.shareTrip(this.trip);
     this.router.navigate(["/options"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });

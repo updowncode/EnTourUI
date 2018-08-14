@@ -23,21 +23,16 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
   totalPriceSubscription: Subscription;
   private eventTotalPrice = new BehaviorSubject<Boolean>(false);
   eventTotalPrice$ = this.eventTotalPrice.asObservable();
-  private _tour = new BehaviorSubject<Tour>(null);
-  tour$ = this._tour.asObservable();
-  private _trip = new BehaviorSubject<Trip>(null);
-  trip$ = this._trip.asObservable();
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService
   ) {
     this.tourService.tour$.subscribe(tour => {
       this.tour = tour;
-       this.tour$ = of(tour);
     });
     this.tourService.trip$.subscribe(trip => {
       this.trip = trip;
-      this.trip$ = of(trip);
     });
     this.subscription = tourService.updateRoomInfo$.subscribe(
       isRoomInfoUpdated => {
