@@ -17,6 +17,7 @@ import { Option } from "./Models/option";
 import { MockTourInfoSource } from "./Models/mock-tour-info-source";
 import { Traveller } from "./Models/traveller";
 import { HttpClient } from "@angular/common/http";
+import { SSL_OP_SINGLE_DH_USE } from "constants";
 const FETCH_LATENCY = 500;
 
 @Injectable()
@@ -53,6 +54,9 @@ export class EnTourService {
     });
     this.trip$.subscribe(trip => {
       this.trip = trip;
+      const tourIndex = this.tours.findIndex( tour => tour.trips.find( d => d.id === trip.id).id === trip.id);
+      const tripIndex = this.tours[tourIndex].trips.findIndex( d => d.id === trip.id);
+      this.tours[tourIndex].trips[tripIndex] = this.trip;
     });
   }
   public saveTours(value: Tour[]) {
