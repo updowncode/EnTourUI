@@ -10,6 +10,7 @@ import { Room } from "../Models/room";
 import { Trip } from "../Models/trip";
 import { EnTourService } from "../en-tour.service";
 import { Subscription } from "rxjs";
+import { Tour } from "../Models/tour";
 
 @Component({
   selector: "app-select-room",
@@ -24,7 +25,7 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
   @Output() removeRoom = new EventEmitter<Room>();
   bedRoomsForSelectedTravellers: Room[];
   roomsMoveTo: Room[];
-  availabledRooms: Room[];
+  availabledRooms: Room[] = [];
   capacities: number[];
   maxCapacity: number;
 
@@ -43,10 +44,8 @@ export class SelectRoomComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
-    this.availabledRooms = this.tourService.getRooms(
-      this.trip.tourId,
-      this.trip.id
-    );
+    this.availabledRooms =  Object.assign([], this.trip.availabledRooms);
+    // this.availabledRooms = Object.assign([], this.trip.availabledRooms);
     this.capacities = this.tourService.getRoomCapacities(this.availabledRooms);
     this.maxCapacity = Math.max(...this.capacities);
     this.updateRoomsCanbeMovedTo();

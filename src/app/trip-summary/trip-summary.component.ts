@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
-import { Subscription } from "rxjs";
+import { Subscription, BehaviorSubject, of } from "rxjs";
 
 @Component({
   selector: "app-trip-summary",
@@ -20,11 +20,25 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
   totalOptionPrice = 0;
   totalVisaPrice = 0;
   subscription: Subscription;
-
+  totalPriceSubscription: Subscription;
+  private eventTotalPrice = new BehaviorSubject<Boolean>(false);
+  eventTotalPrice$ = this.eventTotalPrice.asObservable();
+  private _tour = new BehaviorSubject<Tour>(null);
+  tour$ = this._tour.asObservable();
+  private _trip = new BehaviorSubject<Trip>(null);
+  trip$ = this._trip.asObservable();
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService
   ) {
+    this.tourService.tour$.subscribe(tour => {
+      this.tour = tour;
+       this.tour$ = of(tour);
+    });
+    this.tourService.trip$.subscribe(trip => {
+      this.trip = trip;
+      this.trip$ = of(trip);
+    });
     this.subscription = tourService.updateRoomInfo$.subscribe(
       isRoomInfoUpdated => {
         if (isRoomInfoUpdated) {
@@ -32,22 +46,19 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.totalPriceSubscription = this.eventTotalPrice$.subscribe(
+      isReadyToCalculateTotalPrice => {
+        if (isReadyToCalculateTotalPrice) {
+          this.totalPrice = this.getTotalPrice();
+        }
+      }
+    );
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.totalPriceSubscription.unsubscribe();
   }
-  ngOnInit() {
-    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
-    this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.tour = this.tourService.getToursMockDataById(this.tourId);
-    this.trip = this.tourService.retrieveTrip();
-    if (this.trip === undefined) {
-      if (localStorage.getItem(this.tripId.toString()) != null) {
-        this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
-      }
-    }
-    this.totalPrice = this.getTotalPrice();
-  }
+  ngOnInit() { }
   getTotalPrice(): number {
     this.totalPrice = 0;
     this.totalRoomPrice = 0;
@@ -56,7 +67,8 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
     if (this.trip !== undefined) {
       for (let i = 0; i < this.trip.rooms.length; i++) {
         this.totalRoomPrice +=
-          this.trip.rooms[i].roomPrice * this.trip.rooms[i].travellers.length;
+          this.trip.rooms[i].roomPriceForPerTraveller *
+          this.trip.rooms[i].travellers.length;
       }
       for (let i = 0; i < this.trip.rooms.length; i++) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {

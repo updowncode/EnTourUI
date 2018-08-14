@@ -6,8 +6,8 @@
 <div class="row">
   <div class="col-md-12">
     <div style="background-color:#eee; padding-top:1em;padding-left: 1em; padding-right: 1em;">
-      <strong style="font-size:18px;">{{tour.name}}</strong>
-      <div>{{trip.name}}</div>
+      <strong style="font-size:18px;">{{tour$.name}}</strong>
+      <div *ngIf="trip">{{trip.name}}</div>
       <br>
       <table style="width:100%;">
         <tr>
@@ -15,7 +15,7 @@
             <em class="fa fa-star colour">&nbsp;</em>
           </td>
           <td style="width:20%;padding-top: 2px;">Start:</td>
-          <td style="text-align: right;width:80%;">{{trip.startPlace}}</td>
+          <td style="text-align: right;width:80%;"*ngIf="trip">{{trip.startPlace.substring(0,8)}}</td>
         </tr>
       </table>
       <table style="width:100%;">
@@ -24,7 +24,7 @@
             <em class="fa fa-star colour">&nbsp;</em>
           </td>
           <td style="width:20%;padding-top: 2px;">End:</td>
-          <td style="text-align: right;width:80%;">{{trip.endPlace}}</td>
+          <td style="text-align: right;width:80%;"*ngIf="trip">{{trip.endPlace}}</td>
         </tr>
       </table>
       <table style="width:100%;">
@@ -33,14 +33,14 @@
             <em class="fa fa-calendar colour">&nbsp;</em>
           </td>
           <td style="width:20%;padding-top: 2px;">Departure:</td>
-          <td style="text-align: right;width:80%;">{{trip.startDate}}</td>
+          <td style="text-align: right;width:80%;"*ngIf="trip">{{trip.startDate}}</td>
         </tr>
       </table>
       <hr />
       <table style="width:100%;">
         <tr>
           <td style="width:90%">Number of Travellers:</td>
-          <td style="text-align: right;width:10%;">{{trip.selectedTravellerQuantity.id}}</td>
+          <td style="text-align: right;width:10%;"*ngIf="trip">{{trip.selectedTravellerQuantity.id}}</td>
         </tr>
       </table>
       <hr />

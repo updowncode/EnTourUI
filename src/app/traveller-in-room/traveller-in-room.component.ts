@@ -21,30 +21,37 @@ import { Subscription } from "rxjs";
   animations: [slideInDownAnimation]
 })
 export class TravellerInRoomComponent implements OnInit, OnDestroy {
-  @HostBinding("@routeAnimation") routeAnimation = true;
-  @HostBinding("style.display") display = "block";
-  @HostBinding("style.position") position = "related";
-  @Input() traveller: Traveller;
-  @Input() room: Room;
-  @Input() trip: Trip;
-  @Input() roomIndex: number;
-  @Input() roomsMoveTo: Room[];
-  @Input() bedRoomsForSelectedTravellers: Room[];
-  @Output() roomMovedTo = new EventEmitter<boolean>();
-  @Output() roomChangedTo = new EventEmitter<any>();
+  @HostBinding("@routeAnimation")
+  routeAnimation = true;
+  @HostBinding("style.display")
+  display = "block";
+  @HostBinding("style.position")
+  position = "related";
+  @Input()
+  traveller: Traveller;
+  @Input()
+  room: Room;
+  @Input()
+  trip: Trip;
+  @Input()
+  roomIndex: number;
+  @Input()
+  roomsMoveTo: Room[];
+  @Input()
+  bedRoomsForSelectedTravellers: Room[];
+  @Output()
+  roomMovedTo = new EventEmitter<boolean>();
+  @Output()
+  roomChangedTo = new EventEmitter<any>();
   showRoomInfo: boolean;
-  availabledRooms: Room[];
+  availabledRooms: Room[] = [];
   newBedRoom: Room;
   subscription: Subscription;
 
   constructor(private tourService: EnTourService) {}
   ngOnDestroy() {}
   ngOnInit() {
-    this.availabledRooms = this.tourService.getRooms(
-      this.room.tourId,
-      this.room.tripId
-    );
-
+    this.availabledRooms = Object.assign([], this.trip.availabledRooms);
     this.updateRoomInfo();
   }
   onBedConfigModelChange(roomIndex: number, newRoom: Room) {

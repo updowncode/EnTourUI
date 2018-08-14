@@ -8,8 +8,8 @@
           <strong style="font-size:18px;">Total number of travellers:</strong>
         </div>
         <div class="col-md-2 text-right">
-          <select class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
-            <ng-container *ngFor="let q of trip.availabledTravellerQuantities">
+          <select class="form-control" [compareWith]="compareFn" [ngModel]="selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
+            <ng-container *ngFor="let q of availabledTravellerQuantities">
               <option [ngValue]="q">{{q.id}}</option>
             </ng-container>
           </select>
@@ -23,16 +23,16 @@
           <div>How many hotel rooms do you require?</div>
         </div>
         <div class="col-md-2 text-right">
-          <select style="margin-top:10px;" class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedRoomQuantity" (ngModelChange)="roomChange($event)">
-            <ng-container *ngFor="let q of trip.availabledRoomQuantities">
+          <select style="margin-top:10px;" class="form-control" [compareWith]="compareFn" [ngModel]="selectedRoomQuantity" (ngModelChange)="roomChange($event)">
+            <ng-container *ngFor="let q of availabledRoomQuantities">
               <option [ngValue]="q">{{q.id}}</option>
             </ng-container>
           </select>
         </div>
       </div>
       <br />
-      <app-billing-info [billingInfo]="trip.billingInfo"></app-billing-info>
-      <div *ngIf="trip.rooms">
+      <app-billing-info  *ngIf="trip" [billingInfo]="trip.billingInfo"></app-billing-info>
+      <div *ngIf="trip">
         <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" (removeRoom)="onRemoveRoom(room)" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-select-room>
       </div>
       <br />

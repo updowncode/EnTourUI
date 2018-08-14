@@ -20,9 +20,12 @@ import { Subscription } from "rxjs";
   animations: [slideInDownAnimation]
 })
 export class TourTravellerComponent implements OnInit {
-  @HostBinding("@routeAnimation") routeAnimation = true;
-  @HostBinding("style.display") display = "block";
-  @HostBinding("style.position") position = "related";
+  @HostBinding("@routeAnimation")
+  routeAnimation = true;
+  @HostBinding("style.display")
+  display = "block";
+  @HostBinding("style.position")
+  position = "related";
   trip: Trip;
   tour: Tour;
   tourId: string;
@@ -31,6 +34,10 @@ export class TourTravellerComponent implements OnInit {
   capacities: number[];
   availabledRooms: Room[];
   minDefaultRoomQuantity: number;
+  selectedTravellerQuantity: Quantity;
+  availabledTravellerQuantities: Quantity[];
+  selectedRoomQuantity: Quantity;
+  availabledRoomQuantities: Quantity[];
 
   constructor(
     private tourService: EnTourService,
@@ -42,37 +49,42 @@ export class TourTravellerComponent implements OnInit {
     this.msg = "";
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.trip = this.tourService.retrieveTrip();
-    if (this.trip === undefined) {
-      if (localStorage.getItem(this.tripId.toString()) != null) {
-        this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
-      } else {
-        this.router.navigate(["/tours"]);
+    this.tourService.getToursAsync().subscribe((tours: Tour[]) => {
+      this.tour = Object.assign(
+        {},
+        tours.find(tour => tour.id === this.tourId)
+      );
+      this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
+      this.tourService.shareTour(this.tour);
+      this.tourService.shareTrip(this.trip);
+      this.selectedTravellerQuantity = this.trip.selectedTravellerQuantity;
+      this.selectedRoomQuantity = this.trip.selectedRoomQuantity;
+      this.availabledTravellerQuantities = this.trip.availabledTravellerQuantities;
+      this.availabledRoomQuantities = this.trip.availabledRoomQuantities;
+      if (this.trip.rooms.length === 0) {
+        this.initTrip();
+        this.tourService.updateRoomInfo();
       }
-    }
-    if (this.trip.rooms.length === 0) {
-      this.initTrip();
-      localStorage.removeItem(this.tripId.toString());
-      localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-      this.tourService.saveTrip(this.trip);
-      this.tourService.updateRoomInfo();
-    }
+    });
+    // this.trip = this.tourService.retrieveTrip();
+    // if (this.trip === undefined) {
+    //   if (localStorage.getItem(this.tripId.toString()) != null) {
+    //     this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
+    //   } else {
+    //     this.router.navigate(["/tours"]);
+    //   }
+    // }
+    // if (this.trip.rooms.length === 0) {
+    //   this.initTrip();
+    //   localStorage.removeItem(this.tripId.toString());
+    //   localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
+    //   this.tourService.saveTrip(this.trip);
+    //   this.tourService.updateRoomInfo();
+    // }
   }
 
   initTrip() {
-    this.trip.billingInfo = new BillingInfo();
-    this.trip.tourInfoSource = "";
-    this.trip.availabledTravellerQuantities = this.tourService.getAvailabledTravellerQuantities(
-      this.tourId,
-      this.tripId
-    );
-    this.trip.availabledRoomQuantities = this.tourService.getAvailabledRoomQuantities(
-      this.tourId,
-      this.tripId,
-      this.trip.availabledTravellerQuantities[0]
-    );
-
-    this.availabledRooms = this.tourService.getRooms(this.tourId, this.tripId);
+    this.availabledRooms = Object.assign([], this.trip.availabledRooms);
     this.capacities = this.tourService.getRoomCapacities(this.availabledRooms);
     this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
       this.trip.tripCostForDefaultTravellerQuantity - 1
@@ -92,6 +104,25 @@ export class TourTravellerComponent implements OnInit {
     // this.trip.rooms[0].travellers[0].selectedOptions = new Array<Option>();
     // this.trip.rooms[0].travellers[0].selectedOptions.push(ops[0]);
     this.tourService.updateRoomInfo();
+  }
+  defaultRoomQuantity(
+    selectedTravellerQuantity: Quantity,
+    availabledRoomQuantities: Quantity[],
+    availabledRooms: Room[]
+  ): Quantity {
+    let pointer = 0;
+    const maxCapacity = Math.max(...this.capacities);
+    if (selectedTravellerQuantity.id > maxCapacity) {
+      let remained = selectedTravellerQuantity.id;
+      do {
+        pointer++;
+        remained -= maxCapacity;
+      } while (remained > maxCapacity);
+    }
+    return availabledRoomQuantities[pointer];
+  }
+  clearRooms() {
+    this.trip.rooms = new Array<Room>();
   }
   onRoomCanbeMovedTo(needUpdate: boolean) {
     if (needUpdate) {
@@ -208,25 +239,7 @@ export class TourTravellerComponent implements OnInit {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
   }
-  defaultRoomQuantity(
-    selectedTravellerQuantity: Quantity,
-    availabledRoomQuantities: Quantity[],
-    availabledRooms: Room[]
-  ): Quantity {
-    let pointer = 0;
-    const maxCapacity = Math.max(...this.capacities);
-    if (selectedTravellerQuantity.id > maxCapacity) {
-      let remained = selectedTravellerQuantity.id;
-      do {
-        pointer++;
-        remained -= maxCapacity;
-      } while (remained > maxCapacity);
-    }
-    return availabledRoomQuantities[pointer];
-  }
-  clearRooms() {
-    this.trip.rooms = new Array<Room>();
-  }
+
   travellerChange(newValue: Quantity) {
     this.trip.selectedTravellerQuantity = newValue;
     this.clearRooms();
@@ -269,8 +282,10 @@ export class TourTravellerComponent implements OnInit {
       for (let i = 0; i < appendEmptyRoomsQuantity; i++) {
         for (let j = 0; j < this.availabledRooms.length; j++) {
           if (
-            this.availabledRooms[j].roomPrice ===
-            Math.min(...this.availabledRooms.map(c => c.roomPrice))
+            this.availabledRooms[j].roomPriceForPerTraveller ===
+            Math.min(
+              ...this.availabledRooms.map(c => c.roomPriceForPerTraveller)
+            )
           ) {
             const newRoom = this.createNewRoom(this.availabledRooms[j].id);
             newRoom.travellers = new Array<Traveller>();

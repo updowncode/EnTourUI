@@ -26,25 +26,18 @@ export class TourDetailComponent implements OnInit {
   ngOnInit(): void {
     this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
     this.tourService.getToursAsync().subscribe((tours: Tour[]) => {
+      this.tourService.saveTours(tours);
       this.tour = Object.assign(
         {},
         tours.find(tour => tour.id === this.tourId)
       );
-      // this.tour = this.tourService.getToursMockDataById(this.tourId);
       this.initTrip();
-      this.onSelectTrip(this.tour.trips[0]);
     });
   }
   initTrip() {
     if (this.tour.trips != null) {
       this.trip = Object.assign({}, this.tour.trips[0]);
-      this.tour.trips.forEach(trip => {
-        trip.notIncludeIn = this.tourService.getNotIncludeIn(
-          trip.tourId,
-          trip.id
-        );
-        trip.includedIn = this.tourService.getIncludeIn(trip.tourId, trip.id);
-      });
+      this.onSelectTrip(this.tour.trips[0]);
     }
   }
   onSelectTrip(trip: Trip) {

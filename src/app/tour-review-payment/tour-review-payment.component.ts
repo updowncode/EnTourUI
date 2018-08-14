@@ -48,8 +48,8 @@ export class TourReviewPaymentComponent implements OnInit {
     this.msg = "";
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.tour = this.tourService.getToursMockDataById(this.tourId);
-    this.trip = this.tourService.retrieveTrip();
+    this.tour = this.tourService.tour; // getToursMockDataById(this.tourId);
+    this.trip = this.tourService.tour.trips.find( c => c.id === this.tripId); // .retrieveTrip();
     if (this.trip === undefined) {
       if (localStorage.getItem(this.tripId.toString()) != null) {
         this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
@@ -105,7 +105,7 @@ export class TourReviewPaymentComponent implements OnInit {
       this.perVisaPrice = this.trip.visaPrice;
       for (let i = 0; i < this.trip.rooms.length; i++) {
         this.totalRoomPrice +=
-          this.trip.rooms[i].roomPrice * this.trip.rooms[i].travellers.length;
+          this.trip.rooms[i].roomPriceForPerTraveller * this.trip.rooms[i].travellers.length;
       }
       for (let i = 0; i < this.trip.rooms.length; i++) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {

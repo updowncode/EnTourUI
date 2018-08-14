@@ -2,7 +2,8 @@
     <mat-card class="col-md-4" *ngFor="let tour of tours$ | async">
         <mat-card-content>
             <h4>{{tour.name}}</h4>
-            <a class="btn btn-primary" [routerLink]="['/detail', tour.id]" target="_blank">
+            <a class="btn btn-primary" [routerLink]="['/detail', tour.id]">
+                 <!-- target="_blank" -->
                 Select
             </a>
         </mat-card-content>

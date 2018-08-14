@@ -29,6 +29,7 @@ export const MockTours: Tour[] = [
         includedIn: [],
         options: [],
         rooms: [],
+        availabledRooms: [],
         tourId: "1"
       },
       {
@@ -54,6 +55,7 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
+        availabledRooms: [],
         tourId: "1"
       }
     ]
@@ -87,6 +89,7 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
+        availabledRooms: [],
         tourId: "2"
       }
     ]
@@ -120,6 +123,7 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
+        availabledRooms: [],
         tourId: "3"
       }
     ]
@@ -153,6 +157,7 @@ export const MockTours: Tour[] = [
         notIncludeIn: [],
         options: [],
         rooms: [],
+        availabledRooms: [],
         tourId: "4"
       }
     ]

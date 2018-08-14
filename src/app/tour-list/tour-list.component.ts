@@ -25,7 +25,9 @@ export class TourListComponent implements OnInit {
   constructor(public tourService: EnTourService) {}
 
   ngOnInit() {
-    this.tourService.getTours().then( tours => this.tours$ = of(tours));
-  //  this.tours$ = of(this.tourService.getToursMockData());
+    this.tours$ = this.tourService.getToursAsync();
+    this.tours$.subscribe(tours => {
+      this.tourService.saveTours(tours);
+    });
   }
 }

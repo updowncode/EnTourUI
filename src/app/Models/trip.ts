@@ -27,6 +27,7 @@ export class Trip {
   includedIn: MockTripInclude[];
   notIncludeIn: MockTripInclude[];
   options: Option[];
+  availabledRooms: Room[];
   rooms: Room[];
   tourId: string;
 }
