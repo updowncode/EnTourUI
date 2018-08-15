@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { Headers, Http } from "@angular/http";
-import { of, Observable, BehaviorSubject, Subject } from "rxjs";
-import { map, delay } from "rxjs/operators";
+import { of, Observable, BehaviorSubject, Subject, Subscription } from "rxjs";
+import { map, delay, switchMap } from "rxjs/operators";
 import { MessageService } from "./message.service";
 import { Tour } from "./Models/tour";
 import { MockTours } from "./Models/mock-tours";
@@ -14,40 +14,35 @@ import { HttpClient } from "@angular/common/http";
 const FETCH_LATENCY = 500;
 
 @Injectable()
-export class EnTourService {
-  tours: Tour[] = [];
-
-  tour: Tour;
-  trip: Trip;
-  rooms: Room[];
-  availabledRooms: Room[];
-  visible: boolean;
-  travellerQuantities = Array<Quantity>();
-  roomQuantities = Array<Quantity>();
-  private tourSelected = new BehaviorSubject<Tour>(null);
-  private tripSelected = new BehaviorSubject<Trip>(null);
-  trip$ = this.tripSelected.asObservable();
-  tour$ = this.tourSelected.asObservable();
-  private roomInfoUpdated = new BehaviorSubject<Boolean>(false);
-  updateRoomInfo$ = this.roomInfoUpdated.asObservable();
-  private roomsCanbeMovedTo = new BehaviorSubject<Boolean>(false);
-  roomsCanbeMovedTo$ = this.roomsCanbeMovedTo.asObservable();
+export class EnTourService implements OnDestroy {
+  private tours: Tour[] = [];
+  private tour: Tour;
+  private trip: Trip;
   private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   private headers = new Headers({ "Content-Type": "application/json" });
-  private selectedTrip: Trip;
+  private tourSelected = new BehaviorSubject<Tour>(null);
+  private tripSelected = new BehaviorSubject<Trip>(null);
+  private roomInfoUpdated = new BehaviorSubject<Boolean>(false);
+  private roomsCanbeMovedTo = new BehaviorSubject<Boolean>(false);
+  trip$ = this.tripSelected.asObservable();
+  tour$ = this.tourSelected.asObservable();
+  updateRoomInfo$ = this.roomInfoUpdated.asObservable();
+  roomsCanbeMovedTo$ = this.roomsCanbeMovedTo.asObservable();
+  toursSubscription: Subscription;
+  tourSubscription: Subscription;
+  tripSubscription: Subscription;
   constructor(
     private http: Http,
     private messageService: MessageService,
     private httpClient: HttpClient
   ) {
-    this.visible = false;
-    this.tour$.subscribe(tour => {
+    this.tourSubscription = this.tour$.subscribe(tour => {
       this.tour = tour;
     });
-    this.trip$.subscribe(trip => {
+    this.tripSubscription = this.trip$.subscribe(trip => {
       this.trip = trip;
       if (trip) {
-        this.getToursAsync().subscribe(tours => {
+        this.toursSubscription = this.getToursAsync().subscribe(tours => {
           this.tours = tours;
           const tourIndex = this.tours.findIndex(
             tour => tour.trips.find(d => d.id === trip.id).id === trip.id
@@ -60,11 +55,17 @@ export class EnTourService {
       }
     });
   }
+  ngOnDestroy() {
+    this.toursSubscription.unsubscribe();
+    this.tourSubscription.unsubscribe();
+    this.tripSubscription.unsubscribe();
+  }
   public saveTours(value: Tour[]) {
     this.tours = Object.assign([], value);
   }
   getToursAsync(): Observable<Tour[]> {
     if (this.tours.length === 0) {
+      // return of(MockTours);
       return this.httpClient.get<Tour[]>(this.toursUrl);
     } else {
       return of(this.tours);
@@ -72,6 +73,7 @@ export class EnTourService {
   }
   getTourById(tourId: string): Observable<Tour> {
     if (this.tours.length === 0) {
+      // return of(MockTours.find(c => c.id === tourId));
       return this.httpClient.get<Tour[]>(this.toursUrl).pipe(
         map((response: Tour[]) => {
           return response.find(tour => tour.id === tourId);
@@ -85,13 +87,7 @@ export class EnTourService {
       );
     }
   }
-  public saveTrip(value: Trip) {
-    this.selectedTrip = value;
-  }
-  public retrieveTrip() {
-    return this.selectedTrip;
-  }
-  public setupTravellers(rooms: Room[]): Traveller[] {
+  setupTravellers(rooms: Room[]): Traveller[] {
     const travellers = [];
     rooms.forEach((c: Room) => {
       if (c.travellers != null) {
@@ -102,10 +98,10 @@ export class EnTourService {
     });
     return travellers;
   }
-  public updateRoomInfo() {
+  updateRoomInfo() {
     this.roomInfoUpdated.next(true);
   }
-  public updateRoomsCanbeMovedTo() {
+  updateRoomsCanbeMovedTo() {
     this.roomsCanbeMovedTo.next(true);
   }
   getRoomsByTheTravellersInTheRoom(
@@ -152,14 +148,13 @@ export class EnTourService {
       return roomsFitSelectedTravellersQuantity;
     }
   }
-
-  shareTrip(trip: Trip) {
+  updateSelectedTrip(trip: Trip) {
     this.tripSelected.next(trip);
   }
-  shareTour(tour: Tour) {
+  updateSelectedTour(tour: Tour) {
     this.tourSelected.next(tour);
   }
-
+  //#region Promise usages
   private handleError(error: any): Promise<any> {
     console.error("An error occurred", error); // for demo purposes only
     this.messageService.clearMessage();
@@ -173,51 +168,6 @@ export class EnTourService {
     });
     return Promise.reject(error.message || error);
   }
-
-  getToursMockData(): Tour[] {
-    return MockTours;
-  }
-  getToursMockDataById(id: string): Tour {
-    return MockTours.find(c => c.id === id);
-  }
-
-  show() {
-    this.visible = true;
-  }
-  hide() {
-    this.visible = false;
-  }
-  setTrip(trip: Trip) {
-    this.trip = trip;
-  }
-  get Tour() {
-    return this.tour;
-  }
-  getTourMockData(id: string): Tour {
-    if (this.tour == null) {
-      return MockTours.find(c => c.id === id);
-    }
-    return this.tour;
-  }
-  getTrip(tourId: string, tripId: string): Observable<Trip> {
-    if (this.trip == null) {
-      this.trip = this.getTourMockData(tourId).trips.find(c => c.id === tripId);
-    }
-    return of(this.trip);
-  }
-
-  quotePrice(
-    tourId: string,
-    tripId: string,
-    travellerQuantity: number,
-    roomQuantity: number
-  ): Tour {
-    const tour = this.getTourMockData(tourId);
-    tour.trips = new Array<Trip>();
-    tour.trips.push(tour.trips.find(c => c.id === tripId));
-    return new Tour();
-  }
-
   getTours(): Promise<Tour[]> {
     return this.http
       .get(this.toursUrl)
@@ -234,18 +184,7 @@ export class EnTourService {
       .then(response => response.json() as Tour)
       .catch(this.handleError);
   }
-
-  getMockTours() {
-    return of(MockTours);
-  }
-
-  getMockTour(id: string) {
-    return this.getMockTours().pipe(
-      // (+) before `id` turns the string into a number
-      map(tours => tours.find(tour => tour.id === id))
-    );
-  }
-  update(tour: Tour): Promise<Tour> {
+  updateTour(tour: Tour): Promise<Tour> {
     const url = `${this.toursUrl}/${tour.id}`;
     return this.http
       .put(url, JSON.stringify(tour), { headers: this.headers })
@@ -253,7 +192,7 @@ export class EnTourService {
       .then(() => tour)
       .catch(this.handleError);
   }
-  create(name: string): Promise<Tour> {
+  createTour(name: string): Promise<Tour> {
     return this.http
       .post(this.toursUrl, JSON.stringify({ name: name }), {
         headers: this.headers
@@ -262,7 +201,7 @@ export class EnTourService {
       .then(res => res.json() as Tour)
       .catch(this.handleError);
   }
-  delete(id: number): Promise<void> {
+  deleteTour(id: number): Promise<void> {
     const url = `${this.toursUrl}/${id}`;
     return this.http
       .delete(url, { headers: this.headers })
@@ -270,4 +209,5 @@ export class EnTourService {
       .then(() => null)
       .catch(this.handleError);
   }
+  //#endregion
 }

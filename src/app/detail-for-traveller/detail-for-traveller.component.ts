@@ -13,7 +13,7 @@ import { EnTourService } from "../en-tour.service";
   styleUrls: ["./detail-for-traveller.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class DetailForTravellerComponent implements OnInit {
+export class DetailForTravellerComponent {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -34,7 +34,4 @@ export class DetailForTravellerComponent implements OnInit {
   availabledCountryOrAreas: CountryOrArea[];
   @Input()
   availabledTitle: string[];
-  constructor() {}
-
-  ngOnInit() {}
 }

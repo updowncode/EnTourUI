@@ -1,22 +1,24 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { BillingInfo } from '../Models/billing-info';
-import { CountryOrArea } from '../Models/countryorarea';
+import { Component, OnInit, Input } from "@angular/core";
+import { CountryOrArea } from "../Models/countryorarea";
+import { Tour } from "../Models/tour";
+import { Trip } from "../Models/trip";
 
 @Component({
-  selector: 'app-billing-info',
-  templateUrl: './billing-info.component.html',
-  styleUrls: ['./billing-info.component.sass']
+  selector: "app-billing-info",
+  templateUrl: "./billing-info.component.html",
+  styleUrls: ["./billing-info.component.sass"]
 })
 export class BillingInfoComponent implements OnInit {
-  @Input() billingInfo: BillingInfo;
-  availabledCountryOrAreas: CountryOrArea[] = [
-    { id: 1, name: "Canada", code: "CA" },
-    { id: 2, name: "Unite States", code: "US" },
-    { id: 3, name: "China", code: "CN" }
-  ];
-  constructor() { }
+  @Input()
+  trip: Trip;
+  @Input()
+  tour: Tour;
+  constructor() {}
 
   ngOnInit() {
+    this.tour.availabledCountryOrAreas = [
+      { id: -1, code: "", name: "" },
+      ...this.tour.availabledCountryOrAreas
+    ];
   }
-
 }

@@ -7,10 +7,9 @@ import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
 import { Traveller } from "../Models/traveller";
 import { Quantity } from "../Models/quantity";
-import { BillingInfo } from "../Models/billing-info";
-import { Option } from "../Models/option";
 import { Room } from "../Models/room";
 import { Passport } from "../Models/passport";
+import { CountryOrArea } from "../Models/countryorarea";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -19,7 +18,7 @@ import { Subscription } from "rxjs";
   styleUrls: ["./tour-traveller.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class TourTravellerComponent implements OnInit {
+export class TourTravellerComponent implements OnInit, OnDestroy {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -31,39 +30,44 @@ export class TourTravellerComponent implements OnInit {
   tourId: string;
   tripId: string;
   msg = "Loading Traveller ...";
-  selectedTravellerQuantity: Quantity;
-  availabledTravellerQuantities: Quantity[];
-  selectedRoomQuantity: Quantity;
-  availabledRoomQuantities: Quantity[];
+  paramSubscription: Subscription;
+  ToursSubscription: Subscription;
   maxCapacity: number;
   constructor(
     private tourService: EnTourService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {}
-
+  ngOnDestroy() {
+    this.paramSubscription.unsubscribe();
+    this.ToursSubscription.unsubscribe();
+  }
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.tourId = params.tourId;
-      this.tripId = params.tripId;
-      this.tourService.getToursAsync().subscribe((tours: Tour[]) => {
-        this.tour = Object.assign(
-          {},
-          tours.find(tour => tour.id === this.tourId)
-        );
-        this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
-        this.tourService.shareTour(this.tour);
-        this.tourService.shareTrip(this.trip);
-        this.maxCapacity = Math.max(
-          ...this.trip.availabledRooms.map(room => room.capacity)
-        );
-        if (this.trip.rooms.length === 0) {
-          this.initRooms();
-          this.tourService.updateRoomInfo();
-          this.msg = "";
-        }
-      });
-    });
+    this.paramSubscription = this.activatedRoute.queryParams.subscribe(
+      params => {
+        this.tourId = params.tourId;
+        this.tripId = params.tripId;
+        this.ToursSubscription = this.tourService
+          .getToursAsync()
+          .subscribe((tours: Tour[]) => {
+            this.tour = Object.assign(
+              {},
+              tours.find(tour => tour.id === this.tourId)
+            );
+            this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
+            this.tourService.updateSelectedTour(this.tour);
+            this.tourService.updateSelectedTrip(this.trip);
+            this.maxCapacity = Math.max(
+              ...this.trip.availabledRooms.map(room => room.capacity)
+            );
+            if (this.trip.rooms.length === 0) {
+              this.initRooms();
+              this.tourService.updateRoomInfo();
+            }
+            this.msg = "";
+          });
+      }
+    );
   }
   initRooms() {
     this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
@@ -190,7 +194,7 @@ export class TourTravellerComponent implements OnInit {
     traveller.passport.number = "";
     traveller.passport.issueDate = "";
     traveller.passport.expiryDate = "";
-    traveller.passport.issuePlace = { id: 1, name: "Canada", code: "CA" };
+    traveller.passport.issuePlace = new CountryOrArea();
     traveller.countryorarea = null;
     traveller.selectedOptions = null;
     traveller.needVisa = false;
@@ -229,7 +233,7 @@ export class TourTravellerComponent implements OnInit {
       return;
     } else if (newValue.id >= this.trip.selectedTravellerQuantity.id) {
       this.msg = "";
-      newValue.id = this.trip.selectedTravellerQuantity.id;
+      newValue = Object.assign({}, this.trip.selectedTravellerQuantity);
     } else if (newValue.id < this.trip.selectedTravellerQuantity.id) {
       this.msg = "";
     }
@@ -238,7 +242,7 @@ export class TourTravellerComponent implements OnInit {
       this.trip.selectedTravellerQuantity.id,
       this.trip.selectedRoomQuantity.id
     );
-    this.trip.selectedRoomQuantity = newValue;
+    this.trip.selectedRoomQuantity = Object.assign({}, newValue);
 
     const appendEmptyRoomsQuantity =
       this.trip.selectedRoomQuantity.id - this.trip.rooms.length;
@@ -261,25 +265,11 @@ export class TourTravellerComponent implements OnInit {
       this.assignRoomIndex();
     }
   }
-  assignTravellersId() {
-    let totalTravellers = 0;
-    for (let i = 0; i < this.trip.rooms.length; i++) {
-      for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-        totalTravellers++;
-      }
-    }
-    for (let i = 0; i < this.trip.rooms.length; i++) {
-      for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-        this.trip.rooms[i].travellers[j].id = totalTravellers--;
-      }
-    }
-  }
   goToOptions(): void {
-    // this.assignTravellersId();
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.shareTour(this.tour);
-    this.tourService.shareTrip(this.trip);
+    this.tourService.updateSelectedTour(this.tour);
+    this.tourService.updateSelectedTrip(this.trip);
     this.router.navigate(["/options"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });

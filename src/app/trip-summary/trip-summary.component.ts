@@ -19,7 +19,7 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
   totalRoomPrice = 0;
   totalOptionPrice = 0;
   totalVisaPrice = 0;
-  subscription: Subscription;
+  roomInfoSubscription: Subscription;
   totalPriceSubscription: Subscription;
   private eventTotalPrice = new BehaviorSubject<Boolean>(false);
   eventTotalPrice$ = this.eventTotalPrice.asObservable();
@@ -34,7 +34,7 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
     this.tourService.trip$.subscribe(trip => {
       this.trip = trip;
     });
-    this.subscription = tourService.updateRoomInfo$.subscribe(
+    this.roomInfoSubscription = tourService.updateRoomInfo$.subscribe(
       isRoomInfoUpdated => {
         if (isRoomInfoUpdated) {
           this.totalPrice = this.getTotalPrice();
@@ -50,7 +50,7 @@ export class TripSummaryComponent implements OnInit, OnDestroy {
     );
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.roomInfoSubscription.unsubscribe();
     this.totalPriceSubscription.unsubscribe();
   }
   ngOnInit() { }

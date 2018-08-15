@@ -36,7 +36,7 @@
         </div>
       </div>
       <br />
-      <app-billing-info *ngIf="trip" [billingInfo]="trip.billingInfo"></app-billing-info>
+      <app-billing-info *ngIf="tour" [tour]="tour" [trip]="trip"></app-billing-info>
       <div *ngIf="trip">
         <app-select-room [room]="room" [trip]="trip" [roomIndex]="room.index" (removeRoom)="onRemoveRoom(room)" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)"
           *ngFor="let room of trip.rooms"></app-select-room>

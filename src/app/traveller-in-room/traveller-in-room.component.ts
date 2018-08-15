@@ -20,7 +20,7 @@ import { Subscription } from "rxjs";
   styleUrls: ["./traveller-in-room.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class TravellerInRoomComponent implements OnInit, OnDestroy {
+export class TravellerInRoomComponent implements OnInit {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -47,8 +47,6 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
   newBedRoom: Room;
   subscription: Subscription;
 
-  constructor() {}
-  ngOnDestroy() {}
   ngOnInit() {
     this.updateRoomInfo();
   }
@@ -107,7 +105,24 @@ export class TravellerInRoomComponent implements OnInit, OnDestroy {
         this.trip.rooms[i].travellers.push(traveller);
       }
     }
+    for (let i = 0; i < this.trip.rooms.length; i++) {
+      for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+        this.trip.rooms[i].travellers[j].id =
+          this.totalTravellersBeforeRoom(i) + j;
+      }
+    }
 
     this.roomMovedTo.emit(true);
+  }
+  totalTravellersBeforeRoom(index: number): number {
+    let total = 0;
+    if (index > 0) {
+      for (let i = 0; i < index; i++) {
+        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          total++;
+        }
+      }
+    }
+    return total;
   }
 }

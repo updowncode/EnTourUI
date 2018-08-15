@@ -1,20 +1,22 @@
-import { Component, OnInit, Input, HostBinding } from "@angular/core";
+import { Component, OnInit, Input, HostBinding, OnDestroy } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { Tour } from "../Models/tour";
 import { slideInDownAnimation } from "../animations";
 import { Trip } from "../Models/trip";
+import { Subscription } from "rxjs";
 @Component({
   selector: "app-tour-detail",
   templateUrl: "./tour-detail.component.html",
   styleUrls: ["./tour-detail.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class TourDetailComponent implements OnInit {
+export class TourDetailComponent implements OnInit, OnDestroy {
   tour: Tour;
   trip: Trip;
   tourId: string;
   tripId: string;
+  ToursSubscription: Subscription;
   @HostBinding("@routeAnimation") routeAnimation = true;
   @HostBinding("style.display") display = "block";
   @HostBinding("style.position") position = "related";
@@ -23,20 +25,22 @@ export class TourDetailComponent implements OnInit {
     private tourService: EnTourService,
     private router: Router
   ) {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.tourId = params.tourId;
-    });
+
+  }
+  ngOnDestroy() {
+    this.ToursSubscription.unsubscribe();
   }
   ngOnInit(): void {
-    // this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
-    this.tourService.getToursAsync().subscribe((tours: Tour[]) => {
-      this.tourService.saveTours(tours);
-      this.tour = Object.assign(
-        {},
-        tours.find(tour => tour.id === this.tourId)
-      );
-      this.initTrips();
-    });
+    this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
+    this.ToursSubscription = this.tourService.getToursAsync().subscribe((tours: Tour[]) =>  this.onResult(tours));
+  }
+  onResult(tours: Tour[]) {
+    this.tourService.saveTours(tours);
+    this.tour = Object.assign(
+      {},
+      tours.find(tour => tour.id === this.tourId)
+    );
+    this.initTrips();
   }
   initTrips() {
     if (this.tour.trips != null) {

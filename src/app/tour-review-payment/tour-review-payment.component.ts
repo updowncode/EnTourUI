@@ -1,10 +1,11 @@
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
 import { Traveller } from "../Models/traveller";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { slideInDownAnimation } from "../animations";
+import { Subscription } from "rxjs";
 export class OptionSummary {
   name: string;
   price: number;
@@ -18,7 +19,7 @@ export class OptionSummary {
   styleUrls: ["./tour-review-payment.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class TourReviewPaymentComponent implements OnInit {
+export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -32,6 +33,7 @@ export class TourReviewPaymentComponent implements OnInit {
   travellers: Traveller[] = [];
   optionSummary: OptionSummary[] = [];
   msg = "Loading Review  ...";
+  ToursSubscription: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
@@ -45,18 +47,21 @@ export class TourReviewPaymentComponent implements OnInit {
   totalVisaQuantity = 0;
   totalVisaPrice = 0;
   tourInfoSources: string[] = ["", "Toronto Star", "Tour East Website"];
+  ngOnDestroy() {
+    this.ToursSubscription.unsubscribe();
+  }
   ngOnInit() {
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.tourService.getTourById(this.tourId).subscribe(t => {
+    this.ToursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
       const roomsLength = this.onResult(t);
       if (roomsLength === 0) {
         this.router.navigate(["/options"], {
           queryParams: { tourId: this.tourId, tripId: this.tripId }
         });
       } else {
-        this.tourService.shareTour(this.tour);
-        this.tourService.shareTrip(this.trip);
+        this.tourService.updateSelectedTour(this.tour);
+        this.tourService.updateSelectedTrip(this.trip);
         this.initTrip();
       }
     });
@@ -68,7 +73,7 @@ export class TourReviewPaymentComponent implements OnInit {
     if (this.trip.rooms.length === 0) {
       if (localStorage.getItem(this.tripId.toString()) != null) {
         const _trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
-        this.trip.rooms = Object.assign([], _trip.rooms);
+        this.trip = Object.assign({}, _trip);
         this.travellers = Object.assign(
           [],
           this.tourService.setupTravellers(this.trip.rooms)
@@ -150,8 +155,8 @@ export class TourReviewPaymentComponent implements OnInit {
   gotoPayment() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.saveTrip(this.trip);
-
+    this.tourService.updateSelectedTour(this.tour);
+    this.tourService.updateSelectedTrip(this.trip);
     this.router.navigate(["/travellerdetails"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });

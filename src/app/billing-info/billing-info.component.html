@@ -9,14 +9,15 @@
       <div class="row">
         <div class="col-md-6">
           <label for="firstname">First Name*</label>
-          <input type="text" class="form-control" id="firstName" required [(ngModel)]="billingInfo.firstName" name="firstName" #firstName="ngModel">
+          <input type="text" class="form-control" id="firstName" required [(ngModel)]="trip.billingInfo.firstName" name="firstName"
+            #firstName="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
             Name is required
           </div> -->
         </div>
         <div class="col-md-6">
           <label for="lastname">Last Name*</label>
-          <input type="text" class="form-control" id="lastName" required [(ngModel)]="billingInfo.lastName" name="lastName" #lastName="ngModel">
+          <input type="text" class="form-control" id="lastName" required [(ngModel)]="trip.billingInfo.lastName" name="lastName" #lastName="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
               Name is required
             </div> -->
@@ -25,35 +26,38 @@
       <div class="row">
         <div class="col-md-4">
           <label for="email">E-Mail*</label>
-          <input type="text" class="form-control" id="email" required [(ngModel)]="billingInfo.email" name="email" #email="ngModel">
+          <input type="text" class="form-control" id="email" required [(ngModel)]="trip.billingInfo.email" name="email" #email="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
               Name is required
             </div> -->
         </div>
         <div class="col-md-4">
           <label for="primaryPhone">Primary Phone*</label>
-          <input type="text" class="form-control" id="primaryPhone" required [(ngModel)]="billingInfo.primaryPhone" name="primaryPhone" #primaryPhone="ngModel">
+          <input type="text" class="form-control" id="primaryPhone" required [(ngModel)]="trip.billingInfo.primaryPhone" name="primaryPhone"
+            #primaryPhone="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                 Name is required
               </div> -->
         </div>
         <div class="col-md-4">
           <label for="secondaryPhone">Secondary Phone</label>
-          <input type="text" class="form-control" id="secondaryPhone" required [(ngModel)]="billingInfo.secondaryPhone" name="secondaryPhone" #secondaryPhone="ngModel">
+          <input type="text" class="form-control" id="secondaryPhone" required [(ngModel)]="trip.billingInfo.secondaryPhone" name="secondaryPhone"
+            #secondaryPhone="ngModel">
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-8">
           <label for="mailingAddress">Mailing Address*</label>
-          <input type="text" class="form-control" id="mailingAddress" required [(ngModel)]="billingInfo.mailingAddress" name="mailingAddress" #name="ngModel">
+          <input type="text" class="form-control" id="mailingAddress" required [(ngModel)]="trip.billingInfo.mailingAddress" name="mailingAddress"
+            #name="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
             Name is required
           </div> -->
         </div>
         <div class="col-md-4">
           <label for="city">City*</label>
-          <input type="text" class="form-control" id="city" required [(ngModel)]="billingInfo.city" name="city" #city="ngModel">
+          <input type="text" class="form-control" id="city" required [(ngModel)]="trip.billingInfo.city" name="city" #city="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
               Name is required
             </div> -->
@@ -62,10 +66,11 @@
       <div class="row">
         <div class="col-md-5">
           <label for="country">Country*</label>
-          <select class="form-control" [(ngModel)]="billingInfo.country">
-              <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
-                <option [ngValue]="countryorarea.id">{{countryorarea.name}}</option>
-              </ng-container>
+          <select class="form-control" [(ngModel)]="trip.billingInfo.country">
+            <ng-container *ngFor="let countryorarea of tour.availabledCountryOrAreas">
+              <option [ngValue]="countryorarea.id" *ngIf="countryorarea.id < 0">--Select--</option>
+              <option [ngValue]="countryorarea.id" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
+            </ng-container>
           </select>
           <!-- <input type="text" class="form-control" id="country" required [(ngModel)]="billingInfo.country" name="country" #country="ngModel"> -->
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
@@ -74,14 +79,16 @@
         </div>
         <div class="col-md-5">
           <label for="provinceStates">Province or State*</label>
-          <input type="text" class="form-control" id="provinceStates" required [(ngModel)]="billingInfo.provinceStates" name="provinceStates" #provinceStates="ngModel">
+          <input type="text" class="form-control" id="provinceStates" required [(ngModel)]="trip.billingInfo.provinceStates" name="provinceStates"
+            #provinceStates="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                 Name is required
               </div> -->
         </div>
         <div class="col-md-2">
           <label for="postalCode">Postal Code*</label>
-          <input type="text" class="form-control" id="postalCode" required [(ngModel)]="billingInfo.postalCode" name="postalCode" #postalCode="ngModel">
+          <input type="text" class="form-control" id="postalCode" required [(ngModel)]="trip.billingInfo.postalCode" name="postalCode"
+            #postalCode="ngModel">
           <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                   Name is required
                 </div> -->

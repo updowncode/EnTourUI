@@ -1,19 +1,17 @@
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
-import { Traveller } from "../Models/traveller";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
-import { Room } from "../Models/room";
-import { CountryOrArea } from "../Models/countryorarea";
 import { slideInDownAnimation } from "../animations";
+import { Subscription } from "rxjs";
 @Component({
   selector: "app-tour-traveller-detail",
   templateUrl: "./tour-traveller-detail.component.html",
   styleUrls: ["./tour-traveller-detail.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class TourTravellerDetailComponent implements OnInit {
+export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -25,24 +23,27 @@ export class TourTravellerDetailComponent implements OnInit {
   tourId: string;
   tripId: string;
   msg = "Loading Traveller Details ...";
+  ToursSubscription: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
     private router: Router
   ) {}
-
+  ngOnDestroy() {
+    this.ToursSubscription.unsubscribe();
+  }
   ngOnInit() {
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.tourService.getTourById(this.tourId).subscribe(t => {
+    this.ToursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
       const roomsLength = this.onResult(t);
       if (roomsLength === 0) {
         this.router.navigate(["/options"], {
           queryParams: { tourId: this.tourId, tripId: this.tripId }
         });
       } else {
-        this.tourService.shareTour(this.tour);
-        this.tourService.shareTrip(this.trip);
+        this.tourService.updateSelectedTour(this.tour);
+        this.tourService.updateSelectedTrip(this.trip);
       }
     });
   }
@@ -65,8 +66,8 @@ export class TourTravellerDetailComponent implements OnInit {
   gotoReviewPayment() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.shareTour(this.tour);
-    this.tourService.shareTrip(this.trip);
+    this.tourService.updateSelectedTour(this.tour);
+    this.tourService.updateSelectedTrip(this.trip);
     this.router.navigate(["/reviewpayment"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
