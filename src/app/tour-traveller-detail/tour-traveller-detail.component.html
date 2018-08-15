@@ -4,10 +4,14 @@
         <div style="border: 1px solid #ccc; padding:10px">
             <strong class="tecolor">Traveller Details</strong>
             <app-message></app-message>
-            <app-detail-for-traveller [traveller]="t" [index]="i"  [availabledCountryOrAreas]="availabledCountryOrAreas"
-                *ngFor="let t of travellers; let i = index"></app-detail-for-traveller>
-            <div class="text-right">
-                <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoReviewPayment()">Continue</button>
+            <div *ngIf="tour">
+                <div *ngFor="let room of trip.rooms; let i = index">
+                    <app-detail-for-traveller *ngFor="let t of room.travellers; let j = index" [traveller]="t" [index]="t.id" [availabledTitle]="tour.availableTitles"
+                        [availabledCountryOrAreas]="tour.availabledCountryOrAreas"></app-detail-for-traveller>
+                </div>
+                <div class="text-right">
+                    <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoReviewPayment()">Continue</button>
+                </div>
             </div>
         </div>
     </div>

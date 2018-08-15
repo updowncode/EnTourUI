@@ -4,8 +4,6 @@ import { Trip } from "../Models/trip";
 import { Traveller } from "../Models/traveller";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
-import { Room } from "../Models/room";
-import { MockTourInfoSource } from "../Models/mock-tour-info-source";
 import { slideInDownAnimation } from "../animations";
 export class OptionSummary {
   name: string;
@@ -21,9 +19,12 @@ export class OptionSummary {
   animations: [slideInDownAnimation]
 })
 export class TourReviewPaymentComponent implements OnInit {
-  @HostBinding("@routeAnimation") routeAnimation = true;
-  @HostBinding("style.display") display = "block";
-  @HostBinding("style.position") position = "related";
+  @HostBinding("@routeAnimation")
+  routeAnimation = true;
+  @HostBinding("style.display")
+  display = "block";
+  @HostBinding("style.position")
+  position = "related";
   tour: Tour;
   trip: Trip;
   tourId: string;
@@ -43,35 +44,48 @@ export class TourReviewPaymentComponent implements OnInit {
   perVisaPrice = 0;
   totalVisaQuantity = 0;
   totalVisaPrice = 0;
-  tourInfoSources: string[];
+  tourInfoSources: string[] = ["", "Toronto Star", "Tour East Website"];
   ngOnInit() {
-    this.msg = "";
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.tour = this.tourService.tour; // getToursMockDataById(this.tourId);
-    this.trip = this.tourService.tour.trips.find( c => c.id === this.tripId); // .retrieveTrip();
-    if (this.trip === undefined) {
-      if (localStorage.getItem(this.tripId.toString()) != null) {
-        this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
-      } else {
-        this.router.navigate(["/tours"]);
-      }
-    }
-    this.initTrip();
-    this.trip.tourInfoSource = "";
-    this.tourInfoSources = MockTourInfoSource;
-    localStorage.removeItem(this.tripId.toString());
-    localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.saveTrip(this.trip);
-  }
-  initTrip() {
-    this.trip.rooms.forEach((c: Room) => {
-      if (c.travellers != null) {
-        c.travellers.forEach(d => {
-          this.travellers.push(d);
+    this.tourService.getTourById(this.tourId).subscribe(t => {
+      const roomsLength = this.onResult(t);
+      if (roomsLength === 0) {
+        this.router.navigate(["/options"], {
+          queryParams: { tourId: this.tourId, tripId: this.tripId }
         });
+      } else {
+        this.tourService.shareTour(this.tour);
+        this.tourService.shareTrip(this.trip);
+        this.initTrip();
       }
     });
+  }
+  onResult(tour: Tour): number {
+    this.msg = "";
+    this.tour = tour;
+    this.trip = this.tour.trips.find(t => t.id === this.tripId);
+    if (this.trip.rooms.length === 0) {
+      if (localStorage.getItem(this.tripId.toString()) != null) {
+        const _trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
+        this.trip.rooms = Object.assign([], _trip.rooms);
+        this.travellers = Object.assign(
+          [],
+          this.tourService.setupTravellers(this.trip.rooms)
+        );
+        return this.trip.rooms.length;
+      } else {
+        return 0;
+      }
+    } else {
+      this.travellers = Object.assign(
+        [],
+        this.tourService.setupTravellers(this.trip.rooms)
+      );
+      return this.trip.rooms.length;
+    }
+  }
+  initTrip() {
     this.optionSummary = new Array<OptionSummary>();
     for (let i = 0; i < this.travellers.length; i++) {
       if (
@@ -105,7 +119,8 @@ export class TourReviewPaymentComponent implements OnInit {
       this.perVisaPrice = this.trip.visaPrice;
       for (let i = 0; i < this.trip.rooms.length; i++) {
         this.totalRoomPrice +=
-          this.trip.rooms[i].roomPriceForPerTraveller * this.trip.rooms[i].travellers.length;
+          this.trip.rooms[i].roomPriceForPerTraveller *
+          this.trip.rooms[i].travellers.length;
       }
       for (let i = 0; i < this.trip.rooms.length; i++) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {

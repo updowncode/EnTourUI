@@ -45,7 +45,7 @@
             <strong style="margin-right: 10px;">${{totalRoomPrice}}</strong>
         </div>
     </div>
-    <div class="row" *ngIf="optionSummary">
+    <div class="row" *ngIf="optionSummary.length > 0">
         <div class="col-md-12">
             <strong style="font-size:18px;">Options</strong>
         </div>
@@ -61,17 +61,17 @@
 
         </div>
     </div>
-    <div class="row">
+    <div class="row"  *ngIf="optionSummary.length > 0">
         <div class="col-md-12">
             <hr style="color: #ccc;">
         </div>
     </div>
-    <div class="row">
+    <div class="row"  *ngIf="optionSummary.length > 0">
         <div class="col-md-12 text-right">
             <strong style="margin-right: 10px;">${{totalOptionPrice}}</strong>
         </div>
     </div>
-    <div class="row" *ngIf="optionSummary">
+    <div class="row" *ngIf="totalVisaQuantity > 0">
         <div class="col-md-12">
             <strong style="font-size:18px;">Visa</strong>
         </div>

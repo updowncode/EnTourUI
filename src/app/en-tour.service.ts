@@ -9,7 +9,6 @@ import { Trip } from "./Models/trip";
 import { Quantity } from "./Models/quantity";
 import { Room } from "./Models/room";
 import { Option } from "./Models/option";
-import { MockTourInfoSource } from "./Models/mock-tour-info-source";
 import { Traveller } from "./Models/traveller";
 import { HttpClient } from "@angular/common/http";
 const FETCH_LATENCY = 500;
@@ -71,13 +70,38 @@ export class EnTourService {
       return of(this.tours);
     }
   }
+  getTourById(tourId: string): Observable<Tour> {
+    if (this.tours.length === 0) {
+      return this.httpClient.get<Tour[]>(this.toursUrl).pipe(
+        map((response: Tour[]) => {
+          return response.find(tour => tour.id === tourId);
+        })
+      );
+    } else {
+      return of(this.tours).pipe(
+        map(tours => {
+          return tours.find(tour => tour.id === tourId);
+        })
+      );
+    }
+  }
   public saveTrip(value: Trip) {
     this.selectedTrip = value;
   }
   public retrieveTrip() {
     return this.selectedTrip;
   }
-
+  public setupTravellers(rooms: Room[]): Traveller[] {
+    const travellers = [];
+    rooms.forEach((c: Room) => {
+      if (c.travellers != null) {
+        c.travellers.forEach(d => {
+          travellers.push(d);
+        });
+      }
+    });
+    return travellers;
+  }
   public updateRoomInfo() {
     this.roomInfoUpdated.next(true);
   }
@@ -156,9 +180,7 @@ export class EnTourService {
   getToursMockDataById(id: string): Tour {
     return MockTours.find(c => c.id === id);
   }
-  getTourInfoSource(): string[] {
-    return MockTourInfoSource;
-  }
+
   show() {
     this.visible = true;
   }

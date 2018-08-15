@@ -14,21 +14,17 @@ import { slideInDownAnimation } from "../animations";
   animations: [slideInDownAnimation]
 })
 export class TourTravellerDetailComponent implements OnInit {
-  @HostBinding("@routeAnimation") routeAnimation = true;
-  @HostBinding("style.display") display = "block";
-  @HostBinding("style.position") position = "related";
+  @HostBinding("@routeAnimation")
+  routeAnimation = true;
+  @HostBinding("style.display")
+  display = "block";
+  @HostBinding("style.position")
+  position = "related";
   tour: Tour;
   trip: Trip;
   tourId: string;
   tripId: string;
-  travellers: Traveller[] = [];
   msg = "Loading Traveller Details ...";
-
-  availabledCountryOrAreas: CountryOrArea[] = [
-    { id: 1, name: "Canada", code: "CA" },
-    { id: 2, name: "Unite States", code: "US" },
-    { id: 3, name: "China", code: "CN" }
-  ];
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
@@ -36,36 +32,41 @@ export class TourTravellerDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.msg = "";
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.trip = this.tourService.retrieveTrip();
-    if (this.trip === undefined) {
-      if (localStorage.getItem(this.tripId.toString()) != null) {
-        this.trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
-      } else {
-        this.router.navigate(["/tours"]);
-      }
-    }
-    this.initTrip();
-    localStorage.removeItem(this.tripId.toString());
-    localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.saveTrip(this.trip);
-  }
-  initTrip() {
-    this.trip.rooms.forEach((c: Room) => {
-      if (c.travellers != null) {
-        c.travellers.forEach(d => {
-          this.travellers.push(d);
+    this.tourService.getTourById(this.tourId).subscribe(t => {
+      const roomsLength = this.onResult(t);
+      if (roomsLength === 0) {
+        this.router.navigate(["/options"], {
+          queryParams: { tourId: this.tourId, tripId: this.tripId }
         });
+      } else {
+        this.tourService.shareTour(this.tour);
+        this.tourService.shareTrip(this.trip);
       }
     });
   }
+  onResult(tour: Tour): number {
+    this.tour = tour;
+    this.trip = this.tour.trips.find(t => t.id === this.tripId);
+    if (this.trip.rooms.length === 0) {
+      if (localStorage.getItem(this.tripId.toString()) != null) {
+        const _trip = JSON.parse(localStorage.getItem(this.tripId.toString()));
+        this.trip.rooms = Object.assign([], _trip.rooms);
+        return this.trip.rooms.length;
+      } else {
+        return 0;
+      }
+    } else {
+      return this.trip.rooms.length;
+    }
+  }
+
   gotoReviewPayment() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
-    this.tourService.saveTrip(this.trip);
-
+    this.tourService.shareTour(this.tour);
+    this.tourService.shareTrip(this.trip);
     this.router.navigate(["/reviewpayment"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
