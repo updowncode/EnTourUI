@@ -10,12 +10,12 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class NavBarComponent implements OnInit {
   @Input() actived: number;
-  tourId: number;
-  tripId: number;
+  tourId: string;
+  tripId: string;
   constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.tourId = +this.activatedRoute.snapshot.queryParamMap.get("tourId");
-    this.tripId = +this.activatedRoute.snapshot.queryParamMap.get("tripId");
+    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
+    this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
   }
 }
