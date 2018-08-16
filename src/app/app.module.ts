@@ -6,7 +6,7 @@ import { HttpModule } from "@angular/http";
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EnTourService } from "./en-tour.service";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { TourListComponent } from "./tour-list/tour-list.component";
 import { TourDetailComponent } from "./tour-detail/tour-detail.component";
@@ -28,9 +28,13 @@ import { TravellerInRoomComponent } from "./traveller-in-room/traveller-in-room.
 import { BillingInfoComponent } from "./billing-info/billing-info.component";
 import { OptionForTravellerComponent } from "./option-for-traveller/option-for-traveller.component";
 import { CanDeactivateGuard } from "./can-deactivate-guard.service";
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { DetailForTravellerComponent } from './detail-for-traveller/detail-for-traveller.component';
-import { TripSummaryComponent } from './trip-summary/trip-summary.component';
+import { NavBarComponent } from "./nav-bar/nav-bar.component";
+import { DetailForTravellerComponent } from "./detail-for-traveller/detail-for-traveller.component";
+import { TripSummaryComponent } from "./trip-summary/trip-summary.component";
+import { TourPaymentComponent } from "./tour-payment/tour-payment.component";
+import { UrlSerializer } from "@angular/router";
+import { LowerCaseUrlSerializer } from "./lower-case-url-serializer";
+
 // ng g c test -is -it --spec=false
 // ng new project-name --routing --style=sass
 // ng g m app-material
@@ -54,7 +58,8 @@ import { TripSummaryComponent } from './trip-summary/trip-summary.component';
     OptionForTravellerComponent,
     NavBarComponent,
     DetailForTravellerComponent,
-    TripSummaryComponent
+    TripSummaryComponent,
+    TourPaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +72,17 @@ import { TripSummaryComponent } from './trip-summary/trip-summary.component';
     AppRoutingModule
   ],
   // providers: [{provide: APP_BASE_HREF, useValue : '/entourdetail' }],
-  providers: [EnTourService, AuthService, AuthGuard, CanDeactivateGuard],
+  providers: [
+    EnTourService,
+    AuthService,
+    AuthGuard,
+    CanDeactivateGuard,
+    {
+      provide: UrlSerializer,
+      useClass: LowerCaseUrlSerializer
+    },
+    // {provide: APP_BASE_HREF, useValue : '/ENTOURDETAIL'}
+  ],
   bootstrap: [AppComponent],
   entryComponents: [PopupComponent]
 })

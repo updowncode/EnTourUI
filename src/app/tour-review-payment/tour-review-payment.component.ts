@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { slideInDownAnimation } from "../animations";
 import { Subscription } from "rxjs";
-
+import * as $ from "jquery";
 export class OptionSummary {
   name: string;
   price: number;
@@ -35,7 +35,6 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   optionSummary: OptionSummary[] = [];
   msg = "Loading Review  ...";
   ToursSubscription: Subscription;
-  @ViewChild('BookingForm') d1: ElementRef;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
@@ -161,7 +160,8 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     this.tourService.updateSelectedTrip(this.trip);
     this.tourService.payment(this.trip).then( resp => {
       const bookHtml = JSON.parse(resp._body).data.m_StringValue;
-      this.d1.nativeElement = bookHtml;
+      $("#ReturnForm").html(bookHtml);
+      $("#pay_form").submit();
     });
   }
 }

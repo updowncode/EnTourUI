@@ -1,0 +1,15 @@
+<app-nav-bar [actived]="6"></app-nav-bar>
+<strong class="tecolor">Payment Confirmation</strong>
+<app-message></app-message>
+<div style="border: 1px solid #ccc; padding:10px; margin-top:10px;">
+    <div class="row">
+        <div class="col-md-12">
+          <p *ngIf="trnApproved === '0'">
+            {{messageText}}
+          </p>
+          <p *ngIf="trnApproved === '1'">
+            You have booked the tour successfully.
+          </p>
+        </div>
+    </div>
+</div>

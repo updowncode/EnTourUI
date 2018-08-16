@@ -7,6 +7,7 @@ import { TourOptionComponent } from "../tour-option/tour-option.component";
 import { TourTravellerDetailComponent } from "../tour-traveller-detail/tour-traveller-detail.component";
 import { TourReviewPaymentComponent } from "../tour-review-payment/tour-review-payment.component";
 import { TourListComponent } from "../tour-list/tour-list.component";
+import { TourPaymentComponent } from "../tour-payment/tour-payment.component";
 
 const routes: Routes = [
   { path: "tours", component: TourListComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "options", component: TourOptionComponent },
   { path: "travellerdetails", component: TourTravellerDetailComponent },
   { path: "reviewpayment", component: TourReviewPaymentComponent },
+  { path: "payment", component: TourPaymentComponent  },
   { path: "", component: TourListComponent, pathMatch: "full" }
   // { path: '**', component: PageNotFoundComponent }
 ];
