@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
+import { Component, OnInit, HostBinding, OnDestroy, ElementRef, ViewChild } from "@angular/core";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
 import { Traveller } from "../Models/traveller";
@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
 import { slideInDownAnimation } from "../animations";
 import { Subscription } from "rxjs";
+
 export class OptionSummary {
   name: string;
   price: number;
@@ -34,6 +35,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   optionSummary: OptionSummary[] = [];
   msg = "Loading Review  ...";
   ToursSubscription: Subscription;
+  @ViewChild('BookingForm') d1: ElementRef;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
@@ -157,8 +159,9 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
     this.tourService.updateSelectedTrip(this.trip);
-    this.router.navigate(["/travellerdetails"], {
-      queryParams: { tourId: this.tourId, tripId: this.tripId }
+    this.tourService.payment(this.trip).then( resp => {
+      const bookHtml = JSON.parse(resp._body).data.m_StringValue;
+      this.d1.nativeElement = bookHtml;
     });
   }
 }

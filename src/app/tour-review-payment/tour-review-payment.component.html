@@ -1,7 +1,8 @@
 <app-nav-bar [actived]="5"></app-nav-bar>
 <strong class="tecolor">Review & Confirmation</strong>
 <app-message></app-message>
-<div style="border: 1px solid #ccc; padding:10px; margin-top:10px;">
+<div  *ngIf="trip === undefined">Loading...</div>
+<div style="border: 1px solid #ccc; padding:10px; margin-top:10px;"  *ngIf="trip">
     <div class="row">
         <div class="col-md-12">
             <strong style="font-size:18px;">You're almost there!</strong>
@@ -109,7 +110,7 @@
             <strong style="font-size:18px;">How did ou hear about us?</strong>
         </div>
         <div class="col-md-3 col-sm-12 col-sm-12">
-            <select class="form-control" [(ngModel)]="trip.tourInfoSource">
+            <select class="form-control"  [(ngModel)]="trip.tourInfoSource">
                 <ng-container *ngFor="let info of tourInfoSources">
                     <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
                     <option [ngValue]="info" *ngIf="info !== ''">{{info}}</option>
@@ -142,8 +143,17 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <button mat-raised-button color="primary" style="background-color:#d47027!important">Continue to Payment</button>
+            <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoPayment()">Continue to Payment</button>
         </div>
-
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div id="ReturnForm" class="hidden"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div #BookingForm class="hidden"></div>
+        </div>
     </div>
 </div>

@@ -20,5 +20,6 @@ export class BillingInfoComponent implements OnInit {
       { id: -1, code: "", name: "" },
       ...this.tour.availabledCountryOrAreas
     ];
+    this.trip.billingInfo.country = this.tour.availabledCountryOrAreas[0];
   }
 }

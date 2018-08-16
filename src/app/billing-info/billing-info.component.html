@@ -68,8 +68,8 @@
           <label for="country">Country*</label>
           <select class="form-control" [(ngModel)]="trip.billingInfo.country">
             <ng-container *ngFor="let countryorarea of tour.availabledCountryOrAreas">
-              <option [ngValue]="countryorarea.id" *ngIf="countryorarea.id < 0">--Select--</option>
-              <option [ngValue]="countryorarea.id" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
+              <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
+              <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
             </ng-container>
           </select>
           <!-- <input type="text" class="form-control" id="country" required [(ngModel)]="billingInfo.country" name="country" #country="ngModel"> -->

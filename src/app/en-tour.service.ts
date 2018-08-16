@@ -19,6 +19,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
   private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
+  private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);
   private tripSelected = new BehaviorSubject<Trip>(null);
@@ -153,6 +154,14 @@ export class EnTourService implements OnDestroy {
   }
   updateSelectedTour(tour: Tour) {
     this.tourSelected.next(tour);
+  }
+  payment(trip: Trip): Promise<any> {
+    return this.http
+      .post(this.bookUrl, JSON.stringify(trip), {
+        headers: this.headers
+      })
+      .toPromise()
+      .catch(this.handleError);
   }
   //#region Promise usages
   private handleError(error: any): Promise<any> {
