@@ -19,7 +19,6 @@ import { PopupComponent } from "./popup/popup.component";
 import { HighlightDirective } from "./directives/highlight/highlight.directive";
 import { EnTourCoreModule } from "./en-tour-core/en-tour-core.module";
 import { EnTourCoreService } from "./en-tour-core/en-tour-core.service";
-import { AppMaterialModule } from "./app-material/app-material.module";
 import { AuthGuard } from "./auth/auth.guard";
 import { AuthService } from "./auth/auth.service";
 import { TripDetailsComponent } from "./trip-details/trip-details.component";
@@ -34,7 +33,10 @@ import { TripSummaryComponent } from "./trip-summary/trip-summary.component";
 import { TourPaymentComponent } from "./tour-payment/tour-payment.component";
 import { UrlSerializer } from "@angular/router";
 import { LowerCaseUrlSerializer } from "./lower-case-url-serializer";
-
+import { AppMaterialModule } from "./app-material/app-material.module";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MyDatePickerComponent } from './my-date-picker/my-date-picker.component';
+import { CustomDatePickerDirective } from './custom-date-picker.directive';
 // ng g c test -is -it --spec=false
 // ng new project-name --routing --style=sass
 // ng g m app-material
@@ -59,11 +61,14 @@ import { LowerCaseUrlSerializer } from "./lower-case-url-serializer";
     NavBarComponent,
     DetailForTravellerComponent,
     TripSummaryComponent,
-    TourPaymentComponent
+    TourPaymentComponent,
+    MyDatePickerComponent,
+    CustomDatePickerDirective
   ],
   imports: [
     BrowserModule,
     AppMaterialModule,
+    NgbModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
@@ -77,11 +82,11 @@ import { LowerCaseUrlSerializer } from "./lower-case-url-serializer";
     AuthService,
     AuthGuard,
     CanDeactivateGuard,
-    {
-      provide: UrlSerializer,
-      useClass: LowerCaseUrlSerializer
-    },
-    // {provide: APP_BASE_HREF, useValue : '/ENTOURDETAIL'}
+    // {
+    //   provide: UrlSerializer,
+    //   useClass: LowerCaseUrlSerializer
+    // },
+    //  {provide: APP_BASE_HREF, useValue : '/ENTOURDETAIL'}
   ],
   bootstrap: [AppComponent],
   entryComponents: [PopupComponent]

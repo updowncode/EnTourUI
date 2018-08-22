@@ -9,26 +9,24 @@
   padding: 4px;
   color: #fff;
   text-align: center;
-  display:inline-block
+  display: inline-block;
 }
 .navicon.actived {
-	border-radius: 15px;
-	-moz-border-radius: 15px;
-	-webkit-border-radius: 15px;
-	width: 30px;
-	height: 30px;
-	background: #d47027;
-	font-size: 15px;
-	padding: 4px;
-	color: #fff;
-	text-align: center;
-	display:inline-block
-  }
-  .linecolor
-  {
-color:#bbb4ad;
-
-  }
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  width: 30px;
+  height: 30px;
+  background: #d47027;
+  font-size: 15px;
+  padding: 4px;
+  color: #fff;
+  text-align: center;
+  display: inline-block;
+}
+.linecolor {
+  color: #bbb4ad;
+}
 .ng-valid[required],
 .ng-valid.required {
   border-left: 5px solid #42a948; /* green */
@@ -37,6 +35,278 @@ color:#bbb4ad;
 .ng-invalid:not(form) {
   border-left: 5px solid #a94442; /* red */
 }
-.tecolor{
+.tecolor {
   color: #d47027;
 }
+.navbar-toggle {
+  position: relative;
+  float: right;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.navbar-toggle:focus {
+  outline: none;
+}
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+.navbar-toggle .icon-bar + .icon-bar {
+  margin-top: 4px;
+}
+@media (min-width: 768px) {
+  .navbar-toggle {
+    display: none;
+  }
+}
+
+@media (max-width: 979px) {
+  .navbar-toggle {
+    right: 0;
+  }
+  .navbar-toggle {
+    display: block;
+    border: 0 none;
+    border-radius: 4px;
+    font-size: 20px;
+    height: 40px;
+    line-height: 0;
+    position: absolute;
+    top: 10px;
+    width: 40px;
+  }
+}
+.navbar-toggle {
+  background-color: #252525;
+  color: #2980b9;
+}
+
+.collapse.show {
+  display: block;
+}
+/*-----------------------------------------------------------------------------------*/
+/*	V: MOBILE MENU  */
+/*-----------------------------------------------------------------------------------*/
+
+/*Color*/
+.navbar-toggle {
+  background-color: #252525;
+  color: #2980B9;
+}
+/*End Color*/
+
+.main_menu.collapse {overflow: visible; display: block;}
+
+@media (max-width: 979px) {
+
+.navbar-toggle {
+  display: block;
+  border: 0 none;
+  border-radius: 4px;
+  font-size: 20px;
+  height: 40px;
+  line-height: 0;
+  position: absolute;
+  top: 10px;
+  width: 40px;
+}
+
+.navbar-collapse.show 
+{
+  overflow-y: visible;
+  width: auto;
+  
+}
+
+.navbar-collapse.collapsing {width: auto;}
+
+.navbar-toggle {
+  right: 0;
+}
+
+.header_right .navbar-toggle {
+  left: 0;
+}
+
+.logo a {margin: 7px auto 18px;}
+
+.main_menu {
+  border-top: 1px solid rgba(0, 0, 0, 0);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  overflow-x: visible;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.menu_wrap .nav li ul.submenu_wrap {padding: 0;}
+
+.menu_minimal .menu_wrap .nav > li.active > a {border-bottom: none;}
+
+.main_menu .nav .submenu_wrap .sub ul {background: transparent;}
+
+.menu_minimal .menu_wrap, #floating-header .menu_minimal .menu_wrap {margin: 0; padding-top: 5px;}
+
+.main_menu.collapse ul {display: none;}
+
+.main_menu.collapse.show ul, .main_menu.collapsing ul {display: block;}
+
+/*.collapse.in, .collapsing {margin-top: 25px;}*/
+
+ul.submenu_wrap, ul.submenu_wrap .sub > ul  { position: static; clear: both; margin: 0px 0px 20px 0px!important; float: none; }
+
+.wsc_generic_skin .main_menu.collapse.show .nav > li > a,
+.wsc_generic_skin .main_menu.collapsing .nav > li > a {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  padding: 14px 14px 12px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.main_menu .nav > li {
+  border-top: 1px solid #2C2C2C;
+  width: 100% !important;
+}
+.main_menu.collapse.show .nav > li a, .main_menu.collapsing .nav > li a {
+  width: auto;
+}
+.main_menu .nav > li:first-child {
+  border-top: 0 solid #2C2C2C;
+  margin-top: -20px;
+  width: 100% !important;
+}
+.main_menu .nav > li.active > a, .main_menu .nav > li.active, .main_menu .nav > .active > a:hover {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+}
+ul.submenu_wrap {
+  clear: both;
+  float: none;
+  margin: 0 0 20px !important;
+  position: static;
+}
+.submenu_wrap {
+  border-radius: 0 !important;
+  left: 0 !important;
+  margin: 0 !important;
+  position: relative !important;
+  top: 0 !important;
+  width: 100% !important;
+}
+.submenu_wrap  li  a {
+  color: #BBBBBB;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: block;
+  margin: 0 0 2px !important;
+  padding: 15px 25px !important;
+}
+.submenu_wrap li a:hover {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+.submenu_wrap li:last-child {
+  margin-bottom: -2px;
+}
+.submenu_wrap > li > a:hover, .submenu_wrap > li > a:focus {
+  color: #FFFFFF;
+  filter: none;
+  text-decoration: none;
+}
+
+.main_menu .nav .submenu_wrap .sub ul {
+  left: 0 !important;
+  padding-left: 30px;
+  padding-top: 1px;
+  visibility: visible !important;
+  width: 100% !important;
+  position: relative;
+}
+
+.main_menu .nav .submenu_wrap .sub ul li {
+  float: none;
+}
+
+.main_menu .nav .submenu_wrap .sub ul li a {
+  border-radius: 0;
+}
+
+.submenu_wrap .sub li:last-child {
+  margin-bottom: -15px;
+}
+
+nav.main_menu.collapse.show ul, nav.main_menu.collapsing ul,
+.menu_classic nav.main_menu.collapsing ul
+{
+  display: block;
+  margin: 22px 0 0;
+}
+
+nav.main_menu.collapse.show ul li, nav.main_menu.collapsing ul li
+{
+  display: block;
+  width: 100%;
+}
+
+nav.main_menu.collapse.show ul li.root.wsc_last, nav.main_menu.collapsing ul li.root.wsc_last {
+padding-bottom: 15px;
+}
+
+.main_menu.collapse.show .nav > li.wsc_first 
+{
+  border-top: 0 solid #2C2C2C;
+  margin-top: -20px;
+}
+
+.clearmob {
+  clear: both;
+  font-size: 0;
+  height: 0;
+}
+
+/*Floating header styles*/
+
+#floating-header .navbar-toggle {top: 0px;}
+
+#floating-header .menu_classic .menu_wrap .nav {margin: 22px 0 0;}
+
+/*#floating-header .collapse.in, #floating-header .collapsing {margin-top: 15px;}*/
+
+#floating-logo .logo a 
+{
+  margin: 7px auto 18px;
+}
+
+#floating-header .menu_wrap .nav li.root.wsc_last {padding-bottom: 5px;}
+
+}
+
+@media (max-width: 768px) {
+
+.logo a {margin: 0 auto 25px;}
+
+.navbar-toggle {
+  top: 15px;
+}
+
+#floating-header .logo  {margin:8px auto 0px auto;}
+}
+
+@media (min-width: 768px) {
+.navbar-nav ul {
+  left: 0;
+  position: absolute;
+  top: 80px;
+  z-index: 999;
+}
+
+}
+
+
+/*//////////////////////////////////*/

@@ -6,7 +6,7 @@
           <tr>
             <td style="width:33%"></td>
             <td>
-              <a href="{{'/ENTOURDETAIL/detail/' + tourId}}">
+              <a href="{{'./detail' + tourId}}">
                 <div class="navicon" [ngClass]="{'actived':actived == 1}">1</div>
               </a>
             </td>
@@ -23,7 +23,7 @@
               <hr class="linecolor">
             </td>
             <td>
-              <a href="{{'/ENTOURDETAIL/travellers?tourId=' + tourId + '&tripId='+ tripId}}">
+              <a href="{{'./travellers?tourId=' + tourId + '&tripId='+ tripId}}">
                 <div class="navicon" [ngClass]="{'actived':actived == 2}">2</div>
               </a>
             </td>
@@ -40,7 +40,7 @@
               <hr class="linecolor">
             </td>
             <td>
-              <a href="{{'/ENTOURDETAIL/options?tourId=' + tourId + '&tripId='+ tripId}}">
+              <a href="{{'./options?tourId=' + tourId + '&tripId='+ tripId}}">
                 <div class="navicon" [ngClass]="{'actived':actived == 3}">3</div>
               </a>
             </td>
@@ -57,7 +57,7 @@
               <hr class="linecolor">
             </td>
             <td>
-              <a href="{{'/ENTOURDETAIL/travellerdetails?tourId=' + tourId + '&tripId='+ tripId}}">
+              <a href="{{'./travellerdetails?tourId=' + tourId + '&tripId='+ tripId}}">
                 <div class="navicon" [ngClass]="{'actived':actived == 4}">4</div>
               </a>
             </td>
@@ -74,7 +74,7 @@
               <hr class="linecolor">
             </td>
             <td>
-              <a href="{{'/ENTOURDETAIL/reviewpayment?tourId=' + tourId + '&tripId='+ tripId}}">
+              <a href="{{'./reviewpayment?tourId=' + tourId + '&tripId='+ tripId}}">
                 <div class="navicon" [ngClass]="{'actived':actived == 5}">5</div>
               </a>
             </td>

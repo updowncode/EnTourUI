@@ -6,7 +6,7 @@
             <app-message></app-message>
             <div *ngIf="tour">
                 <div *ngFor="let room of trip.rooms; let i = index">
-                    <app-detail-for-traveller *ngFor="let t of room.travellers; let j = index" [traveller]="t" [index]="t.id" [availabledTitle]="tour.availableTitles"
+                    <app-detail-for-traveller *ngFor="let t of room.travellers; let j = index" [traveller]="t" [index]="t.id" [availabledTitles]="tour.availabledTitles"
                         [availabledCountryOrAreas]="tour.availabledCountryOrAreas"></app-detail-for-traveller>
                 </div>
                 <div class="text-right">

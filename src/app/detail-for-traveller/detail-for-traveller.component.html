@@ -8,11 +8,12 @@
     <div class="col-md-2">
       <label>Title*</label>
       <select class="form-control" [(ngModel)]="traveller.title">
-        <ng-container *ngFor="let title of availableTitles">
-          <option [ngValue]="title" *ngIf="title === ''">--Select--</option>
+        <ng-container *ngFor="let title of availabledTitles">
+          <option [ngValue]="title" *ngIf="title === ''">Select</option>
           <option [ngValue]="title" *ngIf="title !== ''">{{title}}</option>
         </ng-container>
-      </select>    </div>
+      </select>
+    </div>
     <div class="col-md-4">
       <label>First Name*</label>
       <input type="text" class="form-control" required [(ngModel)]="traveller.firstName">
@@ -29,7 +30,32 @@
   <div class="row">
     <div class="col-md-4">
       <label>Date of Birth*</label>
-      <input type="text" class="form-control" required [(ngModel)]="traveller.birthday">
+      <!-- <app-my-date-picker [options]="myDatePickerOptions" (dateChanged)="onDateChanged1($event)" [selDate]="selectedDate"></app-my-date-picker> -->
+      <!-- <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group" style="display: flex !important;">
+            <input class="form-control" required placeholder="yyyy-mm-dd" container='body' name="dp" [(ngModel)]="traveller.birthday"
+              ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button" style="border:none !important;">
+                <i class="fa fa-calendar" (click)="d.toggle()" style="cursor:pointer;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form> -->
+      <!-- <mat-form-field>
+        <input matInput [(ngModel)]="traveller.birthday" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field> -->
+      <div class="input-group">
+        <input type="text" class="form-control" id="x" required ngbDatepicker container='body' #x="ngbDatepicker" [(ngModel)]="traveller.birthday"
+          (click)="x.toggle()">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-calendar" (click)="x.toggle()" style="cursor:pointer;"></i></span>
+        </div>
+      </div>
     </div>
     <div class="col-md-4">
       <label>Place of Birth*</label>
@@ -54,11 +80,23 @@
     </div>
     <div class="col-md-3">
       <label>Date of Issue*</label>
-      <input type="text" class="form-control" required [(ngModel)]="traveller.passport.issueDate">
+      <div class="input-group">
+        <input type="text" class="form-control" required ngbDatepicker container='body' #f="ngbDatepicker" [(ngModel)]="traveller.passport.issueDate"
+          (click)="f.toggle()">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-calendar" (click)="f.toggle()" style="cursor:pointer;"></i></span>
+        </div>
+      </div>
     </div>
     <div class="col-md-3">
       <label>Date of Expiry*</label>
-      <input type="text" class="form-control" required [(ngModel)]="traveller.passport.expiryDate">
+      <div class="input-group">
+        <input type="text" class="form-control" required ngbDatepicker container='body' #e="ngbDatepicker" [(ngModel)]="traveller.passport.expiryDate"
+          (click)="e.toggle()">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-calendar" (click)="e.toggle()" style="cursor:pointer;"></i></span>
+        </div>
+      </div>
     </div>
     <div class="col-md-3">
       <label>Place of Issue*</label>

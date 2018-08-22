@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: "options", component: TourOptionComponent },
   { path: "travellerdetails", component: TourTravellerDetailComponent },
   { path: "reviewpayment", component: TourReviewPaymentComponent },
+  { path: "PAYMENT", redirectTo: "payment" },
   { path: "payment", component: TourPaymentComponent  },
   { path: "", component: TourListComponent, pathMatch: "full" }
   // { path: '**', component: PageNotFoundComponent }

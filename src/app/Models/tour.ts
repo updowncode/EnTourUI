@@ -6,7 +6,7 @@ import { CountryOrArea } from "./countryorarea";
 export class Tour {
   id: string;
   name: string;
-  availableTitles: string[];
+  availabledTitles: string[];
   availabledCountryOrAreas: CountryOrArea[];
   trips: Trip[];
 }

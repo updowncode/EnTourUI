@@ -3,7 +3,7 @@ export const MockTours: Tour[] = [
   {
     id: "CHG11",
     name: "China Encounter",
-    availableTitles: [
+    availabledTitles: [
       "Mr",
       "Mrs",
       "Ms",

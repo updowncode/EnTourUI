@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, HostBinding } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  HostBinding,
+  AfterViewChecked
+} from "@angular/core";
 import { Traveller } from "../Models/traveller";
 import { CountryOrArea } from "../Models/countryorarea";
 import { Trip } from "../Models/trip";
@@ -6,26 +12,23 @@ import { Tour } from "../Models/tour";
 import { slideInDownAnimation } from "../animations";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../en-tour.service";
-
+import * as $ from "jquery";
+// import {MyDatePickerComponent} from '../my-date-picker/my-date-picker.component';
 @Component({
   selector: "app-detail-for-traveller",
   templateUrl: "./detail-for-traveller.component.html",
   styleUrls: ["./detail-for-traveller.component.sass"],
+  // directives: [MyDatePickerComponent],
   animations: [slideInDownAnimation]
 })
-export class DetailForTravellerComponent {
+export class DetailForTravellerComponent implements OnInit, AfterViewChecked {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
   display = "block";
   @HostBinding("style.position")
   position = "related";
-  trip: Trip;
-  tour: Tour;
-  tourId: string;
-  tripId: string;
-  msg = "Loading options ...";
-  availabledTitles: string[];
+  msg = "Loading traveller's details ...";
   @Input()
   traveller: Traveller;
   @Input()
@@ -33,5 +36,47 @@ export class DetailForTravellerComponent {
   @Input()
   availabledCountryOrAreas: CountryOrArea[];
   @Input()
-  availabledTitle: string[];
+  availabledTitles: string[];
+  ngAfterViewChecked() {}
+  // selectedDate: any = "";
+  // private myDatePickerOptions = {
+  //   todayBtnTxt: "Today",
+  //   dateFormat: "yyyy-mm-dd",
+  //   firstDayOfWeek: "mo",
+  //   sunHighlight: true,
+  //   height: "134px",
+  //   width: "300px",
+
+  //   background: "#3BAFDA",
+  //   showTextBox: false
+  // };
+
+  constructor() {}
+
+  ngOnInit() {
+    this.availabledCountryOrAreas = [
+      { id: -1, code: "", name: "" },
+      ...this.availabledCountryOrAreas
+    ];
+    this.availabledTitles = ["", ...this.availabledTitles];
+
+    this.traveller.countryorarea = this.availabledCountryOrAreas[0];
+    this.traveller.passport.issuePlace = this.availabledCountryOrAreas[0];
+    this.traveller.title = this.availabledTitles[0];
+  }
+  //
+  // // Date Picker //
+
+  // onDateChanged1(event) {
+  //   console.log(
+  //     "onDateChanged1(): ",
+  //     event.date,
+  //     " - formatted: ",
+  //     event.formatted,
+  //     " - epoc timestamp: ",
+  //     event.epoc
+  //   );
+  //   this.selectedDate = event.formatted;
+  // }
+  // Date Picker //
 }
