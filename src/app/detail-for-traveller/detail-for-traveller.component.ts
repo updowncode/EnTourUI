@@ -37,6 +37,13 @@ export class DetailForTravellerComponent implements OnInit, AfterViewChecked {
   availabledCountryOrAreas: CountryOrArea[];
   @Input()
   availabledTitles: string[];
+  minDateForDOB: any;
+  maxDateForDOB: any;
+  minDateForDOBForPassportIssue: any;
+  maxDateForDOBForPassportIssue: any;
+  minDateForDOBForPassportExpiry: any;
+  maxDateForDOBForPassportExpiry: any;
+
   ngAfterViewChecked() {}
   // selectedDate: any = "";
   // private myDatePickerOptions = {
@@ -63,6 +70,37 @@ export class DetailForTravellerComponent implements OnInit, AfterViewChecked {
     this.traveller.countryorarea = this.availabledCountryOrAreas[0];
     this.traveller.passport.issuePlace = this.availabledCountryOrAreas[0];
     this.traveller.title = this.availabledTitles[0];
+    this.minDateForDOB = {
+      year: new Date().getFullYear() - 100,
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate()
+    };
+    this.maxDateForDOB = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate()
+    };
+
+    this.minDateForDOBForPassportIssue = {
+      year: new Date().getFullYear() - 20,
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate()
+    };
+    this.maxDateForDOBForPassportIssue = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate()
+    };
+    this.minDateForDOBForPassportExpiry = {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate()
+    };
+    this.maxDateForDOBForPassportExpiry = {
+      year: new Date().getFullYear() + 100,
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate()
+    };
   }
   //
   // // Date Picker //

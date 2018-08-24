@@ -50,10 +50,11 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field> -->
       <div class="input-group">
-        <input type="text" class="form-control" id="x" required ngbDatepicker container='body' #x="ngbDatepicker" [(ngModel)]="traveller.birthday"
+        <input type="text" class="form-control" id="x" required ngbDatepicker [minDate]="minDateForDOB" [maxDate]="maxDateForDOB"  container="body" #x="ngbDatepicker" [(ngModel)]="traveller.birthday"
           (click)="x.toggle()">
         <div class="input-group-append">
           <span class="input-group-text"><i class="fa fa-calendar" (click)="x.toggle()" style="cursor:pointer;"></i></span>
+          <!-- <button class="btn btn-default" (click)="x.toggle()" type="button"><i class="fa fa-calendar"  style="cursor:pointer;"></i></button> -->
         </div>
       </div>
     </div>
@@ -81,7 +82,7 @@
     <div class="col-md-3">
       <label>Date of Issue*</label>
       <div class="input-group">
-        <input type="text" class="form-control" required ngbDatepicker container='body' #f="ngbDatepicker" [(ngModel)]="traveller.passport.issueDate"
+        <input type="text" class="form-control" required ngbDatepicker [minDate]="minDateForPassportIssue" [maxDate]="maxDateForDOBForPassportIssue" container='body' #f="ngbDatepicker" [(ngModel)]="traveller.passport.issueDate"
           (click)="f.toggle()">
         <div class="input-group-append">
           <span class="input-group-text"><i class="fa fa-calendar" (click)="f.toggle()" style="cursor:pointer;"></i></span>
@@ -91,7 +92,7 @@
     <div class="col-md-3">
       <label>Date of Expiry*</label>
       <div class="input-group">
-        <input type="text" class="form-control" required ngbDatepicker container='body' #e="ngbDatepicker" [(ngModel)]="traveller.passport.expiryDate"
+        <input type="text" class="form-control" required ngbDatepicker  [minDate]="minDateForDOBForPassportExpiry" [maxDate]="maxDateForDOBForPassportExpiry" container='body' #e="ngbDatepicker" [(ngModel)]="traveller.passport.expiryDate"
           (click)="e.toggle()">
         <div class="input-group-append">
           <span class="input-group-text"><i class="fa fa-calendar" (click)="e.toggle()" style="cursor:pointer;"></i></span>

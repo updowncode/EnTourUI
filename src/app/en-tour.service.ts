@@ -11,6 +11,7 @@ import { Room } from "./Models/room";
 import { Option } from "./Models/option";
 import { Traveller } from "./Models/traveller";
 import { HttpClient } from "@angular/common/http";
+import { Options } from "selenium-webdriver";
 const FETCH_LATENCY = 500;
 
 @Injectable()
@@ -20,8 +21,10 @@ export class EnTourService implements OnDestroy {
   private trip: Trip;
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
-  private toursUrl = "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
-  private bookUrl = "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
+  private toursUrl =
+    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
+  private bookUrl =
+    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);
   private tripSelected = new BehaviorSubject<Trip>(null);
@@ -69,7 +72,21 @@ export class EnTourService implements OnDestroy {
   getToursAsync(): Observable<Tour[]> {
     if (this.tours.length === 0) {
       // return of(MockTours);
-      return this.httpClient.get<Tour[]>(this.toursUrl);
+      return this.httpClient.get<Tour[]>(
+        this.toursUrl
+        //   ,
+        //    {
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "Access-Control-Allow-Origin": "http://localhost:4200",
+        //     "Access-Control-Allow-Methods":
+        //       "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+        //     "Access-Control-Allow-Headers": "X-Requested-With,content-type",
+        //     "Access-Control-Allow-Credentials": "true"
+        //   },
+        //   responseType: "json"
+        // }
+      );
     } else {
       return of(this.tours);
     }
@@ -200,6 +217,15 @@ export class EnTourService implements OnDestroy {
     return this.http
       .put(url, JSON.stringify(tour), { headers: this.headers })
       .toPromise()
+      // .then(
+      //   res => {
+      //     console.log(res.json());
+      //     resolve();
+      //   },
+      //   msg => {
+      //     throw new Error("Couldn't get all Bookings: " + msg);
+      //   }
+      // )
       .then(() => tour)
       .catch(this.handleError);
   }
