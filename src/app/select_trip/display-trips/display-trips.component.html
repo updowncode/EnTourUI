@@ -20,7 +20,7 @@
             <div *ngIf="trip === undefined">Loading...</div>
         </div>
     </div>
-    <div class="row" *ngIf="tour">
+    <div class="row" *ngIf="tour && tour.trips">
         <div class="col-md-12">
             <table class="table table-bordered" style="width: 100%;">
                 <thead>

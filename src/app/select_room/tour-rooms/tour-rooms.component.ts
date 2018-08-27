@@ -11,7 +11,7 @@ import { Room } from "../../Models/room";
 import { Passport } from "../../Models/passport";
 import { CountryOrArea } from "../../Models/countryorarea";
 import { Subscription } from "rxjs";
-
+import { Location } from "@angular/common";
 @Component({
   selector: 'app-tour-rooms',
   templateUrl: './tour-rooms.component.html',
@@ -36,7 +36,8 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   constructor(
     private tourService: EnTourService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) {}
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
@@ -273,5 +274,12 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     this.router.navigate(["/options"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
+  }
+  goBack(): void {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

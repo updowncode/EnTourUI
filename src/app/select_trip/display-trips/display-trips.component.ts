@@ -31,7 +31,8 @@ export class DisplayTripsComponent implements OnInit, OnDestroy {
     this.ToursSubscription.unsubscribe();
   }
   ngOnInit(): void {
-    this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
+    // this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
+    this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.ToursSubscription = this.tourService.getToursAsync().subscribe((tours: Tour[]) =>  this.onResult(tours));
   }
   onResult(tours: Tour[]) {

@@ -1,4 +1,5 @@
 import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
+import { Location } from "@angular/common";
 import { Tour } from "../../Models/tour";
 import { Trip } from "../../Models/trip";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -31,7 +32,8 @@ export class TourOptionComponent implements OnInit, OnDestroy {
   constructor(
     private tourService: EnTourService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) {}
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
@@ -90,5 +92,12 @@ export class TourOptionComponent implements OnInit, OnDestroy {
     this.router.navigate(["/travellerdetails"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
+  }
+  goBack(): void {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

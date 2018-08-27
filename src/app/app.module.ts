@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { APP_BASE_HREF } from "@angular/common";
+import { APP_BASE_HREF, PlatformLocation } from "@angular/common";
 import { HttpModule } from "@angular/http";
 import { AppRoutingModule } from "./app-routing.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -34,32 +34,36 @@ import { TourOptionForEachTravellerComponent } from "./select_option/tour-option
 import { TourNavBarComponent } from "./selected_share/tour-nav-bar/tour-nav-bar.component";
 import { TourRoomsComponent } from "./select_room/tour-rooms/tour-rooms.component";
 import { TourRoomsBillingInfoComponent } from "./select_room/tour-rooms-billing-info/tour-rooms-billing-info.component";
-import { TourRoomsEachRoomComponent } from './select_room/tour-rooms-each-room/tour-rooms-each-room.component';
+import { TourRoomsEachRoomComponent } from "./select_room/tour-rooms-each-room/tour-rooms-each-room.component";
 // tslint:disable-next-line:max-line-length
-import { TourRoomsEachRoomEachTravellerComponent } from './select_room/tour-rooms-each-room-each-traveller/tour-rooms-each-room-each-traveller.component';
-import { TourSummaryComponent } from './selected_share/tour-summary/tour-summary.component';
-import { DisplayTripsComponent } from './select_trip/display-trips/display-trips.component';
-
+import { TourRoomsEachRoomEachTravellerComponent } from "./select_room/tour-rooms-each-room-each-traveller/tour-rooms-each-room-each-traveller.component";
+import { TourSummaryComponent } from "./selected_share/tour-summary/tour-summary.component";
+import { DisplayTripsComponent } from "./select_trip/display-trips/display-trips.component";
+export function getBaseHref(platformLocation: PlatformLocation): string {
+  return platformLocation.getBaseHrefFromDOM();
+}
 // ng g c test -is -it --spec=false
 // ng new project-name --routing --style=sass
 // ng g m app-material
 // npm install --save @angular/material @angular/cdk
+// --flat 把这个文件放进了 src/app 中，而不是单独的目录中。
+// --module=app 告诉 CLI 把它注册到 AppModule 的 imports 数组中。
 @NgModule({
   declarations: [
     AppComponent,
-    TourListComponent,
-    TourOptionComponent,
-    TourTravellerDetailComponent,
-    TourReviewPaymentComponent,
     MessageComponent,
     PopupComponent,
     HighlightDirective,
-    TripDetailsComponent,
-    TourPaymentComponent,
     MyDatePickerComponent,
     TourTravellerDetailEachTravellerComponent,
     TourOptionForEachTravellerComponent,
     TourNavBarComponent,
+    TourListComponent,
+    TourOptionComponent,
+    TourTravellerDetailComponent,
+    TripDetailsComponent,
+    TourPaymentComponent,
+    TourReviewPaymentComponent,
     TourRoomsComponent,
     TourRoomsBillingInfoComponent,
     TourRoomsEachRoomComponent,
@@ -78,17 +82,22 @@ import { DisplayTripsComponent } from './select_trip/display-trips/display-trips
     EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
     AppRoutingModule
   ],
-  // providers: [{provide: APP_BASE_HREF, useValue : '/entourdetail' }],
+  // providers: [{provide: APP_BASE_HREF, useValue : '/ERTOURDETAIL' }],
   providers: [
     EnTourService,
     AuthService,
     AuthGuard,
-    CanDeactivateGuard
+    CanDeactivateGuard,
+
     // {
     //   provide: UrlSerializer,
     //   useClass: LowerCaseUrlSerializer
     // },
-    //  {provide: APP_BASE_HREF, useValue : '/ENTOURDETAIL'}
+    {
+      provide: APP_BASE_HREF,
+      useFactory: getBaseHref,
+      deps: [PlatformLocation]
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [PopupComponent]

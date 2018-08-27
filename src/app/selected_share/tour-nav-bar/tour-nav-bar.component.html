@@ -8,7 +8,7 @@
                 <tr>
                   <td style="width:33%"></td>
                   <td>
-                    <a href="{{'./detail' + tourId}}">
+                    <a href="{{'.' + baseHref + '/detail?tourId=' + tourId}}">
                       <div class="navicon" [ngClass]="{'actived':actived == 1}">1</div>
                     </a>
                   </td>
@@ -25,7 +25,7 @@
                     <hr class="linecolor">
                   </td>
                   <td>
-                    <a href="{{'./rooms?tourId=' + tourId + '&tripId='+ tripId}}">
+                    <a href="{{'.' + baseHref + '/rooms?tourId=' + tourId + '&tripId='+ tripId}}">
                       <div class="navicon" [ngClass]="{'actived':actived == 2}">2</div>
                     </a>
                   </td>
@@ -42,7 +42,7 @@
                     <hr class="linecolor">
                   </td>
                   <td>
-                    <a href="{{'./options?tourId=' + tourId + '&tripId='+ tripId}}">
+                    <a href="{{'.' + baseHref + '/options?tourId=' + tourId + '&tripId='+ tripId}}">
                       <div class="navicon" [ngClass]="{'actived':actived == 3}">3</div>
                     </a>
                   </td>
@@ -59,7 +59,7 @@
                     <hr class="linecolor">
                   </td>
                   <td>
-                    <a href="{{'./travellerdetails?tourId=' + tourId + '&tripId='+ tripId}}">
+                    <a href="{{'.' + baseHref + '/travellerdetails?tourId=' + tourId + '&tripId='+ tripId}}">
                       <div class="navicon" [ngClass]="{'actived':actived == 4}">4</div>
                     </a>
                   </td>
@@ -76,7 +76,7 @@
                     <hr class="linecolor">
                   </td>
                   <td>
-                    <a href="{{'./reviewpayment?tourId=' + tourId + '&tripId='+ tripId}}">
+                    <a href="{{'.' + baseHref + '/reviewpayment?tourId=' + tourId + '&tripId='+ tripId}}">
                       <div class="navicon" [ngClass]="{'actived':actived == 5}">5</div>
                     </a>
                   </td>

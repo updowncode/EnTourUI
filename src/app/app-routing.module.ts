@@ -11,7 +11,7 @@ import { TourRoomsComponent } from "./select_room/tour-rooms/tour-rooms.componen
 
 const routes: Routes = [
   { path: "tours", component: TourListComponent },
-  { path: "detail/:id", component: DisplayTripsComponent },
+  { path: "detail", component: DisplayTripsComponent },
   { path: "rooms", component: TourRoomsComponent },
   { path: "options", component: TourOptionComponent },
   { path: "travellerdetails", component: TourTravellerDetailComponent },
