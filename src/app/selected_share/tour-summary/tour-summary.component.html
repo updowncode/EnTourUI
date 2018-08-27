@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-md-12">
+      <strong style="font-size:18px; color:colour">Trip Summary</strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div style="background-color:#eee;margin-top:10px; padding-top:1em;padding-left: 1em; padding-right: 1em;">
+        <div *ngIf="tour"><strong style="font-size:18px;"></strong>{{tour.name}}</div>
+        <div *ngIf="trip">{{trip.name}}</div>
+        <br>
+        <table style="width:100%;">
+          <tr>
+            <td style="width:5%;vertical-align:middle;">
+              <em class="fa fa-star colour">&nbsp;</em>
+            </td>
+            <td style="width:20%;padding-top: 2px;">Start:</td>
+            <td style="text-align: right;width:80%;" *ngIf="trip">{{trip.startPlace.substring(0,8)}}</td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="width:5%;vertical-align:middle;">
+              <em class="fa fa-star colour">&nbsp;</em>
+            </td>
+            <td style="width:20%;padding-top: 2px;">End:</td>
+            <td style="text-align: right;width:80%;" *ngIf="trip">{{trip.endPlace}}</td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="width:5%;vertical-align:middle;">
+              <em class="fa fa-calendar colour">&nbsp;</em>
+            </td>
+            <td style="width:20%;padding-top: 2px;">Departure:</td>
+            <td style="text-align: right;width:80%;" *ngIf="trip">{{trip.startDate}}</td>
+          </tr>
+        </table>
+        <hr />
+        <table style="width:100%;">
+          <tr>
+            <td style="width:90%">Number of Travellers:</td>
+            <td style="text-align: right;width:10%;" *ngIf="trip">{{trip.selectedTravellerQuantity.id}}</td>
+          </tr>
+        </table>
+        <hr />
+        <table style="width:100%;">
+          <tr>
+            <td style="width:90%">Optional Tours:</td>
+            <td style="text-align: right;width:10%;padding-top: 2px;">${{totalOptionPrice}}</td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="width:90%">Visa:</td>
+            <td style="text-align: right;width:10%;padding-top: 2px;">${{totalVisaPrice}}</td>
+          </tr>
+        </table>
+        <table style="width:100%;">
+          <tr>
+            <td style="width:90%">Extra Hotel:</td>
+            <td style="text-align: right;width:10%;padding-top: 2px;">$0</td>
+          </tr>
+        </table>
+        <br />
+        <div class="row" style="background-color:black;padding-top:1em;padding-bottom:1em;">
+          <div class="col-md-6" style="color:lightgray">Total(CAD):</div>
+          <div class="col-md-6 text-right" style="color:white">${{totalPrice}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <table style="width:100%;">
+        <tr>
+          <td colspan="2">
+            Got a question or need help with your booking? Feel free to give us a call!
+          </td>
+        </tr>
+        <tr>
+          <td style="width:5%;vertical-align:middle;">
+            <em class="fa fa-phone colour"></em>
+          </td>
+          <td>
+            <strong style="margin:0px;padding:0px;">1877.578.8888</strong>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div style="font-size:10px;">(Monday-Friday, 9:30am - 6:00pm EST)</div>
+          </td>
+        </tr>
+      </table>
+  
+    </div>
+  </div>
