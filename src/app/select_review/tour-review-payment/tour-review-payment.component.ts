@@ -7,6 +7,7 @@ import { EnTourService } from "../../en-tour.service";
 import { slideInDownAnimation } from "../../app.animations";
 import { Subscription } from "rxjs";
 import * as $ from "jquery";
+import { Location } from "@angular/common";
 export class OptionSummary {
   name: string;
   price: number;
@@ -34,11 +35,12 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   travellers: Traveller[] = [];
   optionSummary: OptionSummary[] = [];
   msg = "Loading Review  ...";
-  ToursSubscription: Subscription;
+  toursSubscription: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   totalPrice = 0;
@@ -49,12 +51,12 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   totalVisaPrice = 0;
   tourInfoSources: string[] = ["", "Toronto Star", "Tour East Website"];
   ngOnDestroy() {
-    this.ToursSubscription.unsubscribe();
+    this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.ToursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
+    this.toursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
       const roomsLength = this.onResult(t);
       if (roomsLength === 0) {
         this.router.navigate(["/options"], {
@@ -163,5 +165,12 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
       $("#ReturnForm").html(bookHtml);
       $("#pay_form").submit();
     });
+  }
+  goBack(): void {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

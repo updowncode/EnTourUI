@@ -1,7 +1,14 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { Headers, Http } from "@angular/http";
-import { of, Observable, BehaviorSubject, Subject, Subscription } from "rxjs";
-import { map, delay, switchMap } from "rxjs/operators";
+import { RequestOptions, Headers, Http } from "@angular/http";
+import {
+  of,
+  Observable,
+  BehaviorSubject,
+  Subject,
+  Subscription,
+  throwError
+} from "rxjs";
+import { map, delay, switchMap, catchError, tap, retry } from "rxjs/operators";
 import { MessageService } from "./message.service";
 import { Tour } from "./Models/tour";
 import { MockTours } from "./Models/mock-tours";
@@ -10,10 +17,20 @@ import { Quantity } from "./Models/quantity";
 import { Room } from "./Models/room";
 import { Option } from "./Models/option";
 import { Traveller } from "./Models/traveller";
-import { HttpClient } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpErrorResponse
+} from "@angular/common/http";
 import { Options } from "selenium-webdriver";
 const FETCH_LATENCY = 500;
-
+const httpOptions = {
+  headers: new HttpHeaders({
+    Authorization: "authkey",
+    application: "entour"
+  })
+};
 @Injectable()
 export class EnTourService implements OnDestroy {
   private tours: Tour[] = [];
@@ -37,6 +54,7 @@ export class EnTourService implements OnDestroy {
   toursSubscription: Subscription;
   tourSubscription: Subscription;
   tripSubscription: Subscription;
+
   constructor(
     private http: Http,
     private messageService: MessageService,
@@ -69,42 +87,60 @@ export class EnTourService implements OnDestroy {
   public saveTours(value: Tour[]) {
     this.tours = Object.assign([], value);
   }
+
   getToursAsync(): Observable<Tour[]> {
     if (this.tours.length === 0) {
-      // return of(MockTours);
-      return this.httpClient.get<Tour[]>(
-        this.toursUrl
-        //   ,
-        //    {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     "Access-Control-Allow-Origin": "http://localhost:4200",
-        //     "Access-Control-Allow-Methods":
-        //       "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-        //     "Access-Control-Allow-Headers": "X-Requested-With,content-type",
-        //     "Access-Control-Allow-Credentials": "true"
-        //   },
-        //   responseType: "json"
-        // }
-      );
+      return this.httpClient
+        .get<Tour[]>(this.toursUrl, {
+          headers: { a: "a" }
+        })
+        .pipe(
+          retry(3),
+          // tap(tours => this.log("fetched tours")),
+          catchError(this.handleObservableError("getToursAsync", []))
+        );
     } else {
       return of(this.tours);
     }
+  }
+  getToursAsync1(): Observable<HttpResponse<Tour[]>> {
+    return this.httpClient
+      .get<Tour[]>(this.toursUrl, {
+        headers: { a: "a" },
+        observe: "response"
+      })
+      .pipe(
+        retry(3),
+        tap(resp => this.log(`response header[a]${resp.headers.get("a")}`)),
+        catchError(this.handleError1)
+      );
+  }
+  private handleError1(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error("An error occurred:", error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
+      );
+    }
+    // return an observable with a user-facing error message
+    return throwError("Something bad happened; please try again later.");
   }
   getTourById(tourId: string): Observable<Tour> {
     if (this.tours.length === 0) {
       // return of(MockTours.find(c => c.id === tourId));
       return this.httpClient.get<Tour[]>(this.toursUrl).pipe(
-        map((response: Tour[]) => {
-          return response.find(tour => tour.id === tourId);
-        })
-      );
-    } else {
-      return of(this.tours).pipe(
-        map(tours => {
+    //    tap(tours => this.log("fetched tour")),
+        catchError(this.handleObservableError("getTourById", {})),
+        map((tours: Tour[]) => {
           return tours.find(tour => tour.id === tourId);
         })
       );
+    } else {
+      return of(this.tours.find(tour => tour.id === tourId));
     }
   }
   setupTravellers(rooms: Room[]): Traveller[] {
@@ -128,7 +164,7 @@ export class EnTourService implements OnDestroy {
     travellers: Traveller[],
     availabledRooms: Room[]
   ): Room[] {
-    const roomsFitSelectedTravellersQuantity = JSON.parse(
+    let roomsFitSelectedTravellersQuantity = JSON.parse(
       JSON.stringify(availabledRooms)
     ) as Room[];
     if (travellers.length === 1) {
@@ -147,21 +183,15 @@ export class EnTourService implements OnDestroy {
         }
         return 0;
       });
-      // for (let j = rooms.length - 1; j > 0; j--) {
-      //   if (rooms[j].capacity > 2) {
-      //     rooms.splice(j, 1);
-      //   }
-      // }
+      // // for (let j = rooms.length - 1; j > 0; j--) {
+      // //   if (rooms[j].capacity > 2) {
+      // //     rooms.splice(j, 1);
+      // //   }
+      // // }
       rooms.map(c => (c.travellers = Object.assign([], travellers)));
       return rooms;
     } else {
-      for (let j = roomsFitSelectedTravellersQuantity.length - 1; j >= 0; j--) {
-        if (
-          roomsFitSelectedTravellersQuantity[j].capacity < travellers.length
-        ) {
-          roomsFitSelectedTravellersQuantity.splice(j, 1);
-        }
-      }
+      roomsFitSelectedTravellersQuantity = roomsFitSelectedTravellersQuantity.filter( r => r.capacity >= travellers.length);
       roomsFitSelectedTravellersQuantity.map(
         c => (c.travellers = Object.assign([], travellers))
       );
@@ -182,6 +212,22 @@ export class EnTourService implements OnDestroy {
       .toPromise()
       .catch(this.handleError);
   }
+  private log(message: string) {
+    this.messageService.clearMessage();
+    this.messageService.add(`${message}`);
+  }
+  private handleObservableError<T>(operation = "operation", result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
   //#region Promise usages
   private handleError(error: any): Promise<any> {
     console.error("An error occurred", error); // for demo purposes only
@@ -197,8 +243,13 @@ export class EnTourService implements OnDestroy {
     return Promise.reject(error.message || error);
   }
   getTours(): Promise<Tour[]> {
+    // const header = new Headers({ "Content-Type": "application/json", a: "a" });
+    // const requestOptions = new RequestOptions({
+    //   headers: header,
+    //   withCredentials: false
+    // });
     return this.http
-      .get(this.toursUrl)
+      .get(this.toursUrl) // , requestOptions
       .toPromise()
       .then(response => response.json() as Tour[])
       .then(resp => (this.tours = Object.assign([], resp)))
@@ -214,20 +265,22 @@ export class EnTourService implements OnDestroy {
   }
   updateTour(tour: Tour): Promise<Tour> {
     const url = `${this.toursUrl}/${tour.id}`;
-    return this.http
-      .put(url, JSON.stringify(tour), { headers: this.headers })
-      .toPromise()
-      // .then(
-      //   res => {
-      //     console.log(res.json());
-      //     resolve();
-      //   },
-      //   msg => {
-      //     throw new Error("Couldn't get all Bookings: " + msg);
-      //   }
-      // )
-      .then(() => tour)
-      .catch(this.handleError);
+    return (
+      this.http
+        .put(url, JSON.stringify(tour), { headers: this.headers })
+        .toPromise()
+        // .then(
+        //   res => {
+        //     console.log(res.json());
+        //     resolve();
+        //   },
+        //   msg => {
+        //     throw new Error("Couldn't get all Bookings: " + msg);
+        //   }
+        // )
+        .then(() => tour)
+        .catch(this.handleError)
+    );
   }
   createTour(name: string): Promise<Tour> {
     return this.http

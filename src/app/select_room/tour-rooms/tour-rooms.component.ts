@@ -12,6 +12,7 @@ import { Passport } from "../../Models/passport";
 import { CountryOrArea } from "../../Models/countryorarea";
 import { Subscription } from "rxjs";
 import { Location } from "@angular/common";
+import { MessageService } from "../../message.service";
 @Component({
   selector: 'app-tour-rooms',
   templateUrl: './tour-rooms.component.html',
@@ -29,26 +30,27 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   tour: Tour;
   tourId: string;
   tripId: string;
-  msg = "Loading Traveller ...";
   paramSubscription: Subscription;
-  ToursSubscription: Subscription;
+  toursSubscription: Subscription;
   maxCapacity: number;
   constructor(
     private tourService: EnTourService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private messageService: MessageService
+
   ) {}
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
-    this.ToursSubscription.unsubscribe();
+    this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
     this.paramSubscription = this.activatedRoute.queryParams.subscribe(
       params => {
         this.tourId = params.tourId;
         this.tripId = params.tripId;
-        this.ToursSubscription = this.tourService
+        this.toursSubscription = this.tourService
           .getToursAsync()
           .subscribe((tours: Tour[]) => {
             this.tour = Object.assign(
@@ -65,7 +67,6 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
               this.initRooms();
               this.tourService.updateRoomInfo();
             }
-            this.msg = "";
           });
       }
     );
@@ -121,11 +122,13 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     }
   }
   onRemoveRoom(room: Room) {
-    for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
-      if (this.trip.rooms[i].index === room.index) {
-        this.trip.rooms.splice(i, 1);
-      }
-    }
+    this.trip.rooms = this.trip.rooms.filter( r => r.index !== room.index);
+    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.filter( r => r.id === this.trip.rooms.length)[0];
+    // for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
+    //   if (this.trip.rooms[i].index === room.index) {
+    //     this.trip.rooms.splice(i, 1);
+    //   }
+    // }
     this.assignRoomIndex();
   }
   assignRoom(remainedTravellers: number, roomQuantity: number) {
@@ -228,15 +231,13 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   }
   roomChange(newValue: Quantity) {
     if (newValue.id < this.trip.minRoomQuantityForTravellers) {
-      this.msg =
-        "Room(s) quantity should not less than " +
-        this.trip.minRoomQuantityForTravellers;
+      this.log(`Room(s) quantity should not less than ${this.trip.minRoomQuantityForTravellers}`);
       return;
     } else if (newValue.id >= this.trip.selectedTravellerQuantity.id) {
-      this.msg = "";
+      this.log(``);
       newValue = Object.assign({}, this.trip.selectedTravellerQuantity);
     } else if (newValue.id < this.trip.selectedTravellerQuantity.id) {
-      this.msg = "";
+      this.log(``);
     }
     this.clearRooms();
     this.assignRoom(
@@ -265,6 +266,10 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       }
       this.assignRoomIndex();
     }
+  }
+  private log(message: string) {
+    this.messageService.clearMessage();
+    this.messageService.add(`${message}`);
   }
   goToOptions(): void {
     localStorage.removeItem(this.tripId.toString());

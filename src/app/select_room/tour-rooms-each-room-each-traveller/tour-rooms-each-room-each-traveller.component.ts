@@ -15,9 +15,9 @@ import { EnTourService } from "../../en-tour.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-tour-rooms-each-room-each-traveller',
-  templateUrl: './tour-rooms-each-room-each-traveller.component.html',
-  styleUrls: ['./tour-rooms-each-room-each-traveller.component.sass'],
+  selector: "app-tour-rooms-each-room-each-traveller",
+  templateUrl: "./tour-rooms-each-room-each-traveller.component.html",
+  styleUrls: ["./tour-rooms-each-room-each-traveller.component.sass"],
   animations: [slideInDownAnimation]
 })
 export class TourRoomsEachRoomEachTravellerComponent implements OnInit {
@@ -92,25 +92,35 @@ export class TourRoomsEachRoomEachTravellerComponent implements OnInit {
   }
   onRoomMovedToModelChange(traveller: Traveller, roomIndex: number) {
     for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
-      for (let j = this.trip.rooms[i].travellers.length - 1; j >= 0; j--) {
-        if (this.trip.rooms[i].travellers[j].id === traveller.id) {
-          this.trip.rooms[i].travellers.splice(j, 1);
-        }
-      }
+      this.trip.rooms[i].travellers = this.trip.rooms[i].travellers.filter(
+        c => c.id !== traveller.id
+      );
+      // for (let j = this.trip.rooms[i].travellers.length - 1; j >= 0; j--) {
+      //   if (this.trip.rooms[i].travellers[j].id === traveller.id) {
+      //     this.trip.rooms[i].travellers.splice(j, 1);
+      //   }
+      // }
     }
 
-    for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
-      if (this.trip.rooms[i].index === roomIndex) {
-        traveller.roomId = this.trip.rooms[i].id;
-        this.trip.rooms[i].travellers.push(traveller);
-      }
-    }
-    for (let i = 0; i < this.trip.rooms.length; i++) {
-      for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-        this.trip.rooms[i].travellers[j].id =
-          this.totalTravellersBeforeRoom(i) + j;
-      }
-    }
+    traveller.roomId = this.trip.rooms.find(c => c.index === roomIndex).id;
+    this.trip.rooms.find(c => c.index === roomIndex).travellers.push(traveller);
+
+    // for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
+    //   if (this.trip.rooms[i].index === roomIndex) {
+    //     traveller.roomId = this.trip.rooms[i].id;
+    //     this.trip.rooms[i].travellers.push(traveller);
+    //   }
+    // }
+
+    this.trip.rooms.forEach((r: Room, i: number, s: Room[]) => r.travellers.forEach((t: Traveller, j: number, ts: Traveller[]) => {
+      t.id = this.totalTravellersBeforeRoom(i) + j;
+    }));
+    // for (let i = 0; i < this.trip.rooms.length; i++) {
+    //   for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+    //     this.trip.rooms[i].travellers[j].id =
+    //       this.totalTravellersBeforeRoom(i) + j;
+    //   }
+    // }
 
     this.roomMovedTo.emit(true);
   }
@@ -126,4 +136,3 @@ export class TourRoomsEachRoomEachTravellerComponent implements OnInit {
     return total;
   }
 }
-

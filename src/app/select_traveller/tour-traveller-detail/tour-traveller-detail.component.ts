@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../../en-tour.service";
 import { slideInDownAnimation } from "../../app.animations";
 import { Subscription } from "rxjs";
+import { Location } from "@angular/common";
 @Component({
   selector: "app-tour-traveller-detail",
   templateUrl: "./tour-traveller-detail.component.html",
@@ -23,19 +24,20 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   tourId: string;
   tripId: string;
   msg = "Loading Traveller Details ...";
-  ToursSubscription: Subscription;
+  toursSubscription: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
   ngOnDestroy() {
-    this.ToursSubscription.unsubscribe();
+    this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.ToursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
+    this.toursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
       const roomsLength = this.onResult(t);
       if (roomsLength === 0) {
         this.router.navigate(["/options"], {
@@ -64,6 +66,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   }
 
   gotoReviewPayment() {
+    this.trip.rooms.forEach( room => room.travellers.forEach( traveller => traveller.firstName = traveller.firstName.trim()));
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
@@ -71,5 +74,12 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(["/reviewpayment"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
+  }
+  goBack(): void {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

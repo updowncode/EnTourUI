@@ -39,9 +39,9 @@ import { TourRoomsEachRoomComponent } from "./select_room/tour-rooms-each-room/t
 import { TourRoomsEachRoomEachTravellerComponent } from "./select_room/tour-rooms-each-room-each-traveller/tour-rooms-each-room-each-traveller.component";
 import { TourSummaryComponent } from "./selected_share/tour-summary/tour-summary.component";
 import { DisplayTripsComponent } from "./select_trip/display-trips/display-trips.component";
-export function getBaseHref(platformLocation: PlatformLocation): string {
-  return platformLocation.getBaseHrefFromDOM();
-}
+// export function getBaseHref(platformLocation: PlatformLocation): string {
+//   return platformLocation.getBaseHrefFromDOM();
+// }
 // ng g c test -is -it --spec=false
 // ng new project-name --routing --style=sass
 // ng g m app-material
@@ -95,7 +95,9 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
     // },
     {
       provide: APP_BASE_HREF,
-      useFactory: getBaseHref,
+      useFactory: (platformLocation: PlatformLocation): string => {
+        return platformLocation.getBaseHrefFromDOM();
+      },
       deps: [PlatformLocation]
     }
   ],

@@ -27,7 +27,14 @@
                         <app-tour-traveller-detail-each-traveller *ngFor="let t of room.travellers; let j = index" [traveller]="t" [index]="t.id" [availabledTitles]="tour.availabledTitles"
                             [availabledCountryOrAreas]="tour.availabledCountryOrAreas"></app-tour-traveller-detail-each-traveller>
                     </div>
-                    <div class="text-right">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="goBack()">Go
+                            Back
+                        </button>
+                    </div>
+                    <div class="col-md-6 text-right">
                         <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoReviewPayment()">Continue</button>
                     </div>
                 </div>

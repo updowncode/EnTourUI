@@ -4,20 +4,25 @@ import { Option } from "../../Models/option";
 import { EnTourService } from "../../en-tour.service";
 
 @Component({
-  selector: 'app-tour-option-for-each-traveller',
-  templateUrl: './tour-option-for-each-traveller.component.html',
-  styleUrls: ['./tour-option-for-each-traveller.component.sass']
+  selector: "app-tour-option-for-each-traveller",
+  templateUrl: "./tour-option-for-each-traveller.component.html",
+  styleUrls: ["./tour-option-for-each-traveller.component.sass"]
 })
 export class TourOptionForEachTravellerComponent implements OnInit {
-  @Input() traveller: Traveller;
-  @Input() index: number;
-  @Input() options: Option[];
+  @Input()
+  traveller: Traveller;
+  @Input()
+  index: number;
+  @Input()
+  options: Option[];
   constructor(private tourService: EnTourService) {}
 
   ngOnInit() {}
   isTravellerOption(traveller: Traveller, option: Option) {
     if (traveller.selectedOptions != null) {
-      return traveller.selectedOptions.map(({ id }) => id).indexOf(option.id) >= 0;
+      return (
+        traveller.selectedOptions.map(({ id }) => id).indexOf(option.id) >= 0
+      );
     }
     return false;
   }
@@ -31,15 +36,25 @@ export class TourOptionForEachTravellerComponent implements OnInit {
   }
   changeTravellerOption(traveller: Traveller, option: Option) {
     let changeSuccessful = false;
-    if (traveller.selectedOptions != null) {
-      for (let i = traveller.selectedOptions.length - 1; i >= 0; i--) {
-        if (traveller.selectedOptions[i].id === option.id) {
-          traveller.selectedOptions.splice(i, 1);
-          changeSuccessful = true;
-          break;
-        }
-      }
+    //  if () {
+    if (
+      // traveller.selectedOptions != null &&
+      traveller.selectedOptions.filter(c => c.id === option.id).length > 0
+    ) {
+      traveller.selectedOptions = traveller.selectedOptions.filter(
+        c => c.id !== option.id
+      );
+      changeSuccessful = true;
     }
+
+    // for (let i = traveller.selectedOptions.length - 1; i >= 0; i--) {
+    //   if (traveller.selectedOptions[i].id === option.id) {
+    //     traveller.selectedOptions.splice(i, 1);
+    //     changeSuccessful = true;
+    //     break;
+    //   }
+    // }
+    // }
     if (!changeSuccessful) {
       if (traveller.selectedOptions == null) {
         traveller.selectedOptions = new Array<Option>();

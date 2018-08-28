@@ -28,7 +28,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
   travellers: Traveller[] = [];
   msg = "Loading options ...";
   paramSubscription: Subscription;
-  ToursSubscription: Subscription;
+  toursSubscription: Subscription;
   constructor(
     private tourService: EnTourService,
     private router: Router,
@@ -37,26 +37,28 @@ export class TourOptionComponent implements OnInit, OnDestroy {
   ) {}
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
-    this.ToursSubscription.unsubscribe();
+    this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
-    this.paramSubscription = this.activatedRoute.queryParams.subscribe(params => {
-      this.tourId = params.tourId;
-      this.tripId = params.tripId;
-      this.ToursSubscription = this.tourService
-        .getTourById(this.tourId)
-        .subscribe(t => {
-          const roomsLength = this.onResult(t);
-          if (roomsLength === 0) {
-            this.router.navigate(["/travellers"], {
-              queryParams: { tourId: this.tourId, tripId: this.tripId }
-            });
-          } else {
-            this.tourService.updateSelectedTour(this.tour);
-            this.tourService.updateSelectedTrip(this.trip);
-          }
-        });
-    });
+    this.paramSubscription = this.activatedRoute.queryParams.subscribe(
+      params => {
+        this.tourId = params.tourId;
+        this.tripId = params.tripId;
+        this.toursSubscription = this.tourService
+          .getTourById(this.tourId)
+          .subscribe(t => {
+            const roomsLength = this.onResult(t);
+            if (roomsLength === 0) {
+              this.router.navigate(["/travellers"], {
+                queryParams: { tourId: this.tourId, tripId: this.tripId }
+              });
+            } else {
+              this.tourService.updateSelectedTour(this.tour);
+              this.tourService.updateSelectedTrip(this.trip);
+            }
+          });
+      }
+    );
   }
 
   onResult(tour: Tour): number {
@@ -97,7 +99,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
     if (window.history.length > 1) {
       this.location.back();
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     }
   }
 }
