@@ -42,8 +42,9 @@
                     </span>
                 </td>
                 <td style="text-align:center;vertical-align: middle;">
-                    <input type="checkbox" style="cursor: pointer;" name="{{'Options' + traveller.id + option.id }}" (change)="changeTravellerOption(traveller, option)"
+                    <input type="checkbox" style="cursor: pointer;"  name="{{'Options' + traveller.id + option.id }}" (change)="changeTravellerOption(traveller, option)"
                         [checked]="isTravellerOption(traveller, option)">
+
                 </td>
             </tr>
         </tbody>

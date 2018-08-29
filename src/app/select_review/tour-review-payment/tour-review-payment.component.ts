@@ -35,6 +35,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   travellers: Traveller[] = [];
   optionSummary: OptionSummary[] = [];
   msg = "Loading Review  ...";
+  isVerified: boolean;
   toursSubscription: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,6 +55,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
+    this.isVerified = false;
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
     this.toursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
@@ -154,7 +156,10 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
       this.totalRoomPrice + this.totalOptionPrice + this.totalVisaPrice;
     return this.totalPrice;
   }
-
+  verify() {
+    this.isVerified = !this.isVerified;
+    // this.gotoPayment();
+  }
   gotoPayment() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));

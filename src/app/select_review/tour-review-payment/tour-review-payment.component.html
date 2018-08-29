@@ -19,12 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div *ngIf="trip === undefined">Loading...</div>
-        </div>
-    </div>
-    <div *ngIf="trip" style="border: 1px solid #ccc; padding:30px; margin-top:10px;">
+    <div *ngIf="trip; else loading" style="border: 1px solid #ccc; padding:30px; margin-top:10px;">
         <div class="row">
             <div class="col-md-12">
                 <strong style="font-size:18px;">You're almost there!</strong>
@@ -168,12 +163,15 @@
         </div>
         <div class="row">
             <div class="col-md-6 text-left">
-                <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="goBack()">Go
-                    Back</button>
+                <button mat-raised-button color="primary" [style.background-color]="'#d47027'" [style.font-size.em]="isVerified ? 3 : 1" (click)="goBack()">Go
+                    Back
+                </button>
             </div>
             <div class="col-md-6 text-right">
-                <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoPayment()">Continue
-                    to Payment</button>
+                <button  [class.btn]="isVerified" [style.color]="isVerified ? 'white' : 'white'" [style.font-size.%]="!isVerified ? 150 : 50"
+                [style.background-color]="isVerified ? '#d47027' : 'blue'"
+                    [attr.aria-label]="payment" 
+                    on-click="verify()">Continue to Payment</button>   <!-- bind-disabled="!isVerified"  -->
             </div>
         </div>
         <div class="row">
@@ -182,4 +180,7 @@
             </div>
         </div>
     </div>
+    <ng-template #loading>
+        <app-message></app-message>
+    </ng-template>
 </div>

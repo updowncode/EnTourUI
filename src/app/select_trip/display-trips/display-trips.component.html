@@ -17,10 +17,9 @@
                     <app-message></app-message>
                 </div>
             </div>
-            <div *ngIf="trip === undefined">Searching Trips...</div>
         </div>
     </div>
-    <div class="row" *ngIf="tour && tour.trips">
+    <div class="row" *ngIf="tour && tour.trips;else loading">
         <div class="col-md-12">
             <table class="table table-bordered" style="width: 100%;">
                 <thead>
@@ -76,4 +75,5 @@
             <app-trip-details [trip]="trip"></app-trip-details>
         </div>
     </div>
+    <ng-template #loading>Searching Trips...<br /><app-message></app-message></ng-template>
 </div>

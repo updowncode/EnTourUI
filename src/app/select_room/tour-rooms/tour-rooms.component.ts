@@ -14,9 +14,9 @@ import { Subscription } from "rxjs";
 import { Location } from "@angular/common";
 import { MessageService } from "../../message.service";
 @Component({
-  selector: 'app-tour-rooms',
-  templateUrl: './tour-rooms.component.html',
-  styleUrls: ['./tour-rooms.component.sass'],
+  selector: "app-tour-rooms",
+  templateUrl: "./tour-rooms.component.html",
+  styleUrls: ["./tour-rooms.component.sass"],
   animations: [slideInDownAnimation]
 })
 export class TourRoomsComponent implements OnInit, OnDestroy {
@@ -39,7 +39,6 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private messageService: MessageService
-
   ) {}
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
@@ -122,13 +121,16 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     }
   }
   onRemoveRoom(room: Room) {
-    this.trip.rooms = this.trip.rooms.filter( r => r.index !== room.index);
-    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.filter( r => r.id === this.trip.rooms.length)[0];
+    this.trip.rooms = this.trip.rooms.filter(r => r.index !== room.index);
+    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.filter(
+      r => r.id === this.trip.rooms.length
+    )[0];
     // for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
     //   if (this.trip.rooms[i].index === room.index) {
     //     this.trip.rooms.splice(i, 1);
     //   }
     // }
+    this.tourService.updateRoomsCanbeMovedTo();
     this.assignRoomIndex();
   }
   assignRoom(remainedTravellers: number, roomQuantity: number) {
@@ -218,20 +220,25 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       this.trip.selectedRoomQuantity.id
     );
     this.trip.minRoomQuantityForTravellers = this.trip.rooms.length;
-    for (let i = 0; i < this.trip.availabledRoomQuantities.length; i++) {
-      if (
-        this.trip.availabledRoomQuantities[i].id ===
-        this.trip.minRoomQuantityForTravellers
-      ) {
-        this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities[i];
-        break;
-      }
-    }
+    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.find( c => c.id === this.trip.rooms.length);
+    // for (let i = 0; i < this.trip.availabledRoomQuantities.length; i++) {
+    //   if (
+    //     this.trip.availabledRoomQuantities[i].id ===
+    //     this.trip.minRoomQuantityForTravellers
+    //   ) {
+    //     this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities[i];
+    //     break;
+    //   }
+    // }
     this.tourService.updateRoomInfo();
   }
   roomChange(newValue: Quantity) {
     if (newValue.id < this.trip.minRoomQuantityForTravellers) {
-      this.log(`Room(s) quantity should not less than ${this.trip.minRoomQuantityForTravellers}`);
+      this.log(
+        `Room(s) quantity should not less than ${
+          this.trip.minRoomQuantityForTravellers
+        }`
+      );
       return;
     } else if (newValue.id >= this.trip.selectedTravellerQuantity.id) {
       this.log(``);
@@ -284,7 +291,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     if (window.history.length > 1) {
       this.location.back();
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     }
   }
 }

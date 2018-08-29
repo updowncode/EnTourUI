@@ -1,7 +1,7 @@
 <div style="background-color:white;margin-top:10px; padding:10px;">
   <div class="row">
     <div class="col-md-12">
-      <app-tour-nav-bar [actived]="2"></app-tour-nav-bar>
+      <app-tour-nav-bar bind-actived="2"></app-tour-nav-bar>
     </div>
   </div>
   <br />
@@ -49,13 +49,13 @@
         <br />
         <app-tour-rooms-billing-info *ngIf="tour" [tour]="tour" [trip]="trip"></app-tour-rooms-billing-info>
         <div *ngIf="trip">
-          <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" (removeRoom)="onRemoveRoom(room)" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)"
+          <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)"
             *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>
         </div>
         <br />
         <div class="row">
           <div class="col-md-6 text-left">
-            <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="goBack()">Go Back</button>
+            <button mat-raised-button color="primary" style="background-color:#d47027!important" on-click="goBack()">Go Back</button>
           </div>
           <div class="col-md-6 text-right">
             <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="goToOptions()">Continue</button>

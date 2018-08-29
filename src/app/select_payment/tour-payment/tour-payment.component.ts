@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { EnTourService } from '../../en-tour.service';
 import { Subscription } from 'rxjs';
 import { slideInDownAnimation } from "../../app.animations";
+import { MessageService } from '../../message.service';
 @Component({
   selector: 'app-tour-payment',
   templateUrl: './tour-payment.component.html',
@@ -17,12 +18,12 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   @HostBinding("style.position")
   position = "related";
   err: string;
-  messageText: string;
   subscription: Subscription;
-  trnApproved: string;
+  approved: boolean;
   constructor(private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
-    private router: Router) { }
+    private router: Router,
+    private messageService: MessageService) { }
     ngOnDestroy() {
       this.subscription.unsubscribe();
     }
@@ -35,7 +36,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       params => this.onParams(params));
   }
   onParams(params: Params) {
-    this.trnApproved = params.trnapproved;
-    this.messageText = params.messagetext;
+    this.approved = params.trnapproved === 1;
+    this.messageService.add(params.messagetext);
   }
 }

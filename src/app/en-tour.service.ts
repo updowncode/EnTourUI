@@ -133,11 +133,9 @@ export class EnTourService implements OnDestroy {
     if (this.tours.length === 0) {
       // return of(MockTours.find(c => c.id === tourId));
       return this.httpClient.get<Tour[]>(this.toursUrl).pipe(
-    //    tap(tours => this.log("fetched tour")),
+        //    tap(tours => this.log("fetched tour")),
         catchError(this.handleObservableError("getTourById", {})),
-        map((tours: Tour[]) => {
-          return tours.find(tour => tour.id === tourId);
-        })
+        switchMap((tours: Tour[]) => of(tours.find(tour => tour.id === tourId)))
       );
     } else {
       return of(this.tours.find(tour => tour.id === tourId));
@@ -191,7 +189,9 @@ export class EnTourService implements OnDestroy {
       rooms.map(c => (c.travellers = Object.assign([], travellers)));
       return rooms;
     } else {
-      roomsFitSelectedTravellersQuantity = roomsFitSelectedTravellersQuantity.filter( r => r.capacity >= travellers.length);
+      roomsFitSelectedTravellersQuantity = roomsFitSelectedTravellersQuantity.filter(
+        r => r.capacity >= travellers.length
+      );
       roomsFitSelectedTravellersQuantity.map(
         c => (c.travellers = Object.assign([], travellers))
       );

@@ -13,16 +13,21 @@ import { Subscription } from "rxjs";
 import { Tour } from "../../Models/tour";
 
 @Component({
-  selector: 'app-tour-rooms-each-room',
-  templateUrl: './tour-rooms-each-room.component.html',
-  styleUrls: ['./tour-rooms-each-room.component.sass']
+  selector: "app-tour-rooms-each-room",
+  templateUrl: "./tour-rooms-each-room.component.html",
+  styleUrls: ["./tour-rooms-each-room.component.sass"]
 })
 export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
-  @Input() room: Room;
-  @Input() trip: Trip;
-  @Input() roomIndex: number;
-  @Output() roomCanbeMovedTo = new EventEmitter<boolean>();
-  @Output() removeRoom = new EventEmitter<Room>();
+  @Input()
+  room: Room;
+  @Input()
+  trip: Trip;
+  @Input()
+  roomIndex: number;
+  @Output()
+  roomCanbeMovedTo = new EventEmitter<boolean>();
+  @Output()
+  removeRoom = new EventEmitter<Room>();
   bedRoomsForSelectedTravellers: Room[];
   roomsMoveTo: Room[];
   capacities: number[];
@@ -43,7 +48,11 @@ export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
-    this.maxCapacity = Math.max(...this.trip.availabledRooms.filter( room => room.capacity > 0).map(room => room.capacity));
+    this.maxCapacity = Math.max(
+      ...this.trip.availabledRooms
+        .filter(room => room.capacity > 0)
+        .map(room => room.capacity)
+    );
     this.updateRoomsCanbeMovedTo();
   }
   remove(room: Room) {
@@ -68,18 +77,14 @@ export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
       this.roomsMoveTo = new Array<Room>();
       this.roomsMoveTo.push(this.room);
       for (let i = 0; i < this.trip.rooms.length; i++) {
-        let found = false;
-        for (let j = 0; j < this.roomsMoveTo.length; j++) {
-          if (this.roomsMoveTo[j].index === this.trip.rooms[i].index) {
-            found = true;
-            break;
-          }
-        }
-
-        if (!found) {
-          if (this.trip.rooms[i].travellers.length < this.maxCapacity) {
-            this.roomsMoveTo.push(this.trip.rooms[i]);
-          }
+        const notFound =
+          this.roomsMoveTo.filter(c => c.index === this.trip.rooms[i].index)
+            .length <= 0;
+        if (
+          notFound &&
+          this.trip.rooms[i].travellers.length < this.maxCapacity
+        ) {
+          this.roomsMoveTo.push(this.trip.rooms[i]);
         }
       }
       this.bedRoomsForSelectedTravellers = Object.assign(
@@ -90,5 +95,12 @@ export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
         )
       );
     }
+  }
+  displayRoomInfo(): string {
+    return `Total Rooms: ${this.trip.rooms.length} RoomId:${
+      this.room.id
+    } Travellers: ${this.room.travellers.length} Room Capacity: ${
+      this.room.capacity
+    }`;
   }
 }

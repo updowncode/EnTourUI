@@ -4,7 +4,7 @@
     <table style="width: 100%">
       <tr>
         <td>
-            <strong style="font-size:18px;" title="Total Rooms:{{trip.rooms.length}} | RoomId:{{room.id}} | Travellers: {{room.travellers.length}} | Room Capacity: {{room.capacity}}" >Room: #{{roomIndex}}</strong>
+            <strong style="font-size:18px;" title="{{'Room:'+ displayRoomInfo()}}" >Room: #{{roomIndex}}</strong>
         </td>
         <td style="text-align: right;"><button *ngIf="room.travellers.length === 0" (click)="remove(room)" >Remove</button></td>
       </tr>

@@ -36,25 +36,14 @@ export class TourOptionForEachTravellerComponent implements OnInit {
   }
   changeTravellerOption(traveller: Traveller, option: Option) {
     let changeSuccessful = false;
-    //  if () {
-    if (
-      // traveller.selectedOptions != null &&
-      traveller.selectedOptions.filter(c => c.id === option.id).length > 0
-    ) {
+
+    if (traveller.selectedOptions && traveller.selectedOptions.find(c => c.id === option.id)) {
       traveller.selectedOptions = traveller.selectedOptions.filter(
         c => c.id !== option.id
       );
       changeSuccessful = true;
     }
 
-    // for (let i = traveller.selectedOptions.length - 1; i >= 0; i--) {
-    //   if (traveller.selectedOptions[i].id === option.id) {
-    //     traveller.selectedOptions.splice(i, 1);
-    //     changeSuccessful = true;
-    //     break;
-    //   }
-    // }
-    // }
     if (!changeSuccessful) {
       if (traveller.selectedOptions == null) {
         traveller.selectedOptions = new Array<Option>();

@@ -1,12 +1,8 @@
-<div *ngIf="!loaded">
-    Searching Tours...
-</div>
-<app-message></app-message>
-<div style="min-height: 480px;" *ngIf="loaded">
+<div style="min-height: 480px;" *ngIf="loaded; else loading">
     <div class="row" style="background-color:white;">
         <mat-card class="col-md-4" *ngFor="let tour of tours$ | async">
             <mat-card-content>
-                <h4>{{tour.name}}</h4>
+                <h4 [innerHTML]="tour.name"></h4>
                 <!-- <a class="btn btn-primary" [routerLink]="['/detail', tour.id]"  target="_blank">
                 Select
             </a> -->
@@ -14,7 +10,11 @@
                     <!-- target="_blank" -->
                     Select
                 </a>
+                <!-- <a class="btn btn-primary" [href]="'.' + baseHref + '/detail?tourId=' + tour.id" target="_blank">
+                    Select
+                </a> -->
             </mat-card-content>
         </mat-card>
     </div>
 </div>
+<ng-template #loading>Searching Tours...<br /><app-message></app-message></ng-template>
