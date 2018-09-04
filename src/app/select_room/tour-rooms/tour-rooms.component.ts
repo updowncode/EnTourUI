@@ -13,6 +13,7 @@ import { CountryOrArea } from "../../Models/countryorarea";
 import { Subscription } from "rxjs";
 import { Location } from "@angular/common";
 import { MessageService } from "../../message.service";
+import { TourDateType } from "../../Models/dateType";
 @Component({
   selector: "app-tour-rooms",
   templateUrl: "./tour-rooms.component.html",
@@ -198,7 +199,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     traveller.birthday = "";
     traveller.passport = new Passport();
     traveller.passport.number = "";
-    traveller.passport.issueDate = "";
+    traveller.passport.issueDate = new TourDateType();
     traveller.passport.expiryDate = "";
     traveller.passport.issuePlace = new CountryOrArea();
     traveller.countryorarea = null;

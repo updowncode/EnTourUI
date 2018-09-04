@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: "reviewpayment", component: TourReviewPaymentComponent },
   { path: "PAYMENT", redirectTo: "payment" },
   { path: "payment", component: TourPaymentComponent  },
-  { path: "", component: TourListComponent, pathMatch: "full" }
+  { path: "", component: TourListComponent, pathMatch: "full" },
+  { path: "ENTOURDETAIL", component: TourListComponent, pathMatch: "full" } // for dnndev.me
   // { path: '**', component: PageNotFoundComponent }
 ];
 @NgModule({

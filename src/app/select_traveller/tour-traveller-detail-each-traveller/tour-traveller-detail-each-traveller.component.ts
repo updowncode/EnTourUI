@@ -15,13 +15,14 @@ import { EnTourService } from "../../en-tour.service";
 import * as $ from "jquery";
 // import {MyDatePickerComponent} from '../my-date-picker/my-date-picker.component';
 @Component({
-  selector: 'app-tour-traveller-detail-each-traveller',
-  templateUrl: './tour-traveller-detail-each-traveller.component.html',
-  styleUrls: ['./tour-traveller-detail-each-traveller.component.sass'],
+  selector: "app-tour-traveller-detail-each-traveller",
+  templateUrl: "./tour-traveller-detail-each-traveller.component.html",
+  styleUrls: ["./tour-traveller-detail-each-traveller.component.sass"],
   // directives: [MyDatePickerComponent],
   animations: [slideInDownAnimation]
 })
-export class TourTravellerDetailEachTravellerComponent implements OnInit, AfterViewChecked {
+export class TourTravellerDetailEachTravellerComponent
+  implements OnInit, AfterViewChecked {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -65,10 +66,15 @@ export class TourTravellerDetailEachTravellerComponent implements OnInit, AfterV
       ...this.availabledCountryOrAreas
     ];
     this.availabledTitles = ["", ...this.availabledTitles];
-
-    this.traveller.countryorarea = this.availabledCountryOrAreas[0];
-    this.traveller.passport.issuePlace = this.availabledCountryOrAreas[0];
-    this.traveller.title = this.availabledTitles[0];
+    if (this.traveller.countryorarea.id < 0) {
+      this.traveller.countryorarea = this.availabledCountryOrAreas[0];
+    }
+    if (this.traveller.passport.issuePlace.id < 0) {
+      this.traveller.passport.issuePlace = this.availabledCountryOrAreas[0];
+    }
+    if (this.traveller.title === "") {
+      this.traveller.title = this.availabledTitles[0];
+    }
     this.minDateForDOB = {
       year: new Date().getFullYear() - 100,
       month: new Date().getMonth() + 1,
@@ -100,6 +106,13 @@ export class TourTravellerDetailEachTravellerComponent implements OnInit, AfterV
       month: new Date().getMonth() + 1,
       day: new Date().getDate()
     };
+  }
+
+  compareTitle(c1: string, c2: string): boolean {
+    return c1 && c2 ? c1 === c2 : false;
+  }
+  compareCountry(c1: CountryOrArea, c2: CountryOrArea): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
   //
   // // Date Picker //

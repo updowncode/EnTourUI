@@ -6,6 +6,7 @@ import { EnTourService } from "../../en-tour.service";
 import { slideInDownAnimation } from "../../app.animations";
 import { Subscription } from "rxjs";
 import { Location } from "@angular/common";
+import { CountryOrArea } from "../../Models/countryorarea";
 @Component({
   selector: "app-tour-traveller-detail",
   templateUrl: "./tour-traveller-detail.component.html",
@@ -37,17 +38,51 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.toursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
-      const roomsLength = this.onResult(t);
-      if (roomsLength === 0) {
-        this.router.navigate(["/options"], {
-          queryParams: { tourId: this.tourId, tripId: this.tripId }
-        });
-      } else {
-        this.tourService.updateSelectedTour(this.tour);
-        this.tourService.updateSelectedTrip(this.trip);
+    this.toursSubscription = this.tourService
+      .getTourById(this.tourId)
+      .subscribe(t => {
+        const roomsLength = this.onResult(t);
+        if (roomsLength === 0) {
+          this.router.navigate(["/options"], {
+            queryParams: { tourId: this.tourId, tripId: this.tripId }
+          });
+        } else {
+          this.tourService.updateSelectedTour(this.tour);
+          this.tourService.updateSelectedTrip(this.trip);
+          this.initData();
+        }
+      });
+  }
+  initData() {
+    for (let i = 0; i < this.trip.rooms.length; i++) {
+      for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+        this.trip.rooms[i].travellers[j].title = "Mr";
+        this.trip.rooms[i].travellers[j].placeofbirth = "Toronto";
+        this.trip.rooms[i].travellers[j].birthday = "1988-01-01";
+
+        this.trip.rooms[i].travellers[j].passport.number = "AS232424";
+        this.trip.rooms[i].travellers[j].passport.issueDate = {
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+          day: new Date().getDate()
+        };
+        this.trip.rooms[i].travellers[j].passport.expiryDate = "2020-01-01";
+        this.trip.rooms[i].travellers[
+          j
+        ].passport.issuePlace = new CountryOrArea();
+        this.trip.rooms[i].travellers[j].passport.issuePlace.id = 4;
+        this.trip.rooms[i].travellers[j].passport.issuePlace.name = "Canada";
+        this.trip.rooms[i].travellers[j].passport.issuePlace.code = "CA";
+
+        this.trip.rooms[i].travellers[j].countryorarea = new CountryOrArea();
+        this.trip.rooms[i].travellers[j].countryorarea.id = 4;
+        this.trip.rooms[i].travellers[j].countryorarea.name = "Canada";
+        this.trip.rooms[i].travellers[j].countryorarea.code = "CA";
+
+        this.trip.rooms[i].travellers[j].specialRequest =
+          "specialRequest" + j.toString();
       }
-    });
+    }
   }
   onResult(tour: Tour): number {
     this.tour = tour;
@@ -66,7 +101,11 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   }
 
   gotoReviewPayment() {
-    this.trip.rooms.forEach( room => room.travellers.forEach( traveller => traveller.firstName = traveller.firstName.trim()));
+    this.trip.rooms.forEach(room =>
+      room.travellers.forEach(
+        traveller => (traveller.firstName = traveller.firstName.trim())
+      )
+    );
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
@@ -79,7 +118,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     if (window.history.length > 1) {
       this.location.back();
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     }
   }
 }

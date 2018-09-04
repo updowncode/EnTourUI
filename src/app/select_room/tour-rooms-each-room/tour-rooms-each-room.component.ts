@@ -54,6 +54,14 @@ export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
         .map(room => room.capacity)
     );
     this.updateRoomsCanbeMovedTo();
+
+    this.initData();
+  }
+  initData() {
+    for (let i = 0; i < this.room.travellers.length; i++) {
+      this.room.travellers[i].firstName = "firstName" + i.toString();
+      this.room.travellers[i].lastName = "lastName" + i.toString();
+    }
   }
   remove(room: Room) {
     this.removeRoom.emit(room);

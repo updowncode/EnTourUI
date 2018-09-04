@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-md-2">
         <label>Title*</label>
-        <select class="form-control" [(ngModel)]="traveller.title">
+        <select class="form-control" [(ngModel)]="traveller.title" [compareWith]="compareTitle" >
           <ng-container *ngFor="let title of availabledTitles">
             <option [ngValue]="title" *ngIf="title === ''">Select</option>
             <option [ngValue]="title" *ngIf="title !== ''">{{title}}</option>
@@ -65,8 +65,8 @@
       <div class="col-md-4">
         <label>Nationality*</label>
         <div>
-          <select class="form-control" [(ngModel)]="traveller.countryorarea">
-            <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
+          <select class="form-control" [(ngModel)]="traveller.countryorarea" [compareWith]="compareCountry">
+            <ng-container *ngFor="let countryorarea of availabledCountryOrAreas" >
               <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
               <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
             </ng-container>
@@ -102,7 +102,7 @@
       <div class="col-md-3">
         <label>Place of Issue*</label>
         <div>
-          <select class="form-control" [(ngModel)]="traveller.passport.issuePlace">
+          <select class="form-control" [(ngModel)]="traveller.passport.issuePlace" [compareWith]="compareCountry">
             <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
               <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
               <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
