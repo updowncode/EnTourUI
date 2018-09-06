@@ -40,10 +40,28 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.location.replaceState("/");
+  }
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
     this.toursSubscription.unsubscribe();
+  }
+  onResult(tours: Tour[]) {
+    this.tour = Object.assign(
+      {},
+      tours.find(tour => tour.id === this.tourId)
+    );
+    this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
+    this.tourService.updateSelectedTour(this.tour);
+    this.tourService.updateSelectedTrip(this.trip);
+    this.maxCapacity = Math.max(
+      ...this.trip.availabledRooms.map(room => room.capacity)
+    );
+    if (this.trip.rooms.length === 0) {
+      this.initRooms();
+      this.tourService.updateRoomInfo();
+    }
   }
   ngOnInit() {
     this.paramSubscription = this.activatedRoute.queryParams.subscribe(
@@ -52,25 +70,11 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
         this.tripId = params.tripId;
         this.toursSubscription = this.tourService
           .getToursAsync()
-          .subscribe((tours: Tour[]) => {
-            this.tour = Object.assign(
-              {},
-              tours.find(tour => tour.id === this.tourId)
-            );
-            this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
-            this.tourService.updateSelectedTour(this.tour);
-            this.tourService.updateSelectedTrip(this.trip);
-            this.maxCapacity = Math.max(
-              ...this.trip.availabledRooms.map(room => room.capacity)
-            );
-            if (this.trip.rooms.length === 0) {
-              this.initRooms();
-              this.tourService.updateRoomInfo();
-            }
-          });
+          .subscribe((tours: Tour[]) => this.onResult(tours));
       }
     );
   }
+
   initRooms() {
     this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
       this.trip.tripCostForDefaultTravellerQuantity - 1
@@ -196,11 +200,11 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     traveller.middleName = "";
     traveller.lastName = "";
     traveller.placeofbirth = "";
-    traveller.birthday = "";
+    traveller.birthday = null;
     traveller.passport = new Passport();
     traveller.passport.number = "";
-    traveller.passport.issueDate = new TourDateType();
-    traveller.passport.expiryDate = "";
+    traveller.passport.issueDate = null;
+    traveller.passport.expiryDate = null;
     traveller.passport.issuePlace = new CountryOrArea();
     traveller.countryorarea = null;
     traveller.selectedOptions = null;

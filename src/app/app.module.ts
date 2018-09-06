@@ -39,6 +39,8 @@ import { TourRoomsEachRoomComponent } from "./select_room/tour-rooms-each-room/t
 import { TourRoomsEachRoomEachTravellerComponent } from "./select_room/tour-rooms-each-room-each-traveller/tour-rooms-each-room-each-traveller.component";
 import { TourSummaryComponent } from "./selected_share/tour-summary/tour-summary.component";
 import { DisplayTripsComponent } from "./select_trip/display-trips/display-trips.component";
+import { TestComponent } from './test/test.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -68,6 +70,8 @@ import { DisplayTripsComponent } from "./select_trip/display-trips/display-trips
     TourRoomsBillingInfoComponent,
     TourRoomsEachRoomComponent,
     TourRoomsEachRoomEachTravellerComponent,
+    TestComponent,
+    PageNotFoundComponent,
     TourSummaryComponent,
     DisplayTripsComponent
   ],
@@ -82,7 +86,7 @@ import { DisplayTripsComponent } from "./select_trip/display-trips/display-trips
     EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
     AppRoutingModule
   ],
-  // providers: [{provide: APP_BASE_HREF, useValue : '/ERTOURDETAIL' }],
+  // providers: [{provide: APP_BASE_HREF, useValue : '/ERTOUR' }],
   providers: [
     EnTourService,
     AuthService,
@@ -93,13 +97,13 @@ import { DisplayTripsComponent } from "./select_trip/display-trips/display-trips
     //   provide: UrlSerializer,
     //   useClass: LowerCaseUrlSerializer
     // },
-    {
-      provide: APP_BASE_HREF,
-      useFactory: (platformLocation: PlatformLocation): string => {
-        return platformLocation.getBaseHrefFromDOM();
-      },
-      deps: [PlatformLocation]
-    }
+    // {
+    //   provide: APP_BASE_HREF,
+    //   useFactory: (platformLocation: PlatformLocation): string => {
+    //     return platformLocation.getBaseHrefFromDOM();
+    //   },
+    //   deps: [PlatformLocation]
+    // }
   ],
   bootstrap: [AppComponent],
   entryComponents: [PopupComponent]

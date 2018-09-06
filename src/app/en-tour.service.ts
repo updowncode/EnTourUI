@@ -90,12 +90,14 @@ export class EnTourService implements OnDestroy {
 
   getToursAsync(): Observable<Tour[]> {
     if (this.tours.length === 0) {
+      // return this.httpClient
+      //   .get<Tour[]>(this.toursUrl, {
+      //     headers: { a: "a" }
+      //   })
       return this.httpClient
-        .get<Tour[]>(this.toursUrl, {
-          headers: { a: "a" }
-        })
+        .get<Tour[]>(this.toursUrl)
         .pipe(
-          retry(3),
+          // retry(3),
           // tap(tours => this.log("fetched tours")),
           catchError(this.handleObservableError("getToursAsync", []))
         );

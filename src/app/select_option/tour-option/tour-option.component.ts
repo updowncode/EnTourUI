@@ -91,7 +91,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
     this.tourService.updateSelectedTrip(this.trip);
-    this.router.navigate(["/travellerdetails"], {
+    this.router.navigate(["/travellers"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
   }

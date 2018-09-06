@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="cursor:pointer;" *ngFor="let t of tour.trips" [class.trselected]="t === trip" (click)="onSelectTrip(t)">
+                    <tr style="cursor:pointer;" *ngFor="let t of tour.trips" [class.trselected]="t === trip" (mouseover)="onSelectTrip(t)" (click)="onSelectTrip(t)">
                         <td>
                             <span style="font-size: 13px;">{{t.startDate}}</span>
                         </td>
@@ -67,7 +67,12 @@
                             </span>
                         </td>
                         <td style="text-align:center;vertical-align: middle;">
-                            <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="gotoTraveller(tour.id, t.id)">Select</button>
+                            <!-- <a class="btn btn-primary" id="myNav" href="{{'.' + baseHref + '/rooms?tourId=' + tour.id + '\&tripId=' + t.id}}">
+                             
+                                Select it
+                            </a> -->
+                            <a class="btn btn-warning" (click)="gotoTraveller(tour.id, t.id)">Click</a>
+                            <button mat-raised-button color="primary"  #myNav style="background-color:#d47027!important"  (click)="gotoTraveller(tour.id, t.id)">Select</button>
                         </td>
                     </tr>
                 </tbody>
@@ -77,3 +82,4 @@
     </div>
     <ng-template #loading>Searching Trips...<br /><app-message></app-message></ng-template>
 </div>
+<div id="main_content" style="top:1px;min-height: 0px !important; height:0px; display: none"></div>

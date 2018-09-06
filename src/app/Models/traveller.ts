@@ -1,6 +1,7 @@
 import { Option } from "./option";
 import { CountryOrArea } from "./countryorarea";
 import { Passport } from "./passport";
+import { TourDateType } from "./dateType";
 
 export class Traveller {
   id: number;
@@ -9,7 +10,7 @@ export class Traveller {
   middleName: string;
   lastName: string;
   placeofbirth: string;
-  birthday: string;
+  birthday: TourDateType;
   passport: Passport;
   countryorarea: CountryOrArea;
   selectedOptions: Option[];

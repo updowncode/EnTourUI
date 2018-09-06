@@ -58,7 +58,11 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
       for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
         this.trip.rooms[i].travellers[j].title = "Mr";
         this.trip.rooms[i].travellers[j].placeofbirth = "Toronto";
-        this.trip.rooms[i].travellers[j].birthday = "1988-01-01";
+        this.trip.rooms[i].travellers[j].birthday = {
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+          day: new Date().getDate()
+        };
 
         this.trip.rooms[i].travellers[j].passport.number = "AS232424";
         this.trip.rooms[i].travellers[j].passport.issueDate = {
@@ -66,7 +70,11 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
           month: new Date().getMonth() + 1,
           day: new Date().getDate()
         };
-        this.trip.rooms[i].travellers[j].passport.expiryDate = "2020-01-01";
+        this.trip.rooms[i].travellers[j].passport.expiryDate = {
+          year: new Date().getFullYear(),
+          month: new Date().getMonth() + 1,
+          day: new Date().getDate()
+        };
         this.trip.rooms[i].travellers[
           j
         ].passport.issuePlace = new CountryOrArea();
@@ -110,7 +118,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
     this.tourService.updateSelectedTrip(this.trip);
-    this.router.navigate(["/reviewpayment"], {
+    this.router.navigate(["/review"], {
       queryParams: { tourId: this.tourId, tripId: this.tripId }
     });
   }

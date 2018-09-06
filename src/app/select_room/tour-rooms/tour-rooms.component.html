@@ -47,7 +47,7 @@
           </div>
         </div>
         <br />
-        <app-tour-rooms-billing-info *ngIf="tour" [tour]="tour" [trip]="trip"></app-tour-rooms-billing-info>
+        <app-tour-rooms-billing-info *ngIf="trip" [tour]="tour" [trip]="trip"></app-tour-rooms-billing-info>
         <div *ngIf="trip">
           <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)" (roomCanbeMovedTo)="onRoomCanbeMovedTo($event)"
             *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>
@@ -61,6 +61,7 @@
             <button mat-raised-button color="primary" style="background-color:#d47027!important" (click)="goToOptions()">Continue</button>
           </div>
         </div>
+        <div id="main_content" style="top:1px;min-height: 0px !important; height:0px; display: none"></div>
       </div>
     </div>
     <div class="col-md-3">

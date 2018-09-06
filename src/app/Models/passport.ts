@@ -4,6 +4,6 @@ import { TourDateType } from "./dateType";
 export class Passport {
   number: string;
   issueDate: TourDateType;
-  expiryDate: string;
+  expiryDate: TourDateType;
   issuePlace: CountryOrArea;
 }
