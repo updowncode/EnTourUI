@@ -86,6 +86,9 @@ export class EnTourService implements OnDestroy {
   }
   public saveTours(value: Tour[]) {
     this.tours = Object.assign([], value);
+
+    // this.tours = [];
+    // this.tours.push(...value);
   }
 
   getToursAsync(): Observable<Tour[]> {

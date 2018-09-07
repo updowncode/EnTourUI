@@ -41,7 +41,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     private location: Location,
     private messageService: MessageService
   ) {
-    this.location.replaceState("/");
+   // this.location.replaceState("/");
   }
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();

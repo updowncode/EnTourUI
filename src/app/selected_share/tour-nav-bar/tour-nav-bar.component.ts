@@ -10,9 +10,7 @@ export class TourNavBarComponent implements OnInit {
   @Input() actived: number;
   tourId: string;
   tripId: string;
-  baseHref: string;
-  // constructor(private activatedRoute: ActivatedRoute, @Inject(APP_BASE_HREF) public baseHref: string) {}
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute, @Inject(APP_BASE_HREF) public baseHref: string) {}
   ngOnInit() {
     // this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");

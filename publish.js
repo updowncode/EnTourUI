@@ -23,7 +23,11 @@ const isDirSync = (aPath) =>{
 }
 
 console.log('🔄 Please wait...\n')
-execSync(`ng build --prod`, execOptions)
+execSync(`ng build --prod`, execOptions)// --prod 标志也会默认使用 AOT 编译 --build-optimizer --environment=prod
+// npm install source-map-explorer --save-dev
+// ng build --prod --source-map
+// ls dist/*.bundle.js
+// node_modules/.bin/source-map-explorer dist/main.*.bundle.js
 
 fs.copyFileSync('dist/EnTourUI/styles.css', 'dist/EnTourUI/assets/styles.css')
 if (!isDirSync('dist/EnTourUI/scripts')) {

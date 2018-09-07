@@ -26,12 +26,7 @@ export class TourListComponent implements OnInit, OnDestroy {
   loaded = false;
   tours$: Observable<Tour[]>;
   toursSubscription: Subscription;
-  constructor(
-    public tourService: EnTourService,
-    public messageService: MessageService
-  ) {}
-  // tslint:disable-next-line:max-line-length
-  // constructor(public tourService: EnTourService, @Inject(APP_BASE_HREF) public baseHref: string, public messageService: MessageService) {}
+  constructor(public tourService: EnTourService, @Inject(APP_BASE_HREF) public baseHref: string, public messageService: MessageService) {}
   ngOnDestroy() {
     this.toursSubscription.unsubscribe();
   }

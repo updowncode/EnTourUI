@@ -1,4 +1,10 @@
-import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostBinding,
+  OnDestroy,
+  Input
+} from "@angular/core";
 import { Tour } from "../../Models/tour";
 import { Trip } from "../../Models/trip";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -14,6 +20,7 @@ import { CountryOrArea } from "../../Models/countryorarea";
   animations: [slideInDownAnimation]
 })
 export class TourTravellerDetailComponent implements OnInit, OnDestroy {
+  private _msg = "";
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -24,7 +31,15 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   trip: Trip;
   tourId: string;
   tripId: string;
-  msg = "Loading Traveller Details ...";
+
+  @Input()
+  set msg(msg: string) {
+    this._msg = (msg && msg.trim()) || "<no msg set>";
+  }
+  get msg(): string {
+    return this._msg;
+  }
+
   toursSubscription: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,6 +51,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
+    this.msg = "Loading Traveller Details ...";
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
     this.toursSubscription = this.tourService

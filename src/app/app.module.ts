@@ -39,8 +39,11 @@ import { TourRoomsEachRoomComponent } from "./select_room/tour-rooms-each-room/t
 import { TourRoomsEachRoomEachTravellerComponent } from "./select_room/tour-rooms-each-room-each-traveller/tour-rooms-each-room-each-traveller.component";
 import { TourSummaryComponent } from "./selected_share/tour-summary/tour-summary.component";
 import { DisplayTripsComponent } from "./select_trip/display-trips/display-trips.component";
-import { TestComponent } from './test/test.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { TestComponent } from "./test/test.component";
+import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { MySpyDirective } from "./share/my-spy.directive";
+// tslint:disable-next-line:max-line-length
+import { TourRoomsEachRoomEachTravellerChildComponent } from "./select_room/tour-rooms-each-room-each-traveller-child/tour-rooms-each-room-each-traveller-child.component";
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -72,6 +75,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     TourRoomsEachRoomEachTravellerComponent,
     TestComponent,
     PageNotFoundComponent,
+    MySpyDirective,
+    TourRoomsEachRoomEachTravellerChildComponent,
     TourSummaryComponent,
     DisplayTripsComponent
   ],
@@ -97,13 +102,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     //   provide: UrlSerializer,
     //   useClass: LowerCaseUrlSerializer
     // },
-    // {
-    //   provide: APP_BASE_HREF,
-    //   useFactory: (platformLocation: PlatformLocation): string => {
-    //     return platformLocation.getBaseHrefFromDOM();
-    //   },
-    //   deps: [PlatformLocation]
-    // }
+    {
+      provide: APP_BASE_HREF,
+      useFactory: (platformLocation: PlatformLocation): string => {
+        return platformLocation.getBaseHrefFromDOM();
+      },
+      deps: [PlatformLocation]
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [PopupComponent]

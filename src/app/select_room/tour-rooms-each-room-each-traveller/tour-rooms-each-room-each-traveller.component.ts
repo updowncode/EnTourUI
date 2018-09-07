@@ -5,7 +5,15 @@ import {
   HostBinding,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  AfterViewChecked,
+  AfterViewInit,
+  AfterContentChecked,
+  AfterContentInit,
+  DoCheck,
+  OnChanges,
+  SimpleChanges,
+  ContentChild
 } from "@angular/core";
 import { Traveller } from "../../Models/traveller";
 import { Room } from "../../Models/room";
@@ -13,6 +21,7 @@ import { Trip } from "../../Models/trip";
 import { slideInDownAnimation } from "../../app.animations";
 import { EnTourService } from "../../en-tour.service";
 import { Subscription } from "rxjs";
+import { TourRoomsEachRoomEachTravellerChildComponent } from "../tour-rooms-each-room-each-traveller-child/tour-rooms-each-room-each-traveller-child.component";
 
 @Component({
   selector: "app-tour-rooms-each-room-each-traveller",
@@ -20,7 +29,14 @@ import { Subscription } from "rxjs";
   styleUrls: ["./tour-rooms-each-room-each-traveller.component.sass"],
   animations: [slideInDownAnimation]
 })
-export class TourRoomsEachRoomEachTravellerComponent implements OnInit {
+export class TourRoomsEachRoomEachTravellerComponent
+  implements
+    OnChanges,
+    OnInit,
+    DoCheck,
+    AfterContentInit,
+    AfterContentChecked,
+    OnDestroy {
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -40,18 +56,77 @@ export class TourRoomsEachRoomEachTravellerComponent implements OnInit {
   @Input()
   bedRoomsForSelectedTravellers: Room[];
   @Output()
-  roomMovedTo = new EventEmitter<boolean>();
+  roomMovedToRequest = new EventEmitter<boolean>();
   @Output()
-  roomChangedTo = new EventEmitter<any>();
+  roomChangedToRequest = new EventEmitter<any>();
   showRoomInfo: boolean;
   newBedRoom: Room;
   subscription: Subscription;
+  @ContentChild(TourRoomsEachRoomEachTravellerChildComponent) contentChild: TourRoomsEachRoomEachTravellerChildComponent;
+  ngOnChanges(changes: SimpleChanges): void {
+    // 当 Angular（重新）设置数据绑定输入属性时响应。 该方法接受当前和上一属性值的 SimpleChanges 对象当被绑定的输入属性的值发生变化时调用，首次调用一定会发生在 ngOnInit() 之前。
+    for (const propName in changes) {
+      if (propName === "traveller") {
+        const chng = changes[propName];
+        const cur = JSON.stringify(chng.currentValue);
+        const prev = JSON.stringify(chng.previousValue);
+        console.log(
+          `${propName}: currentValue = ${cur}, previousValue = ${prev}`
+        );
+      }
+    }
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // 在 Angular 第一次显示数据绑定和设置指令/组件的输入属性之后，初始化指令/组件。在第一轮 ngOnChanges() 完成之后调用，只调用一次。
+    // this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
     this.updateRoomInfo();
+    this.initData();
+  }
+  ngDoCheck(): void {
+    // 检测，并在发生 Angular 无法或不愿意自己检测的变化时作出反应。在每个 Angular 变更检测周期中调用，ngOnChanges() 和 ngOnInit() 之后。
+    if (this.traveller.firstName !== this.room.travellers[0].firstName) {
+      console.log(
+        `this.traveller.firstName:"${
+          this.traveller.firstName
+        }", room first traveller firstName is"${
+          this.room.travellers[0].firstName
+        }"`
+      );
+    }
+  }
+  ngAfterContentInit(): void {
+    // 当把内容投影进组件之后调用。第一次 ngDoCheck() 之后调用，只调用一次。
+    console.log(`AfterContentInit: this passenger index: "${this.traveller.id}"`);
+  }
+  ngAfterContentChecked(): void {
+    // 每次完成被投影组件内容的变更检测之后调用。ngAfterContentInit() 和每次 ngDoCheck() 之后调用
+    console.log(`ngAfterContentChecked: this passenger index: "${this.traveller.id}"`);
+  }
+
+  ngOnDestroy() {
+    // 当 Angular 每次销毁指令/组件之前调用并清扫。 在这儿反订阅可观察对象和分离事件处理器，以防内存泄漏。在 Angular 销毁指令/组件之前调用。
+  }
+  initData() {
+    for (let i = 0; i < this.room.travellers.length; i++) {
+      this.room.travellers[i].firstName =
+        "firstName" +
+        (
+          this.totalTravellersBeforeRoom(this.room.index - 1) +
+          i +
+          1
+        ).toString();
+      this.room.travellers[i].lastName =
+        "lastName" +
+        (
+          this.totalTravellersBeforeRoom(this.room.index - 1) +
+          i +
+          1
+        ).toString();
+    }
   }
   onBedConfigModelChange(roomIndex: number, newRoom: Room) {
-    this.roomChangedTo.emit({ roomIndex: roomIndex, newRoom: newRoom });
+    this.roomChangedToRequest.emit({ roomIndex: roomIndex, newRoom: newRoom });
   }
   onSmokingSelectionChange(room: Room, smokingRoom: number) {
     room.smokingRoom = smokingRoom;
@@ -112,9 +187,11 @@ export class TourRoomsEachRoomEachTravellerComponent implements OnInit {
     //   }
     // }
 
-    this.trip.rooms.forEach((r: Room, i: number, s: Room[]) => r.travellers.forEach((t: Traveller, j: number, ts: Traveller[]) => {
-      t.id = this.totalTravellersBeforeRoom(i) + j;
-    }));
+    this.trip.rooms.forEach((r: Room, i: number, s: Room[]) =>
+      r.travellers.forEach((t: Traveller, j: number, ts: Traveller[]) => {
+        t.id = this.totalTravellersBeforeRoom(i) + j;
+      })
+    );
     // for (let i = 0; i < this.trip.rooms.length; i++) {
     //   for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
     //     this.trip.rooms[i].travellers[j].id =
@@ -122,7 +199,7 @@ export class TourRoomsEachRoomEachTravellerComponent implements OnInit {
     //   }
     // }
 
-    this.roomMovedTo.emit(true);
+    this.roomMovedToRequest.emit(true);
   }
   totalTravellersBeforeRoom(index: number): number {
     let total = 0;

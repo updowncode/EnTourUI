@@ -24,7 +24,7 @@
             <table class="table table-bordered" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                        <th colspan="2" style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
                             <span style="font-size: 13px; color: #ffffff;">&nbsp;Start Date
                                 <br>
                             </span>
@@ -50,8 +50,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="cursor:pointer;" *ngFor="let t of tour.trips" [class.trselected]="t === trip" (mouseover)="onSelectTrip(t)" (click)="onSelectTrip(t)">
-                        <td>
+                    <tr style="cursor:pointer;" *ngFor="let t of tour.trips; trackBy: trackByTrips" [class.trselected]="t === trip" (mouseover)="onSelectTrip(t)" (click)="onSelectTrip(t)">
+                        <td [attr.colspan]="1+1">
                             <span style="font-size: 13px;">{{t.startDate}}</span>
                         </td>
                         <td>
@@ -71,8 +71,8 @@
                              
                                 Select it
                             </a> -->
-                            <a class="btn btn-warning" (click)="gotoTraveller(tour.id, t.id)">Click</a>
-                            <button mat-raised-button color="primary"  #myNav style="background-color:#d47027!important"  (click)="gotoTraveller(tour.id, t.id)">Select</button>
+                            <a class="btn btn-warning" style="background-color:#d47027!important; color: white;" (click)="gotoTraveller(tour.id, t.id)">Select</a>
+                            <!-- <button mat-raised-button color="primary"  #myNav style="background-color:#d47027!important"  (click)="gotoTraveller(tour.id, t.id)">Select</button> -->
                         </td>
                     </tr>
                 </tbody>

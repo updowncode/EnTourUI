@@ -4,7 +4,10 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  ViewChild,
+  AfterViewInit,
+  AfterViewChecked
 } from "@angular/core";
 import { Room } from "../../Models/room";
 import { Trip } from "../../Models/trip";
@@ -12,12 +15,20 @@ import { EnTourService } from "../../en-tour.service";
 import { Subscription } from "rxjs";
 import { Tour } from "../../Models/tour";
 
+// tslint:disable-next-line:max-line-length
+import { TourRoomsEachRoomEachTravellerComponent } from "../tour-rooms-each-room-each-traveller/tour-rooms-each-room-each-traveller.component";
+
 @Component({
   selector: "app-tour-rooms-each-room",
   templateUrl: "./tour-rooms-each-room.component.html",
   styleUrls: ["./tour-rooms-each-room.component.sass"]
+  // // tslint:disable-next-line:use-input-property-decorator
+  // inputs: ['room'],
+  // // tslint:disable-next-line:use-output-property-decorator
+  // outputs: ['roomCanbeMovedToRequest'],
 })
-export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
+export class TourRoomsEachRoomComponent
+  implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @Input()
   room: Room;
   @Input()
@@ -25,16 +36,16 @@ export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
   @Input()
   roomIndex: number;
   @Output()
-  roomCanbeMovedTo = new EventEmitter<boolean>();
+  roomCanbeMovedToRequest = new EventEmitter<boolean>();
   @Output()
   removeRoom = new EventEmitter<Room>();
   bedRoomsForSelectedTravellers: Room[];
   roomsMoveTo: Room[];
   capacities: number[];
   maxCapacity: number;
-
+  @ViewChild(TourRoomsEachRoomEachTravellerComponent)
+  eachTravellerView: TourRoomsEachRoomEachTravellerComponent;
   subscription: Subscription;
-
   constructor(private tourService: EnTourService) {
     this.subscription = tourService.roomsCanbeMovedTo$.subscribe(
       updateRoomsCanbeMovedTo => {
@@ -44,9 +55,7 @@ export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
       }
     );
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+
   ngOnInit() {
     this.maxCapacity = Math.max(
       ...this.trip.availabledRooms
@@ -54,20 +63,27 @@ export class TourRoomsEachRoomComponent implements OnInit, OnDestroy {
         .map(room => room.capacity)
     );
     this.updateRoomsCanbeMovedTo();
-
-    this.initData();
   }
-  initData() {
-    for (let i = 0; i < this.room.travellers.length; i++) {
-      this.room.travellers[i].firstName = "firstName" + i.toString();
-      this.room.travellers[i].lastName = "lastName" + i.toString();
+  ngAfterViewInit(): void {
+    // 初始化完组件视图及其子视图之后调用。第一次 ngAfterContentChecked() 之后调用，只调用一次。
+    if (this.room.index > 0) {
+      console.log(`ngAfterViewInit:room index is ${this.room.index}`);
     }
+  }
+  ngAfterViewChecked(): void {
+    // 每次做完组件视图和子视图的变更检测之后调用。ngAfterViewInit() 和每次 ngAfterContentChecked() 之后调用。
+    if (this.room.index > 0) {
+      console.log(`ngAfterViewChecked:room index is ${this.room.index}`);
+    }
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   remove(room: Room) {
     this.removeRoom.emit(room);
   }
   onRoomMovedTo(moved: boolean) {
-    this.roomCanbeMovedTo.emit(true);
+    this.roomCanbeMovedToRequest.emit(true);
   }
   onRoomChangedTo(changed: any) {
     for (let i = this.trip.rooms.length - 1; i >= 0; i--) {

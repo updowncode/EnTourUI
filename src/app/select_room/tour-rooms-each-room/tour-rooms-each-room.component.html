@@ -13,8 +13,10 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <app-tour-rooms-each-room-each-traveller [traveller]="traveller" [roomsMoveTo]="roomsMoveTo" (roomChangedTo)="onRoomChangedTo($event)" (roomMovedTo)="onRoomMovedTo($event)" [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers"
-        [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers"></app-tour-rooms-each-room-each-traveller>
+      <app-tour-rooms-each-room-each-traveller [traveller]="traveller" [roomsMoveTo]="roomsMoveTo" (roomChangedToRequest)="onRoomChangedTo($event)" (roomMovedToRequest)="onRoomMovedTo($event)" [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers"
+        [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers">
+        <app-tour-rooms-each-room-each-traveller-child  [traveller]="traveller"></app-tour-rooms-each-room-each-traveller-child>
+      </app-tour-rooms-each-room-each-traveller>
     </div>
   </div>
 </div>

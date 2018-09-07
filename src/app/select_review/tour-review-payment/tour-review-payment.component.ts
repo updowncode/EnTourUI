@@ -8,6 +8,7 @@ import { slideInDownAnimation } from "../../app.animations";
 import { Subscription } from "rxjs";
 import * as $ from "jquery";
 import { Location } from "@angular/common";
+import { Form } from "@angular/forms";
 export class OptionSummary {
   name: string;
   price: number;
@@ -159,6 +160,9 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   verify() {
     this.isVerified = !this.isVerified;
     // this.gotoPayment();
+  }
+  onSubmit(form: Form) {
+
   }
   gotoPayment() {
     localStorage.removeItem(this.tripId.toString());
