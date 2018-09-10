@@ -44,6 +44,8 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { MySpyDirective } from "./share/my-spy.directive";
 // tslint:disable-next-line:max-line-length
 import { TourRoomsEachRoomEachTravellerChildComponent } from "./select_room/tour-rooms-each-room-each-traveller-child/tour-rooms-each-room-each-traveller-child.component";
+import { UnlessDirective } from './share/unless.directive';
+import { FetchJsonPipe } from "./share/FetchJsonPipe";
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -77,8 +79,10 @@ import { TourRoomsEachRoomEachTravellerChildComponent } from "./select_room/tour
     PageNotFoundComponent,
     MySpyDirective,
     TourRoomsEachRoomEachTravellerChildComponent,
+    UnlessDirective,
     TourSummaryComponent,
-    DisplayTripsComponent
+    DisplayTripsComponent,
+    FetchJsonPipe
   ],
   imports: [
     BrowserModule,

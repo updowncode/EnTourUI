@@ -21,6 +21,7 @@ import { Trip } from "../../Models/trip";
 import { slideInDownAnimation } from "../../app.animations";
 import { EnTourService } from "../../en-tour.service";
 import { Subscription } from "rxjs";
+// tslint:disable-next-line:max-line-length
 import { TourRoomsEachRoomEachTravellerChildComponent } from "../tour-rooms-each-room-each-traveller-child/tour-rooms-each-room-each-traveller-child.component";
 
 @Component({
@@ -62,7 +63,8 @@ export class TourRoomsEachRoomEachTravellerComponent
   showRoomInfo: boolean;
   newBedRoom: Room;
   subscription: Subscription;
-  @ContentChild(TourRoomsEachRoomEachTravellerChildComponent) contentChild: TourRoomsEachRoomEachTravellerChildComponent;
+  @ContentChild(TourRoomsEachRoomEachTravellerChildComponent)
+  contentChild: TourRoomsEachRoomEachTravellerChildComponent;
   ngOnChanges(changes: SimpleChanges): void {
     // 当 Angular（重新）设置数据绑定输入属性时响应。 该方法接受当前和上一属性值的 SimpleChanges 对象当被绑定的输入属性的值发生变化时调用，首次调用一定会发生在 ngOnInit() 之前。
     for (const propName in changes) {
@@ -97,11 +99,18 @@ export class TourRoomsEachRoomEachTravellerComponent
   }
   ngAfterContentInit(): void {
     // 当把内容投影进组件之后调用。第一次 ngDoCheck() 之后调用，只调用一次。
-    console.log(`AfterContentInit: this passenger index: "${this.traveller.id}"`);
+
+    console.log(
+      `AfterContentInit: this passenger index: "${
+        this.contentChild.traveller.id
+      }"`
+    );
   }
   ngAfterContentChecked(): void {
     // 每次完成被投影组件内容的变更检测之后调用。ngAfterContentInit() 和每次 ngDoCheck() 之后调用
-    console.log(`ngAfterContentChecked: this passenger index: "${this.traveller.id}"`);
+    console.log(
+      `ngAfterContentChecked: this passenger index: "${this.traveller.id}"`
+    );
   }
 
   ngOnDestroy() {

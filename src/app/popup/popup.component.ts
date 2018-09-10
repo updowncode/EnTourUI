@@ -14,6 +14,9 @@ import {
   transition,
   trigger
 } from "@angular/animations";
+/**
+ * 213123
+ */
 @Component({
   selector: "app-my-popup",
   template: "Popup: {{message}}",
@@ -90,8 +93,10 @@ export class PopupComponent {
   get message(): string {
     return this._message;
   }
-  @Output() closed = new EventEmitter();
-  @HostBinding("attr.state") state = "closed";
+  @Output()
+  closed = new EventEmitter();
+  @HostBinding("attr.state")
+  state = "closed";
   @HostListener("state")
   onAnimationDone(e: AnimationEvent) {
     if (e.toState === "closed") {

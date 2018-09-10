@@ -51,6 +51,38 @@
         <div *ngIf="trip">
           <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)" (roomCanbeMovedToRequest)="onRoomCanbeMovedTo($event)"
             *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>
+            <!-- <div *ngFor="let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd">
+              ({{i}}) {{hero.name}}
+            </div>
+            <ng-template ngFor let-hero [ngForOf]="heroes" let-i="index" let-odd="odd" [ngForTrackBy]="trackById">
+              <div [class.odd]="odd">({{i}}) {{hero.name}}</div>
+            </ng-template> -->
+
+            <!-- <div *ngIf="hero" class="name">{{hero.name}}</div>
+            <ng-template [ngIf]="hero">
+              <div class="name">{{hero.name}}</div>
+            </ng-template> -->
+            
+            <!-- <div [ngSwitch]="hero?.emotion">
+              <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="hero"></app-happy-hero>
+              <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="hero"></app-sad-hero>
+              <app-confused-hero *ngSwitchCase="'app-confused'" [hero]="hero"></app-confused-hero>
+              <app-unknown-hero  *ngSwitchDefault           [hero]="hero"></app-unknown-hero>
+            </div>
+            <div [ngSwitch]="hero?.emotion">
+              <ng-template [ngSwitchCase]="'happy'">
+                <app-happy-hero [hero]="hero"></app-happy-hero>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'sad'">
+                <app-sad-hero [hero]="hero"></app-sad-hero>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'confused'">
+                <app-confused-hero [hero]="hero"></app-confused-hero>
+              </ng-template >
+              <ng-template ngSwitchDefault>
+                <app-unknown-hero [hero]="hero"></app-unknown-hero>
+              </ng-template>
+            </div> -->
         </div>
         <br />
         <div class="row">

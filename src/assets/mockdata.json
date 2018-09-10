@@ -1,0 +1,515 @@
+[
+  {
+    "id": "CHG11",
+    "name": "China Encounter",
+    "availabledTitles": [
+      "Mr",
+      "Mrs",
+      "Ms",
+      "Miss",
+      "Mstr",
+      "Dr",
+      "Prof",
+      "Sir",
+      "Sen"
+    ],
+    "availabledCountryOrAreas": [
+      { "id": 0, "name": "Russia", "code": "RU" },
+      { "id": 1, "name": "Ireland", "code": "IE" },
+      { "id": 2, "name": "United Kingdom", "code": "UK" },
+      { "id": 3, "name": "China", "code": "CN" },
+      { "id": 4, "name": "Canada", "code": "CA" },
+      { "id": 5, "name": "United States", "code": "US" },
+      { "id": 6, "name": "Cuba", "code": "CU" },
+      { "id": 7, "name": "Germany", "code": "DE" },
+      { "id": 8, "name": "Austria", "code": "AT" },
+      { "id": 9, "name": "Hungary", "code": "HU" },
+      { "id": 10, "name": "Italy", "code": "IT" },
+      { "id": 11, "name": "France", "code": "FR" },
+      { "id": 12, "name": "Bahamas", "code": "BS" },
+      { "id": 13, "name": "England", "code": "EN" },
+      { "id": 14, "name": "Denmark", "code": "DK" },
+      { "id": 15, "name": "Norway", "code": "NO" },
+      { "id": 16, "name": "Peru", "code": "PE" },
+      { "id": 17, "name": "Brazil", "code": "BR" },
+      { "id": 18, "name": "Argentina", "code": "AR" },
+      { "id": 19, "name": "United Arab Emirates", "code": "AE" }
+    ],
+    "trips": [
+      {
+        "id": "30004810",
+        "name": "China Encounter 2-for-1, with Air Canada, 9 Days / 7 Nights",
+        "selectedTravellerQuantity": {
+          "id": 2,
+          "name": "Traveller Quantity: 2"
+        },
+        "selectedRoomQuantity": { "id": 1, "name": "Capacity: 1" },
+        "availabledRoomQuantities": [
+          { "id": 1, "name": "Capacity: 1" },
+          { "id": 2, "name": "Capacity: 2" },
+          { "id": 3, "name": "Capacity: 3" },
+          { "id": 4, "name": "Capacity: 4" },
+          { "id": 5, "name": "Capacity: 5" },
+          { "id": 6, "name": "Capacity: 6" },
+          { "id": 7, "name": "Capacity: 7" },
+          { "id": 8, "name": "Capacity: 8" },
+          { "id": 9, "name": "Capacity: 9" }
+        ],
+        "availabledTravellerQuantities": [
+          { "id": 1, "name": "Traveller Quantity: 1" },
+          { "id": 2, "name": "Traveller Quantity: 2" },
+          { "id": 3, "name": "Traveller Quantity: 3" },
+          { "id": 4, "name": "Traveller Quantity: 4" },
+          { "id": 5, "name": "Traveller Quantity: 5" },
+          { "id": 6, "name": "Traveller Quantity: 6" },
+          { "id": 7, "name": "Traveller Quantity: 7" },
+          { "id": 8, "name": "Traveller Quantity: 8" },
+          { "id": 9, "name": "Traveller Quantity: 9" },
+          { "id": 10, "name": "Traveller Quantity: 10" },
+          { "id": 11, "name": "Traveller Quantity: 11" },
+          { "id": 12, "name": "Traveller Quantity: 12" },
+          { "id": 13, "name": "Traveller Quantity: 13" },
+          { "id": 14, "name": "Traveller Quantity: 14" },
+          { "id": 15, "name": "Traveller Quantity: 15" },
+          { "id": 16, "name": "Traveller Quantity: 16" },
+          { "id": 17, "name": "Traveller Quantity: 17" },
+          { "id": 18, "name": "Traveller Quantity: 18" },
+          { "id": 19, "name": "Traveller Quantity: 19" }
+        ],
+        "startPlace": "Toronto,Edmonton,Ottawa,Montréal,Vancouver,Calgary",
+        "endPlace": "Asia,China,Beijing",
+        "startCountryOrArea": { "id": 4, "name": "Canada", "code": "CA" },
+        "endCountryOrArea": { "id": 3, "name": "China", "code": "CN" },
+        "startDate": "Thursday, September 27, 2018",
+        "endDate": "Thursday, October 4, 2018",
+        "tripCostForDefaultPerTraveller": 1449.5,
+        "tripCostForDefaultTravellerQuantity": 2.0,
+        "tripSingleSupplement": 295.0,
+        "minRoomQuantityForTravellers": 1,
+        "visaPrice": 50.0,
+        "tourInfoSource": "",
+        "billingInfo": {
+          "firstName": null,
+          "lastName": null,
+          "email": null,
+          "primaryPhone": null,
+          "secondaryPhone": null,
+          "mailingAddress": null,
+          "city": null,
+          "country": null,
+          "provinceStates": null,
+          "postalCode": null,
+          "agreeTermAndCondition": false,
+          "haveReadTripNotes": false,
+          "canReceiveMoreInfo": false
+        },
+        "includedIn": [
+          {
+            "id": 0,
+            "text": "include info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "text": "include info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "text": "include info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "notIncludeIn": [
+          {
+            "id": 0,
+            "text": "not IncludeIn info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "text": "not IncludeIn info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "text": "not IncludeIn info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "options": [
+          {
+            "id": 0,
+            "location": "Beijing",
+            "name": "Acrobatic Show",
+            "price": 50.0,
+            "enabled": true,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "location": "Hangzhou",
+            "name": "Romance of Song Dynasty Show",
+            "price": 60.0,
+            "enabled": true,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "location": "Shanghai",
+            "name": "Huangpu River Cruise",
+            "price": 50.0,
+            "enabled": true,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "rooms": [],
+        "availabledRooms": [
+          {
+            "id": 0,
+            "index": 0,
+            "beddingConfig": "Single Room(One Single Bed)",
+            "capacity": 1,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": [],
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "index": 0,
+            "beddingConfig": "Double Room(One King/Queen Bed)",
+            "capacity": 2,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": [],
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "index": 0,
+            "beddingConfig": "Twin Room(Two Single Beds)",
+            "capacity": 2,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 3,
+            "index": 0,
+            "beddingConfig": "Triple Room(One King/Queen Bed plus One Single Bed)",
+            "capacity": 3,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 4,
+            "index": 0,
+            "beddingConfig": "Triple Room(One Double Bed plus One Single Bed)",
+            "capacity": 3,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 5,
+            "index": 0,
+            "beddingConfig": "Quadruple Room(Two Double Bed)",
+            "capacity": 4,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 6,
+            "index": 0,
+            "beddingConfig": "Quadruple Room(Two Queen Bed)",
+            "capacity": 4,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 7,
+            "index": 0,
+            "beddingConfig": "Quadruple Room(4 Single Bed)",
+            "capacity": 4,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "tourId": "CHG11"
+      },
+      {
+        "id": "30004926",
+        "name": "China Encounter 2-for-1, with Air Canada, 9 Days / 7 Nights",
+        "selectedTravellerQuantity": {
+          "id": 2,
+          "name": "Traveller Quantity: 2"
+        },
+        "selectedRoomQuantity": { "id": 1, "name": "Capacity: 1" },
+        "availabledRoomQuantities": [
+          { "id": 1, "name": "Capacity: 1" },
+          { "id": 2, "name": "Capacity: 2" },
+          { "id": 3, "name": "Capacity: 3" },
+          { "id": 4, "name": "Capacity: 4" },
+          { "id": 5, "name": "Capacity: 5" },
+          { "id": 6, "name": "Capacity: 6" },
+          { "id": 7, "name": "Capacity: 7" },
+          { "id": 8, "name": "Capacity: 8" },
+          { "id": 9, "name": "Capacity: 9" }
+        ],
+        "availabledTravellerQuantities": [
+          { "id": 1, "name": "Traveller Quantity: 1" },
+          { "id": 2, "name": "Traveller Quantity: 2" },
+          { "id": 3, "name": "Traveller Quantity: 3" },
+          { "id": 4, "name": "Traveller Quantity: 4" },
+          { "id": 5, "name": "Traveller Quantity: 5" },
+          { "id": 6, "name": "Traveller Quantity: 6" },
+          { "id": 7, "name": "Traveller Quantity: 7" },
+          { "id": 8, "name": "Traveller Quantity: 8" },
+          { "id": 9, "name": "Traveller Quantity: 9" },
+          { "id": 10, "name": "Traveller Quantity: 10" },
+          { "id": 11, "name": "Traveller Quantity: 11" },
+          { "id": 12, "name": "Traveller Quantity: 12" },
+          { "id": 13, "name": "Traveller Quantity: 13" },
+          { "id": 14, "name": "Traveller Quantity: 14" },
+          { "id": 15, "name": "Traveller Quantity: 15" },
+          { "id": 16, "name": "Traveller Quantity: 16" },
+          { "id": 17, "name": "Traveller Quantity: 17" },
+          { "id": 18, "name": "Traveller Quantity: 18" },
+          { "id": 19, "name": "Traveller Quantity: 19" }
+        ],
+        "startPlace": "Toronto,Edmonton,Ottawa,Montréal,Vancouver,Calgary",
+        "endPlace": "Asia,China,Beijing",
+        "startCountryOrArea": { "id": 4, "name": "Canada", "code": "CA" },
+        "endCountryOrArea": { "id": 3, "name": "China", "code": "CN" },
+        "startDate": "Thursday, October 25, 2018",
+        "endDate": "Thursday, November 1, 2018",
+        "tripCostForDefaultPerTraveller": 1449.5,
+        "tripCostForDefaultTravellerQuantity": 2.0,
+        "tripSingleSupplement": 295.0,
+        "minRoomQuantityForTravellers": 1,
+        "visaPrice": 50.0,
+        "tourInfoSource": "",
+        "billingInfo": {
+          "firstName": null,
+          "lastName": null,
+          "email": null,
+          "primaryPhone": null,
+          "secondaryPhone": null,
+          "mailingAddress": null,
+          "city": null,
+          "country": null,
+          "provinceStates": null,
+          "postalCode": null,
+          "agreeTermAndCondition": false,
+          "haveReadTripNotes": false,
+          "canReceiveMoreInfo": false
+        },
+        "includedIn": [
+          {
+            "id": 0,
+            "text": "include info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "text": "include info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "text": "include info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "notIncludeIn": [
+          {
+            "id": 0,
+            "text": "not IncludeIn info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "text": "not IncludeIn info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "text": "not IncludeIn info...",
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "options": [
+          {
+            "id": 0,
+            "location": "Beijing",
+            "name": "Acrobatic Show",
+            "price": 50.0,
+            "enabled": true,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "location": "Hangzhou",
+            "name": "Romance of Song Dynasty Show",
+            "price": 60.0,
+            "enabled": true,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "location": "Shanghai",
+            "name": "Huangpu River Cruise",
+            "price": 50.0,
+            "enabled": true,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "rooms": [],
+        "availabledRooms": [
+          {
+            "id": 0,
+            "index": 0,
+            "beddingConfig": "Single Room(One Single Bed)",
+            "capacity": 1,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": [],
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 1,
+            "index": 0,
+            "beddingConfig": "Double Room(One King/Queen Bed)",
+            "capacity": 2,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": [],
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 2,
+            "index": 0,
+            "beddingConfig": "Twin Room(Two Single Beds)",
+            "capacity": 2,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 3,
+            "index": 0,
+            "beddingConfig": "Triple Room(One King/Queen Bed plus One Single Bed)",
+            "capacity": 3,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 4,
+            "index": 0,
+            "beddingConfig": "Triple Room(One Double Bed plus One Single Bed)",
+            "capacity": 3,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 5,
+            "index": 0,
+            "beddingConfig": "Quadruple Room(Two Double Bed)",
+            "capacity": 4,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 6,
+            "index": 0,
+            "beddingConfig": "Quadruple Room(Two Queen Bed)",
+            "capacity": 4,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          },
+          {
+            "id": 7,
+            "index": 0,
+            "beddingConfig": "Quadruple Room(4 Single Bed)",
+            "capacity": 4,
+            "roomPriceForPerTraveller": 1449.5,
+            "singleSupplement": 295.0,
+            "smokingRoom": 0,
+            "travellers": null,
+            "tourId": "CHG11",
+            "tripId": "30004810"
+          }
+        ],
+        "tourId": "CHG11"
+      }
+    ]
+  }
+]

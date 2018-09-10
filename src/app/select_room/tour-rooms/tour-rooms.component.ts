@@ -107,6 +107,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   }
   clearRooms() {
     this.trip.rooms = new Array<Room>();
+    // this.trip.rooms = this.trip.rooms.slice();
   }
   onRoomCanbeMovedTo(needUpdate: boolean) {
     if (needUpdate) {
