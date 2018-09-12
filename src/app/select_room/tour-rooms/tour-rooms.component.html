@@ -5,52 +5,57 @@
     </div>
   </div>
   <br />
-  <div class="row">
-    <div class="col-md-9">
-      <div style="border: 1px solid #CCC; padding:10px;">
-        <div class="row">
-          <div class="col-md-12">
-            <app-message></app-message>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-10">
-            <strong style="font-size:28px;">Total number of travellers:</strong>
-          </div>
-          <div class="col-md-2 text-right">
-            <select class="form-control" *ngIf="trip" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity" (ngModelChange)="travellerChange($event)">
-              <ng-container *ngIf="trip">
-                <ng-container *ngFor="let q of trip.availabledTravellerQuantities">
-                  <option [ngValue]="q">{{q.id}}</option>
-                </ng-container>
-              </ng-container>
-            </select>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-md-10">
-            <div>
-              <strong style="font-size:28px;">Accomodation:</strong>
+  <form (ngSubmit)="verifyRooms()" ref-roomsForm="ngForm" novalidate="">
+    <div class="row">
+      <div class="col-md-9">
+        <div style="border: 1px solid #CCC; padding:10px;">
+          <div class="row">
+            <div class="col-md-12">
+              <div>
+                 <!-- [hidden]="roomsForm.form.valid" -->
+                <app-message></app-message>
+              </div>
             </div>
-            <div>How many hotel rooms do you require?</div>
           </div>
-          <div class="col-md-2 text-right">
-            <select style="margin-top:10px;" *ngIf="trip" class="form-control" [compareWith]="compareFn" [ngModel]="trip.selectedRoomQuantity"
-              (ngModelChange)="roomChange($event)">
-              <ng-container *ngIf="trip">
-                <ng-container *ngFor="let q of trip.availabledRoomQuantities">
-                  <option [ngValue]="q">{{q.id}}</option>
+          <div class="row">
+            <div class="col-md-10">
+              <strong style="font-size:28px;">Total number of travellers:</strong>
+            </div>
+            <div class="col-md-2 text-right">
+              <select class="form-control" name="selectedTravellerQuantity" *ngIf="trip" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity"
+                (ngModelChange)="travellerChange($event)">
+                <ng-container *ngIf="trip">
+                  <ng-container *ngFor="let q of trip.availabledTravellerQuantities">
+                    <option [ngValue]="q">{{q.id}}</option>
+                  </ng-container>
                 </ng-container>
-              </ng-container>
-            </select>
+              </select>
+            </div>
           </div>
-        </div>
-        <br />
-        <app-tour-rooms-billing-info *ngIf="trip" [tour]="tour" [trip]="trip"></app-tour-rooms-billing-info>
-        <div *ngIf="trip">
-          <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)" (roomCanbeMovedToRequest)="onRoomCanbeMovedTo($event)"
-            *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>
+          <hr>
+          <div class="row">
+            <div class="col-md-10">
+              <div>
+                <strong style="font-size:28px;">Accomodation:</strong>
+              </div>
+              <div>How many hotel rooms do you require?</div>
+            </div>
+            <div class="col-md-2 text-right">
+              <select style="margin-top:10px;" name="selectedRoomQuantity" *ngIf="trip" class="form-control" [compareWith]="compareFn"
+                [ngModel]="trip.selectedRoomQuantity" (ngModelChange)="roomChange($event)">
+                <ng-container *ngIf="trip">
+                  <ng-container *ngFor="let q of trip.availabledRoomQuantities">
+                    <option [ngValue]="q">{{q.id}}</option>
+                  </ng-container>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+          <br />
+          <app-tour-rooms-billing-info *ngIf="trip" [tour]="tour" [trip]="trip"></app-tour-rooms-billing-info>
+          <div *ngIf="trip">
+            <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)"
+              (roomCanbeMovedToRequest)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>
             <!-- <div *ngFor="let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd">
               ({{i}}) {{hero.name}}
             </div>
@@ -62,7 +67,7 @@
             <ng-template [ngIf]="hero">
               <div class="name">{{hero.name}}</div>
             </ng-template> -->
-            
+
             <!-- <div [ngSwitch]="hero?.emotion">
               <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="hero"></app-happy-hero>
               <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="hero"></app-sad-hero>
@@ -83,24 +88,29 @@
                 <app-unknown-hero [hero]="hero"></app-unknown-hero>
               </ng-template>
             </div> -->
-        </div>
-        <br />
-        <div class="row">
-          <div class="col-md-6 text-left">
-            <!-- <button mat-raised-button color="primary" style="background-color:#d47027!important" on-click="goBack()">Go Back</button> -->
-            <a class="btn btn-primary" style="background-color:#d47027!important" on-click="goBack()">Go Back</a>
           </div>
-          <div class="col-md-6 text-right">
-            <a class="btn btn-primary" style="background-color:#d47027!important" (click)="goToOptions()">Continue</a>
+          <br />
+          <div class="row">
+            <div class="col-md-6 text-left">
+              <!-- <button mat-raised-button color="primary" style="background-color:#d47027!important" on-click="goBack()">Go Back</button> -->
+              <a class="btn btn-primary" style="background-color:#d47027!important" on-click="goBack()">Go Back</a>
+            </div>
+            <div class="col-md-6 text-right">
+              <button mat-raised-button color="primary" style="background-color:#d47027!important" type="submit"
+                [disabled]="!roomsForm.form.valid">Submit  [{{roomsForm.form.valid}}]</button>
+
+              <a class="btn btn-primary" style="background-color:#d47027!important" (click)="goToOptions()">Continue</a>
+            </div>
           </div>
+          <div id="main_content" style="top:1px;min-height: 0px !important; height:0px; display: none"></div>
         </div>
-        <div id="main_content" style="top:1px;min-height: 0px !important; height:0px; display: none"></div>
+      </div>
+      <div class="col-md-3">
+        <div style="border: 1px solid #CCC; padding:10px; position:sticky;top:80px;">
+          <app-tour-summary></app-tour-summary>
+        </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div style="border: 1px solid #CCC; padding:10px; position:sticky;top:80px;">
-        <app-tour-summary></app-tour-summary>
-      </div>
-    </div>
-  </div>
+  </form>
 </div>
+<!-- {{diagnostic}} -->

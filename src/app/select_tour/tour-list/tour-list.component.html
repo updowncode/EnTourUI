@@ -3,6 +3,9 @@
         <div *ngFor="let tour of ('../../../assets/mockdata.json' | fetch) ">
                 {{tour.name}}
         </div>
+       
+         <!-- <app-my-model-dlg></app-my-model-dlg>
+        <app-test></app-test> -->
         <mat-card class="col-md-4" *ngFor="let tour of tours$ | async">
             <mat-card-content>
                 <h4 [innerHTML]="tour.name"></h4>

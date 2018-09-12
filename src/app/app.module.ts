@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { APP_BASE_HREF, PlatformLocation } from "@angular/common";
 import { HttpModule } from "@angular/http";
 import { AppRoutingModule } from "./app-routing.module";
@@ -46,6 +46,9 @@ import { MySpyDirective } from "./share/my-spy.directive";
 import { TourRoomsEachRoomEachTravellerChildComponent } from "./select_room/tour-rooms-each-room-each-traveller-child/tour-rooms-each-room-each-traveller-child.component";
 import { UnlessDirective } from './share/unless.directive';
 import { FetchJsonPipe } from "./share/FetchJsonPipe";
+import { PopupService } from './popup.service';
+import { MyModelDlgComponent } from './my-model-dlg/my-model-dlg.component';
+import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -55,6 +58,7 @@ import { FetchJsonPipe } from "./share/FetchJsonPipe";
 // npm install --save @angular/material @angular/cdk
 // --flat 把这个文件放进了 src/app 中，而不是单独的目录中。
 // --module=app 告诉 CLI 把它注册到 AppModule 的 imports 数组中。
+// ng add @angular/elements --name=*your_project_name*.
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,8 +85,10 @@ import { FetchJsonPipe } from "./share/FetchJsonPipe";
     TourRoomsEachRoomEachTravellerChildComponent,
     UnlessDirective,
     TourSummaryComponent,
+    MyModelDlgComponent,
     DisplayTripsComponent,
-    FetchJsonPipe
+    FetchJsonPipe,
+    NgbdModalContent
   ],
   imports: [
     BrowserModule,
@@ -90,6 +96,7 @@ import { FetchJsonPipe } from "./share/FetchJsonPipe";
     NgbModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
@@ -101,7 +108,7 @@ import { FetchJsonPipe } from "./share/FetchJsonPipe";
     AuthService,
     AuthGuard,
     CanDeactivateGuard,
-
+    PopupService,
     // {
     //   provide: UrlSerializer,
     //   useClass: LowerCaseUrlSerializer
@@ -115,6 +122,6 @@ import { FetchJsonPipe } from "./share/FetchJsonPipe";
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PopupComponent]
+  entryComponents: [PopupComponent, NgbdModalContent]
 })
 export class AppModule {}

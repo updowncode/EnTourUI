@@ -19,7 +19,10 @@ import {
  */
 @Component({
   selector: "app-my-popup",
-  template: "Popup: {{message}}",
+  template: `
+  Popup: {{message}}
+  <button (click)="closed.next()">&#x2716;</button>
+  `,
   animations: [
     // trigger('shrinkOut', [
     //   state('in', style({height: '*'})),

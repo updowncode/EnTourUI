@@ -1,6 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Injector } from "@angular/core";
 import { interval, Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
+import { createCustomElement } from "@angular/elements";
+import { PopupService } from "src/app/popup.service";
+import { PopupComponent } from "src/app/popup/popup.component";
 
 @Component({
   selector: "app-test",
@@ -9,16 +12,17 @@ import { map, take } from "rxjs/operators";
 })
 export class TestComponent implements OnInit {
   message$: Observable<string>;
-  private messages = [
-    "test1",
-    "test2",
-    "test3"
-  ];
+  private messages = ["test1", "test2", "test3"];
 
   ngOnInit() {}
 
-  constructor() {
-    this.resend();
+  constructor(injector: Injector, public popup: PopupService) {
+    // Convert `PopupComponent` to a custom element.
+    const PopupElement = createCustomElement(PopupComponent, { injector });
+    // Register the custom element with the browser.
+    customElements.define("popup-element", PopupElement);
+
+    // this.resend();
   }
 
   resend() {

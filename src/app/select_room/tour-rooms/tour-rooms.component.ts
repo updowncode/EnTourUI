@@ -1,4 +1,10 @@
-import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostBinding,
+  OnDestroy,
+  Input
+} from "@angular/core";
 import { EnTourCoreService } from "../../en-tour-core/en-tour-core.service";
 import { EnTourService } from "../../en-tour.service";
 import { slideInDownAnimation } from "../../app.animations";
@@ -14,6 +20,9 @@ import { Subscription } from "rxjs";
 import { Location } from "@angular/common";
 import { MessageService } from "../../message.service";
 import { TourDateType } from "../../Models/dateType";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbdModalContent } from "../../ngbd-model-content/ngbd-model-content";
+import { Form } from "@angular/forms";
 @Component({
   selector: "app-tour-rooms",
   templateUrl: "./tour-rooms.component.html",
@@ -39,19 +48,17 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private modalService: NgbModal
   ) {
-   // this.location.replaceState("/");
+    // this.location.replaceState("/");
   }
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
     this.toursSubscription.unsubscribe();
   }
   onResult(tours: Tour[]) {
-    this.tour = Object.assign(
-      {},
-      tours.find(tour => tour.id === this.tourId)
-    );
+    this.tour = Object.assign({}, tours.find(tour => tour.id === this.tourId));
     this.trip = this.tour.trips.find(trip => trip.id === this.tripId);
     this.tourService.updateSelectedTour(this.tour);
     this.tourService.updateSelectedTrip(this.trip);
@@ -64,6 +71,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    this.messageService.add("Select room..");
     this.paramSubscription = this.activatedRoute.queryParams.subscribe(
       params => {
         this.tourId = params.tourId;
@@ -226,7 +234,9 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       this.trip.selectedRoomQuantity.id
     );
     this.trip.minRoomQuantityForTravellers = this.trip.rooms.length;
-    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.find( c => c.id === this.trip.rooms.length);
+    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.find(
+      c => c.id === this.trip.rooms.length
+    );
     // for (let i = 0; i < this.trip.availabledRoomQuantities.length; i++) {
     //   if (
     //     this.trip.availabledRoomQuantities[i].id ===
@@ -284,7 +294,18 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     this.messageService.clearMessage();
     this.messageService.add(`${message}`);
   }
+  openModelDlg(message: string) {
+    const modalRef = this.modalService.open(NgbdModalContent, {
+      backdrop: "static",
+      keyboard: false
+    });
+    modalRef.componentInstance.message = message;
+  }
+  get diagnostic() { return JSON.stringify(this.trip); }
+  verifyRooms() {}
   goToOptions(): void {
+    this.openModelDlg("sdfsdfsdf<br>ssdf");
+    return;
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
@@ -301,3 +322,28 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     }
   }
 }
+
+// @Component({
+//   // tslint:disable-next-line:component-selector
+//   selector: 'ngbd-modal-content',
+//   template: `
+//     <div class="modal-header">
+//       <h4 class="modal-title">Information</h4>
+//       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+//         <span aria-hidden="true">&times;</span>
+//       </button>
+//     </div>
+//     <div class="modal-body">
+//       <p [innerHTML]="message"></p>
+//     </div>
+//     <div class="modal-footer">
+//       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+//     </div>
+//   `
+// })
+// // tslint:disable-next-line:component-class-suffix
+// export class NgbdModalContent {
+//   @Input() message;
+
+//   constructor(public activeModal: NgbActiveModal) {}
+// }

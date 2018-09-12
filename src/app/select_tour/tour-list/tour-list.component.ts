@@ -10,6 +10,7 @@ import { EnTourService } from "../../en-tour.service";
 import { Tour } from "../../Models/tour";
 import { APP_BASE_HREF } from "@angular/common";
 import { MessageService } from "../../message.service";
+
 @Component({
   selector: "app-tour-list",
   templateUrl: "./tour-list.component.html",
@@ -26,7 +27,12 @@ export class TourListComponent implements OnInit, OnDestroy {
   loaded = false;
   tours$: Observable<Tour[]>;
   toursSubscription: Subscription;
-  constructor(public tourService: EnTourService, @Inject(APP_BASE_HREF) public baseHref: string, public messageService: MessageService) {}
+  constructor(
+    public tourService: EnTourService,
+    @Inject(APP_BASE_HREF) public baseHref: string,
+    public messageService: MessageService
+  ) {}
+
   ngOnDestroy() {
     this.toursSubscription.unsubscribe();
   }
