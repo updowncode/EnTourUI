@@ -49,6 +49,8 @@ import { FetchJsonPipe } from "./share/FetchJsonPipe";
 import { PopupService } from './popup.service';
 import { MyModelDlgComponent } from './my-model-dlg/my-model-dlg.component';
 import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
+import { ForbiddenValidatorDirective } from './share/forbidden-name.directive';
+import { RoomValidatorDirective } from './share/room-validator.directive';
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -87,6 +89,8 @@ import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
     TourSummaryComponent,
     MyModelDlgComponent,
     DisplayTripsComponent,
+    ForbiddenValidatorDirective,
+    RoomValidatorDirective,
     FetchJsonPipe,
     NgbdModalContent
   ],

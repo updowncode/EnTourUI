@@ -5,7 +5,10 @@
     </div>
   </div>
   <br />
-  <form (ngSubmit)="verifyRooms()" ref-roomsForm="ngForm" novalidate="">
+  <form (ngSubmit)="verifyRooms(roomsForm)" ref-roomsForm="ngForm" novalidate [roomsValidation]="trip">
+      <div *ngIf="roomsForm.errors?.identityRevealed">
+         {{roomsForm.errors?.identityRevealed}}
+      </div>
     <div class="row">
       <div class="col-md-9">
         <div style="border: 1px solid #CCC; padding:10px;">

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { CountryOrArea } from "../../Models/countryorarea";
 import { Tour } from "../../Models/tour";
 import { Trip } from "../../Models/trip";
+import { NgForm, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-tour-rooms-billing-info",

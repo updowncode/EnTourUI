@@ -3,7 +3,9 @@ import {
   OnInit,
   HostBinding,
   OnDestroy,
-  Input
+  Input,
+  ViewChild,
+  ElementRef
 } from "@angular/core";
 import { EnTourCoreService } from "../../en-tour-core/en-tour-core.service";
 import { EnTourService } from "../../en-tour.service";
@@ -22,7 +24,7 @@ import { MessageService } from "../../message.service";
 import { TourDateType } from "../../Models/dateType";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgbdModalContent } from "../../ngbd-model-content/ngbd-model-content";
-import { Form } from "@angular/forms";
+import { Form, NgForm, FormGroup } from "@angular/forms";
 @Component({
   selector: "app-tour-rooms",
   templateUrl: "./tour-rooms.component.html",
@@ -43,6 +45,8 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   paramSubscription: Subscription;
   toursSubscription: Subscription;
   maxCapacity: number;
+
+  @ViewChild("roomsForm") roomsForm: NgForm;
   constructor(
     private tourService: EnTourService,
     private router: Router,
@@ -301,11 +305,23 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     });
     modalRef.componentInstance.message = message;
   }
-  get diagnostic() { return JSON.stringify(this.trip); }
-  verifyRooms() {}
-  goToOptions(): void {
+  get diagnostic() {
+    return JSON.stringify(this.trip);
+  }
+  verifyRooms(theForm: NgForm) {
+    console.log(theForm.value);
+    if (theForm.invalid) {
+      // handle error.
+      if (theForm.controls["name"].errors) {
+        console.log(
+          "name error:" + JSON.stringify(theForm.controls["name"].errors)
+        );
+      }
+    }
+  }
+  goToOptions() {
     this.openModelDlg("sdfsdfsdf<br>ssdf");
-    return;
+    return false;
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
