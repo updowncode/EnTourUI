@@ -14,6 +14,7 @@ export class TourRoomsBillingInfoComponent implements OnInit {
   trip: Trip;
   @Input()
   tour: Tour;
+
   constructor() {}
 
   ngOnInit() {

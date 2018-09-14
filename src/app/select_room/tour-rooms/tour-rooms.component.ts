@@ -46,7 +46,6 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   toursSubscription: Subscription;
   maxCapacity: number;
 
-  @ViewChild("roomsForm") roomsForm: NgForm;
   constructor(
     private tourService: EnTourService,
     private router: Router,
@@ -75,7 +74,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    this.messageService.add("Select room..");
+    // this.messageService.add("Select room..");
     this.paramSubscription = this.activatedRoute.queryParams.subscribe(
       params => {
         this.tourId = params.tourId;
@@ -308,20 +307,29 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   get diagnostic() {
     return JSON.stringify(this.trip);
   }
-  verifyRooms(theForm: NgForm) {
-    console.log(theForm.value);
-    if (theForm.invalid) {
-      // handle error.
-      if (theForm.controls["name"].errors) {
-        console.log(
-          "name error:" + JSON.stringify(theForm.controls["name"].errors)
-        );
-      }
+  // verifyRooms(theForm: NgForm) {
+  //   console.log(theForm.value);
+  //   if (theForm.invalid) {
+  //     // handle error.
+  //     if (theForm.controls["name"].errors) {
+  //       console.log(
+  //         "name error:" + JSON.stringify(theForm.controls["name"].errors)
+  //       );
+  //     }
+  //   }
+  // }
+  allDataCorrect(): string {
+    if (this.trip.billingInfo.firstName.length === 0) {
+      return `First name is required`;
     }
+    return "";
   }
   goToOptions() {
-    this.openModelDlg("sdfsdfsdf<br>ssdf");
-    return false;
+    const verifyResult = this.allDataCorrect();
+    if (verifyResult.length > 0) {
+      this.openModelDlg(verifyResult);
+      return false;
+    }
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);

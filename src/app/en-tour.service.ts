@@ -24,6 +24,8 @@ import {
   HttpErrorResponse
 } from "@angular/common/http";
 import { Options } from "selenium-webdriver";
+import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 const FETCH_LATENCY = 500;
 const httpOptions = {
   headers: new HttpHeaders({
@@ -58,7 +60,8 @@ export class EnTourService implements OnDestroy {
   constructor(
     private http: Http,
     private messageService: MessageService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private modalService: NgbModal
   ) {
     this.tourSubscription = this.tour$.subscribe(tour => {
       this.tour = tour;
@@ -207,13 +210,24 @@ export class EnTourService implements OnDestroy {
   updateSelectedTour(tour: Tour) {
     this.tourSelected.next(tour);
   }
+  openModelDlg(message: string) {
+    const modalRef = this.modalService.open(NgbdModalContent, {
+      backdrop: "static",
+      keyboard: false
+    });
+    modalRef.componentInstance.message = message;
+  }
   payment(trip: Trip): Promise<any> {
     return this.http
       .post(this.bookUrl, JSON.stringify(trip), {
         headers: this.headers
       })
       .toPromise()
-      .catch(this.handleError);
+      .catch((error) => {
+        console.error("An error occurred", error); // for demo purposes only
+        this.log(error.statusText + ": " + error._body);
+        this.openModelDlg(error.statusText + ": " + error._body);
+      });
   }
   private log(message: string) {
     this.messageService.clearMessage();
@@ -230,6 +244,19 @@ export class EnTourService implements OnDestroy {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+  private handleError3(error: any, messageService: MessageService): Promise<any> {
+    console.error("An error occurred", error); // for demo purposes only
+    messageService.clearMessage();
+    messageService.sendMessage("An error occurred" + error);
+    messageService.add("setup ok").subscribe((result: boolean) => {
+      if (!result) {
+        console.log("");
+        return;
+      }
+      console.log("error add");
+    });
+    return Promise.reject(error.message || error);
   }
   //#region Promise usages
   private handleError(error: any): Promise<any> {

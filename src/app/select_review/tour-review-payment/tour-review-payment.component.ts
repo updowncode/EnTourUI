@@ -1,4 +1,11 @@
-import { Component, OnInit, HostBinding, OnDestroy, ElementRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostBinding,
+  OnDestroy,
+  ElementRef,
+  ViewChild
+} from "@angular/core";
 import { Tour } from "../../Models/tour";
 import { Trip } from "../../Models/trip";
 import { Traveller } from "../../Models/traveller";
@@ -59,18 +66,20 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     this.isVerified = false;
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
-    this.toursSubscription = this.tourService.getTourById(this.tourId).subscribe(t => {
-      const roomsLength = this.onResult(t);
-      if (roomsLength === 0) {
-        this.router.navigate(["/options"], {
-          queryParams: { tourId: this.tourId, tripId: this.tripId }
-        });
-      } else {
-        this.tourService.updateSelectedTour(this.tour);
-        this.tourService.updateSelectedTrip(this.trip);
-        this.initTrip();
-      }
-    });
+    this.toursSubscription = this.tourService
+      .getTourById(this.tourId)
+      .subscribe(t => {
+        const roomsLength = this.onResult(t);
+        if (roomsLength === 0) {
+          this.router.navigate(["/options"], {
+            queryParams: { tourId: this.tourId, tripId: this.tripId }
+          });
+        } else {
+          this.tourService.updateSelectedTour(this.tour);
+          this.tourService.updateSelectedTrip(this.trip);
+          this.initTrip();
+        }
+      });
   }
   onResult(tour: Tour): number {
     this.msg = "";
@@ -159,27 +168,32 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   }
   verify() {
     this.isVerified = !this.isVerified;
-    // this.gotoPayment();
+    this.gotoPayment();
   }
-  onSubmit(form: Form) {
-
-  }
+  onSubmit(form: Form) {}
   gotoPayment() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
     this.tourService.updateSelectedTrip(this.trip);
-    this.tourService.payment(this.trip).then( resp => {
-      const bookHtml = JSON.parse(resp._body).data.m_StringValue;
-      $("#ReturnForm").html(bookHtml);
-      $("#pay_form").submit();
-    });
+    this.tourService
+      .payment(this.trip)
+      .then(resp => {
+        if (resp && resp._body) {
+          const bookHtml = JSON.parse(resp._body).data;
+          $(bookHtml).appendTo("#ReturnForm");
+          $("#pay_form").submit();
+        }
+      })
+      .catch(error => {
+        console.log(error._body);
+      });
   }
   goBack(): void {
     if (window.history.length > 1) {
       this.location.back();
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     }
   }
 }

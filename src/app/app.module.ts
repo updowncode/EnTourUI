@@ -51,6 +51,7 @@ import { MyModelDlgComponent } from './my-model-dlg/my-model-dlg.component';
 import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
 import { ForbiddenValidatorDirective } from './share/forbidden-name.directive';
 import { RoomValidatorDirective } from './share/room-validator.directive';
+import { TourRoomsFormComponent } from './select_room/tour-rooms-form/tour-rooms-form.component';
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -91,6 +92,7 @@ import { RoomValidatorDirective } from './share/room-validator.directive';
     DisplayTripsComponent,
     ForbiddenValidatorDirective,
     RoomValidatorDirective,
+    TourRoomsFormComponent,
     FetchJsonPipe,
     NgbdModalContent
   ],

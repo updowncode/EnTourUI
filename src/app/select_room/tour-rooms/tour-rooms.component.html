@@ -5,14 +5,15 @@
     </div>
   </div>
   <br />
-  <form (ngSubmit)="verifyRooms(roomsForm)" ref-roomsForm="ngForm" novalidate [roomsValidation]="trip">
-      <div *ngIf="roomsForm.errors?.identityRevealed">
+    <!-- [roomsValidation]="trip" -->
+  <!-- <form (ngSubmit)="verifyRooms(roomsForm)" ref-roomsForm="ngForm" novalidate> -->
+      <!-- <div *ngIf="roomsForm.errors?.identityRevealed">
          {{roomsForm.errors?.identityRevealed}}
-      </div>
+      </div> -->
     <div class="row">
       <div class="col-md-9">
         <div style="border: 1px solid #CCC; padding:10px;">
-          <div class="row">
+          <div  class="row">
             <div class="col-md-12">
               <div>
                  <!-- [hidden]="roomsForm.form.valid" -->
@@ -99,13 +100,12 @@
               <a class="btn btn-primary" style="background-color:#d47027!important" on-click="goBack()">Go Back</a>
             </div>
             <div class="col-md-6 text-right">
-              <button mat-raised-button color="primary" style="background-color:#d47027!important" type="submit"
-                [disabled]="!roomsForm.form.valid">Submit  [{{roomsForm.form.valid}}]</button>
+              <!-- <button mat-raised-button color="primary" style="background-color:#d47027!important" type="submit"
+                [disabled]="!roomsForm.form.valid">Submit  [{{roomsForm.form.valid}}]</button> -->
 
               <a class="btn btn-primary" style="background-color:#d47027!important" (click)="goToOptions()">Continue</a>
             </div>
           </div>
-          <div id="main_content" style="top:1px;min-height: 0px !important; height:0px; display: none"></div>
         </div>
       </div>
       <div class="col-md-3">
@@ -114,6 +114,6 @@
         </div>
       </div>
     </div>
-  </form>
+  <!-- </form> -->
 </div>
 <!-- {{diagnostic}} -->
