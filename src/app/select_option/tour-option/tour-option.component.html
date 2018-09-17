@@ -22,18 +22,21 @@
                         </div>
                         <div *ngIf="trip">
                             <div *ngFor="let room of trip.rooms; let i = index">
-                                <app-tour-option-for-each-traveller [traveller]="t" [index]="t.id" [options]="trip.options" *ngFor="let t of room.travellers;"></app-tour-option-for-each-traveller>
+                                <app-tour-option-for-each-traveller [traveller]="t" [index]="t.id" [options]="trip.options"
+                                    *ngFor="let t of room.travellers;"></app-tour-option-for-each-traveller>
                             </div>
                         </div>
                         <div class="text-right">
                             <div class="row">
                                 <div class="col-md-6 text-left">
-                                    <a class="btn btn-primary" style="background-color:#d47027!important"  (click)="goBack()">Go
+                                    <button type="button" class="btn btn-primary" style="background-color:#d47027!important"
+                                        (click)="goBack()">Go
                                         Back
-                                    </a>
+                                    </button>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <a class="btn btn-primary" style="background-color:#d47027!important"  (click)="gotoTravellerDetail()">Continue</a>
+                                    <button type="button" class="btn btn-primary" style="background-color:#d47027!important"
+                                        on-click="verify()">Continue</button>
                                 </div>
                             </div>
                         </div>

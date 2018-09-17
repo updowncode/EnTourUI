@@ -13,6 +13,7 @@ import { slideInDownAnimation } from "../../app.animations";
 import { Subscription } from "rxjs";
 import { Location } from "@angular/common";
 import { CountryOrArea } from "../../Models/countryorarea";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: "app-tour-traveller-detail",
   templateUrl: "./tour-traveller-detail.component.html",
@@ -31,7 +32,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   trip: Trip;
   tourId: string;
   tripId: string;
-
+  isVerified: boolean;
   @Input()
   set msg(msg: string) {
     this._msg = (msg && msg.trim()) || "<no msg set>";
@@ -51,6 +52,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
+    this.isVerified = false;
     this.msg = "Loading Traveller Details ...";
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
@@ -123,7 +125,77 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
       return this.trip.rooms.length;
     }
   }
-
+  allDataCorrect(): string {
+    for (let i = 0; i < this.trip.rooms.length; i++) {
+      if (this.trip.rooms[i].travellers.length > 0) {
+        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          if (this.trip.rooms[i].travellers[j].firstName.length === 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s First Name is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s Last Name is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].title.length === 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s Title is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].birthday === null) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s Date of Birth is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].placeofbirth.length === 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s Place of Birth is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].countryorarea.id < 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s Nationality is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].passport.number.length === 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s Passport number is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].passport.issueDate === null) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s passport issue date is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].passport.expiryDate === null) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s passport expiry date is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].passport.issuePlace.id < 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s passport issue place is required`;
+          }
+        }
+      }
+    }
+    return "";
+  }
+  verify() {
+    const verifyResult = this.allDataCorrect();
+    if (verifyResult.length > 0) {
+      this.tourService.openModelDlg(verifyResult);
+      return false;
+    } else {
+      this.isVerified = true;
+    }
+    if (this.isVerified) {
+      this.gotoReviewPayment();
+    }
+  }
   gotoReviewPayment() {
     this.trip.rooms.forEach(room =>
       room.travellers.forEach(

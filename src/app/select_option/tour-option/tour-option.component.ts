@@ -26,6 +26,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
   tourId: string;
   tripId: string;
   travellers: Traveller[] = [];
+  isVerified: boolean;
   msg = "Loading options ...";
   paramSubscription: Subscription;
   toursSubscription: Subscription;
@@ -40,6 +41,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
     this.toursSubscription.unsubscribe();
   }
   ngOnInit() {
+    this.isVerified = false;
     this.paramSubscription = this.activatedRoute.queryParams.subscribe(
       params => {
         this.tourId = params.tourId;
@@ -85,7 +87,21 @@ export class TourOptionComponent implements OnInit, OnDestroy {
       return this.trip.rooms.length;
     }
   }
-
+  allDataCorrect(): string {
+    return "";
+  }
+  verify() {
+    const verifyResult = this.allDataCorrect();
+    if (verifyResult.length > 0) {
+      this.tourService.openModelDlg(verifyResult);
+      return false;
+    } else {
+      this.isVerified = true;
+    }
+    if (this.isVerified) {
+      this.gotoTravellerDetail();
+    }
+  }
   gotoTravellerDetail() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));

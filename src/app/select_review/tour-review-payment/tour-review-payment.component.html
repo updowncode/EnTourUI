@@ -172,16 +172,18 @@
         <div [hidden]="!heroForm.form.valid">
             {{heroForm.form.valid}}
         </div> -->
+        <br />
         <div class="row">
             <div class="col-md-6 text-left">
-                <a class="btn btn-warning" style="background-color:#d47027!important; color: white;" [style.background-color]="'#d47027!important'"
+                <button type="button" class="btn btn-warning" style="background-color:#d47027!important; color: white;" [style.background-color]="'#d47027!important'"
                     [style.font-size.em]="isVerified ? 1 : 1" (click)="goBack()">Go Back
-                </a>
+                </button>
             </div>
             <div class="col-md-6 text-right">
-                <a [class.isVerified]="isVerified" class="btn btn-warning" [style.color]="isVerified ? 'white' : 'white'" [style.font-size.em]="!isVerified ? 1 : 1"
-                    [style.background-color]="isVerified ? '#d47027!important' : '#d47027'" [attr.aria-label]="payment" on-click="verify()">Continue
-                    to Payment</a> <!-- bind-disabled="!isVerified"  -->
+                <button type="button" [class.isVerified]="isVerified" class="btn btn-warning" [style.color]="isVerified ? 'white' : 'white'" [style.font-size.em]="!isVerified ? 1 : 1"
+                    [style.background-color]="isVerified ? '#d47027!important' : '#d47027'" [attr.aria-label]="payment" on-click="verify()"
+                    bind-disabled="!trip.billingInfo.agreeTermAndCondition || !trip.billingInfo.haveReadTripNotes">Continue
+                    to Payment</button> <!--   -->
             </div>
         </div>
         <div class="row">

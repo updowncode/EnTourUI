@@ -223,15 +223,17 @@ export class EnTourService implements OnDestroy {
         headers: this.headers
       })
       .toPromise()
-      .catch((error) => {
+      .catch(error => {
         console.error("An error occurred", error); // for demo purposes only
         this.log(error.statusText + ": " + error._body);
         this.openModelDlg(error.statusText + ": " + error._body);
       });
   }
   private log(message: string) {
-    this.messageService.clearMessage();
-    this.messageService.add(`${message}`);
+    if (message.length > 0) {
+      this.messageService.clearMessage();
+      this.messageService.add(`${message}`);
+    }
   }
   private handleObservableError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
@@ -245,7 +247,10 @@ export class EnTourService implements OnDestroy {
       return of(result as T);
     };
   }
-  private handleError3(error: any, messageService: MessageService): Promise<any> {
+  private handleError3(
+    error: any,
+    messageService: MessageService
+  ): Promise<any> {
     console.error("An error occurred", error); // for demo purposes only
     messageService.clearMessage();
     messageService.sendMessage("An error occurred" + error);

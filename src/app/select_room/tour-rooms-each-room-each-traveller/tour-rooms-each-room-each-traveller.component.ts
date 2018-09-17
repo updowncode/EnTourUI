@@ -87,30 +87,30 @@ export class TourRoomsEachRoomEachTravellerComponent
   }
   ngDoCheck(): void {
     // 检测，并在发生 Angular 无法或不愿意自己检测的变化时作出反应。在每个 Angular 变更检测周期中调用，ngOnChanges() 和 ngOnInit() 之后。
-    if (this.traveller.firstName !== this.room.travellers[0].firstName) {
-      console.log(
-        `this.traveller.firstName:"${
-          this.traveller.firstName
-        }", room first traveller firstName is"${
-          this.room.travellers[0].firstName
-        }"`
-      );
-    }
+    // if (this.traveller.firstName !== this.room.travellers[0].firstName) {
+    //   console.log(
+    //     `this.traveller.firstName:"${
+    //       this.traveller.firstName
+    //     }", room first traveller firstName is"${
+    //       this.room.travellers[0].firstName
+    //     }"`
+    //   );
+    // }
   }
   ngAfterContentInit(): void {
     // 当把内容投影进组件之后调用。第一次 ngDoCheck() 之后调用，只调用一次。
 
-    console.log(
-      `AfterContentInit: this passenger index: "${
-        this.contentChild.traveller.id
-      }"`
-    );
+    // console.log(
+    //   `AfterContentInit: this passenger index: "${
+    //     this.contentChild.traveller.id
+    //   }"`
+    // );
   }
   ngAfterContentChecked(): void {
     // 每次完成被投影组件内容的变更检测之后调用。ngAfterContentInit() 和每次 ngDoCheck() 之后调用
-    console.log(
-      `ngAfterContentChecked: this passenger index: "${this.traveller.id}"`
-    );
+    // console.log(
+    //   `ngAfterContentChecked: this passenger index: "${this.traveller.id}"`
+    // );
   }
 
   ngOnDestroy() {

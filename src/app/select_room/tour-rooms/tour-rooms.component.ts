@@ -45,14 +45,13 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   paramSubscription: Subscription;
   toursSubscription: Subscription;
   maxCapacity: number;
-
+  isVerified: boolean;
   constructor(
     private tourService: EnTourService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private messageService: MessageService,
-    private modalService: NgbModal
+    private messageService: MessageService
   ) {
     // this.location.replaceState("/");
   }
@@ -74,6 +73,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    this.isVerified = false;
     // this.messageService.add("Select room..");
     this.paramSubscription = this.activatedRoute.queryParams.subscribe(
       params => {
@@ -294,15 +294,10 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     }
   }
   private log(message: string) {
-    this.messageService.clearMessage();
-    this.messageService.add(`${message}`);
-  }
-  openModelDlg(message: string) {
-    const modalRef = this.modalService.open(NgbdModalContent, {
-      backdrop: "static",
-      keyboard: false
-    });
-    modalRef.componentInstance.message = message;
+    if (message.length > 0) {
+      this.messageService.clearMessage();
+      this.messageService.add(`${message}`);
+    }
   }
   get diagnostic() {
     return JSON.stringify(this.trip);
@@ -320,16 +315,63 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   // }
   allDataCorrect(): string {
     if (this.trip.billingInfo.firstName.length === 0) {
-      return `First name is required`;
+      return `First Name is required`;
+    }
+    if (this.trip.billingInfo.lastName.length === 0) {
+      return `Last Name is required`;
+    }
+    if (this.trip.billingInfo.email.length === 0) {
+      return `E-Mail is required`;
+    }
+    if (this.trip.billingInfo.primaryPhone.length === 0) {
+      return `Primary Phone is required`;
+    }
+    if (this.trip.billingInfo.mailingAddress.length === 0) {
+      return `Mailing Address is required`;
+    }
+    if (this.trip.billingInfo.city.length === 0) {
+      return `City is required`;
+    }
+    if (this.trip.billingInfo.country.id < 0) {
+      return `Country is required`;
+    }
+    if (this.trip.billingInfo.provinceStates.length === 0) {
+      return `Province or State is required`;
+    }
+    if (this.trip.billingInfo.postalCode.length === 0) {
+      return `Postal Code is required`;
+    }
+    for (let i = 0; i < this.trip.rooms.length; i++) {
+      if (this.trip.rooms[i].travellers.length > 0) {
+        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          if (this.trip.rooms[i].travellers[j].firstName.length === 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s First Name is required`;
+          }
+          if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
+            return `Room #${this.trip.rooms[i].index}'s passenger ${
+              this.trip.rooms[i].travellers[j].id + 1
+            }'s Last Name is required`;
+          }
+        }
+      }
     }
     return "";
   }
-  goToOptions() {
+  verify() {
     const verifyResult = this.allDataCorrect();
     if (verifyResult.length > 0) {
-      this.openModelDlg(verifyResult);
+      this.tourService.openModelDlg(verifyResult);
       return false;
+    } else {
+      this.isVerified = true;
     }
+    if (this.isVerified) {
+      this.goToOptions();
+    }
+  }
+  goToOptions() {
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);

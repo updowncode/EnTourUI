@@ -167,11 +167,22 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     return this.totalPrice;
   }
   verify() {
-    this.isVerified = !this.isVerified;
-    this.gotoPayment();
+    this.isVerified = true;
+    if (this.isVerified) {
+      this.gotoPayment();
+    }
   }
   onSubmit(form: Form) {}
   gotoPayment() {
+    if (
+      !this.trip.billingInfo.agreeTermAndCondition ||
+      !this.trip.billingInfo.haveReadTripNotes
+    ) {
+      this.tourService.openModelDlg(
+        "Please select 'Term and Conditions', 'trip notes'"
+      );
+      return;
+    }
     localStorage.removeItem(this.tripId.toString());
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
