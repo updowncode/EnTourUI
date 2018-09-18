@@ -30,12 +30,12 @@ export class TourRoomsBillingInfoComponent implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
   initData() {
-    this.trip.billingInfo.firstName = "david";
-    this.trip.billingInfo.lastName = "li";
-    this.trip.billingInfo.email = "qiangli1973@gmail.com";
-    this.trip.billingInfo.primaryPhone = "123546789";
+    this.trip.billingInfo.firstName = "David";
+    this.trip.billingInfo.lastName = "Li";
+    this.trip.billingInfo.email = "david.li@toureast.com";
+    this.trip.billingInfo.primaryPhone = "4169290888";
     this.trip.billingInfo.secondaryPhone = "123456789";
-    this.trip.billingInfo.mailingAddress = "123 kern rd";
+    this.trip.billingInfo.mailingAddress = "15 kern rd";
     this.trip.billingInfo.city = "Toronto";
 
     this.trip.billingInfo.country = new CountryOrArea();
@@ -44,6 +44,6 @@ export class TourRoomsBillingInfoComponent implements OnInit {
     this.trip.billingInfo.country.code = "CA";
 
     this.trip.billingInfo.provinceStates = "Ontario";
-    this.trip.billingInfo.postalCode = "1d14g4";
+    this.trip.billingInfo.postalCode = "1d1 4g4";
   }
 }

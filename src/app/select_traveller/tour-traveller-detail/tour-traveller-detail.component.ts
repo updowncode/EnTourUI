@@ -14,6 +14,7 @@ import { Subscription } from "rxjs";
 import { Location } from "@angular/common";
 import { CountryOrArea } from "../../Models/countryorarea";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TourDateType } from "../../Models/dateType";
 @Component({
   selector: "app-tour-traveller-detail",
   templateUrl: "./tour-traveller-detail.component.html",
@@ -76,23 +77,23 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
       for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
         this.trip.rooms[i].travellers[j].title = "Mr";
         this.trip.rooms[i].travellers[j].placeofbirth = "Toronto";
-        this.trip.rooms[i].travellers[j].birthday = {
-          year: new Date().getFullYear(),
-          month: new Date().getMonth() + 1,
-          day: new Date().getDate()
-        };
+
+        this.trip.rooms[i].travellers[j].birthday = new TourDateType();
+        this.trip.rooms[i].travellers[j].birthday.year = new Date().getFullYear();
+        this.trip.rooms[i].travellers[j].birthday.month = new Date().getMonth() + 1;
+        this.trip.rooms[i].travellers[j].birthday.day = new Date().getDate();
 
         this.trip.rooms[i].travellers[j].passport.number = "AS232424";
-        this.trip.rooms[i].travellers[j].passport.issueDate = {
-          year: new Date().getFullYear(),
-          month: new Date().getMonth() + 1,
-          day: new Date().getDate()
-        };
-        this.trip.rooms[i].travellers[j].passport.expiryDate = {
-          year: new Date().getFullYear(),
-          month: new Date().getMonth() + 1,
-          day: new Date().getDate()
-        };
+
+        this.trip.rooms[i].travellers[j].passport.issueDate = new TourDateType();
+        this.trip.rooms[i].travellers[j].passport.issueDate.year = new Date().getFullYear();
+        this.trip.rooms[i].travellers[j].passport.issueDate.month = new Date().getMonth() + 1;
+        this.trip.rooms[i].travellers[j].passport.issueDate.day = new Date().getDate();
+
+        this.trip.rooms[i].travellers[j].passport.expiryDate = new TourDateType();
+        this.trip.rooms[i].travellers[j].passport.expiryDate.year = new Date().getFullYear();
+        this.trip.rooms[i].travellers[j].passport.expiryDate.month = new Date().getMonth() + 1;
+        this.trip.rooms[i].travellers[j].passport.expiryDate.day = new Date().getDate();
         this.trip.rooms[i].travellers[
           j
         ].passport.issuePlace = new CountryOrArea();
