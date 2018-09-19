@@ -18,6 +18,13 @@ import * as $ from "jquery";
   selector: "app-tour-traveller-detail-each-traveller",
   templateUrl: "./tour-traveller-detail-each-traveller.component.html",
   styleUrls: ["./tour-traveller-detail-each-traveller.component.sass"],
+  // styles: [
+  //   `
+  //     :host {
+  //       z-index: 1 !important;
+  //     }
+  //   `
+  // ],
   // directives: [MyDatePickerComponent],
   animations: [slideInDownAnimation]
 })

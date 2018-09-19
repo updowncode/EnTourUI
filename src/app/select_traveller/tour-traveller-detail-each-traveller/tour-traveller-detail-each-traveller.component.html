@@ -53,6 +53,7 @@
           <input type="text" class="form-control" id="x" required ngbDatepicker [minDate]="minDateForDOB" [maxDate]="maxDateForDOB"  container="body" #x="ngbDatepicker" [(ngModel)]="traveller.birthday"
             (click)="x.toggle()">
           <div class="input-group-append">
+              <!-- <app-my-date-picker [options]="{'dateFormat': 'yyyy-mm-dd', 'showTextBox': true}" [selDate]="''"></app-my-date-picker> -->
             <span class="input-group-text"><i class="fa fa-calendar" (click)="x.toggle()" style="cursor:pointer;"></i></span>
             <!-- <button class="btn btn-default" (click)="x.toggle()" type="button"><i class="fa fa-calendar"  style="cursor:pointer;"></i></button> -->
           </div>
