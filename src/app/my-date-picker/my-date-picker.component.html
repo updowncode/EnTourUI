@@ -1,25 +1,49 @@
-<!-- <div [ngStyle]="{'height': height, 'width': width, 'border-style': border}">
+<div [ngStyle]="{'height': height, 'width': width, 'border-style': border}">
     <div class="selectiongroup" *ngIf="showTextBox">
-        <span class="selection" [ngStyle]="{'height': height, 'line-height': height}" (click)="openBtnClicked()">{{selectionDayTxt}}</span>
+        <!-- <span class="selection" [ngStyle]="{'height': height, 'line-height': height}" (click)="openBtnClicked()">{{selectionDayTxt}}</span> -->
         <span class="selbtngroup" [style.height]="height">
-        <button type="button" class="btnpicker" (click)="openBtnClicked()"><span class="icon icon-calendar"></span></button>
+            <button type="button" class="btnpicker" (click)="openBtnClicked()"><span class="fa fa-calendar"></span></button>
         </span>
     </div>
     <div class="row" *ngIf="showSelector">
         <div class="col-md-12" style="z-index:1000">
-            <div class="calendar" style="height:300px">
+            <div class="calendar">
                 <div class="years clearfix">
-                    <div class="unit prev" (click)="prevMonth()"><em></em></div>
-                    <div class="monyear">{{visibleMonth.monthTxt}} {{visibleMonth.year}}</div>
-                    <div class="unit next" (click)="nextMonth()"><em></em></div>
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <div class="unit prev" (click)="prevMonth()"><em style="margin-top:3px;"></em></div>
+                            </td>
+                            <td> 
+                                <select [ngModel]="visibleMonth.monthNbr" (ngModelChange)="setMonth($event)"
+                                    [compareWith]="compareMonthNbr">
+                                    <ng-container *ngFor="let m of monthLabels | keys">
+                                        <option [ngValue]="m">{{monthText(m)}}</option>
+                                    </ng-container>
+                                </select>
+                            </td>
+                            <td>
+                                <!-- <div class="monyear">{{visibleMonth.monthTxt}}{{visibleMonth.year}}</div> -->
+                                <select [ngModel]="visibleMonth.year" (ngModelChange)="setYear($event)">
+                                    <ng-container *ngFor="let _year of yearRanges">
+                                        <option [ngValue]="_year">{{_year}}</option>
+                                    </ng-container>
+                                </select>
+                            </td>
+                            <td style="text-align: right">
+                                <div class="unit next" (click)="nextMonth()"><em style="margin-top:3px;"></em></div>
+                            </td>
+                        </tr>
+                    </table>
+
                 </div>
                 <div class="days">
                     <div class="clearfix">
-                        <div class="unit" *ngFor="days of weekDays">{{days}}</div>
+                        <div class="unit" *ngFor="let days of weekDays">{{days}}</div>
                     </div>
                     <div class="clearfix">
-                        <div *ngFor="w of dates">
-                            <div *ngFor="d of w" (click)="cellClicked(d)" [ngClass]="{'unit active': selectedDate.day===d.day && selectedDate.month===d.month && selectedDate.year===d.year && d.cmo===CURR_MONTH || d.currDay }">
+                        <div *ngFor="let w of dates">
+                            <div *ngFor="let d of w" (click)="cellClicked(d)" [ngClass]="{'unit active': selectedDate.day===d.day && selectedDate.month===d.month && selectedDate.year===d.year && d.cmo===CURR_MONTH || d.currDay }">
                                 <div [ngClass]="{'unit older': d.cmo===PREV_MONTH || d.cmo===NEXT_MONTH, 'unit': d.cmo===CURR_MONTH || d.cmo!==CURR_MONTH}"><b>{{d.day}}</b></div>
                             </div>
                         </div>
@@ -28,4 +52,4 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>

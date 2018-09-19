@@ -1,6 +1,5 @@
 import {
   Component,
-  // View,
   Input,
   Output,
   EventEmitter,
@@ -9,8 +8,7 @@ import {
   SimpleChange,
   ElementRef
 } from "@angular/core";
-// import {NgIf, NgFor, NgClass, NgStyle, NgModel} from '@angular/common';
-// import { MyDate, MyMonth } from "./bootflat-datepicker-interface";
+
 export interface MyDate {
   year: number;
   month: number;
@@ -26,7 +24,6 @@ export interface MyMonth {
   selector: "app-my-date-picker",
   templateUrl: "./my-date-picker.component.html",
   styleUrls: ["./my-date-picker.component.css"]
-  // directives: [NgIf, NgFor, NgClass, NgStyle]
 })
 export class MyDatePickerComponent implements OnInit, OnChanges {
   @Input()
@@ -35,7 +32,7 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
   selDate: string;
   @Output()
   dateChanged: EventEmitter<Object> = new EventEmitter();
-
+  yearRanges: Array<number> = [];
   showTextBox = true;
   showSelector = false;
   visibleMonth: MyMonth = { monthTxt: "", monthNbr: 0, year: 0 };
@@ -52,13 +49,13 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
 
   // Default options
   dayLabels = {
-    su: "Sun",
-    mo: "Mon",
-    tu: "Tue",
-    we: "Wed",
-    th: "Thu",
-    fr: "Fri",
-    sa: "Sat"
+    su: "Su",
+    mo: "Mo",
+    tu: "Tu",
+    we: "We",
+    th: "Th",
+    fr: "Fr",
+    sa: "Sa"
   };
   monthLabels = {
     1: "Jan",
@@ -79,7 +76,7 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
   firstDayOfWeek = "mo";
   sunHighlight = true;
   height = "34px";
-  width = "100%";
+  width = "110%";
   background = "red";
   border;
 
@@ -88,6 +85,10 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    for (let i = 1900; i < 2100; i++) {
+      this.yearRanges.push(i);
+    }
+
     this.dayLabels =
       this.options.dayLabels !== undefined
         ? this.options.dayLabels
@@ -181,9 +182,9 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
         this.options.dateFormat !== undefined
           ? this.options.dateFormat
           : this.dateFormat;
-          const dpos = fmt.indexOf("dd");
-          const mpos = fmt.indexOf("mm");
-          const ypos = fmt.indexOf("yyyy");
+      const dpos = fmt.indexOf("dd");
+      const mpos = fmt.indexOf("mm");
+      const ypos = fmt.indexOf("yyyy");
       this.selectedDate = {
         day: parseInt(this.selectionDayTxt.substring(dpos, dpos + 2), 0),
         month: parseInt(this.selectionDayTxt.substring(mpos, mpos + 2), 0),
@@ -191,7 +192,9 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
       };
     }
   }
-
+  compareMonthNbr(c1: string | number, c2: string | number): boolean {
+    return c1 && c2 ? +c1 === +c2 : false;
+  }
   removeBtnClicked(): void {
     this.selectionDayTxt = "";
     this.selectedDate = { year: 0, month: 0, day: 0 };
@@ -265,6 +268,18 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
     this.visibleMonth.year++;
     this.createMonth(this.visibleMonth.monthNbr, this.visibleMonth.year);
   }
+  setMonth(currentMonth: string | number): void {
+    this.visibleMonth = {
+      monthTxt: this.monthText(+currentMonth),
+      monthNbr: +currentMonth,
+      year: this.visibleMonth.year
+    };
+    this.createMonth(+currentMonth, this.visibleMonth.year);
+  }
+  setYear(currentYear: string): void {
+    this.visibleMonth.year = +currentYear;
+    this.createMonth(this.visibleMonth.monthNbr, this.visibleMonth.year);
+  }
 
   todayClicked(): void {
     // Today selected
@@ -292,7 +307,6 @@ export class MyDatePickerComponent implements OnInit, OnChanges {
   selectDate(date: any): void {
     this.selectedDate = { day: date.day, month: date.month, year: date.year };
     this.selectionDayTxt = this.formatDate(date);
-
     // Custom Editing Pardeep
     if (this.showTextBox === false) {
       this.showSelector = true;

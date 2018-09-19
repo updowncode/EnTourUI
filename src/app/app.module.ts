@@ -52,6 +52,7 @@ import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
 import { ForbiddenValidatorDirective } from './share/forbidden-name.directive';
 import { RoomValidatorDirective } from './share/room-validator.directive';
 import { TourRoomsFormComponent } from './select_room/tour-rooms-form/tour-rooms-form.component';
+import { KeysPipe } from "./share/keys.pipe";
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -94,6 +95,7 @@ import { TourRoomsFormComponent } from './select_room/tour-rooms-form/tour-rooms
     RoomValidatorDirective,
     TourRoomsFormComponent,
     FetchJsonPipe,
+    KeysPipe,
     NgbdModalContent
   ],
   imports: [
