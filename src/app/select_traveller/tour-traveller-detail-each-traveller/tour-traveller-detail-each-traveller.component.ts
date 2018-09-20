@@ -82,37 +82,43 @@ export class TourTravellerDetailEachTravellerComponent
     if (this.traveller.title === "") {
       this.traveller.title = this.availabledTitles[0];
     }
-    this.minDateForDOB = {
-      year: new Date().getFullYear() - 100,
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    };
-    this.maxDateForDOB = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    };
+    this.minDateForDOB = new Date(1901, 0, 1); // 1901-01-01
+    // {
+    //   year: new Date().getFullYear() - 100,
+    //   month: new Date().getMonth() + 1,
+    //   day: new Date().getDate()
+    // };
+    this.maxDateForDOB = new Date();
+    // {
+    //   year: new Date().getFullYear(),
+    //   month: new Date().getMonth() + 1,
+    //   day: new Date().getDate()
+    // };
 
-    this.minDateForPassportIssue = {
-      year: new Date().getFullYear() - 20,
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    };
-    this.maxDateForPassportIssue = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    };
-    this.minDateForPassportExpiry = {
-      year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    };
-    this.maxDateForPassportExpiry = {
-      year: new Date().getFullYear() + 100,
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate()
-    };
+    this.minDateForPassportIssue = new Date(new Date().getFullYear() - 20, 0, 1);
+    // {
+    //   year: new Date().getFullYear() - 20,
+    //   month: new Date().getMonth() + 1,
+    //   day: new Date().getDate()
+    // };
+    this.maxDateForPassportIssue = new Date();
+    // {
+    //   year: new Date().getFullYear(),
+    //   month: new Date().getMonth() + 1,
+    //   day: new Date().getDate()
+    // };
+    this.minDateForPassportExpiry = new Date();
+    // {
+    //   year: new Date().getFullYear(),
+    //   month: new Date().getMonth() + 1,
+    //   day: new Date().getDate()
+    // };
+    this.maxDateForPassportExpiry = new Date(new Date().getFullYear() + 100, 0, 1);
+    // {
+    //   year: new Date().getFullYear() + 100,
+    //   month: new Date().getMonth() + 1,
+    //   day: new Date().getDate()
+    // };
   }
 
   compareTitle(c1: string, c2: string): boolean {

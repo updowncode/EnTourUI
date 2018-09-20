@@ -362,7 +362,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   verify() {
     const verifyResult = this.allDataCorrect();
     if (verifyResult.length > 0) {
-      this.tourService.openModelDlg(verifyResult);
+      this.tourService.openNgxModelDlg(verifyResult);
       return false;
     } else {
       this.isVerified = true;

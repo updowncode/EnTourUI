@@ -53,6 +53,10 @@ import { ForbiddenValidatorDirective } from './share/forbidden-name.directive';
 import { RoomValidatorDirective } from './share/room-validator.directive';
 import { TourRoomsFormComponent } from './select_room/tour-rooms-form/tour-rooms-form.component';
 import { KeysPipe } from "./share/keys.pipe";
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxModelDlgComponent } from './ngx-model-dlg/ngx-model-dlg.component';
+import { AlertModule } from 'ngx-bootstrap/alert';
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -94,6 +98,7 @@ import { KeysPipe } from "./share/keys.pipe";
     ForbiddenValidatorDirective,
     RoomValidatorDirective,
     TourRoomsFormComponent,
+    NgxModelDlgComponent,
     FetchJsonPipe,
     KeysPipe,
     NgbdModalContent
@@ -107,6 +112,9 @@ import { KeysPipe } from "./share/keys.pipe";
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
+    AlertModule.forRoot(),
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
     AppRoutingModule
   ],
@@ -130,6 +138,6 @@ import { KeysPipe } from "./share/keys.pipe";
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PopupComponent, NgbdModalContent]
+  entryComponents: [PopupComponent, NgbdModalContent, NgxModelDlgComponent]
 })
 export class AppModule {}

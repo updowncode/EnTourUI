@@ -51,7 +51,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
           .subscribe(t => {
             const roomsLength = this.onResult(t);
             if (roomsLength === 0) {
-              this.router.navigate(["/travellers"], {
+              this.router.navigate(["/tours"], {
                 queryParams: { tourId: this.tourId, tripId: this.tripId }
               });
             } else {
@@ -93,7 +93,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
   verify() {
     const verifyResult = this.allDataCorrect();
     if (verifyResult.length > 0) {
-      this.tourService.openModelDlg(verifyResult);
+      this.tourService.openNgxModelDlg(verifyResult);
       return false;
     } else {
       this.isVerified = true;

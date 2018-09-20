@@ -78,22 +78,22 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
         this.trip.rooms[i].travellers[j].title = "Mr";
         this.trip.rooms[i].travellers[j].placeofbirth = "Toronto";
 
-        this.trip.rooms[i].travellers[j].birthday = new TourDateType();
-        this.trip.rooms[i].travellers[j].birthday.year = new Date().getFullYear();
-        this.trip.rooms[i].travellers[j].birthday.month = new Date().getMonth() + 1;
-        this.trip.rooms[i].travellers[j].birthday.day = new Date().getDate();
+        this.trip.rooms[i].travellers[j].birthday = new Date(1988, 5, 10);
+        // this.trip.rooms[i].travellers[j].birthday.year = new Date().getFullYear();
+        // this.trip.rooms[i].travellers[j].birthday.month = new Date().getMonth() + 1;
+        // this.trip.rooms[i].travellers[j].birthday.day = new Date().getDate();
 
         this.trip.rooms[i].travellers[j].passport.number = "AS232424";
 
-        this.trip.rooms[i].travellers[j].passport.issueDate = new TourDateType();
-        this.trip.rooms[i].travellers[j].passport.issueDate.year = new Date().getFullYear();
-        this.trip.rooms[i].travellers[j].passport.issueDate.month = new Date().getMonth() + 1;
-        this.trip.rooms[i].travellers[j].passport.issueDate.day = new Date().getDate();
+        this.trip.rooms[i].travellers[j].passport.issueDate = new Date(2017, 5, 10);
+        // this.trip.rooms[i].travellers[j].passport.issueDate.year = new Date().getFullYear();
+        // this.trip.rooms[i].travellers[j].passport.issueDate.month = new Date().getMonth() + 1;
+        // this.trip.rooms[i].travellers[j].passport.issueDate.day = new Date().getDate();
 
-        this.trip.rooms[i].travellers[j].passport.expiryDate = new TourDateType();
-        this.trip.rooms[i].travellers[j].passport.expiryDate.year = new Date().getFullYear();
-        this.trip.rooms[i].travellers[j].passport.expiryDate.month = new Date().getMonth() + 1;
-        this.trip.rooms[i].travellers[j].passport.expiryDate.day = new Date().getDate();
+        this.trip.rooms[i].travellers[j].passport.expiryDate = new Date(2020, 5, 10);
+        // this.trip.rooms[i].travellers[j].passport.expiryDate.year = new Date().getFullYear();
+        // this.trip.rooms[i].travellers[j].passport.expiryDate.month = new Date().getMonth() + 1;
+        // this.trip.rooms[i].travellers[j].passport.expiryDate.day = new Date().getDate();
         this.trip.rooms[i].travellers[
           j
         ].passport.issuePlace = new CountryOrArea();
@@ -188,7 +188,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   verify() {
     const verifyResult = this.allDataCorrect();
     if (verifyResult.length > 0) {
-      this.tourService.openModelDlg(verifyResult);
+      this.tourService.openNgxModelDlg(verifyResult);
       return false;
     } else {
       this.isVerified = true;

@@ -1,37 +1,37 @@
 <div style="border: 1px solid #ccc; padding:10px;margin-top:10px; margin-bottom:10px;background-color: #eee">
-    <div class="row">
-      <div class="col-md-12">
-        <h5>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</h5>
-      </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h5>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</h5>
     </div>
-    <div class="row">
-      <div class="col-md-2">
-        <label>Title*</label>
-        <select class="form-control" [(ngModel)]="traveller.title" [compareWith]="compareTitle" >
-          <ng-container *ngFor="let title of availabledTitles">
-            <option [ngValue]="title" *ngIf="title === ''">Select</option>
-            <option [ngValue]="title" *ngIf="title !== ''">{{title}}</option>
-          </ng-container>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label>First Name*</label>
-        <input type="text" class="form-control" required [(ngModel)]="traveller.firstName">
-      </div>
-      <div class="col-md-2">
-        <label>Middle Name</label>
-        <input type="text" class="form-control" [(ngModel)]="traveller.middleName">
-      </div>
-      <div class="col-md-4">
-        <label>Last Name*</label>
-        <input type="text" class="form-control" required [(ngModel)]="traveller.lastName">
-      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label>Title*</label>
+      <select class="form-control" [(ngModel)]="traveller.title" [compareWith]="compareTitle">
+        <ng-container *ngFor="let title of availabledTitles">
+          <option [ngValue]="title" *ngIf="title === ''">Select</option>
+          <option [ngValue]="title" *ngIf="title !== ''">{{title}}</option>
+        </ng-container>
+      </select>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <label>Date of Birth*</label>
-        <!-- <app-my-date-picker [options]="myDatePickerOptions" (dateChanged)="onDateChanged1($event)" [selDate]="selectedDate"></app-my-date-picker> -->
-        <!-- <form class="form-inline">
+    <div class="col-md-4">
+      <label>First Name*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.firstName">
+    </div>
+    <div class="col-md-2">
+      <label>Middle Name</label>
+      <input type="text" class="form-control" [(ngModel)]="traveller.middleName">
+    </div>
+    <div class="col-md-4">
+      <label>Last Name*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.lastName">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <label>Date of Birth*</label>
+      <!-- <app-my-date-picker [options]="myDatePickerOptions" (dateChanged)="onDateChanged1($event)" [selDate]="selectedDate"></app-my-date-picker> -->
+      <!-- <form class="form-inline">
           <div class="form-group">
             <div class="input-group" style="display: flex !important;">
               <input class="form-control" required placeholder="yyyy-mm-dd" container='body' name="dp" [(ngModel)]="traveller.birthday"
@@ -44,78 +44,90 @@
             </div>
           </div>
         </form> -->
-        <!-- <mat-form-field>
+      <!-- <mat-form-field>
           <input matInput [(ngModel)]="traveller.birthday" [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field> -->
-        <div class="input-group">
-          <input type="text" class="form-control" id="x" required ngbDatepicker [minDate]="minDateForDOB" [maxDate]="maxDateForDOB"  container="body" #x="ngbDatepicker" [(ngModel)]="traveller.birthday"
-            (click)="x.toggle()">
-          <div class="input-group-append">
-              <!-- <app-my-date-picker [options]="{'dateFormat': 'yyyy-mm-dd', 'showTextBox': true}" [selDate]="''"></app-my-date-picker> -->
-            <span class="input-group-text"><i class="fa fa-calendar" (click)="x.toggle()" style="cursor:pointer;"></i></span>
-            <!-- <button class="btn btn-default" (click)="x.toggle()" type="button"><i class="fa fa-calendar"  style="cursor:pointer;"></i></button> -->
-          </div>
+      <!-- <app-my-date-picker [options]="{'dateFormat': 'yyyy-mm-dd', 'showTextBox': true}" [selDate]="''"></app-my-date-picker> -->
+      <!-- <button class="btn btn-default" (click)="x.toggle()" type="button"><i class="fa fa-calendar"  style="cursor:pointer;"></i></button> -->
+      <!-- <div class="input-group">
+        <input type="text" class="form-control" id="x" required ngbDatepicker [minDate]="minDateForDOB" [maxDate]="maxDateForDOB"
+          container="body" #x="ngbDatepicker" [(ngModel)]="traveller.birthday" (click)="x.toggle()">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-calendar" (click)="x.toggle()" style="cursor:pointer;"></i></span>
         </div>
-      </div>
-      <div class="col-md-4">
-        <label>Place of Birth*</label>
-        <input type="text" class="form-control" required [(ngModel)]="traveller.placeofbirth">
-      </div>
-      <div class="col-md-4">
-        <label>Nationality*</label>
-        <div>
-          <select class="form-control" [(ngModel)]="traveller.countryorarea" [compareWith]="compareCountry">
-            <ng-container *ngFor="let countryorarea of availabledCountryOrAreas" >
-              <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
-              <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
-            </ng-container>
-          </select>
-        </div>
+      </div> -->
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="traveller.birthday" [minDate]="minDateForDOB" [maxDate]="maxDateForDOB" placeholder="" aria-describedby="birthday" required bsDatepicker  #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+        <span class="input-group-addon"><i class="fa fa-calendar" (click)="dp.show()" style="cursor:pointer;"></i></span>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-3">
-        <label>Passport Number*</label>
-        <input type="text" class="form-control" required [(ngModel)]="traveller.passport.number">
-      </div>
-      <div class="col-md-3">
-        <label>Date of Issue*</label>
-        <div class="input-group">
-          <input type="text" class="form-control" required ngbDatepicker [minDate]="minDateForPassportIssue" [maxDate]="maxDateForPassportIssue" container='body' #f="ngbDatepicker" [(ngModel)]="traveller.passport.issueDate"
-            (click)="f.toggle()">
-          <div class="input-group-append">
-            <span class="input-group-text"><i class="fa fa-calendar" (click)="f.toggle()" style="cursor:pointer;"></i></span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label>Date of Expiry*</label>
-        <div class="input-group">
-          <input type="text" class="form-control" required ngbDatepicker  [minDate]="minDateForPassportExpiry" [maxDate]="maxDateForPassportExpiry" container='body' #e="ngbDatepicker" [(ngModel)]="traveller.passport.expiryDate"
-            (click)="e.toggle()">
-          <div class="input-group-append">
-            <span class="input-group-text"><i class="fa fa-calendar" (click)="e.toggle()" style="cursor:pointer;"></i></span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label>Place of Issue*</label>
-        <div>
-          <select class="form-control" [(ngModel)]="traveller.passport.issuePlace" [compareWith]="compareCountry">
-            <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
-              <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
-              <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
+    <div class="col-md-4">
+      <label>Place of Birth*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.placeofbirth">
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <label>Other Comments / Special Requests:</label>
-        <textarea class="form-control" [(ngModel)]="traveller.specialRequest"></textarea>
+    <div class="col-md-4">
+      <label>Nationality*</label>
+      <div>
+        <select class="form-control" [(ngModel)]="traveller.countryorarea" [compareWith]="compareCountry">
+          <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
+            <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
+            <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
+          </ng-container>
+        </select>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Passport Number*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.passport.number">
+    </div>
+    <div class="col-md-3">
+      <label>Date of Issue*</label>
+      <!-- <div class="input-group">
+        <input type="text" class="form-control" required ngbDatepicker [minDate]="minDateForPassportIssue" [maxDate]="maxDateForPassportIssue"
+          container='body' #f="ngbDatepicker" [(ngModel)]="traveller.passport.issueDate" (click)="f.toggle()">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-calendar" (click)="f.toggle()" style="cursor:pointer;"></i></span>
+        </div>
+      </div> -->
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="traveller.passport.issueDate" placeholder="" [minDate]="minDateForPassportIssue" [maxDate]="maxDateForPassportIssue" aria-describedby="issueDate" required bsDatepicker  #pi="bsDatepicker" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+        <span class="input-group-addon"><i class="fa fa-calendar" (click)="pi.show()" style="cursor:pointer;"></i></span>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label>Date of Expiry*</label>
+      <!-- <div class="input-group">
+        <input type="text" class="form-control" required ngbDatepicker [minDate]="minDateForPassportExpiry" [maxDate]="maxDateForPassportExpiry"
+          container='body' #e="ngbDatepicker" [(ngModel)]="traveller.passport.expiryDate" (click)="e.toggle()">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-calendar" (click)="e.toggle()" style="cursor:pointer;"></i></span>
+        </div>
+      </div> -->
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="traveller.passport.expiryDate"  required bsDatepicker  #pe="bsDatepicker" [minDate]="minDateForPassportExpiry" [maxDate]="maxDateForPassportExpiry" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" placeholder="" aria-describedby="expiryDate" >
+        <span class="input-group-addon"><i class="fa fa-calendar" (click)="pe.show()" style="cursor:pointer;"></i></span>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label>Place of Issue*</label>
+      <div>
+        <select class="form-control" [(ngModel)]="traveller.passport.issuePlace" [compareWith]="compareCountry">
+          <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
+            <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
+            <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label>Other Comments / Special Requests:</label>
+      <textarea class="form-control" [(ngModel)]="traveller.specialRequest"></textarea>
+    </div>
+  </div>
+</div>

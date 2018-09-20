@@ -26,6 +26,8 @@ import {
 import { Options } from "selenium-webdriver";
 import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { NgxModelDlgComponent } from "./ngx-model-dlg/ngx-model-dlg.component";
 const FETCH_LATENCY = 500;
 const httpOptions = {
   headers: new HttpHeaders({
@@ -62,12 +64,13 @@ export class EnTourService implements OnDestroy {
   toursSubscription: Subscription;
   tourSubscription: Subscription;
   tripSubscription: Subscription;
-
+  bsModalRef: BsModalRef;
   constructor(
     private http: Http,
     private messageService: MessageService,
     private httpClient: HttpClient,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private ngxModelDlgService: BsModalService
   ) {
     this.tourSubscription = this.tour$.subscribe(tour => {
       this.tour = tour;
@@ -216,6 +219,16 @@ export class EnTourService implements OnDestroy {
   updateSelectedTour(tour: Tour) {
     this.tourSelected.next(tour);
   }
+  openNgxModelDlg(message: string, btnName?: string, title?: string) {
+    const initialState = {
+      msg: message
+    };
+    this.bsModalRef = this.ngxModelDlgService.show(NgxModelDlgComponent, {
+      initialState
+    });
+    this.bsModalRef.content.title = "Information";
+    this.bsModalRef.content.closeBtnName = "Close";
+  }
   openModelDlg(message: string) {
     const modalRef = this.modalService.open(NgbdModalContent, {
       backdrop: "static",
@@ -232,7 +245,7 @@ export class EnTourService implements OnDestroy {
       .catch(error => {
         console.error("An error occurred", error); // for demo purposes only
         this.log(error.statusText + ": " + error._body);
-        this.openModelDlg(error.statusText + ": " + error._body);
+        this.openNgxModelDlg(error.statusText + ": " + error._body);
       });
   }
   private log(message: string) {

@@ -16,6 +16,7 @@ import { Subscription } from "rxjs";
 import * as $ from "jquery";
 import { Location } from "@angular/common";
 import { Form } from "@angular/forms";
+import { MessageService } from "../../message.service";
 export class OptionSummary {
   name: string;
   price: number;
@@ -49,7 +50,8 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private messageService: MessageService
   ) {}
 
   totalPrice = 0;
@@ -167,6 +169,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     return this.totalPrice;
   }
   verify() {
+    this.messageService.add("sdfsdf");
     this.isVerified = true;
     if (this.isVerified) {
       this.gotoPayment();
@@ -178,7 +181,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
       !this.trip.billingInfo.agreeTermAndCondition ||
       !this.trip.billingInfo.haveReadTripNotes
     ) {
-      this.tourService.openModelDlg(
+      this.tourService.openNgxModelDlg(
         "Please select 'Term and Conditions', 'trip notes'"
       );
       return;
