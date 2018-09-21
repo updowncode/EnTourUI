@@ -4,6 +4,6 @@
 <!-- <ngb-alert type="warning" (close)="clearMessage()" *ngIf="message">
   <div [innerHTML]="message.text"></div>
 </ngb-alert> -->
-<alert type="warning"  [dismissible]="dismissible" (onClosed)="onClosed(alert)" *ngIf="message">
-  <strong>Oh snap!</strong><div [innerHTML]="message.text"></div>
+<alert type="warning" [dismissible]="dismissible" (onClosed)="onClosed(alert)" *ngIf="message">
+  <div [innerHTML]="message.text"></div>
 </alert>

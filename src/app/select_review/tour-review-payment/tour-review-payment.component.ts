@@ -169,7 +169,6 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     return this.totalPrice;
   }
   verify() {
-    this.messageService.add("sdfsdf");
     this.isVerified = true;
     if (this.isVerified) {
       this.gotoPayment();
@@ -177,6 +176,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   }
   onSubmit(form: Form) {}
   gotoPayment() {
+    this.messageService.clearMessage();
     if (
       !this.trip.billingInfo.agreeTermAndCondition ||
       !this.trip.billingInfo.haveReadTripNotes

@@ -6,9 +6,10 @@
         -->
          <!-- <app-my-model-dlg></app-my-model-dlg>
         <app-test></app-test> -->
-        <app-my-date-picker [options]="{'dateFormat': 'yyyy-mm-dd', 'showTextBox': true}" [selDate]="''"></app-my-date-picker>
+        <!-- <app-my-date-picker [options]="{'dateFormat': 'yyyy-mm-dd', 'showTextBox': true}" [selDate]="''"></app-my-date-picker> -->
         <mat-card class="col-md-4" *ngFor="let tour of tours$ | async">
             <mat-card-content>
+                <img width="200px" src='https://b2b.toureast.com/Content/tourpics/China/{{tour.id}}.jpg' />
                 <h4 [innerHTML]="tour.name"></h4>
                 <!-- <a class="btn btn-primary" [routerLink]="['/detail', tour.id]"  target="_blank">
                 Select
