@@ -57,6 +57,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxModelDlgComponent } from './ngx-model-dlg/ngx-model-dlg.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -99,6 +100,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     RoomValidatorDirective,
     TourRoomsFormComponent,
     NgxModelDlgComponent,
+    DynamicFormComponent,
     FetchJsonPipe,
     KeysPipe,
     NgbdModalContent
