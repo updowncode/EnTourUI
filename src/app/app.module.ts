@@ -58,6 +58,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxModelDlgComponent } from './ngx-model-dlg/ngx-model-dlg.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { TourRoomsDynamicComponent } from './select_room/tour-rooms-dynamic/tour-rooms-dynamic.component';
+import { TourRoomsBillingInfoDynamicComponent } from './select_room/tour-rooms-billing-info-dynamic/tour-rooms-billing-info-dynamic.component';
+import { TourRoomsEachRoomDynamicComponent } from './select_room/tour-rooms-each-room-dynamic/tour-rooms-each-room-dynamic.component';
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -101,6 +104,9 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     TourRoomsFormComponent,
     NgxModelDlgComponent,
     DynamicFormComponent,
+    TourRoomsDynamicComponent,
+    TourRoomsBillingInfoDynamicComponent,
+    TourRoomsEachRoomDynamicComponent,
     FetchJsonPipe,
     KeysPipe,
     NgbdModalContent

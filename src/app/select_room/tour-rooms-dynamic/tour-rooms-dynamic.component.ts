@@ -5,7 +5,9 @@ import {
   OnDestroy,
   Input,
   ViewChild,
-  ElementRef
+  ElementRef,
+  OnChanges,
+  SimpleChanges
 } from "@angular/core";
 import { map, delay, switchMap, catchError, tap, retry } from "rxjs/operators";
 import { EnTourCoreService } from "../../en-tour-core/en-tour-core.service";
@@ -25,20 +27,27 @@ import { MessageService } from "../../message.service";
 import { TourDateType } from "../../Models/dateType";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgbdModalContent } from "../../ngbd-model-content/ngbd-model-content";
-import { Form, NgForm, FormGroup } from "@angular/forms";
+import {
+  Form,
+  NgForm,
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+  FormArray
+} from "@angular/forms";
 @Component({
-  selector: "app-tour-rooms",
-  templateUrl: "./tour-rooms.component.html",
-  styleUrls: ["./tour-rooms.component.sass"],
-  animations: [slideInDownAnimation]
+  selector: "app-tour-rooms-dynamic",
+  templateUrl: "./tour-rooms-dynamic.component.html",
+  styleUrls: ["./tour-rooms-dynamic.component.sass"]
 })
-export class TourRoomsComponent implements OnInit, OnDestroy {
-  @HostBinding("@routeAnimation")
-  routeAnimation = true;
-  @HostBinding("style.display")
-  display = "block";
-  @HostBinding("style.position")
-  position = "related";
+export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
+  // @HostBinding("@routeAnimation")
+  // routeAnimation = true;
+  // @HostBinding("style.display")
+  // display = "block";
+  // @HostBinding("style.position")
+  // position = "related";
   trip: Trip;
   tour: Tour;
   tourId: string;
@@ -47,15 +56,18 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   toursSubscription: Subscription;
   maxCapacity: number;
   isVerified: boolean;
+  roomsForm: FormGroup;
   constructor(
     private tourService: EnTourService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private fb: FormBuilder
   ) {
     // this.location.replaceState("/");
   }
+
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
     this.toursSubscription.unsubscribe();
@@ -73,7 +85,28 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       this.tourService.updateRoomInfo();
     }
   }
+  get allRooms(): FormArray {
+    return this.roomsForm.get("allRooms") as FormArray;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+  //   this.roomsForm.setValue({
+  //     firstName:  this.trip.name
+  //    });
+  }
   ngOnInit() {
+    // this.roomsForm = new FormGroup({
+    //   firstName: new FormControl("", Validators.required)
+    // });
+    this.roomsForm = this.fb.group({
+      allRooms: this.fb.array([])
+    }); // 创建 DynamicForm 容器
+    // this.roomsForm.addControl("firstName", new FormControl('', Validators.required)); // new FormControl({value:'jack', disabled:true})
+    this.allRooms.push(
+      new FormGroup({
+        provience: new FormControl(),
+        city: new FormControl()
+      })
+    );
     this.isVerified = false;
     // this.messageService.add("Select room..");
     this.paramSubscription = this.activatedRoute.queryParams.subscribe(
@@ -103,6 +136,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     this.trip.minRoomQuantityForTravellers = this.trip.rooms.length;
     this.tourService.updateRoomInfo();
   }
+
   defaultRoomQuantity(
     selectedTravellerQuantity: Quantity,
     availabledRoomQuantities: Quantity[]
@@ -346,14 +380,12 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
           if (this.trip.rooms[i].travellers[j].firstName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s First Name is required`;
+            return `Room #${this.trip.rooms[i].index}'s passenger ${this.trip
+              .rooms[i].travellers[j].id + 1}'s First Name is required`;
           }
           if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s Last Name is required`;
+            return `Room #${this.trip.rooms[i].index}'s passenger ${this.trip
+              .rooms[i].travellers[j].id + 1}'s Last Name is required`;
           }
         }
       }
@@ -388,29 +420,8 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       this.router.navigate(["/"]);
     }
   }
+  onSubmit(form: FormGroup) {
+    console.log(form.valid);
+    console.log(form.value);
+  }
 }
-
-// @Component({
-//   // tslint:disable-next-line:component-selector
-//   selector: 'ngbd-modal-content',
-//   template: `
-//     <div class="modal-header">
-//       <h4 class="modal-title">Information</h4>
-//       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-//         <span aria-hidden="true">&times;</span>
-//       </button>
-//     </div>
-//     <div class="modal-body">
-//       <p [innerHTML]="message"></p>
-//     </div>
-//     <div class="modal-footer">
-//       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-//     </div>
-//   `
-// })
-// // tslint:disable-next-line:component-class-suffix
-// export class NgbdModalContent {
-//   @Input() message;
-
-//   constructor(public activeModal: NgbActiveModal) {}
-// }

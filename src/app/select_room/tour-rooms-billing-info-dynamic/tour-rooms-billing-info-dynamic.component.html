@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-md-12">
+    <div style="background-color: #eee;padding:1em;">
+      <div class="row">
+        <div class="col-md-12">
+          <strong style="font-size:18px;">Primary and billing contact</strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="firstname">First Name*</label>
+          <!-- <input type="text" class="form-control" [formControl]="roomsFormGroup.get('firstName')" > -->
+          <!-- <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
+  
+              <div *ngIf="firstName.errors.required">
+                Name is required.
+              </div>
+            </div> -->
+          <input type="text" class="form-control" required [formControl]="roomsFormGroup.get('firstName')">
+          <div *ngIf="roomsFormGroup.get('firstName').invalid">
+            <div *ngIf="roomsFormGroup.get('firstName').hasError('required') && roomsFormGroup.get('firstName').touched"
+              class="error">
+              Name is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

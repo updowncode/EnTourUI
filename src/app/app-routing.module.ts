@@ -11,11 +11,13 @@ import { TourRoomsComponent } from "./select_room/tour-rooms/tour-rooms.componen
 import { TestComponent } from "./test/test.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { DynamicFormComponent } from "./dynamic-form/dynamic-form.component";
+import { TourRoomsDynamicComponent } from "./select_room/tour-rooms-dynamic/tour-rooms-dynamic.component";
 
 const routes: Routes = [
   { path: "tours", component: TourListComponent },
   { path: "trips", component: DisplayTripsComponent },
-  { path: "rooms", component: TourRoomsComponent },
+  // { path: "rooms", component: TourRoomsComponent },
+  { path: "rooms", component: TourRoomsDynamicComponent },
   { path: "options", component: TourOptionComponent },
   { path: "travellers", component: TourTravellerDetailComponent },
   { path: "review", component: TourReviewPaymentComponent },
