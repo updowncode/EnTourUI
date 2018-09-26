@@ -1,3 +1,4 @@
+<div [formGroup]="roomsFormGroup">
 <div class="row">
   <div class="col-md-12">
     <div style="background-color: #eee;padding:1em;">
@@ -16,7 +17,8 @@
                 Name is required.
               </div>
             </div> -->
-          <input type="text" class="form-control" required [formControl]="roomsFormGroup.get('firstName')">
+          <!-- <input type="text" class="form-control" required [formControl]="roomsFormGroup.get('firstName')"> -->
+          <input type="text" class="form-control" required formControlName="firstName">
           <div *ngIf="roomsFormGroup.get('firstName').invalid">
             <div *ngIf="roomsFormGroup.get('firstName').hasError('required') && roomsFormGroup.get('firstName').touched"
               class="error">
@@ -32,4 +34,5 @@
 
     </div>
   </div>
+</div>
 </div>

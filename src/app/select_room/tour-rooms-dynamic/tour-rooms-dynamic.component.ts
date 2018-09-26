@@ -27,6 +27,7 @@ import { MessageService } from "../../message.service";
 import { TourDateType } from "../../Models/dateType";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgbdModalContent } from "../../ngbd-model-content/ngbd-model-content";
+
 import {
   Form,
   NgForm,
@@ -36,6 +37,9 @@ import {
   Validators,
   FormArray
 } from "@angular/forms";
+interface RoomInfo {
+  firstName: string;
+}
 @Component({
   selector: "app-tour-rooms-dynamic",
   templateUrl: "./tour-rooms-dynamic.component.html",
@@ -88,6 +92,9 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
   get allRooms(): FormArray {
     return this.roomsForm.get("allRooms") as FormArray;
   }
+  get roomComponents(): FormArray {
+    return this.roomsForm.get("roomComponents") as FormArray;
+  }
   ngOnChanges(changes: SimpleChanges): void {
   //   this.roomsForm.setValue({
   //     firstName:  this.trip.name
@@ -98,13 +105,34 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
     //   firstName: new FormControl("", Validators.required)
     // });
     this.roomsForm = this.fb.group({
-      allRooms: this.fb.array([])
+      allRooms: this.fb.array([]),
+      roomComponents: this.fb.array([])
     }); // 创建 DynamicForm 容器
     // this.roomsForm.addControl("firstName", new FormControl('', Validators.required)); // new FormControl({value:'jack', disabled:true})
-    this.allRooms.push(
-      new FormGroup({
-        provience: new FormControl(),
-        city: new FormControl()
+    // this.allRooms.push(
+    //   new FormGroup({
+    //     firstName: new FormControl()
+    //   })
+    // );
+    this.allRooms.push(this.fb.control('234', Validators.required));
+    this.allRooms.push(this.fb.control('', Validators.required));
+    const roomComponentControls = <FormArray>this.roomsForm.controls.roomComponents;
+    roomComponentControls.push(
+      this.fb.group({
+        roomIndex: ['2342'],
+        travellers: this.fb.array([])
+      })
+    );
+    const travellerGroup = <FormGroup>(roomComponentControls.controls[roomComponentControls.controls.length - 1]);
+    const travellerControls = <FormArray>travellerGroup.get("travellers");
+    travellerControls.push(
+      this.fb.group({
+        firstName: [''],
+      })
+    );
+    travellerControls.push(
+      this.fb.group({
+        firstName: ['24234'],
       })
     );
     this.isVerified = false;

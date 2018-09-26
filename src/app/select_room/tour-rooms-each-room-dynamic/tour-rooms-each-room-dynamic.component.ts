@@ -8,7 +8,9 @@ import { FormGroup } from '@angular/forms';
 })
 export class TourRoomsEachRoomDynamicComponent implements OnInit {
   @Input()
-  roomFormGroup: FormGroup;
+  roomComponentFormGroupIndex: number;
+  @Input()
+  roomControl: FormGroup;
   constructor() { }
 
   ngOnInit() {

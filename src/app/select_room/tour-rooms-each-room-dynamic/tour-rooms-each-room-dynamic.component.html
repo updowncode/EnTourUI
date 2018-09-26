@@ -1,3 +1,23 @@
-<p>
-  tour-rooms-each-room-dynamic works!
-</p>
+<div [formGroup]="roomControl">
+    <!-- [formGroupName]="roomComponentFormGroupIndex" -->
+  <input type="text" class="form-control" required formControlName="roomIndex">
+  <div *ngIf="roomControl.get('roomIndex').invalid">
+    <div *ngIf="roomControl.get('roomIndex').hasError('required') && roomControl.get('roomIndex').touched" class="error">
+      roomControl1 is required.
+    </div>
+  </div>
+  <div formArrayName="travellers">
+      <div *ngFor="let traveller of roomControl.get('travellers').controls; let j=index">
+          <h4>traveller {{j+1}}</h4>
+          <div [formGroupName]="j" >
+          
+            <input formControlName="firstName" required />
+            <div *ngIf="traveller.get('firstName').invalid">
+                <div *ngIf="traveller.get('firstName').hasError('required') && traveller.get('firstName').touched" class="error">
+                  roomControl1 is required.
+                </div>
+              </div>
+          </div>
+        </div>
+  </div>
+</div>

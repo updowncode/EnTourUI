@@ -55,8 +55,25 @@
 
           <app-tour-rooms-billing-info-dynamic  [roomsFormGroup]="roomsForm"></app-tour-rooms-billing-info-dynamic>
           <div formArrayName="allRooms">
-              <app-tour-rooms-each-room-dynamic *ngFor="let room of allRooms.controls; let i=index" [formGroupName]="i"></app-tour-rooms-each-room-dynamic>
-          
+              <!-- <app-tour-rooms-each-room-dynamic *ngFor="let room of allRooms.controls; let i=index" [formGroupName]="i"></app-tour-rooms-each-room-dynamic> -->
+              <div *ngFor="let roomControl of allRooms.controls; let i=index">
+                <label>
+                  roomControl:
+                  <input type="text" [formControlName]="i">
+                </label>
+                ss{{roomControl.invalid}}{{roomControl.hasError('required')}}
+                <div *ngIf="roomControl.invalid">
+                  <div *ngIf="roomControl.hasError('required') && roomControl.touched"
+                    class="error">
+                    roomControl is required.
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div formArrayName="roomComponents">
+            <div *ngFor="let roomComponent of roomsForm.get('roomComponents').controls; let i=index">
+                <app-tour-rooms-each-room-dynamic [roomComponentFormGroupIndex]="i" [roomControl]="roomComponent"></app-tour-rooms-each-room-dynamic>
+            </div>
           </div>
           <!-- <div *ngIf="trip">
           <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)"
