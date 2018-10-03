@@ -1,23 +1,61 @@
-<div [formGroup]="roomControl">
-    <!-- [formGroupName]="roomComponentFormGroupIndex" -->
-  <input type="text" class="form-control" required formControlName="roomIndex">
+<div [formGroup]="roomControl" [ngClass]="{evenbckcolor: roomIndex % 2 !== 0, oddbckcolor: roomIndex % 2 === 0}" style="border: 1px solid #CCC;  padding:10px; margin-top:10px;">
+  <div style="text-align: center; color:chocolate">
+    <table style="width: 100%">
+      <tr>
+        <td>
+          <strong style="font-size:18px;">Room: #{{roomIndex}}</strong>
+        </td>
+        <td style="text-align: right;"><button *ngIf="roomControl.get('travellers').controls.length === 0" (click)="remove(roomIndex)">Remove</button></td>
+      </tr>
+    </table>
+  </div>
+  <div class="row">
+      <div class="col-md-12">
+        <app-tour-rooms-each-room-each-traveller-dynamic [travellerControl]="traveller" [bedsToSelect]="bedsCanbeSelected"
+          [roomIndex]="roomIndex" [trip]="trip" *ngFor="let traveller of roomControl.get('travellers').controls; let j=index">
+          <app-tour-rooms-each-room-each-traveller-child-dynamic [travellerIndex]="j"></app-tour-rooms-each-room-each-traveller-child-dynamic>
+        </app-tour-rooms-each-room-each-traveller-dynamic>
+      </div>
+    </div>
+  <!-- <input type="text" class="form-control" required formControlName="roomIndex">
   <div *ngIf="roomControl.get('roomIndex').invalid">
     <div *ngIf="roomControl.get('roomIndex').hasError('required') && roomControl.get('roomIndex').touched" class="error">
       roomControl1 is required.
     </div>
-  </div>
-  <div formArrayName="travellers">
-      <div *ngFor="let traveller of roomControl.get('travellers').controls; let j=index">
-          <h4>traveller {{j+1}}</h4>
-          <div [formGroupName]="j" >
-          
-            <input formControlName="firstName" required />
-            <div *ngIf="traveller.get('firstName').invalid">
-                <div *ngIf="traveller.get('firstName').hasError('required') && traveller.get('firstName').touched" class="error">
-                  roomControl1 is required.
-                </div>
-              </div>
-          </div>
+  </div> -->
+  <!-- <div  formArrayName="travellers">
+    <div *ngFor="let traveller of roomControl.get('travellers').controls; let j=index" [formGroupName]="j" novalidate>
+      <h4>traveller {{j+1}}</h4>
+
+      <input formControlName="firstName" required />
+      <div *ngIf="traveller.get('firstName').invalid">
+        <div *ngIf="traveller.get('firstName').hasError('required') && traveller.get('firstName').touched" class="error">
+          roomControl1 is required.
         </div>
-  </div>
+      </div>
+
+    </div>
+  </div> -->
 </div>
+<!-- <div [ngClass]="{evenbckcolor: roomIndex % 2 === 0, oddbckcolor: roomIndex % 2 !== 0}" style="border: 1px solid #CCC;  padding:10px; margin-top:10px;"
+  *ngIf="room">
+  <div style="text-align: center; color:chocolate">
+    <table style="width: 100%">
+      <tr>
+        <td>
+            <strong style="font-size:18px;" title="{{'Room:'+ displayRoomInfo()}}" >Room: #{{roomIndex}}</strong>
+        </td>
+        <td style="text-align: right;"><button *ngIf="room.travellers.length === 0" (click)="remove(room)" >Remove</button></td>
+      </tr>
+    </table>
+    
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-tour-rooms-each-room-each-traveller [traveller]="traveller" [roomsMoveTo]="roomsMoveTo" (roomChangedToRequest)="onRoomChangedTo($event)" (roomMovedToRequest)="onRoomMovedTo($event)" [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers"
+        [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers">
+        <app-tour-rooms-each-room-each-traveller-child [traveller]="traveller"></app-tour-rooms-each-room-each-traveller-child>
+      </app-tour-rooms-each-room-each-traveller>
+    </div>
+  </div>
+</div> -->

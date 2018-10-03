@@ -61,6 +61,7 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
   maxCapacity: number;
   isVerified: boolean;
   roomsForm: FormGroup;
+  bedCanbeSelectedLists: [1, 2];
   constructor(
     private tourService: EnTourService,
     private router: Router,
@@ -89,50 +90,50 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
       this.tourService.updateRoomInfo();
     }
   }
-  get allRooms(): FormArray {
-    return this.roomsForm.get("allRooms") as FormArray;
-  }
   get roomComponents(): FormArray {
     return this.roomsForm.get("roomComponents") as FormArray;
   }
   ngOnChanges(changes: SimpleChanges): void {
-  //   this.roomsForm.setValue({
-  //     firstName:  this.trip.name
-  //    });
+    //   this.roomsForm.setValue({
+    //     firstName:  this.trip.name
+    //    });
   }
   ngOnInit() {
-    // this.roomsForm = new FormGroup({
-    //   firstName: new FormControl("", Validators.required)
-    // });
     this.roomsForm = this.fb.group({
-      allRooms: this.fb.array([]),
+      // allRooms: this.fb.array([]),
       roomComponents: this.fb.array([])
-    }); // 创建 DynamicForm 容器
-    // this.roomsForm.addControl("firstName", new FormControl('', Validators.required)); // new FormControl({value:'jack', disabled:true})
-    // this.allRooms.push(
-    //   new FormGroup({
-    //     firstName: new FormControl()
-    //   })
-    // );
-    this.allRooms.push(this.fb.control('234', Validators.required));
-    this.allRooms.push(this.fb.control('', Validators.required));
-    const roomComponentControls = <FormArray>this.roomsForm.controls.roomComponents;
+    });
+    // this.allRooms.push(this.fb.control('234', Validators.required));
+    // this.allRooms.push(this.fb.control('', Validators.required));
+    const roomComponentControls = <FormArray>(
+      this.roomsForm.controls.roomComponents
+    );
     roomComponentControls.push(
       this.fb.group({
-        roomIndex: ['2342'],
+        roomIndex: ["2342"],
         travellers: this.fb.array([])
       })
     );
-    const travellerGroup = <FormGroup>(roomComponentControls.controls[roomComponentControls.controls.length - 1]);
+    const travellerGroup = <FormGroup>(
+      roomComponentControls.controls[roomComponentControls.controls.length - 1]
+    );
     const travellerControls = <FormArray>travellerGroup.get("travellers");
     travellerControls.push(
       this.fb.group({
-        firstName: [''],
+        firstName: [""],
+        lastName: [""],
+        roomToSelect: [""],
+        bedToSelect: [""],
+        showRoomInfo: true
       })
     );
     travellerControls.push(
       this.fb.group({
-        firstName: ['24234'],
+        firstName: ["24234"],
+        lastName: [""],
+        roomToSelect: [""],
+        bedToSelect: [""],
+        showRoomInfo: false
       })
     );
     this.isVerified = false;

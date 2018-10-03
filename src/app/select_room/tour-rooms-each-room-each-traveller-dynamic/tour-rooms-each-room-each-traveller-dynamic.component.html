@@ -1,0 +1,77 @@
+<div [formGroup]="travellerControl" style="margin-bottom: 10px; background-color: #fff; padding:10px;">
+  <div class="row">
+    <div class="col-md-12">
+
+      <table style="width:100%;">
+        <tr>
+          <td>
+            <ng-content></ng-content>
+          </td>
+          <td>
+            <select class="form-control" formControlName="roomToSelect" (change)="onRoomSelectedChange($event.target.value)">
+              <ng-container *ngFor="let room of roomCanbeSelectedLists">
+                <option [ngValue]="room">Room: #{{room}}</option>
+              </ng-container>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <label>First Name*</label>
+      <input class="form-control" formControlName="firstName" required />
+      <div *ngIf="travellerControl.get('firstName').invalid">
+        <div *ngIf="travellerControl.get('firstName').hasError('required') && travellerControl.get('firstName').touched"
+          class="error">
+          First Name is required.
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label>Last Name*</label>
+      <input class="form-control" formControlName="lastName" required />
+      <div *ngIf="travellerControl.get('lastName').invalid">
+        <div *ngIf="travellerControl.get('lastName').hasError('required') && travellerControl.get('lastName').touched"
+          class="error">
+          Last Name is required.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="travellerControl.get('showRoomInfo')" style="margin-top:10px;">
+    <div class="col-md-6">
+      <label>Bedding Configuration*</label>
+      <div>
+        <!-- <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
+          <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
+            <option [ngValue]="room">{{room.beddingConfig}}</option>
+          </ng-container>
+        </select> -->
+        {{bedsToSelect}}
+        <!-- <select class="form-control" formControlName="bedToSelect" (change)="onBedSelectedChange($event.target.value)">
+          <ng-container *ngFor="let bed of bedsToSelect">
+            <option [ngValue]="bed">{{bed}}</option>
+          </ng-container>
+        </select> -->
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label>&nbsp;</label>
+      <div>
+        <label>Non-smoking Room
+          <!-- <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.smokingRoom === 0" name="{{'smokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 0)"> -->
+        </label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label>&nbsp;</label>
+      <div>
+        <label>Smoking Room
+          <!-- <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.smokingRoom === 1" name="{{'smokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 1)"> -->
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

@@ -51,30 +51,9 @@
         </div>
         <!--Accomodation-->
         <br />
-        <form [formGroup]="roomsForm" (ngSubmit)="onSubmit(roomsForm)" novalidate>
-
-          <app-tour-rooms-billing-info-dynamic  [roomsFormGroup]="roomsForm"></app-tour-rooms-billing-info-dynamic>
-          <div formArrayName="allRooms">
-              <!-- <app-tour-rooms-each-room-dynamic *ngFor="let room of allRooms.controls; let i=index" [formGroupName]="i"></app-tour-rooms-each-room-dynamic> -->
-              <div *ngFor="let roomControl of allRooms.controls; let i=index">
-                <label>
-                  roomControl:
-                  <input type="text" [formControlName]="i">
-                </label>
-                ss{{roomControl.invalid}}{{roomControl.hasError('required')}}
-                <div *ngIf="roomControl.invalid">
-                  <div *ngIf="roomControl.hasError('required') && roomControl.touched"
-                    class="error">
-                    roomControl is required.
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div formArrayName="roomComponents">
-            <div *ngFor="let roomComponent of roomsForm.get('roomComponents').controls; let i=index">
-                <app-tour-rooms-each-room-dynamic [roomComponentFormGroupIndex]="i" [roomControl]="roomComponent"></app-tour-rooms-each-room-dynamic>
-            </div>
-          </div>
+        <form [formGroup]="roomsForm" (ngSubmit)="onSubmit(roomsForm)" novalidate *ngIf="trip">
+          <app-tour-rooms-billing-info-dynamic novalidate [tour]="tour" [trip]="trip"  [roomsFormGroup]="roomsForm"></app-tour-rooms-billing-info-dynamic>
+          <app-tour-rooms-each-room-dynamic [trip]="trip" [roomIndex]="i" [bedsCanbeSelected]="bedCanbeSelectedLists" [roomControl]="roomComponent" *ngFor="let roomComponent of roomComponents.controls; let i=index"></app-tour-rooms-each-room-dynamic>
           <!-- <div *ngIf="trip">
           <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)"
             (roomCanbeMovedToRequest)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>
@@ -88,7 +67,6 @@
             </div>
             <div class="col-md-6 text-right">
               <button type="submit" [disabled]="!roomsForm.valid" class="btn btn-primary" style="background-color:#d47027!important">Continue</button>
-              
             </div>
           </div>
           <!--Buttons-->

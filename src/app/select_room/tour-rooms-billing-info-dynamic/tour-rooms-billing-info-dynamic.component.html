@@ -1,5 +1,4 @@
-<div [formGroup]="roomsFormGroup">
-<div class="row">
+<div class="row" [formGroup]="roomsFormGroup" novalidate>
   <div class="col-md-12">
     <div style="background-color: #eee;padding:1em;">
       <div class="row">
@@ -10,29 +9,108 @@
       <div class="row">
         <div class="col-md-6">
           <label for="firstname">First Name*</label>
-          <!-- <input type="text" class="form-control" [formControl]="roomsFormGroup.get('firstName')" > -->
-          <!-- <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
-  
-              <div *ngIf="firstName.errors.required">
-                Name is required.
-              </div>
-            </div> -->
-          <!-- <input type="text" class="form-control" required [formControl]="roomsFormGroup.get('firstName')"> -->
           <input type="text" class="form-control" required formControlName="firstName">
           <div *ngIf="roomsFormGroup.get('firstName').invalid">
             <div *ngIf="roomsFormGroup.get('firstName').hasError('required') && roomsFormGroup.get('firstName').touched"
               class="error">
-              Name is required.
+              First Name is required.
             </div>
           </div>
         </div>
         <div class="col-md-6">
-
+          <label for="lastname">Last Name*</label>
+          <input type="text" class="form-control" required formControlName="lastName">
+          <div *ngIf="roomsFormGroup.get('lastName').invalid">
+            <div *ngIf="roomsFormGroup.get('lastName').hasError('required') && roomsFormGroup.get('lastName').touched"
+              class="error">
+              LastName is required.
+            </div>
+          </div>
         </div>
       </div>
-
-
+      <div class="row">
+        <div class="col-md-4">
+          <label for="email">E-Mail*</label>
+          <input type="text" class="form-control" required formControlName="email">
+          <div *ngIf="roomsFormGroup.get('email').invalid">
+            <div *ngIf="roomsFormGroup.get('email').hasError('required') && roomsFormGroup.get('email').touched" class="error">
+              Email is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="primaryPhone">Primary Phone*</label>
+          <input type="text" class="form-control" required formControlName="primaryPhone">
+          <div *ngIf="roomsFormGroup.get('primaryPhone').invalid">
+            <div *ngIf="roomsFormGroup.get('primaryPhone').hasError('required') && roomsFormGroup.get('primaryPhone').touched"
+              class="error">
+              Primary Phone is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="secondaryPhone">Secondary Phone</label>
+          <input type="text" class="form-control" formControlName="secondaryPhone">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <label for="mailingAddress">Mailing Address*</label>
+          <input type="text" class="form-control" required formControlName="mailingAddress">
+          <div *ngIf="roomsFormGroup.get('mailingAddress').invalid">
+            <div *ngIf="roomsFormGroup.get('mailingAddress').hasError('required') && roomsFormGroup.get('mailingAddress').touched"
+              class="error">
+              Mailing Address is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="city">City*</label>
+          <input type="text" class="form-control" required formControlName="city">
+          <div *ngIf="roomsFormGroup.get('city').invalid">
+            <div *ngIf="roomsFormGroup.get('city').hasError('required') && roomsFormGroup.get('city').touched" class="error">
+              City is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <label for="country">Country*</label>
+          <select class="form-control" [ngClass]="{'required': roomsFormGroup.get('country').value.id >= 0}"
+            formControlName="country">
+            <ng-container *ngFor="let countryorarea of tour.availabledCountryOrAreas">
+              <option [ngValue]="countryorarea">{{countryorarea.name}}</option>
+            </ng-container>
+          </select>
+          <div *ngIf="roomsFormGroup.get('country').invalid">
+            <div *ngIf="roomsFormGroup.get('country').hasError('required') && roomsFormGroup.get('country').touched"
+              class="error">
+              Country is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <label for="provinceStates">Province or State*</label>
+          <input type="text" class="form-control" required formControlName="provinceStates">
+          <div *ngIf="roomsFormGroup.get('provinceStates').invalid">
+            <div *ngIf="roomsFormGroup.get('provinceStates').hasError('required') && roomsFormGroup.get('provinceStates').touched"
+              class="error">
+              Province or State is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="postalCode">Postal Code*</label>
+          <input type="text" class="form-control" required formControlName="postalCode">
+          <div *ngIf="roomsFormGroup.get('postalCode').invalid">
+            <div *ngIf="roomsFormGroup.get('postalCode').hasError('required') && roomsFormGroup.get('postalCode').touched"
+              class="error">
+              Postal Code is required.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 </div>
