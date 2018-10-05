@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { FormGroup, FormArray, FormBuilder, FormControl } from "@angular/forms";
 import { forEach } from "@angular/router/src/utils/collection";
 import { Trip } from "../../Models/trip";
+import { Room } from "../../Models/room";
 
 @Component({
   selector: "app-tour-rooms-each-room-dynamic",
@@ -15,8 +16,7 @@ export class TourRoomsEachRoomDynamicComponent implements OnInit, OnChanges {
   trip: Trip;
   @Input()
   roomIndex: number;
-  @Input()
-  bedsCanbeSelected;
+  bedRoomsForSelectedTravellers: Room[];
   maxCapacity: number;
   constructor(private fb: FormBuilder) {
   }
@@ -27,7 +27,7 @@ export class TourRoomsEachRoomDynamicComponent implements OnInit, OnChanges {
         .filter(room => room.capacity > 0)
         .map(room => room.capacity)
     );
-
+    // this.updateRoomsCanbeMovedTo();
 
   }
   addTraveller() {

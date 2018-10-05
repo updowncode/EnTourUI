@@ -11,7 +11,7 @@
   </div>
   <div class="row">
       <div class="col-md-12">
-        <app-tour-rooms-each-room-each-traveller-dynamic [travellerControl]="traveller" [bedsToSelect]="bedsCanbeSelected"
+        <app-tour-rooms-each-room-each-traveller-dynamic [travellerControl]="traveller" [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers"
           [roomIndex]="roomIndex" [trip]="trip" *ngFor="let traveller of roomControl.get('travellers').controls; let j=index">
           <app-tour-rooms-each-room-each-traveller-child-dynamic [travellerIndex]="j"></app-tour-rooms-each-room-each-traveller-child-dynamic>
         </app-tour-rooms-each-room-each-traveller-dynamic>

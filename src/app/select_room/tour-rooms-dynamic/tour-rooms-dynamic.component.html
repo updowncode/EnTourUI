@@ -53,7 +53,7 @@
         <br />
         <form [formGroup]="roomsForm" (ngSubmit)="onSubmit(roomsForm)" novalidate *ngIf="trip">
           <app-tour-rooms-billing-info-dynamic novalidate [tour]="tour" [trip]="trip"  [roomsFormGroup]="roomsForm"></app-tour-rooms-billing-info-dynamic>
-          <app-tour-rooms-each-room-dynamic [trip]="trip" [roomIndex]="i" [bedsCanbeSelected]="bedCanbeSelectedLists" [roomControl]="roomComponent" *ngFor="let roomComponent of roomComponents.controls; let i=index"></app-tour-rooms-each-room-dynamic>
+          <app-tour-rooms-each-room-dynamic [trip]="trip" [roomIndex]="i" [roomControl]="roomComponent" *ngFor="let roomComponent of roomComponents.controls; let i=index"></app-tour-rooms-each-room-dynamic>
           <!-- <div *ngIf="trip">
           <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)"
             (roomCanbeMovedToRequest)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>

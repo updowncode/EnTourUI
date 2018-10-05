@@ -27,14 +27,16 @@
 .linecolor {
   color: #bbb4ad;
 }
-.ng-valid[required],
-.ng-valid.required {
+.form-control.ng-valid[required],
+.form-control.ng-valid.required {
   border-left: 5px solid #42a948; 
 }
-
+.form-control.ng-invalid {     border-left:5px solid red; }   
 /* .ng-invalid:not(form) {
   border-left: 5px solid #a94442; 
 } */
+.form-control.ng-invalid ~ label.checkbox-inline::after {     content: " *";     color: red; }   
+.required::after {     content: " *";     color: red; }   
 .tecolor {
   color: #d47027;
 }

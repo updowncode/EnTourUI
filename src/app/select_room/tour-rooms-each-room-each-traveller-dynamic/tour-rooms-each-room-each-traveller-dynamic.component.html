@@ -40,7 +40,7 @@
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="travellerControl.get('showRoomInfo')" style="margin-top:10px;">
+  <div class="row" *ngIf="travellerControl.get('showRoomInfo').value" style="margin-top:10px;">
     <div class="col-md-6">
       <label>Bedding Configuration*</label>
       <div>
@@ -49,12 +49,12 @@
             <option [ngValue]="room">{{room.beddingConfig}}</option>
           </ng-container>
         </select> -->
-        {{bedsToSelect}}
-        <!-- <select class="form-control" formControlName="bedToSelect" (change)="onBedSelectedChange($event.target.value)">
-          <ng-container *ngFor="let bed of bedsToSelect">
-            <option [ngValue]="bed">{{bed}}</option>
+     
+        <select class="form-control" formControlName="bedToSelect" (change)="onBedSelectedChange($event.target.value)">
+          <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
+            <option [ngValue]="room">{{room.beddingConfig}}</option>
           </ng-container>
-        </select> -->
+        </select>
       </div>
     </div>
     <div class="col-md-3">

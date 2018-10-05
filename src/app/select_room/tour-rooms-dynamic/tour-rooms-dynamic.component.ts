@@ -61,7 +61,7 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
   maxCapacity: number;
   isVerified: boolean;
   roomsForm: FormGroup;
-  bedCanbeSelectedLists: [1, 2];
+
   constructor(
     private tourService: EnTourService,
     private router: Router,

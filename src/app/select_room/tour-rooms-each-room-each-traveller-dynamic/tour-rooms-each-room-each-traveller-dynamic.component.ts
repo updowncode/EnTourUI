@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ContentChild } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Trip } from "../../Models/trip";
 import { TourRoomsEachRoomEachTravellerChildDynamicComponent } from "../tour-rooms-each-room-each-traveller-child-dynamic/tour-rooms-each-room-each-traveller-child-dynamic.component";
+import { Room } from "../../Models/room";
 
 @Component({
   selector: "app-tour-rooms-each-room-each-traveller-dynamic",
@@ -16,19 +17,15 @@ export class TourRoomsEachRoomEachTravellerDynamicComponent implements OnInit {
   @Input()
   roomIndex: number;
   @Input()
-  bedsToSelect;
-  roomCanbeSelectedLists: number[];
+  bedRoomsForSelectedTravellers: Room[];
   @ContentChild(TourRoomsEachRoomEachTravellerChildDynamicComponent)
   contentChild: TourRoomsEachRoomEachTravellerChildDynamicComponent;
-  constructor() {
-  }
+  constructor() {}
   onRoomSelectedChange(room: number) {
     console.log(room);
   }
   onBedSelectedChange(bed: number) {
     console.log(bed);
   }
-  ngOnInit() {
-    this.roomCanbeSelectedLists = [1, 2];
-  }
+  ngOnInit() {}
 }
