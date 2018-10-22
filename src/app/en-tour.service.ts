@@ -43,14 +43,14 @@ export class EnTourService implements OnDestroy {
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
   private toursUrl =
-    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
+   "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
   private bookUrl =
-    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
+   "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
 
-  //   private toursUrl =
-  //   "http://192.168.168.117/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
-  // private bookUrl =
-  //   "http://192.168.168.117/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
+  //    private toursUrl =
+  //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
+  //  private bookUrl =
+  //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
 
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);

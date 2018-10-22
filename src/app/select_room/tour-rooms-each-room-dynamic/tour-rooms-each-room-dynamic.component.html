@@ -8,7 +8,7 @@
         <td style="text-align: right;"><button *ngIf="roomControl.get('travellers').controls.length === 0" (click)="remove(roomIndex)">Remove</button></td>
       </tr>
     </table>
-  </div>
+  </div> 
   <div class="row">
       <div class="col-md-12">
         <app-tour-rooms-each-room-each-traveller-dynamic [travellerControl]="traveller" [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers"
@@ -17,6 +17,9 @@
         </app-tour-rooms-each-room-each-traveller-dynamic>
       </div>
     </div>
+
+</div> 
+
   <!-- <input type="text" class="form-control" required formControlName="roomIndex">
   <div *ngIf="roomControl.get('roomIndex').invalid">
     <div *ngIf="roomControl.get('roomIndex').hasError('required') && roomControl.get('roomIndex').touched" class="error">
@@ -36,7 +39,6 @@
 
     </div>
   </div> -->
-</div>
 <!-- <div [ngClass]="{evenbckcolor: roomIndex % 2 === 0, oddbckcolor: roomIndex % 2 !== 0}" style="border: 1px solid #CCC;  padding:10px; margin-top:10px;"
   *ngIf="room">
   <div style="text-align: center; color:chocolate">
@@ -58,4 +60,4 @@
       </app-tour-rooms-each-room-each-traveller>
     </div>
   </div>
-</div> -->
+</div>

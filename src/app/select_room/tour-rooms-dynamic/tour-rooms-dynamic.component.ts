@@ -72,7 +72,19 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
   ) {
     // this.location.replaceState("/");
   }
-
+  ngOnInit() {
+    this.isVerified = false;
+    // this.messageService.add("Select room..");
+    this.paramSubscription = this.activatedRoute.queryParams.subscribe(
+      params => {
+        this.tourId = params.tourId;
+        this.tripId = params.tripId;
+        this.toursSubscription = this.tourService
+          .getToursAsync()
+          .subscribe((tours: Tour[]) => this.onResult(tours));
+      }
+    );
+  }
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
     this.toursSubscription.unsubscribe();
@@ -86,21 +98,270 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
       ...this.trip.availabledRooms.map(room => room.capacity)
     );
     if (this.trip.rooms.length === 0) {
-      this.initRooms();
+      // this.initRooms();
+      this.initForm();
       this.tourService.updateRoomInfo();
     }
+  }
+  defaultRoomQuantity(
+    selectedTravellerQuantity: Quantity,
+    availabledRoomQuantities: Quantity[]
+  ): Quantity {
+    let pointer = 0;
+    if (selectedTravellerQuantity.id > this.maxCapacity) {
+      let remained = selectedTravellerQuantity.id;
+      do {
+        pointer++;
+        remained -= this.maxCapacity;
+      } while (remained > this.maxCapacity);
+    }
+    return availabledRoomQuantities[pointer];
   }
   get roomComponents(): FormArray {
     return this.roomsForm.get("roomComponents") as FormArray;
   }
+  initForm() {
+    this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
+      this.trip.tripCostForDefaultTravellerQuantity - 1
+    ];
+    this.trip.selectedRoomQuantity = this.defaultRoomQuantity(
+      this.trip.selectedTravellerQuantity,
+      this.trip.availabledRoomQuantities
+    );
+    //   if (this.editingStatus) {
+    //     this.trip = this.trips.getTrip()
+    //     this.initForm(this.trip)
+    // } else { //
+    //     this.initForm()
+    // }
+    // this.assignForm(
+    //   this.trip.selectedTravellerQuantity.id,
+    //   this.trip.selectedRoomQuantity.id
+    // );
+    // enum Color { Red , Green };
+    // let c: Color = Color.Red;
+    this.roomsForm = this.fb.group({
+      roomComponents: this.fb.array([])
+    });
+    const roomComponentControls = <FormArray>(
+      this.roomsForm.controls.roomComponents
+    );
+    for (let i = 0; i < this.trip.selectedRoomQuantity.id; i++) {
+      roomComponentControls.push(
+        this.fb.group({
+          roomIndex: [i + 1],
+          travellers: this.fb.array([])
+        })
+      );
+    }
+
+    roomComponentControls.controls.forEach((room, roomIndex) => {
+      room.get("roomIndex");
+    });
+    if (this.trip.selectedTravellerQuantity.id < this.maxCapacity) {
+      const travellerListControls = new FormArray([]);
+      for (let i = 0; i < this.trip.selectedTravellerQuantity.id; i++) {
+        travellerListControls.push(
+          this.fb.group({
+            firstName: [""],
+            lastName: [""],
+            roomToSelect: [""],
+            bedToSelect: [""],
+            showRoomInfo: true
+          })
+        );
+      }
+
+      const travellerGroup = <FormGroup>(
+        roomComponentControls.controls[
+          roomComponentControls.controls.length - 1
+        ]
+      );
+      const travellerControls = <FormArray>travellerGroup.get("travellers");
+      travellerControls.push(
+        this.fb.group({
+          firstName: [""],
+          lastName: [""],
+          roomToSelect: [""],
+          bedToSelect: [""],
+          showRoomInfo: true
+        })
+      );
+      travellerControls.push(
+        this.fb.group({
+          firstName: ["24234"],
+          lastName: [""],
+          roomToSelect: [""],
+          bedToSelect: [""],
+          showRoomInfo: false
+        })
+      );
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     //   this.roomsForm.setValue({
     //     firstName:  this.trip.name
     //    });
   }
-  ngOnInit() {
+
+  initRooms() {
+    this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
+      this.trip.tripCostForDefaultTravellerQuantity - 1
+    ];
+    this.trip.selectedRoomQuantity = this.defaultRoomQuantity(
+      this.trip.selectedTravellerQuantity,
+      this.trip.availabledRoomQuantities
+    );
+    this.clearRooms();
+    this.assignRoom(
+      this.trip.selectedTravellerQuantity.id,
+      this.trip.selectedRoomQuantity.id
+    );
+    this.trip.minRoomQuantityForTravellers = this.trip.rooms.length;
+    this.tourService.updateRoomInfo();
+  }
+
+  clearRooms() {
+    this.trip.rooms = new Array<Room>();
+    // this.trip.rooms = this.trip.rooms.slice();
+  }
+  onRoomCanbeMovedTo(needUpdate: boolean) {
+    if (needUpdate) {
+      for (let i = 0; i < this.trip.rooms.length; i++) {
+        const rooms = Object.assign(
+          [],
+          this.tourService.getRoomsByTheTravellersInTheRoom(
+            this.trip.rooms[i].travellers,
+            this.trip.availabledRooms
+          )
+        );
+        this.trip.rooms[i] = Object.assign({}, rooms[0]);
+      }
+      this.tourService.updateRoomsCanbeMovedTo();
+      this.assignRoomIndex();
+      this.tourService.updateRoomInfo();
+    }
+  }
+  onRemoveRoom(room: Room) {
+    this.trip.rooms = this.trip.rooms.filter(r => r.index !== room.index);
+    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.filter(
+      r => r.id === this.trip.rooms.length
+    )[0];
+    // for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
+    //   if (this.trip.rooms[i].index === room.index) {
+    //     this.trip.rooms.splice(i, 1);
+    //   }
+    // }
+    this.tourService.updateRoomsCanbeMovedTo();
+    this.assignRoomIndex();
+  }
+  assignForm(remainedTravellers: number, roomQuantity: number) {
+    //   if(!trip) { // Creating a trip
+    //     this.addCity();
+    //     this.addPlace(0);
+    // } else { // Editing a trip
+    //     trip.cities.forEach((city, cityIndex) => {
+    //       this.addCity(city);
+    //       city.places.forEach((place, placeIndex) =>{
+    //         this.addPlace(cityIndex, place);
+    //       })
+    //     })
+    // }
+    if (remainedTravellers <= this.maxCapacity) {
+      this.roomsForm = this.fb.group({
+        roomComponents: this.fb.array([])
+      });
+      const roomComponentControls = <FormArray>(
+        this.roomsForm.controls.roomComponents
+      );
+      roomComponentControls.push(
+        this.fb.group({
+          roomIndex: ["2342"],
+          travellers: this.fb.array([])
+        })
+      );
+      const travellerGroup = <FormGroup>(
+        roomComponentControls.controls[
+          roomComponentControls.controls.length - 1
+        ]
+      );
+      const travellerControls = <FormArray>travellerGroup.get("travellers");
+      travellerControls.push(
+        this.fb.group({
+          firstName: [""],
+          lastName: [""],
+          roomToSelect: [""],
+          bedToSelect: [""],
+          showRoomInfo: true
+        })
+      );
+      travellerControls.push(
+        this.fb.group({
+          firstName: ["24234"],
+          lastName: [""],
+          roomToSelect: [""],
+          bedToSelect: [""],
+          showRoomInfo: false
+        })
+      );
+      this.createForm(
+        this.maxCapacity,
+        remainedTravellers,
+        this.trip.selectedRoomQuantity.id,
+        roomQuantity
+      );
+    }
+  }
+  assignRoom(remainedTravellers: number, roomQuantity: number) {
+    if (remainedTravellers <= this.maxCapacity) {
+      const room = this.createRoom(
+        this.maxCapacity,
+        remainedTravellers,
+        this.trip.selectedRoomQuantity.id,
+        roomQuantity
+      );
+      this.trip.rooms.push(room);
+    } else {
+      const room = this.createRoom(
+        this.maxCapacity,
+        this.maxCapacity,
+        this.trip.selectedRoomQuantity.id,
+        roomQuantity
+      );
+      this.trip.rooms.push(room);
+      remainedTravellers -= this.maxCapacity;
+      roomQuantity--;
+      this.assignRoom(remainedTravellers, roomQuantity);
+    }
+
+    this.assignRoomIndex();
+  }
+  createForm(
+    maxCapacity: number,
+    remainedTravellers: number,
+    selectedRoomQuantity: number,
+    assignedRoomQuantity: number
+  ) {
+    // let roomsFitSelectedTravellersQuantity = JSON.parse(
+    //   JSON.stringify(this.trip.availabledRooms)
+    // ) as Room[];
+
+    // const travellers = new Array<Traveller>();
+    // const startIndex =
+    //   maxCapacity * (selectedRoomQuantity - assignedRoomQuantity);
+    // for (let k = 0; k < remainedTravellers; k++) {
+    //   travellers.push(this.createNewTraveller(k + startIndex, 0));
+    // }
+    // const rooms = this.tourService.getRoomsByTheTravellersInTheRoom(
+    //   travellers,
+    //   this.trip.availabledRooms
+    // );
+    // const room = rooms[0];
+    // travellers.map(c => (c.roomId = room.id));
+    // room.travellers = Object.assign([], travellers);
+    // return room;
     this.roomsForm = this.fb.group({
-      // allRooms: this.fb.array([]),
       roomComponents: this.fb.array([])
     });
     // this.allRooms.push(this.fb.control('234', Validators.required));
@@ -136,107 +397,6 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
         showRoomInfo: false
       })
     );
-    this.isVerified = false;
-    // this.messageService.add("Select room..");
-    this.paramSubscription = this.activatedRoute.queryParams.subscribe(
-      params => {
-        this.tourId = params.tourId;
-        this.tripId = params.tripId;
-        this.toursSubscription = this.tourService
-          .getToursAsync()
-          .subscribe((tours: Tour[]) => this.onResult(tours));
-      }
-    );
-  }
-
-  initRooms() {
-    this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
-      this.trip.tripCostForDefaultTravellerQuantity - 1
-    ];
-    this.trip.selectedRoomQuantity = this.defaultRoomQuantity(
-      this.trip.selectedTravellerQuantity,
-      this.trip.availabledRoomQuantities
-    );
-    this.clearRooms();
-    this.assignRoom(
-      this.trip.selectedTravellerQuantity.id,
-      this.trip.selectedRoomQuantity.id
-    );
-    this.trip.minRoomQuantityForTravellers = this.trip.rooms.length;
-    this.tourService.updateRoomInfo();
-  }
-
-  defaultRoomQuantity(
-    selectedTravellerQuantity: Quantity,
-    availabledRoomQuantities: Quantity[]
-  ): Quantity {
-    let pointer = 0;
-    if (selectedTravellerQuantity.id > this.maxCapacity) {
-      let remained = selectedTravellerQuantity.id;
-      do {
-        pointer++;
-        remained -= this.maxCapacity;
-      } while (remained > this.maxCapacity);
-    }
-    return availabledRoomQuantities[pointer];
-  }
-  clearRooms() {
-    this.trip.rooms = new Array<Room>();
-    // this.trip.rooms = this.trip.rooms.slice();
-  }
-  onRoomCanbeMovedTo(needUpdate: boolean) {
-    if (needUpdate) {
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        const rooms = Object.assign(
-          [],
-          this.tourService.getRoomsByTheTravellersInTheRoom(
-            this.trip.rooms[i].travellers,
-            this.trip.availabledRooms
-          )
-        );
-        this.trip.rooms[i] = Object.assign({}, rooms[0]);
-      }
-      this.tourService.updateRoomsCanbeMovedTo();
-      this.assignRoomIndex();
-      this.tourService.updateRoomInfo();
-    }
-  }
-  onRemoveRoom(room: Room) {
-    this.trip.rooms = this.trip.rooms.filter(r => r.index !== room.index);
-    this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities.filter(
-      r => r.id === this.trip.rooms.length
-    )[0];
-    // for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
-    //   if (this.trip.rooms[i].index === room.index) {
-    //     this.trip.rooms.splice(i, 1);
-    //   }
-    // }
-    this.tourService.updateRoomsCanbeMovedTo();
-    this.assignRoomIndex();
-  }
-  assignRoom(remainedTravellers: number, roomQuantity: number) {
-    if (remainedTravellers <= this.maxCapacity) {
-      const room = this.createRoom(
-        this.maxCapacity,
-        remainedTravellers,
-        this.trip.selectedRoomQuantity.id,
-        roomQuantity
-      );
-      this.trip.rooms.push(room);
-    } else {
-      const room = this.createRoom(
-        this.maxCapacity,
-        this.maxCapacity,
-        this.trip.selectedRoomQuantity.id,
-        roomQuantity
-      );
-      this.trip.rooms.push(room);
-      remainedTravellers -= this.maxCapacity;
-      roomQuantity--;
-      this.assignRoom(remainedTravellers, roomQuantity);
-    }
-
-    this.assignRoomIndex();
   }
   createRoom(
     maxCapacity: number,

@@ -6,6 +6,7 @@ import { Room } from "../../Models/room";
 
 @Component({
   selector: "app-tour-rooms-each-room-each-traveller-dynamic",
+  // template: "",
   templateUrl: "./tour-rooms-each-room-each-traveller-dynamic.component.html",
   styleUrls: ["./tour-rooms-each-room-each-traveller-dynamic.component.sass"]
 })

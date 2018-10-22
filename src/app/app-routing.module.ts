@@ -16,8 +16,8 @@ import { TourRoomsDynamicComponent } from "./select_room/tour-rooms-dynamic/tour
 const routes: Routes = [
   { path: "tours", component: TourListComponent },
   { path: "trips", component: DisplayTripsComponent },
-  // { path: "rooms", component: TourRoomsComponent },
-  { path: "rooms", component: TourRoomsDynamicComponent },
+  { path: "rooms", component: TourRoomsComponent },
+  // { path: "rooms", component: TourRoomsDynamicComponent },
   { path: "options", component: TourOptionComponent },
   { path: "travellers", component: TourTravellerDetailComponent },
   { path: "review", component: TourReviewPaymentComponent },
