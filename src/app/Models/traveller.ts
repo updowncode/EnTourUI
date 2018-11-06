@@ -9,6 +9,7 @@ export class Traveller {
   firstName: string;
   middleName: string;
   lastName: string;
+  isChild: boolean;
   placeofbirth: string;
   birthday: Date;
   passport: Passport;

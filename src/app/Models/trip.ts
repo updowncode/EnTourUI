@@ -8,6 +8,9 @@ import { CountryOrArea } from "./countryorarea";
 export class Trip {
   id: string;
   name: string;
+  summary: string;
+  remark: string;
+  guideline: string;
   selectedTravellerQuantity: Quantity;
   selectedRoomQuantity: Quantity;
   availabledRoomQuantities: Quantity[];

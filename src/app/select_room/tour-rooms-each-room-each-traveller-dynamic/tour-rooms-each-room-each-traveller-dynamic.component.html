@@ -8,11 +8,11 @@
             <ng-content></ng-content>
           </td>
           <td>
-            <select class="form-control" formControlName="roomToSelect" (change)="onRoomSelectedChange($event.target.value)">
+            <!-- <select class="form-control" formControlName="roomToSelect" (change)="onRoomSelectedChange($event.target.value)">
               <ng-container *ngFor="let room of roomCanbeSelectedLists">
                 <option [ngValue]="room">Room: #{{room}}</option>
               </ng-container>
-            </select>
+            </select> -->
           </td>
         </tr>
       </table>

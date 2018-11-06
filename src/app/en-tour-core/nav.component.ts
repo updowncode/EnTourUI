@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { EnTourCoreService } from "../en-tour-core.service";
+// import { EnTourCoreService } from "./en-tour-core.service";
 
 @Component({
   selector: "app-nav",
@@ -7,5 +7,6 @@ import { EnTourCoreService } from "../en-tour-core.service";
   styleUrls: ["./nav.component.sass"]
 })
 export class NavComponent {
-  constructor(private coreService: EnTourCoreService) {}
+  // constructor(private coreService: EnTourCoreService) {}
+  constructor() {}
 }

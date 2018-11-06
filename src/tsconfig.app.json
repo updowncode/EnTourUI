@@ -6,6 +6,9 @@
     "types": [],
     "noImplicitThis": true
   },
+  "angularCompilerOptions": { 
+    "preserveWhitespaces": true
+  },
   "exclude": [
     "src/test.ts",
     "**/*.spec.ts"

@@ -5,9 +5,12 @@ import {
   ModuleWithProviders
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
+// import { UserServiceConfig } from "./user-service-config";
 import { EnTourCoreService } from "./en-tour-core.service";
-import { UserServiceConfig } from "./user-service-config";
-import { NavComponent } from './nav/nav.component';
+import { NavComponent } from './nav.component';
+class UserServiceConfig {
+  nav: string;
+}
 @NgModule({
   imports: [CommonModule],
   providers: [EnTourCoreService],

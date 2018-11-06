@@ -2,8 +2,8 @@ import { Component, OnInit, Injector } from "@angular/core";
 import { interval, Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { createCustomElement } from "@angular/elements";
-import { PopupService } from "src/app/popup.service";
-import { PopupComponent } from "src/app/popup/popup.component";
+import { PopupService } from "../popup.service";
+import { PopupComponent } from "../popup/popup.component";
 
 @Component({
   selector: "app-test",

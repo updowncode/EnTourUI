@@ -57,7 +57,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxModelDlgComponent } from './ngx-model-dlg/ngx-model-dlg.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
-import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+// import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { TourRoomsDynamicComponent } from './select_room/tour-rooms-dynamic/tour-rooms-dynamic.component';
 import { TourRoomsBillingInfoDynamicComponent } from './select_room/tour-rooms-billing-info-dynamic/tour-rooms-billing-info-dynamic.component';
 import { TourRoomsEachRoomDynamicComponent } from './select_room/tour-rooms-each-room-dynamic/tour-rooms-each-room-dynamic.component';
@@ -105,7 +105,7 @@ import { TourRoomsEachRoomEachTravellerChildDynamicComponent } from './select_ro
     RoomValidatorDirective,
     TourRoomsFormComponent,
     NgxModelDlgComponent,
-    DynamicFormComponent,
+    // DynamicFormComponent,
     TourRoomsDynamicComponent,
     TourRoomsBillingInfoDynamicComponent,
     TourRoomsEachRoomDynamicComponent,
@@ -127,7 +127,8 @@ import { TourRoomsEachRoomEachTravellerChildDynamicComponent } from './select_ro
     AlertModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
+    // EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
+    // EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
     AppRoutingModule
   ],
   // providers: [{provide: APP_BASE_HREF, useValue : '/ERTOUR' }],

@@ -10,7 +10,7 @@ import {
   SimpleChanges
 } from "@angular/core";
 import { map, delay, switchMap, catchError, tap, retry } from "rxjs/operators";
-import { EnTourCoreService } from "../../en-tour-core/en-tour-core.service";
+// import { EnTourCoreService } from "../../en-tour-core/en-tour-core.service";
 import { EnTourService } from "../../en-tour.service";
 import { slideInDownAnimation } from "../../app.animations";
 import { Router, ActivatedRoute, Params } from "@angular/router";
