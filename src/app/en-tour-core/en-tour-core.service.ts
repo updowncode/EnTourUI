@@ -5,16 +5,14 @@ import { Optional } from "@angular/core";
 import { OnDestroy } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
-// import { UserServiceConfig } from "./user-service-config";
+import { UserServiceConfig } from "./user-service-config";
 import { Tour } from "../Models/tour";
 import { Trip } from "../Models/trip";
 // import { Quantity } from "../Models/quantity";
-// import { EnTourService } from "../en-tour.service";
+import { EnTourService } from "../en-tour.service";
 
 const FETCH_LATENCY = 500;
-class UserServiceConfig {
-  nav: string;
-}
+
 @Injectable()
 export class EnTourCoreService implements OnDestroy {
   nav: string;

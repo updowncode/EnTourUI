@@ -127,7 +127,7 @@ import { TourRoomsEachRoomEachTravellerChildDynamicComponent } from './select_ro
     AlertModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    // EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
+    EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
     // EnTourCoreModule.forRoot({ nav: "DATE & PRICING" }),
     AppRoutingModule
   ],
