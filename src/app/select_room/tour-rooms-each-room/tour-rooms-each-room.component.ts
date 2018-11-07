@@ -120,6 +120,16 @@ export class TourRoomsEachRoomComponent
       );
     }
   }
+  addExtraHotelQuantity(room: Room) {
+    room.extraHotelQuantity = room.extraHotelQuantity + 1;
+    this.trip.rooms.push(room);
+    this.tourService.updateRoomInfo();
+  }
+  minusExtraHotelQuantity(room: Room) {
+    room.extraHotelQuantity = room.extraHotelQuantity - 1;
+    this.trip.rooms.splice(this.trip.rooms.length - 1, 1);
+    this.tourService.updateRoomInfo();
+  }
   displayRoomInfo(): string {
     return `Total Rooms: ${this.trip.rooms.length} RoomId:${
       this.room.id

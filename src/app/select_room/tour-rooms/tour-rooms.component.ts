@@ -88,9 +88,9 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   }
 
   initRooms() {
-    this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
-      this.trip.tripCostForDefaultTravellerQuantity - 1
-    ];
+    // this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
+    //   this.trip.tripCostForDefaultTravellerQuantity - 1
+    // ];
     this.trip.selectedRoomQuantity = this.defaultRoomQuantity(
       this.trip.selectedTravellerQuantity,
       this.trip.availabledRoomQuantities
@@ -212,6 +212,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     traveller.firstName = "";
     traveller.middleName = "";
     traveller.lastName = "";
+    traveller.isChild = false;
     traveller.placeofbirth = "";
     traveller.birthday = null;
     traveller.passport = new Passport();

@@ -60,6 +60,7 @@ export class TourRoomsEachRoomEachTravellerComponent
   roomMovedToRequest = new EventEmitter<boolean>();
   @Output()
   roomChangedToRequest = new EventEmitter<any>();
+  constructor(private tourService: EnTourService) {}
   showRoomInfo: boolean;
   newBedRoom: Room;
   subscription: Subscription;
@@ -140,6 +141,11 @@ export class TourRoomsEachRoomEachTravellerComponent
   onSmokingSelectionChange(room: Room, smokingRoom: number) {
     room.smokingRoom = smokingRoom;
   }
+  onTravellerIsChildChange(traveller: Traveller, isChild: boolean) {
+    traveller.isChild = isChild;
+    this.tourService.updateRoomInfo();
+  }
+
   updateRoomInfo() {
     if (
       this.traveller !== undefined &&

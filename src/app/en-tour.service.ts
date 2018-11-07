@@ -181,10 +181,16 @@ export class EnTourService implements OnDestroy {
       JSON.stringify(availabledRooms)
     ) as Room[];
     if (travellers.length === 1) {
+      let singleSupplement = 0;
+      for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
+        if (roomsFitSelectedTravellersQuantity[j].capacity === 2) {
+          singleSupplement = roomsFitSelectedTravellersQuantity[j].singleSupplement;
+        }
+      }
       for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
         if (roomsFitSelectedTravellersQuantity[j].capacity >= 2) {
-          roomsFitSelectedTravellersQuantity[j].roomPriceForPerTraveller +=
-            roomsFitSelectedTravellersQuantity[j].singleSupplement;
+          roomsFitSelectedTravellersQuantity[j].roomPriceForPerTraveller += (
+            roomsFitSelectedTravellersQuantity[j].singleSupplement === 0 ? singleSupplement : roomsFitSelectedTravellersQuantity[j].singleSupplement);
         }
       }
       const rooms = roomsFitSelectedTravellersQuantity.sort((a, b) => {

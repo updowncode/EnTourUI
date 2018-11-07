@@ -1,59 +1,79 @@
-<div style="margin-bottom: 10px; background-color: #fff; padding:10px;" *ngIf="traveller">
-    <div class="row">
-      <div class="col-md-12">
+<div style="margin-bottom: 10px; background-color: rgb(228, 241, 222); padding:10px;" *ngIf="traveller">
+  <div class="row">
+    <div class="col-md-12">
 
-        <table style="width:100%;">
-          <tr>
-            <td>
-              <ng-content></ng-content>
-            </td>
-            <td>
-              <select class="form-control" name="roomsMoveTo" [ngModel]="room.index" required (ngModelChange)="onRoomMovedToModelChange(traveller, $event)" >
-                <ng-container *ngFor="let room of roomsMoveTo">
-                  <option [ngValue]="room.index">Room: #{{room.index}}</option>
-                </ng-container>
-              </select>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <label>First Name*</label>
-        <input type="text" class="form-control" required [(ngModel)]="traveller.firstName" name="psgFirstName">
-      </div>
-      <div class="col-md-6">
-        <label>Last Name*</label>
-        <input type="text" class="form-control" required [(ngModel)]="traveller.lastName" name="psgLastName">
-      </div>
-    </div>
-    <div class="row" *ngIf="showRoomInfo" style="margin-top:10px;">
-      <div class="col-md-6">
-        <label>Bedding Configuration*</label>
-        <div>
-          <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
-              <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
-                <option [ngValue]="room">{{room.beddingConfig}}</option>
+      <table style="width:100%;">
+        <tr>
+          <td>
+            <ng-content></ng-content>
+          </td>
+          <td style="width:30%;">
+            <select class="form-control" name="roomsMoveTo" [ngModel]="room.index" required (ngModelChange)="onRoomMovedToModelChange(traveller, $event)">
+              <ng-container *ngFor="let room of roomsMoveTo">
+                <option [ngValue]="room.index">Room: #{{room.index}}</option>
               </ng-container>
             </select>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <label>&nbsp;</label>
-        <div>
-          <label>Non-smoking Room
-              <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.smokingRoom === 0" name="{{'smokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 0)">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row"[ngClass]="{evenbckcolor: room.index % 2 === 0, oddbckcolor: room.index % 2 !== 0}"  style="margin:5px 0px 5px 0px;padding:5px;">
+    <div class="col-md-4">
+      <label>First Name*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.firstName" name="psgFirstName">
+    </div>
+    <div class="col-md-4">
+      <label>Last Name*</label>
+      <input type="text" class="form-control" required [(ngModel)]="traveller.lastName" name="psgLastName">
+    </div>
+    <div class="col-md-4">
+      <label>&nbsp;</label>
+      <div class="row">
+        <div class="col-md-6">
+          <label>Adult
+            <input type="radio" style="cursor: pointer;" [value]="false" [checked]="traveller.isChild === false" name="{{'isChild' + traveller.id }}"
+              (change)="onTravellerIsChildChange(traveller, false)">
           </label>
+
         </div>
-      </div>
-      <div class="col-md-3">
-        <label>&nbsp;</label>
-        <div>
-          <label>Smoking Room
-              <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.smokingRoom === 1" name="{{'smokingRoom' + room.index }}" (change)="onSmokingSelectionChange(room, 1)">
+        <div class="col-md-6">
+          <label>Child
+            <input type="radio" style="cursor: pointer;" [value]="true" [checked]="traveller.isChild === true" name="{{'isChild' + traveller.id }}"
+              (change)="onTravellerIsChildChange(traveller, true)">
           </label>
         </div>
       </div>
     </div>
   </div>
+  <div class="row" *ngIf="showRoomInfo" style="margin-top:10px;">
+    <div class="col-md-6">
+      <label>Bedding Configuration*</label>
+      <div>
+        <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
+          <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
+            <option [ngValue]="room">{{room.beddingConfig}}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label>&nbsp;</label>
+      <div>
+        <label>Non-smoking Room
+          <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.smokingRoom === 0" name="{{'smokingRoom' + room.index }}"
+            (change)="onSmokingSelectionChange(room, 0)">
+        </label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label>&nbsp;</label>
+      <div>
+        <label>Smoking Room
+          <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.smokingRoom === 1" name="{{'smokingRoom' + room.index }}"
+            (change)="onSmokingSelectionChange(room, 1)">
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

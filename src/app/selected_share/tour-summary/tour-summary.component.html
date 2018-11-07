@@ -15,7 +15,7 @@
               <em class="fa fa-star colour">&nbsp;</em>
             </td>
             <td style="width:20%;padding-top: 2px;">Start:</td>
-            <td style="text-align: right;width:80%;" *ngIf="trip">{{trip!.startPlace.substring(0,8)}}</td> 
+            <td style="text-align: right;width:80%;" *ngIf="trip">{{trip!.startPlace}}</td> 
             <!-- --strictNullChecks 如果你打开了严格控制检测，那就要用到这个模板操作符，而其它情况下则是可选的-->
           </tr>
         </table>

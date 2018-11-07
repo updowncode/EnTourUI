@@ -6,9 +6,9 @@ import { Trip } from "../../Models/trip";
 import { Subscription, BehaviorSubject, of } from "rxjs";
 
 @Component({
-  selector: 'app-tour-summary',
-  templateUrl: './tour-summary.component.html',
-  styleUrls: ['./tour-summary.component.sass']
+  selector: "app-tour-summary",
+  templateUrl: "./tour-summary.component.html",
+  styleUrls: ["./tour-summary.component.sass"]
 })
 export class TourSummaryComponent implements OnInit, OnDestroy {
   tour: Tour;
@@ -19,6 +19,8 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
   totalRoomPrice = 0;
   totalOptionPrice = 0;
   totalVisaPrice = 0;
+  totalChildDiscount = 0;
+  totalChildPromo = 0;
   roomInfoSubscription: Subscription;
   totalPriceSubscription: Subscription;
   private eventTotalPrice = new BehaviorSubject<Boolean>(false);
@@ -53,12 +55,14 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
     this.roomInfoSubscription.unsubscribe();
     this.totalPriceSubscription.unsubscribe();
   }
-  ngOnInit() { }
+  ngOnInit() {}
   getTotalPrice(): number {
     this.totalPrice = 0;
     this.totalRoomPrice = 0;
     this.totalOptionPrice = 0;
     this.totalVisaPrice = 0;
+    this.totalChildDiscount = 0;
+    this.totalChildPromo = 0;
     if (this.trip !== undefined) {
       for (let i = 0; i < this.trip.rooms.length; i++) {
         this.totalRoomPrice +=
@@ -67,6 +71,10 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
       }
       for (let i = 0; i < this.trip.rooms.length; i++) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          if (this.trip.rooms[i].travellers[j].isChild) {
+            this.totalChildDiscount += this.trip.rooms[i].childDiscount;
+            this.totalChildPromo += this.trip.rooms[i].childPromoAmount;
+          }
           if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
             for (
               let k = 0;
@@ -84,8 +92,17 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
         }
       }
     }
+    let childTotalPromo = 0;
+    if (this.totalChildPromo === 0 && this.totalChildDiscount > 0) {
+      childTotalPromo = this.totalChildDiscount;
+    } else {
+      childTotalPromo = this.totalChildPromo;
+    }
     this.totalPrice =
-      this.totalRoomPrice + this.totalOptionPrice + this.totalVisaPrice;
+      this.totalRoomPrice +
+      this.totalOptionPrice +
+      this.totalVisaPrice -
+      childTotalPromo;
     return this.totalPrice;
   }
 }
