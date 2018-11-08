@@ -24,8 +24,10 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private location: Location
   ) {}
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -41,6 +43,9 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.queryParams.subscribe(params =>
       this.onParams(params)
     );
+  }
+  goBack(): void {
+    this.router.navigate(["/"]);
   }
   onParams(params: Params) {
     this.approved = params.trnApproved === "1";

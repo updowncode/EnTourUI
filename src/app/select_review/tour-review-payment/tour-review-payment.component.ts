@@ -17,6 +17,7 @@ import * as $ from "jquery";
 import { Location } from "@angular/common";
 import { Form } from "@angular/forms";
 import { MessageService } from "../../message.service";
+import { EnBook } from "../../Models/en-book";
 export class OptionSummary {
   name: string;
   price: number;
@@ -60,6 +61,9 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   perVisaPrice = 0;
   totalVisaQuantity = 0;
   totalVisaPrice = 0;
+  extraHotelAmount = 0;
+  totalChildDiscount = 0;
+  totalChildPromo = 0;
   tourInfoSources: string[] = ["", "Toronto Star", "Tour East Website"];
   ngOnDestroy() {
     this.toursSubscription.unsubscribe();
@@ -137,36 +141,47 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     this.totalPrice = this.getTotalPrice();
   }
   getTotalPrice(): number {
-    if (this.trip !== undefined) {
-      this.perVisaPrice = this.trip.visaPrice;
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        this.totalRoomPrice +=
-          this.trip.rooms[i].roomPriceForPerTraveller *
-          this.trip.rooms[i].travellers.length;
-      }
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-          if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
-            for (
-              let k = 0;
-              k < this.trip.rooms[i].travellers[j].selectedOptions.length;
-              k++
-            ) {
-              this.totalOptionPrice += this.trip.rooms[i].travellers[
-                j
-              ].selectedOptions[k].price;
-            }
-          }
-          if (this.trip.rooms[i].travellers[j].needVisa) {
-            this.totalVisaQuantity++;
-            this.totalVisaPrice += this.trip.visaPrice;
-          }
-        }
-      }
-    }
-    this.totalPrice =
-      this.totalRoomPrice + this.totalOptionPrice + this.totalVisaPrice;
+    const reviewInfo = this.tourService.getTotalPrice();
+    this.totalPrice = reviewInfo.totalPrice;
+    this.totalRoomPrice = reviewInfo.totalRoomPrice;
+    this.totalOptionPrice = reviewInfo.totalOptionPrice;
+    this.totalVisaPrice = reviewInfo.totalVisaPrice;
+    this.perVisaPrice = reviewInfo.perVisaPrice;
+    this.totalVisaQuantity = reviewInfo.totalVisaQuantity;
+    this.extraHotelAmount = reviewInfo.extraHotelAmount;
+    this.totalChildDiscount = reviewInfo.totalChildDiscount;
+    this.totalChildPromo = reviewInfo.totalChildPromo;
     return this.totalPrice;
+    // if (this.trip !== undefined) {
+    //   this.perVisaPrice = this.trip.visaPrice;
+    //   for (let i = 0; i < this.trip.rooms.length; i++) {
+    //     this.totalRoomPrice +=
+    //       this.trip.rooms[i].roomPriceForPerTraveller *
+    //       this.trip.rooms[i].travellers.length;
+    //   }
+    //   for (let i = 0; i < this.trip.rooms.length; i++) {
+    //     for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+    //       if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
+    //         for (
+    //           let k = 0;
+    //           k < this.trip.rooms[i].travellers[j].selectedOptions.length;
+    //           k++
+    //         ) {
+    //           this.totalOptionPrice += this.trip.rooms[i].travellers[
+    //             j
+    //           ].selectedOptions[k].price;
+    //         }
+    //       }
+    //       if (this.trip.rooms[i].travellers[j].needVisa) {
+    //         this.totalVisaQuantity++;
+    //         this.totalVisaPrice += this.trip.visaPrice;
+    //       }
+    //     }
+    //   }
+    // }
+    // this.totalPrice =
+    //   this.totalRoomPrice + this.totalOptionPrice + this.totalVisaPrice;
+    // return this.totalPrice;
   }
   verify() {
     this.isVerified = true;
@@ -190,8 +205,18 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
     this.tourService.updateSelectedTrip(this.trip);
+    const enBook = new  EnBook();
+    enBook.trip = Object.assign({}, this.trip);
+    enBook.applicationID  = this.trip.applicationID;
+    enBook.currencyCode = this.trip.currencyCode;
+    enBook.saleChannel = this.trip.saleChannel;
+    enBook.ip = "";
+    enBook.dk = this.trip.dk;
+    enBook.userId = 5000010;
+    enBook.remark = "";
+    enBook.insuranceRequest  = false;
     this.tourService
-      .payment(this.trip)
+      .payment(enBook)
       .then(resp => {
         if (resp && resp._body) {
           const bookHtml = JSON.parse(resp._body).data;

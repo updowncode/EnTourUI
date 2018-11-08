@@ -2,26 +2,28 @@
   *ngIf="room">
   <div style="text-align: center; color:chocolate">
     <table style="width: 100%">
-      <tr> 
-        <td style="text-align: right;"><button *ngIf="room.travellers.length === 0" (click)="remove(room)" >Remove</button></td>
+      <tr>
+        <td style="text-align: right;"><button *ngIf="room.travellers.length === 0" (click)="remove(room)">Remove</button></td>
         <td>
-            <strong style="font-size:18px;" title="{{'Room:'+ displayRoomInfo()}}" >Room: #{{roomIndex}}</strong>
+          <strong style="font-size:18px;" title="{{'Room:'+ displayRoomInfo()}}">Room: #{{roomIndex}}</strong>
         </td>
-       <td>
-          <label>Extra Hotel</label>
+        <td>
+          <label>Extra Hotel: {{room.extraHotelQuantity}}</label>
           <button type="button" (click)="addExtraHotelQuantity(room)">
-              +</button>
-              <button type="button"  [disabled]="room.extraHotelQuantity === 0" (click)="minusExtraHotelQuantity(room)">
-                  -</button>
-       </td>
+            +</button>
+          <button type="button" [disabled]="room.extraHotelQuantity === 0" (click)="minusExtraHotelQuantity(room)">
+            -</button>
+        </td>
       </tr>
     </table>
-    
+
   </div>
   <div class="row">
     <div class="col-md-12">
-      <app-tour-rooms-each-room-each-traveller [traveller]="traveller" [roomsMoveTo]="roomsMoveTo" (roomChangedToRequest)="onRoomChangedTo($event)" (roomMovedToRequest)="onRoomMovedTo($event)" [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers"
-        [roomIndex]="roomIndex" [room]="room" [trip]="trip" *ngFor="let traveller of room.travellers">
+      <app-tour-rooms-each-room-each-traveller [traveller]="traveller" [roomsMoveTo]="roomsMoveTo"
+        (roomChangedToRequest)="onRoomChangedTo($event)" (roomMovedToRequest)="onRoomMovedTo($event)"
+        [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers" [roomIndex]="roomIndex" [room]="room" [trip]="trip"
+        *ngFor="let traveller of room.travellers">
         <app-tour-rooms-each-room-each-traveller-child [traveller]="traveller"></app-tour-rooms-each-room-each-traveller-child>
       </app-tour-rooms-each-room-each-traveller>
     </div>

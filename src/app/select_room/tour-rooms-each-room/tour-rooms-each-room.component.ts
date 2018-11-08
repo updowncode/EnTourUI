@@ -121,13 +121,11 @@ export class TourRoomsEachRoomComponent
     }
   }
   addExtraHotelQuantity(room: Room) {
-    room.extraHotelQuantity = room.extraHotelQuantity + 1;
-    this.trip.rooms.push(room);
+    room.extraHotelQuantity++;
     this.tourService.updateRoomInfo();
   }
   minusExtraHotelQuantity(room: Room) {
-    room.extraHotelQuantity = room.extraHotelQuantity - 1;
-    this.trip.rooms.splice(this.trip.rooms.length - 1, 1);
+    room.extraHotelQuantity--;
     this.tourService.updateRoomInfo();
   }
   displayRoomInfo(): string {

@@ -1,205 +1,420 @@
 <div style="background-color:white;margin-top:10px; padding:10px;">
-    <div class="row">
-        <div class="col-md-12">
-            <app-tour-nav-bar [actived]="5"></app-tour-nav-bar>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-tour-nav-bar [actived]="5"></app-tour-nav-bar>
     </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <strong style="font-size:28px;" class="tecolor"
+            >Review & Confirmation</strong
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="trip; else: loading"
+    style="border: 1px solid #ccc; padding:30px; margin-top:10px;"
+  >
+    <div class="row">
+      <div class="col-md-12">
+        <strong style="font-size:18px;">You're almost there!</strong> <br />
+        Please take a moment to review the details below and continue to the
+        payment page when ready.
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><hr style="color: #ccc;" /></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <strong style="font-size:18px;"
+          >{{ tour.name }} - {{ trip.name }}</strong
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><hr style="color: #ccc;" /></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <em class="fa fa-star colour">&nbsp;</em> Start:
+        {{ trip!.startPlace }}&nbsp;{{
+          trip.startCountryOrArea.name
+        }}&nbsp;-&nbsp;{{ trip.startDate }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <em class="fa fa-star colour">&nbsp;</em> End:
+        {{ trip && trip.endPlace }}&nbsp;&nbsp;-&nbsp;{{ trip.endDate }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <strong style="font-size:18px;">Rooms</strong>
+      </div>
+      <div class="col-md-12" *ngFor="let room of trip.rooms">
+        <div class="row">
+          <div class="col-md-8">
+            <div>
+              <span> Room #{{ room.index }}</span>
+              <span
+                *ngIf="
+                  room.roomPriceForPerTraveller -
+                    room.roomOriginalPriceForPerTraveller >
+                  0
+                "
+                >Single Supplement :
+                {{
+                  room.roomPriceForPerTraveller -
+                    room.roomOriginalPriceForPerTraveller
+                }}</span
+              >
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table style="width:100%">
+                  <tr>
+                    <td>Title</td>
+                    <td>First Name</td>
+                    <td>Middle Name</td>
+                    <td>Last Name</td>
+                    <td>Is Child</td>
+                    <td>Place of Birth</td>
+                    <td>Passport</td>
+                    <td>National</td>
+                  </tr>
+                  <tr *ngFor="let traveller of room.travellers">
+                    <td>{{ traveller.title }}</td>
+                    <td>{{ traveller.firstName }}</td>
+                    <td>{{ traveller.middleName }}</td>
+                    <td>{{ traveller.lastName }}</td>
+                    <td><span *ngIf="traveller.isChild">Yes</span></td>
+                    <td>{{ traveller.placeofbirth }}</td>
+                    <td>
+                      <span *ngIf="traveller.passport">
+                        {{ traveller.passport.number }}
+                      </span>
+                    </td>
+                    <td>{{ traveller.countryorarea.name }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div style="margin-right: 10px;">
+              ${{ room.roomPriceForPerTraveller }} x
+              {{ room.travellers.length }} ({{
+                room.roomPriceForPerTraveller * room.travellers.length
+              }})
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><hr style="color: #ccc;" /></div>
+    </div>
+    <div class="row" *ngIf="totalChildPromo > 0">
+      <div class="col-md-12">
+        <strong style="font-size:18px;">Child Promo</strong>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-8"></div>
+          <div class="col-md-4">
+            <div style="margin-right: 10px;">$({{ totalChildPromo }})</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <strong style="margin-right: 10px;"
+          >${{ totalRoomPrice - totalChildPromo }}</strong
+        >
+      </div>
+    </div>
+    <div class="row" *ngIf="optionSummary.length > 0">
+      <div class="col-md-12">
+        <strong style="font-size:18px;">Options</strong>
+      </div>
+      <div class="col-md-12" *ngFor="let option of optionSummary">
+        <div class="row">
+          <div class="col-md-8">{{ option.name }}</div>
+          <div class="col-md-4">
+            <div style="margin-right: 10px;">
+              ${{ option.price }} x {{ option.quantity }} ({{
+                option.subTotal
+              }})
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="optionSummary.length > 0">
+      <div class="col-md-12"><hr style="color: #ccc;" /></div>
+    </div>
+    <div class="row" *ngIf="optionSummary.length > 0">
+      <div class="col-md-12 text-right">
+        <strong style="margin-right: 10px;">${{ totalOptionPrice }}</strong>
+      </div>
+    </div>
+    <div class="row" *ngIf="totalVisaQuantity > 0">
+      <div class="col-md-12"><strong style="font-size:18px;">Visa</strong></div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-8"></div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-8">
+                ${{ perVisaPrice }} x {{ totalVisaQuantity }} ({{
+                  perVisaPrice * totalVisaQuantity
+                }})
+              </div>
+              <div class="col-md-4 text-right">
+                <strong style="margin-right: 10px;"
+                  >${{ totalVisaPrice }}</strong
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="extraHotelAmount > 0">
+      <div class="col-md-12">
+        <strong style="font-size:18px;">Extra Hotel</strong>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-8"></div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-8"></div>
+              <div class="col-md-4 text-right">
+                <strong style="margin-right: 10px;"
+                  >${{ extraHotelAmount }}</strong
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="trip.paymentTypeSurcharges > 0">
+      <div class="col-md-12 text-right">
+        <div style="background-color: black; color: white; padding:10px;">
+          <strong>Credit Card Surcharge: ${{ trip.paymentTypeSurcharges * trip.totalPriceForPayment }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <div style="background-color: black; color: white; padding:10px;">
+          <strong>Total Price: CAD ${{ (1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><hr style="color: #ccc;" /></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <strong style="font-size:18px;">How did ou hear about us?</strong>
+      </div>
+      <div class="col-md-3 col-sm-12 col-sm-12">
+        <select class="form-control" [(ngModel)]="trip.tourInfoSource">
+          <ng-container *ngFor="let info of tourInfoSources">
+            <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
+            <option [ngValue]="info" *ngIf="info !== ''">{{ info }}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12"><hr style="color: #ccc;" /></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div>
+          <input
+            type="checkbox"
+            style="cursor: pointer;"
+            name="TermsConditions"
+            (change)="
+              trip.billingInfo.agreeTermAndCondition = !trip.billingInfo
+                .agreeTermAndCondition
+            "
+            [checked]="trip.billingInfo.agreeTermAndCondition"
+          />&nbsp;I agree to the
+          <a
+            class="tecolor"
+            target="_blank"
+            href="/Portals/0/img/terms_conditions.pdf"
+            >Terms and Conditions</a
+          >
+          and
+          <a class="tecolor" target="_blank" href="/terms">Privacy Statment</a>
+        </div>
+        <div></div>
+        <div>
+          <input
+            type="checkbox"
+            style="cursor: pointer;"
+            name="ReadsNotes"
+            (change)="
+              trip.billingInfo.haveReadTripNotes = !trip.billingInfo
+                .haveReadTripNotes
+            "
+            [checked]="trip.billingInfo.haveReadTripNotes"
+          />&nbsp;I have read the
+          <a class="tecolor" target="_blank" href="/terms">trip notes</a>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            style="cursor: pointer;"
+            name="LikeReceiveMoreInfo"
+            (change)="
+              trip.billingInfo.canReceiveMoreInfo = !trip.billingInfo
+                .canReceiveMoreInfo
+            "
+            [checked]="trip.billingInfo.canReceiveMoreInfo"
+          />&nbsp;I would like to receive offers and updates from Tour East
+          Holidays via email
+        </div>
+      </div>
+    </div>
+    <!--
+      <form (ngSubmit)="onSubmit(heroForm)" ref-heroForm="ngForm" style="background-color:yellow">
+
+
+
+          <div class="form-group">
+
+
+
+
+              <label for="name">Name
+
+
+
+
+                  <select class="form-control" [(ngModel)]="trip.tourInfoSource" name="infoSource"  [ngModelOptions]="{standalone: true}">
+
+
+
+
+                      <ng-container *ngFor="let info of tourInfoSources">
+
+
+
+
+                          <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
+
+
+
+
+                          <option [ngValue]="info" *ngIf="info !== ''">{{info}}</option>
+
+
+
+
+                      </ng-container>
+
+
+
+
+                  </select>
+
+
+
+
+              </label>
+
+
+
+
+          </div>
+
+
+
+
+          <button type="submit" [disabled]="!heroForm.form.valid">Submit</button>
+
+
+
+
+      </form>
+
+
+
+
+      <div [hidden]="!heroForm.form.valid">
+
+
+
+
+          {{heroForm.form.valid}}
+
+
+
+
+      </div>
+    -->
     <br />
     <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12">
-                    <strong style="font-size:28px;" class="tecolor">Review & Confirmation</strong>
-                </div>
-            </div>
-        </div>
+      <div class="col-md-6 text-left">
+        <button
+          type="button"
+          class="btn btn-warning"
+          style="background-color:#d47027!important; color: white;"
+          [style.background-color]="'#d47027!important'"
+          [style.font-size.em]="isVerified ? 1 : 1"
+          (click)="goBack()"
+        >
+          Go Back
+        </button>
+      </div>
+      <div class="col-md-6 text-right">
+        <button
+          type="button"
+          [class.isVerified]="isVerified"
+          class="btn btn-warning"
+          [style.color]="isVerified ? 'white' : 'white'"
+          [style.font-size.em]="!isVerified ? 1 : 1"
+          [style.background-color]="
+            isVerified ? '#d47027!important' : '#d47027'
+          "
+          [attr.aria-label]="payment"
+          on-click="verify()"
+          bind-disabled="
+            !trip.billingInfo.agreeTermAndCondition ||
+            !trip.billingInfo.haveReadTripNotes
+          "
+        >
+          Continue to Payment
+        </button>
+        <!---->
+      </div>
     </div>
-    <div *ngIf="trip; else loading" style="border: 1px solid #ccc; padding:30px; margin-top:10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <strong style="font-size:18px;">You're almost there!</strong>
-                <br> Please take a moment to review the details below and continue to the payment page when ready.
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <hr style="color: #ccc;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <strong style="font-size:18px;">{{tour.name}} - {{trip.name}}</strong>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <hr style="color: #ccc;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <em class="fa fa-star colour">&nbsp;</em>
-                Start: {{trip.startPlace}},&nbsp;{{trip.startCountryOrArea.name}}&nbsp;-&nbsp;{{trip.startDate}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <em class="fa fa-star colour">&nbsp;</em>
-                End: {{trip.endPlace}},&nbsp;{{trip.endCountryOrArea.name}}&nbsp;-&nbsp;{{trip.endDate}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <hr style="color: #ccc;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 text-right">
-                <strong style="margin-right: 10px;">${{totalRoomPrice}}</strong>
-            </div>
-        </div>
-        <div class="row" *ngIf="optionSummary.length > 0">
-            <div class="col-md-12">
-                <strong style="font-size:18px;">Options</strong>
-            </div>
-            <div class="col-md-12" *ngFor="let option of optionSummary">
-                <div class="row">
-                    <div class="col-md-8">
-                        {{option.name}}
-                    </div>
-                    <div class="col-md-4">
-                        <div style="margin-right: 10px;">${{option.price}} x {{option.quantity}} ({{option.subTotal}})</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row" *ngIf="optionSummary.length > 0">
-            <div class="col-md-12">
-                <hr style="color: #ccc;">
-            </div>
-        </div>
-        <div class="row" *ngIf="optionSummary.length > 0">
-            <div class="col-md-12 text-right">
-                <strong style="margin-right: 10px;">${{totalOptionPrice}}</strong>
-            </div>
-        </div>
-        <div class="row" *ngIf="totalVisaQuantity > 0">
-            <div class="col-md-12">
-                <strong style="font-size:18px;">Visa</strong>
-            </div>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-8">
-
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-8"> ${{perVisaPrice}} x {{totalVisaQuantity}} ({{perVisaPrice * totalVisaQuantity}})</div>
-                            <div class="col-md-4 text-right">
-                                <strong style="margin-right: 10px;">${{totalVisaPrice}}</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 text-right">
-                <div style="background-color: black; color: white; padding:10px;">
-                    <strong>Total Price: CAD ${{totalPrice}}</strong>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <hr style="color: #ccc;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <strong style="font-size:18px;">How did ou hear about us?</strong>
-            </div>
-            <div class="col-md-3 col-sm-12 col-sm-12">
-                <select class="form-control" [(ngModel)]="trip.tourInfoSource">
-                    <ng-container *ngFor="let info of tourInfoSources">
-                        <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
-                        <option [ngValue]="info" *ngIf="info !== ''">{{info}}</option>
-                    </ng-container>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <hr style="color: #ccc;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <input type="checkbox" style="cursor: pointer;" name="TermsConditions" (change)="trip.billingInfo.agreeTermAndCondition = !trip.billingInfo.agreeTermAndCondition"
-                        [checked]="trip.billingInfo.agreeTermAndCondition">&nbsp;I agree to the
-                    <a class="tecolor" target="_blank" href="/Portals/0/img/terms_conditions.pdf">Terms and Conditions</a>
-                    and
-                    <a class="tecolor" target="_blank" href="/terms">Privacy Statment</a>
-                </div>
-                <div></div>
-                <div>
-                    <input type="checkbox" style="cursor: pointer;" name="ReadsNotes" (change)="trip.billingInfo.haveReadTripNotes = !trip.billingInfo.haveReadTripNotes"
-                        [checked]="trip.billingInfo.haveReadTripNotes">&nbsp;I have read the
-                    <a class="tecolor" target="_blank" href="/terms">trip notes</a>
-                </div>
-                <div>
-                    <input type="checkbox" style="cursor: pointer;" name="LikeReceiveMoreInfo" (change)="trip.billingInfo.canReceiveMoreInfo = !trip.billingInfo.canReceiveMoreInfo"
-                        [checked]="trip.billingInfo.canReceiveMoreInfo">&nbsp;I would like to receive offers
-                    and updates from Tour East Holidays via email</div>
-            </div>
-        </div>
-        <!-- <form (ngSubmit)="onSubmit(heroForm)" ref-heroForm="ngForm" style="background-color:yellow">
-            <div class="form-group">
-                <label for="name">Name
-                    <select class="form-control" [(ngModel)]="trip.tourInfoSource" name="infoSource"  [ngModelOptions]="{standalone: true}">
-                        <ng-container *ngFor="let info of tourInfoSources">
-                            <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
-                            <option [ngValue]="info" *ngIf="info !== ''">{{info}}</option>
-                        </ng-container>
-                    </select>
-                </label>
-            </div>
-            <button type="submit" [disabled]="!heroForm.form.valid">Submit</button>
-        </form>
-        <div [hidden]="!heroForm.form.valid">
-            {{heroForm.form.valid}}
-        </div> -->
-        <br />
-        <div class="row">
-            <div class="col-md-6 text-left">
-                <button type="button" class="btn btn-warning" style="background-color:#d47027!important; color: white;" [style.background-color]="'#d47027!important'"
-                    [style.font-size.em]="isVerified ? 1 : 1" (click)="goBack()">Go Back
-                </button>
-            </div>
-            <div class="col-md-6 text-right">
-                <button type="button" [class.isVerified]="isVerified" class="btn btn-warning" [style.color]="isVerified ? 'white' : 'white'" [style.font-size.em]="!isVerified ? 1 : 1"
-                    [style.background-color]="isVerified ? '#d47027!important' : '#d47027'" [attr.aria-label]="payment" on-click="verify()"
-                    bind-disabled="!trip.billingInfo.agreeTermAndCondition || !trip.billingInfo.haveReadTripNotes">Continue
-                    to Payment</button> <!--   -->
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <app-message></app-message>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 text-right">
-                <div id="ReturnForm" class="hidden"></div>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-md-12"><app-message></app-message></div>
     </div>
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <div id="ReturnForm" class="hidden"></div>
+      </div>
+    </div>
+  </div>
 
-
-    <ng-template #loading>
-        <app-message></app-message>
-    </ng-template>
+  <ng-template #loading> <app-message></app-message> </ng-template>
 </div>

@@ -26,9 +26,19 @@
         </div>
       </div>
     </div>
-  </div>
-  <ng-template #fail>
-    
-  </ng-template>
+  </div> 
   <app-message></app-message>
+  <ng-template #fail>
+      <button
+      type="button"
+      class="btn btn-warning"
+      style="background-color:#d47027!important; color: white;"
+      [style.background-color]="'#d47027!important'"
+      [style.font-size.em]="isVerified ? 1 : 1"
+      (click)="goBack()"
+    >
+      Go Back
+    </button>
+  </ng-template>
+ 
 </div>

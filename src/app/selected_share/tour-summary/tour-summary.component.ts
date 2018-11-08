@@ -21,6 +21,7 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
   totalVisaPrice = 0;
   totalChildDiscount = 0;
   totalChildPromo = 0;
+  extraHotelAmount = 0;
   roomInfoSubscription: Subscription;
   totalPriceSubscription: Subscription;
   private eventTotalPrice = new BehaviorSubject<Boolean>(false);
@@ -57,52 +58,87 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {}
   getTotalPrice(): number {
-    this.totalPrice = 0;
-    this.totalRoomPrice = 0;
-    this.totalOptionPrice = 0;
-    this.totalVisaPrice = 0;
-    this.totalChildDiscount = 0;
-    this.totalChildPromo = 0;
-    if (this.trip !== undefined) {
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        this.totalRoomPrice +=
-          this.trip.rooms[i].roomPriceForPerTraveller *
-          this.trip.rooms[i].travellers.length;
-      }
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-          if (this.trip.rooms[i].travellers[j].isChild) {
-            this.totalChildDiscount += this.trip.rooms[i].childDiscount;
-            this.totalChildPromo += this.trip.rooms[i].childPromoAmount;
-          }
-          if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
-            for (
-              let k = 0;
-              k < this.trip.rooms[i].travellers[j].selectedOptions.length;
-              k++
-            ) {
-              this.totalOptionPrice += this.trip.rooms[i].travellers[
-                j
-              ].selectedOptions[k].price;
-            }
-          }
-          if (this.trip.rooms[i].travellers[j].needVisa) {
-            this.totalVisaPrice += this.trip.visaPrice;
-          }
-        }
-      }
-    }
-    let childTotalPromo = 0;
-    if (this.totalChildPromo === 0 && this.totalChildDiscount > 0) {
-      childTotalPromo = this.totalChildDiscount;
-    } else {
-      childTotalPromo = this.totalChildPromo;
-    }
-    this.totalPrice =
-      this.totalRoomPrice +
-      this.totalOptionPrice +
-      this.totalVisaPrice -
-      childTotalPromo;
+    const reviewInfo = this.tourService.getTotalPrice();
+    this.totalPrice = reviewInfo.totalPrice;
+    this.totalRoomPrice = reviewInfo.totalRoomPrice;
+    this.totalOptionPrice = reviewInfo.totalOptionPrice;
+    this.totalVisaPrice = reviewInfo.totalVisaPrice;
+    this.totalChildDiscount = reviewInfo.totalChildDiscount;
+    this.totalChildPromo = reviewInfo.totalChildPromo;
+    this.extraHotelAmount = reviewInfo.extraHotelAmount;
     return this.totalPrice;
+    // this.totalPrice = 0;
+    // this.totalRoomPrice = 0;
+    // this.totalOptionPrice = 0;
+    // this.totalVisaPrice = 0;
+    // this.totalChildDiscount = 0;
+    // this.totalChildPromo = 0;
+    // this.extraHotelAmount = 0;
+    // if (this.trip !== undefined) {
+    //   for (let i = 0; i < this.trip.rooms.length; i++) {
+    //     this.totalRoomPrice +=
+    //       this.trip.rooms[i].roomPriceForPerTraveller *
+    //       this.trip.rooms[i].travellers.length;
+    //   }
+    //   for (let i = 0; i < this.trip.rooms.length; i++) {
+    //     for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+    //       if (this.trip.rooms[i].travellers[j].isChild) {
+    //         this.totalChildDiscount += this.trip.rooms[i].childDiscount;
+    //         this.totalChildPromo += this.trip.rooms[i].childPromoAmount;
+    //       }
+    //       if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
+    //         for (
+    //           let k = 0;
+    //           k < this.trip.rooms[i].travellers[j].selectedOptions.length;
+    //           k++
+    //         ) {
+    //           this.totalOptionPrice += this.trip.rooms[i].travellers[
+    //             j
+    //           ].selectedOptions[k].price;
+    //         }
+    //       }
+    //       if (this.trip.rooms[i].travellers[j].needVisa) {
+    //         this.totalVisaPrice += this.trip.visaPrice;
+    //       }
+    //     }
+    //   }
+    // }
+    // let childTotalPromo = 0;
+    // if (this.totalChildPromo === 0 && this.totalChildDiscount > 0) {
+    //   childTotalPromo = this.totalChildDiscount;
+    // } else {
+    //   childTotalPromo = this.totalChildPromo;
+    // }
+    // this.totalPrice =
+    //   this.totalRoomPrice +
+    //   this.totalOptionPrice +
+    //   this.totalVisaPrice -
+    //   childTotalPromo;
+
+    // for (let i = 0; i < this.trip.rooms.length; i++) {
+    //   if (this.trip.rooms[i].extraHotelQuantity > 0) {
+    //     let _childDiscount = 0;
+    //     let _childPromo = 0;
+    //     for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+    //       if (this.trip.rooms[i].travellers[j].isChild) {
+    //         _childDiscount += this.trip.rooms[i].childDiscount;
+    //         _childPromo += this.trip.rooms[i].childPromoAmount;
+    //       }
+    //     }
+    //     let _childTotalPromoForRoom = 0;
+    //     if (_childPromo === 0 && _childDiscount > 0) {
+    //       _childTotalPromoForRoom = _childDiscount;
+    //     } else {
+    //       _childTotalPromoForRoom = _childPromo;
+    //     }
+
+    //     this.extraHotelAmount +=
+    //       (this.trip.rooms[i].roomPriceForPerTraveller *
+    //         this.trip.rooms[i].travellers.length -
+    //       _childTotalPromoForRoom) * this.trip.rooms[i].extraHotelQuantity;
+    //     this.totalPrice += this.extraHotelAmount;
+    //   }
+    // }
+    // return this.totalPrice;
   }
 }

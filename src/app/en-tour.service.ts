@@ -28,6 +28,8 @@ import { NgbdModalContent } from "./ngbd-model-content/ngbd-model-content";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { NgxModelDlgComponent } from "./ngx-model-dlg/ngx-model-dlg.component";
+import { ReviewInfo } from "./Models/review-info";
+import { EnBook } from "./Models/en-book";
 const FETCH_LATENCY = 500;
 const httpOptions = {
   headers: new HttpHeaders({
@@ -43,14 +45,14 @@ export class EnTourService implements OnDestroy {
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
   private toursUrl =
-   "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
+    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
   private bookUrl =
-   "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
+    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
 
   //    private toursUrl =
   //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
   //  private bookUrl =
-  //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour"; // URL to web api
+  //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
 
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);
@@ -173,6 +175,94 @@ export class EnTourService implements OnDestroy {
   updateRoomsCanbeMovedTo() {
     this.roomsCanbeMovedTo.next(true);
   }
+  getTotalPrice(): ReviewInfo {
+    let totalPrice = 0;
+    let totalRoomPrice = 0;
+    let totalOptionPrice = 0;
+    let totalVisaPrice = 0;
+    let perVisaPrice = 0;
+    let totalVisaQuantity = 0;
+    let totalChildDiscount = 0;
+    let totalChildPromo = 0;
+    let extraHotelAmount = 0;
+    if (this.trip !== undefined) {
+      perVisaPrice = this.trip.visaPrice;
+      for (let i = 0; i < this.trip.rooms.length; i++) {
+        totalRoomPrice +=
+          this.trip.rooms[i].roomPriceForPerTraveller *
+          this.trip.rooms[i].travellers.length;
+      }
+      for (let i = 0; i < this.trip.rooms.length; i++) {
+        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          if (this.trip.rooms[i].travellers[j].isChild) {
+            totalChildDiscount += this.trip.rooms[i].childDiscount;
+            totalChildPromo += this.trip.rooms[i].childPromoAmount;
+          }
+          if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
+            for (
+              let k = 0;
+              k < this.trip.rooms[i].travellers[j].selectedOptions.length;
+              k++
+            ) {
+              totalOptionPrice += this.trip.rooms[i].travellers[j]
+                .selectedOptions[k].price;
+            }
+          }
+          if (this.trip.rooms[i].travellers[j].needVisa) {
+            totalVisaQuantity++;
+            totalVisaPrice += this.trip.visaPrice;
+          }
+        }
+      }
+
+      let childTotalPromo = 0;
+      if (totalChildPromo === 0 && totalChildDiscount > 0) {
+        childTotalPromo = totalChildDiscount;
+      } else {
+        childTotalPromo = totalChildPromo;
+      }
+      totalPrice =
+        totalRoomPrice + totalOptionPrice + totalVisaPrice - childTotalPromo;
+      // Calculate extraHotel Amount
+      for (let i = 0; i < this.trip.rooms.length; i++) {
+        if (this.trip.rooms[i].extraHotelQuantity > 0) {
+          let _childDiscount = 0;
+          let _childPromo = 0;
+          for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+            if (this.trip.rooms[i].travellers[j].isChild) {
+              _childDiscount += this.trip.rooms[i].childDiscount;
+              _childPromo += this.trip.rooms[i].childPromoAmount;
+            }
+          }
+          let _childTotalPromoForRoom = 0;
+          if (_childPromo === 0 && _childDiscount > 0) {
+            _childTotalPromoForRoom = _childDiscount;
+          } else {
+            _childTotalPromoForRoom = _childPromo;
+          }
+
+          extraHotelAmount +=
+            (this.trip.rooms[i].roomPriceForPerTraveller *
+              this.trip.rooms[i].travellers.length -
+              _childTotalPromoForRoom) *
+            this.trip.rooms[i].extraHotelQuantity;
+          totalPrice += extraHotelAmount;
+        }
+      }
+    }
+    this.trip.totalPriceForPayment = totalPrice;
+    return {
+      totalPrice: totalPrice,
+      totalRoomPrice: totalRoomPrice,
+      totalOptionPrice: totalOptionPrice,
+      totalVisaPrice: totalVisaPrice,
+      perVisaPrice: perVisaPrice,
+      totalVisaQuantity: totalVisaQuantity,
+      totalChildDiscount: totalChildDiscount,
+      totalChildPromo: totalChildPromo,
+      extraHotelAmount: extraHotelAmount
+    };
+  }
   getRoomsByTheTravellersInTheRoom(
     travellers: Traveller[],
     availabledRooms: Room[]
@@ -184,13 +274,16 @@ export class EnTourService implements OnDestroy {
       let singleSupplement = 0;
       for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
         if (roomsFitSelectedTravellersQuantity[j].capacity === 2) {
-          singleSupplement = roomsFitSelectedTravellersQuantity[j].singleSupplement;
+          singleSupplement =
+            roomsFitSelectedTravellersQuantity[j].singleSupplement;
         }
       }
       for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
         if (roomsFitSelectedTravellersQuantity[j].capacity >= 2) {
-          roomsFitSelectedTravellersQuantity[j].roomPriceForPerTraveller += (
-            roomsFitSelectedTravellersQuantity[j].singleSupplement === 0 ? singleSupplement : roomsFitSelectedTravellersQuantity[j].singleSupplement);
+          roomsFitSelectedTravellersQuantity[j].roomPriceForPerTraveller +=
+            roomsFitSelectedTravellersQuantity[j].singleSupplement === 0
+              ? singleSupplement
+              : roomsFitSelectedTravellersQuantity[j].singleSupplement;
         }
       }
       const rooms = roomsFitSelectedTravellersQuantity.sort((a, b) => {
@@ -242,9 +335,9 @@ export class EnTourService implements OnDestroy {
     });
     modalRef.componentInstance.message = message;
   }
-  payment(trip: Trip): Promise<any> {
+  payment(book: EnBook): Promise<any> {
     return this.http
-      .post(this.bookUrl, JSON.stringify(trip), {
+      .post(this.bookUrl, JSON.stringify(book), {
         headers: this.headers
       })
       .toPromise()

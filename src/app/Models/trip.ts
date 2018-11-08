@@ -9,6 +9,10 @@ export class Trip {
   id: string;
   name: string;
   summary: string;
+  applicationID: number;
+  currencyCode: string;
+  saleChannel: number;
+  dk: string;
   remark: string;
   guideline: string;
   selectedTravellerQuantity: Quantity;
@@ -33,5 +37,7 @@ export class Trip {
   options: Option[];
   availabledRooms: Room[];
   rooms: Room[];
+  totalPriceForPayment: number;
+  paymentTypeSurcharges: number;
   tourId: string;
 }
