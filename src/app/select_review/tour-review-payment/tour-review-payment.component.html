@@ -70,7 +70,7 @@
                     room.roomOriginalPriceForPerTraveller >
                   0
                 "
-                >Single Supplement :
+                >Single Supplement : $
                 {{
                   room.roomPriceForPerTraveller -
                     room.roomOriginalPriceForPerTraveller
@@ -130,7 +130,7 @@
         <div class="row">
           <div class="col-md-8"></div>
           <div class="col-md-4">
-            <div style="margin-right: 10px;">$({{ totalChildPromo }})</div>
+            <div style="margin-right: 10px;">$({{ reviewInfo.totalChildPromo }})</div>
           </div>
         </div>
       </div>
@@ -138,15 +138,15 @@
     <div class="row">
       <div class="col-md-12 text-right">
         <strong style="margin-right: 10px;"
-          >${{ totalRoomPrice - totalChildPromo }}</strong
+          >${{ reviewInfo.totalRoomPrice - reviewInfo.totalChildPromo }}</strong
         >
       </div>
     </div>
-    <div class="row" *ngIf="optionSummary.length > 0">
+    <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
       <div class="col-md-12">
         <strong style="font-size:18px;">Options</strong>
       </div>
-      <div class="col-md-12" *ngFor="let option of optionSummary">
+      <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
         <div class="row">
           <div class="col-md-8">{{ option.name }}</div>
           <div class="col-md-4">
@@ -159,15 +159,15 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="optionSummary.length > 0">
+    <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
       <div class="col-md-12"><hr style="color: #ccc;" /></div>
     </div>
-    <div class="row" *ngIf="optionSummary.length > 0">
+    <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
       <div class="col-md-12 text-right">
-        <strong style="margin-right: 10px;">${{ totalOptionPrice }}</strong>
+        <strong style="margin-right: 10px;">${{ reviewInfo.totalOptionPrice }}</strong>
       </div>
     </div>
-    <div class="row" *ngIf="totalVisaQuantity > 0">
+    <div class="row" *ngIf="reviewInfo.totalVisaQuantity > 0">
       <div class="col-md-12"><strong style="font-size:18px;">Visa</strong></div>
       <div class="col-md-12">
         <div class="row">
@@ -175,13 +175,13 @@
           <div class="col-md-4">
             <div class="row">
               <div class="col-md-8">
-                ${{ perVisaPrice }} x {{ totalVisaQuantity }} ({{
-                  perVisaPrice * totalVisaQuantity
+                ${{ reviewInfo.perVisaPrice }} x {{ reviewInfo.totalVisaQuantity }} ({{
+                  reviewInfo.perVisaPrice * reviewInfo.totalVisaQuantity
                 }})
               </div>
               <div class="col-md-4 text-right">
                 <strong style="margin-right: 10px;"
-                  >${{ totalVisaPrice }}</strong
+                  >${{ reviewInfo.totalVisaPrice }}</strong
                 >
               </div>
             </div>
@@ -189,7 +189,7 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="extraHotelAmount > 0">
+    <div class="row" *ngIf="reviewInfo.extraHotelAmount > 0">
       <div class="col-md-12">
         <strong style="font-size:18px;">Extra Hotel</strong>
       </div>
@@ -201,7 +201,7 @@
               <div class="col-md-8"></div>
               <div class="col-md-4 text-right">
                 <strong style="margin-right: 10px;"
-                  >${{ extraHotelAmount }}</strong
+                  >${{ reviewInfo.extraHotelAmount }}</strong
                 >
               </div>
             </div>
@@ -212,14 +212,22 @@
     <div class="row" *ngIf="trip.paymentTypeSurcharges > 0">
       <div class="col-md-12 text-right">
         <div style="background-color: black; color: white; padding:10px;">
-          <strong>Credit Card Surcharge: ${{ trip.paymentTypeSurcharges * trip.totalPriceForPayment }}</strong>
+          <strong
+            >Credit Card Surcharge: ${{
+              trip.paymentTypeSurcharges * trip.totalPriceForPayment
+            }}</strong
+          >
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12 text-right">
         <div style="background-color: black; color: white; padding:10px;">
-          <strong>Total Price: CAD ${{ (1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment }}</strong>
+          <strong
+            >Total Price: CAD ${{
+              (1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment
+            }}</strong
+          >
         </div>
       </div>
     </div>
@@ -298,7 +306,11 @@
 
 
 
+
+
           <div class="form-group">
+
+
 
 
 
@@ -308,7 +320,11 @@
 
 
 
+
+
                   <select class="form-control" [(ngModel)]="trip.tourInfoSource" name="infoSource"  [ngModelOptions]="{standalone: true}">
+
+
 
 
 
@@ -318,7 +334,11 @@
 
 
 
+
+
                           <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
+
+
 
 
 
@@ -328,7 +348,11 @@
 
 
 
+
+
                       </ng-container>
+
+
 
 
 
@@ -338,7 +362,11 @@
 
 
 
+
+
               </label>
+
+
 
 
 
@@ -348,7 +376,11 @@
 
 
 
+
+
           <button type="submit" [disabled]="!heroForm.form.valid">Submit</button>
+
+
 
 
 
@@ -358,12 +390,18 @@
 
 
 
+
+
       <div [hidden]="!heroForm.form.valid">
 
 
 
 
+
+
           {{heroForm.form.valid}}
+
+
 
 
 

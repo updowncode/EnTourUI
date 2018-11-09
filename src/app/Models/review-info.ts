@@ -1,3 +1,5 @@
+import { OptionSummary } from "./option-summary";
+
 export class ReviewInfo {
     totalPrice: number;
       totalRoomPrice: number;
@@ -8,4 +10,5 @@ export class ReviewInfo {
       totalChildDiscount: number;
       totalChildPromo: number;
       extraHotelAmount: number;
+      optionSummary: OptionSummary[];
 }

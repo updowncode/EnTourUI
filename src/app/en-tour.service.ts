@@ -30,6 +30,9 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { NgxModelDlgComponent } from "./ngx-model-dlg/ngx-model-dlg.component";
 import { ReviewInfo } from "./Models/review-info";
 import { EnBook } from "./Models/en-book";
+import { FrontEndCallbackModel } from "./Models/front-end-callback-model";
+import { OrderDetail } from "./Models/order-detail";
+import { OptionSummary } from "./Models/option-summary";
 const FETCH_LATENCY = 500;
 const httpOptions = {
   headers: new HttpHeaders({
@@ -48,11 +51,19 @@ export class EnTourService implements OnDestroy {
     "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
   private bookUrl =
     "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
+  private verifyfrontendcallbackUrl =
+    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/verifyfrontendcallback"; // URL to web api
+  private sendInvoiceEmailUrl =
+    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
 
   //    private toursUrl =
   //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
   //  private bookUrl =
   //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
+  // private verifyfrontendcallbackUrl =
+  //   "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/verifyfrontendcallback"; // URL to web api
+  // private sendInvoiceEmailUrl =
+  //   "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
 
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);
@@ -185,6 +196,7 @@ export class EnTourService implements OnDestroy {
     let totalChildDiscount = 0;
     let totalChildPromo = 0;
     let extraHotelAmount = 0;
+    let optionSummaries = new Array<OptionSummary>();
     if (this.trip !== undefined) {
       perVisaPrice = this.trip.visaPrice;
       for (let i = 0; i < this.trip.rooms.length; i++) {
@@ -250,6 +262,7 @@ export class EnTourService implements OnDestroy {
         }
       }
     }
+    optionSummaries = [...this.setOptionSummary(this.trip.rooms.reduce((pn, u) => [ ...pn, ...u.travellers ], []))];
     this.trip.totalPriceForPayment = totalPrice;
     return {
       totalPrice: totalPrice,
@@ -260,8 +273,37 @@ export class EnTourService implements OnDestroy {
       totalVisaQuantity: totalVisaQuantity,
       totalChildDiscount: totalChildDiscount,
       totalChildPromo: totalChildPromo,
-      extraHotelAmount: extraHotelAmount
+      extraHotelAmount: extraHotelAmount,
+      optionSummary: optionSummaries
     };
+  }
+  setOptionSummary(travellers: Traveller[]): OptionSummary[] {
+    const optionSummaries = new Array<OptionSummary>();
+    for (let i = 0; i < travellers.length; i++) {
+      if (
+        travellers[i].selectedOptions != null &&
+        travellers[i].selectedOptions.length > 0
+      ) {
+        for (let j = 0; j < travellers[i].selectedOptions.length; j++) {
+          const optionInSummary = optionSummaries.find(
+            c => c.name === travellers[i].selectedOptions[j].name
+          );
+          if (null == optionInSummary) {
+            const os = new OptionSummary();
+            os.name = travellers[i].selectedOptions[j].name;
+            os.price = travellers[i].selectedOptions[j].price;
+            os.quantity = 1;
+            os.subTotal = os.price * os.quantity;
+            optionSummaries.push(os);
+          } else {
+            optionInSummary.quantity++;
+            optionInSummary.subTotal =
+              optionInSummary.price * optionInSummary.quantity;
+          }
+        }
+      }
+    }
+    return optionSummaries;
   }
   getRoomsByTheTravellersInTheRoom(
     travellers: Traveller[],
@@ -346,6 +388,18 @@ export class EnTourService implements OnDestroy {
         this.log(error.statusText + ": " + error._body);
         this.openNgxModelDlg(error.statusText + ": " + error._body);
       });
+  }
+  verifyFrontEndCallBackUrlAsync(req: FrontEndCallbackModel): Observable<OrderDetail> {
+    return this.httpClient.post<OrderDetail>(
+      this.verifyfrontendcallbackUrl, req, httpOptions).pipe(
+      catchError(this.handleObservableError("verifyFrontEndCallBackUrlAsync", new OrderDetail()))
+    );
+  }
+  sendInvoiceEmailAsync(req: FrontEndCallbackModel): Observable<OrderDetail> {
+    return this.httpClient.post<OrderDetail>(
+      this.sendInvoiceEmailUrl, req, httpOptions).pipe(
+      catchError(this.handleObservableError("sendInvoiceEmailAsync", new OrderDetail()))
+    );
   }
   private log(message: string) {
     if (message.length > 0) {

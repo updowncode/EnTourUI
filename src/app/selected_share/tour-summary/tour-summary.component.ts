@@ -4,6 +4,7 @@ import { EnTourService } from "../../en-tour.service";
 import { Tour } from "../../Models/tour";
 import { Trip } from "../../Models/trip";
 import { Subscription, BehaviorSubject, of } from "rxjs";
+import { ReviewInfo } from "../../Models/review-info";
 
 @Component({
   selector: "app-tour-summary",
@@ -15,13 +16,14 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
   trip: Trip;
   tourId: string;
   tripId: string;
-  totalPrice = 0;
-  totalRoomPrice = 0;
-  totalOptionPrice = 0;
-  totalVisaPrice = 0;
-  totalChildDiscount = 0;
-  totalChildPromo = 0;
-  extraHotelAmount = 0;
+  reviewInfo: ReviewInfo;
+  // totalPrice = 0;
+  // totalRoomPrice = 0;
+  // totalOptionPrice = 0;
+  // totalVisaPrice = 0;
+  // totalChildDiscount = 0;
+  // totalChildPromo = 0;
+  // extraHotelAmount = 0;
   roomInfoSubscription: Subscription;
   totalPriceSubscription: Subscription;
   private eventTotalPrice = new BehaviorSubject<Boolean>(false);
@@ -40,14 +42,15 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
     this.roomInfoSubscription = tourService.updateRoomInfo$.subscribe(
       isRoomInfoUpdated => {
         if (isRoomInfoUpdated) {
-          this.totalPrice = this.getTotalPrice();
+          this.reviewInfo = this.tourService.getTotalPrice();
         }
       }
     );
     this.totalPriceSubscription = this.eventTotalPrice$.subscribe(
       isReadyToCalculateTotalPrice => {
         if (isReadyToCalculateTotalPrice) {
-          this.totalPrice = this.getTotalPrice();
+          // this.totalPrice = this.getTotalPrice();
+          this.reviewInfo = this.tourService.getTotalPrice();
         }
       }
     );
@@ -57,16 +60,16 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
     this.totalPriceSubscription.unsubscribe();
   }
   ngOnInit() {}
-  getTotalPrice(): number {
-    const reviewInfo = this.tourService.getTotalPrice();
-    this.totalPrice = reviewInfo.totalPrice;
-    this.totalRoomPrice = reviewInfo.totalRoomPrice;
-    this.totalOptionPrice = reviewInfo.totalOptionPrice;
-    this.totalVisaPrice = reviewInfo.totalVisaPrice;
-    this.totalChildDiscount = reviewInfo.totalChildDiscount;
-    this.totalChildPromo = reviewInfo.totalChildPromo;
-    this.extraHotelAmount = reviewInfo.extraHotelAmount;
-    return this.totalPrice;
+  // getTotalPrice(): number {
+    // const reviewInfo = this.tourService.getTotalPrice();
+    // this.totalPrice = reviewInfo.totalPrice;
+    // this.totalRoomPrice = reviewInfo.totalRoomPrice;
+    // this.totalOptionPrice = reviewInfo.totalOptionPrice;
+    // this.totalVisaPrice = reviewInfo.totalVisaPrice;
+    // this.totalChildDiscount = reviewInfo.totalChildDiscount;
+    // this.totalChildPromo = reviewInfo.totalChildPromo;
+    // this.extraHotelAmount = reviewInfo.extraHotelAmount;
+    // return this.totalPrice;
     // this.totalPrice = 0;
     // this.totalRoomPrice = 0;
     // this.totalOptionPrice = 0;
@@ -140,5 +143,5 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
     //   }
     // }
     // return this.totalPrice;
-  }
+  // }
 }

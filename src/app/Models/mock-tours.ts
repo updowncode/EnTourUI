@@ -32,6 +32,7 @@ export const MockTours: Tour[] = [
         currencyCode: "CAD",
         saleChannel: 9,
         dk: "9",
+        userId: 5017302,
         remark: "remark",
         guideline: "<strong>guidelineguidelineguidelineguideline</strong>",
         selectedTravellerQuantity: { id: 2, name: "Traveller Quantity: 2" },

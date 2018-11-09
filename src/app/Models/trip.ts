@@ -13,6 +13,7 @@ export class Trip {
   currencyCode: string;
   saleChannel: number;
   dk: string;
+  userId: number;
   remark: string;
   guideline: string;
   selectedTravellerQuantity: Quantity;

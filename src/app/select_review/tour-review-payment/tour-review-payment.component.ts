@@ -18,13 +18,8 @@ import { Location } from "@angular/common";
 import { Form } from "@angular/forms";
 import { MessageService } from "../../message.service";
 import { EnBook } from "../../Models/en-book";
-export class OptionSummary {
-  name: string;
-  price: number;
-  quantity: number;
-  subTotal: number;
-}
-
+import { ReviewInfo } from "../../Models/review-info";
+import { OptionSummary } from "../../Models/option-summary";
 @Component({
   selector: "app-tour-review-payment",
   templateUrl: "./tour-review-payment.component.html",
@@ -54,16 +49,16 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     private location: Location,
     private messageService: MessageService
   ) {}
-
-  totalPrice = 0;
-  totalRoomPrice = 0;
-  totalOptionPrice = 0;
-  perVisaPrice = 0;
-  totalVisaQuantity = 0;
-  totalVisaPrice = 0;
-  extraHotelAmount = 0;
-  totalChildDiscount = 0;
-  totalChildPromo = 0;
+  reviewInfo: ReviewInfo;
+  // totalPrice = 0;
+  // totalRoomPrice = 0;
+  // totalOptionPrice = 0;
+  // perVisaPrice = 0;
+  // totalVisaQuantity = 0;
+  // totalVisaPrice = 0;
+  // extraHotelAmount = 0;
+  // totalChildDiscount = 0;
+  // totalChildPromo = 0;
   tourInfoSources: string[] = ["", "Toronto Star", "Tour East Website"];
   ngOnDestroy() {
     this.toursSubscription.unsubscribe();
@@ -112,46 +107,48 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     }
   }
   initTrip() {
-    this.optionSummary = new Array<OptionSummary>();
-    for (let i = 0; i < this.travellers.length; i++) {
-      if (
-        this.travellers[i].selectedOptions != null &&
-        this.travellers[i].selectedOptions.length > 0
-      ) {
-        for (let j = 0; j < this.travellers[i].selectedOptions.length; j++) {
-          const optionInSummary = this.optionSummary.find(
-            c => c.name === this.travellers[i].selectedOptions[j].name
-          );
-          if (null == optionInSummary) {
-            const os = new OptionSummary();
-            os.name = this.travellers[i].selectedOptions[j].name;
-            os.price = this.travellers[i].selectedOptions[j].price;
-            os.quantity = 1;
-            os.subTotal = os.price * os.quantity;
-            this.optionSummary.push(os);
-          } else {
-            optionInSummary.quantity++;
-            optionInSummary.subTotal =
-              optionInSummary.price * optionInSummary.quantity;
-          }
-        }
-      }
-    }
+    // this.optionSummary = new Array<OptionSummary>();
+    // for (let i = 0; i < this.travellers.length; i++) {
+    //   if (
+    //     this.travellers[i].selectedOptions != null &&
+    //     this.travellers[i].selectedOptions.length > 0
+    //   ) {
+    //     for (let j = 0; j < this.travellers[i].selectedOptions.length; j++) {
+    //       const optionInSummary = this.optionSummary.find(
+    //         c => c.name === this.travellers[i].selectedOptions[j].name
+    //       );
+    //       if (null == optionInSummary) {
+    //         const os = new OptionSummary();
+    //         os.name = this.travellers[i].selectedOptions[j].name;
+    //         os.price = this.travellers[i].selectedOptions[j].price;
+    //         os.quantity = 1;
+    //         os.subTotal = os.price * os.quantity;
+    //         this.optionSummary.push(os);
+    //       } else {
+    //         optionInSummary.quantity++;
+    //         optionInSummary.subTotal =
+    //           optionInSummary.price * optionInSummary.quantity;
+    //       }
+    //     }
+    //   }
+    // }
 
-    this.totalPrice = this.getTotalPrice();
+    // this.totalPrice = this.getTotalPrice();
+    this.reviewInfo = this.tourService.getTotalPrice();
   }
-  getTotalPrice(): number {
-    const reviewInfo = this.tourService.getTotalPrice();
-    this.totalPrice = reviewInfo.totalPrice;
-    this.totalRoomPrice = reviewInfo.totalRoomPrice;
-    this.totalOptionPrice = reviewInfo.totalOptionPrice;
-    this.totalVisaPrice = reviewInfo.totalVisaPrice;
-    this.perVisaPrice = reviewInfo.perVisaPrice;
-    this.totalVisaQuantity = reviewInfo.totalVisaQuantity;
-    this.extraHotelAmount = reviewInfo.extraHotelAmount;
-    this.totalChildDiscount = reviewInfo.totalChildDiscount;
-    this.totalChildPromo = reviewInfo.totalChildPromo;
-    return this.totalPrice;
+  // getTotalPrice(): any {
+    // this.reviewInfo = this.tourService.getTotalPrice();
+    // this.totalPrice = reviewInfo.totalPrice;
+    // this.totalRoomPrice = reviewInfo.totalRoomPrice;
+    // this.totalOptionPrice = reviewInfo.totalOptionPrice;
+    // this.totalVisaPrice = reviewInfo.totalVisaPrice;
+    // this.perVisaPrice = reviewInfo.perVisaPrice;
+    // this.totalVisaQuantity = reviewInfo.totalVisaQuantity;
+    // this.extraHotelAmount = reviewInfo.extraHotelAmount;
+    // this.totalChildDiscount = reviewInfo.totalChildDiscount;
+    // this.totalChildPromo = reviewInfo.totalChildPromo;
+    // return this.totalPrice;
+
     // if (this.trip !== undefined) {
     //   this.perVisaPrice = this.trip.visaPrice;
     //   for (let i = 0; i < this.trip.rooms.length; i++) {
@@ -182,7 +179,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     // this.totalPrice =
     //   this.totalRoomPrice + this.totalOptionPrice + this.totalVisaPrice;
     // return this.totalPrice;
-  }
+  // }
   verify() {
     this.isVerified = true;
     if (this.isVerified) {
@@ -205,14 +202,14 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     localStorage.setItem(this.tripId.toString(), JSON.stringify(this.trip));
     this.tourService.updateSelectedTour(this.tour);
     this.tourService.updateSelectedTrip(this.trip);
-    const enBook = new  EnBook();
+    const enBook = new EnBook();
     enBook.trip = Object.assign({}, this.trip);
     enBook.applicationID  = this.trip.applicationID;
     enBook.currencyCode = this.trip.currencyCode;
     enBook.saleChannel = this.trip.saleChannel;
     enBook.ip = "";
     enBook.dk = this.trip.dk;
-    enBook.userId = 5000010;
+    enBook.userId = this.trip.userId;
     enBook.remark = "";
     enBook.insuranceRequest  = false;
     this.tourService
