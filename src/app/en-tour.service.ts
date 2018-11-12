@@ -262,7 +262,7 @@ export class EnTourService implements OnDestroy {
         }
       }
     }
-    optionSummaries = [...this.setOptionSummary(this.trip.rooms.reduce((pn, u) => [ ...pn, ...u.travellers ], []))];
+    optionSummaries = [...this.setOptionSummary(this.trip.rooms.reduce((p, u) => [ ...p, ...u.travellers ], []))];
     this.trip.totalPriceForPayment = totalPrice;
     return {
       totalPrice: totalPrice,

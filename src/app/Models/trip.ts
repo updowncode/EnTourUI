@@ -41,4 +41,5 @@ export class Trip {
   totalPriceForPayment: number;
   paymentTypeSurcharges: number;
   tourId: string;
+  tourName: string;
 }

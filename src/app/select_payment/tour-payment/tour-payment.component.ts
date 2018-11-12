@@ -93,7 +93,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       req.orderNumber = this.orderNumber;
       this.orderDetailSubscription = this.tourService
       .verifyFrontEndCallBackUrlAsync(req)
-      .subscribe((order: OrderDetail) => this.onVerifyUrlResult(order));
+      .subscribe((order: OrderDetail) => this.onVerifyUrlResult(order), err => console.log(err));
     }
   }
 }

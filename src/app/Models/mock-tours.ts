@@ -125,7 +125,8 @@ export const MockTours: Tour[] = [
         ],
         totalPriceForPayment: 0,
         paymentTypeSurcharges: 0,
-        tourId: "CHG11"
+        tourId: "CHG11",
+        tourName: ""
       }
     ]
   }

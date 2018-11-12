@@ -63,6 +63,7 @@ import { TourRoomsBillingInfoDynamicComponent } from './select_room/tour-rooms-b
 import { TourRoomsEachRoomDynamicComponent } from './select_room/tour-rooms-each-room-dynamic/tour-rooms-each-room-dynamic.component';
 import { TourRoomsEachRoomEachTravellerDynamicComponent } from './select_room/tour-rooms-each-room-each-traveller-dynamic/tour-rooms-each-room-each-traveller-dynamic.component';
 import { TourRoomsEachRoomEachTravellerChildDynamicComponent } from './select_room/tour-rooms-each-room-each-traveller-child-dynamic/tour-rooms-each-room-each-traveller-child-dynamic.component';
+import { ReviewComponent } from './review/review.component';
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
 // }
@@ -111,6 +112,7 @@ import { TourRoomsEachRoomEachTravellerChildDynamicComponent } from './select_ro
     TourRoomsEachRoomDynamicComponent,
     TourRoomsEachRoomEachTravellerDynamicComponent,
     TourRoomsEachRoomEachTravellerChildDynamicComponent,
+    ReviewComponent,
     FetchJsonPipe,
     KeysPipe,
     NgbdModalContent
