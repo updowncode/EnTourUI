@@ -23,8 +23,8 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   position = "related";
   err: string;
   orderTrip: Trip;
-  orderNumber: number;
-  invoiceNumber: number;
+  orderNumber: string;
+  invoiceNumber: string;
   subscription: Subscription;
   orderDetailSubscription: Subscription;
   emailSubscription: Subscription;
@@ -67,18 +67,18 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   onEmailResult(order: OrderDetail) {
     this.emailHasBeenSent = true;
   }
-  onVerifyUrlResult(order: OrderDetail) {
-    this.orderTrip = order.trip;
-    this.invoiceNumber = order.invoiceNumber;
-    if (order.status === "success") {
+  onVerifyUrlResult(resp: any) {
+    this.orderTrip = resp.data.trip;
+    this.invoiceNumber = resp.data.invoiceNumber;
+    if (resp.data.status === "success") {
       const req = new FrontEndCallbackModel();
       req.callbackurl = location.href;
-      req.orderNumber = order.orderNumber;
+      req.orderNumber = resp.data.orderNumber;
       this.emailSubscription = this.tourService
-      .sendInvoiceEmailAsync(req)
-      .subscribe((order1: OrderDetail) => this.onEmailResult(order1));
+        .sendInvoiceEmailAsync(req)
+        .subscribe((order1: OrderDetail) => this.onEmailResult(order1));
     } else {
-      this.messageService.add(order.message);
+      this.messageService.add(resp.data.message);
     }
   }
   onParams(params: Params) {
@@ -92,8 +92,12 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       req.callbackurl = location.href;
       req.orderNumber = this.orderNumber;
       this.orderDetailSubscription = this.tourService
-      .verifyFrontEndCallBackUrlAsync(req)
-      .subscribe((order: OrderDetail) => this.onVerifyUrlResult(order), err => console.log(err));
+        .verifyFrontEndCallBackUrlAsync(req)
+        .subscribe(
+          (resp: any) => this.onVerifyUrlResult(resp),
+          err => console.log(err || err.data.message)
+        );
     }
   }
 }
+// http://localhost:4200/ENTOUR/payment?trnApproved=1&trnId=10100587&messageId=1&messageText=Approved&authCode=TEST&responseType=T&trnAmount=58.00&trnDate=11%2F13%2F2018%207:36:54%20AM&trnOrderNumber=30009868&trnLanguage=eng&trnCustomerName=qing%20li&trnEmailAddress=david@dfsdd.com&trnPhoneNumber=4169290888&avsProcessed=1&avsId=Y&avsResult=1&avsAddrMatch=1&avsPostalMatch=1&avsMessage=Street%20address%20and%20Postal%2FZIP%20match.&cvdId=1&cardType=VI&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=e385a9453a3de7945fc0468cb357d536

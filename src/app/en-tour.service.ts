@@ -225,45 +225,49 @@ export class EnTourService implements OnDestroy {
             totalVisaPrice += this.trip.visaPrice;
           }
         }
-      }
 
-      let childTotalPromo = 0;
-      if (totalChildPromo === 0 && totalChildDiscount > 0) {
-        childTotalPromo = totalChildDiscount;
-      } else {
-        childTotalPromo = totalChildPromo;
-      }
-      totalPrice =
-        totalRoomPrice + totalOptionPrice + totalVisaPrice - childTotalPromo;
-      // Calculate extraHotel Amount
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        if (this.trip.rooms[i].extraHotelQuantity > 0) {
-          let _childDiscount = 0;
-          let _childPromo = 0;
-          for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-            if (this.trip.rooms[i].travellers[j].isChild) {
-              _childDiscount += this.trip.rooms[i].childDiscount;
-              _childPromo += this.trip.rooms[i].childPromoAmount;
+        let childTotalPromo = 0;
+        if (totalChildPromo === 0 && totalChildDiscount > 0) {
+          childTotalPromo = totalChildDiscount;
+        } else {
+          childTotalPromo = totalChildPromo;
+        }
+        totalPrice =
+          totalRoomPrice + totalOptionPrice + totalVisaPrice - childTotalPromo;
+        // Calculate extraHotel Amount
+        for (let m = 0; m < this.trip.rooms.length; m++) {
+          if (this.trip.rooms[m].extraHotelQuantity > 0) {
+            let _childDiscount = 0;
+            let _childPromo = 0;
+            for (let j = 0; j < this.trip.rooms[m].travellers.length; j++) {
+              if (this.trip.rooms[m].travellers[j].isChild) {
+                _childDiscount += this.trip.rooms[m].childDiscount;
+                _childPromo += this.trip.rooms[m].childPromoAmount;
+              }
             }
-          }
-          let _childTotalPromoForRoom = 0;
-          if (_childPromo === 0 && _childDiscount > 0) {
-            _childTotalPromoForRoom = _childDiscount;
-          } else {
-            _childTotalPromoForRoom = _childPromo;
-          }
+            let _childTotalPromoForRoom = 0;
+            if (_childPromo === 0 && _childDiscount > 0) {
+              _childTotalPromoForRoom = _childDiscount;
+            } else {
+              _childTotalPromoForRoom = _childPromo;
+            }
 
-          extraHotelAmount +=
-            (this.trip.rooms[i].roomPriceForPerTraveller *
-              this.trip.rooms[i].travellers.length -
-              _childTotalPromoForRoom) *
-            this.trip.rooms[i].extraHotelQuantity;
-          totalPrice += extraHotelAmount;
+            extraHotelAmount +=
+              (this.trip.rooms[m].roomPriceForPerTraveller *
+                this.trip.rooms[m].travellers.length -
+                _childTotalPromoForRoom) *
+              this.trip.rooms[m].extraHotelQuantity;
+            totalPrice += extraHotelAmount;
+          }
         }
       }
+      optionSummaries = [
+        ...this.setOptionSummary(
+          this.trip.rooms.reduce((p, u) => [...p, ...u.travellers], [])
+        )
+      ];
+      this.trip.totalPriceForPayment = totalPrice;
     }
-    optionSummaries = [...this.setOptionSummary(this.trip.rooms.reduce((p, u) => [ ...p, ...u.travellers ], []))];
-    this.trip.totalPriceForPayment = totalPrice;
     return {
       totalPrice: totalPrice,
       totalRoomPrice: totalRoomPrice,
@@ -389,17 +393,32 @@ export class EnTourService implements OnDestroy {
         this.openNgxModelDlg(error.statusText + ": " + error._body);
       });
   }
-  verifyFrontEndCallBackUrlAsync(req: FrontEndCallbackModel): Observable<OrderDetail> {
-    return this.httpClient.post<OrderDetail>(
-      this.verifyfrontendcallbackUrl, req, httpOptions).pipe(
-      catchError(this.handleObservableError("verifyFrontEndCallBackUrlAsync", new OrderDetail()))
-    );
+  verifyFrontEndCallBackUrlAsync(
+    req: FrontEndCallbackModel
+  ): Observable<OrderDetail> {
+    const header = new HttpHeaders()
+     .set('Content-type', 'application/json');
+    return this.httpClient
+      .post<any>(this.verifyfrontendcallbackUrl, JSON.stringify(req), {headers: header})
+      .pipe(
+        catchError(
+          this.handleObservableError(
+            "verifyFrontEndCallBackUrlAsync",
+            new OrderDetail()
+          )
+        )
+      );
   }
   sendInvoiceEmailAsync(req: FrontEndCallbackModel): Observable<OrderDetail> {
-    return this.httpClient.post<OrderDetail>(
-      this.sendInvoiceEmailUrl, req, httpOptions).pipe(
-      catchError(this.handleObservableError("sendInvoiceEmailAsync", new OrderDetail()))
-    );
+    const header = new HttpHeaders()
+     .set('Content-type', 'application/json');
+    return this.httpClient
+      .post<any>(this.sendInvoiceEmailUrl, JSON.stringify(req), {headers: header})
+      .pipe(
+        catchError(
+          this.handleObservableError("sendInvoiceEmailAsync", new OrderDetail())
+        )
+      );
   }
   private log(message: string) {
     if (message.length > 0) {

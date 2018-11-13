@@ -28,7 +28,7 @@
       </div>
     </div>
     
-    <app-review [trip]="trip"></app-review>
+    <app-review *ngIf="trip" [trip]="trip"></app-review>
     
     <div class="row">
       <div class="col-md-12">
