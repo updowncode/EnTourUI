@@ -115,7 +115,9 @@ export class EnTourService implements OnDestroy {
     // this.tours = [];
     // this.tours.push(...value);
   }
-
+  public setTripForReview(value: Trip) {
+    this.trip = Object.assign([], value);
+  }
   getToursAsync(): Observable<Tour[]> {
     if (this.tours.length === 0) {
       // return this.httpClient
@@ -396,10 +398,11 @@ export class EnTourService implements OnDestroy {
   verifyFrontEndCallBackUrlAsync(
     req: FrontEndCallbackModel
   ): Observable<OrderDetail> {
-    const header = new HttpHeaders()
-     .set('Content-type', 'application/json');
+    const header = new HttpHeaders().set("Content-type", "application/json");
     return this.httpClient
-      .post<any>(this.verifyfrontendcallbackUrl, JSON.stringify(req), {headers: header})
+      .post<any>(this.verifyfrontendcallbackUrl, JSON.stringify(req), {
+        headers: header
+      })
       .pipe(
         catchError(
           this.handleObservableError(
@@ -410,10 +413,11 @@ export class EnTourService implements OnDestroy {
       );
   }
   sendInvoiceEmailAsync(req: FrontEndCallbackModel): Observable<OrderDetail> {
-    const header = new HttpHeaders()
-     .set('Content-type', 'application/json');
+    const header = new HttpHeaders().set("Content-type", "application/json");
     return this.httpClient
-      .post<any>(this.sendInvoiceEmailUrl, JSON.stringify(req), {headers: header})
+      .post<any>(this.sendInvoiceEmailUrl, JSON.stringify(req), {
+        headers: header
+      })
       .pipe(
         catchError(
           this.handleObservableError("sendInvoiceEmailAsync", new OrderDetail())

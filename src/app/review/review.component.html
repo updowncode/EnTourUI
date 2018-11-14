@@ -25,7 +25,7 @@
     {{ trip && trip.endPlace }}&nbsp;&nbsp;-&nbsp;{{ trip.endDate }}
   </div>
 </div>
-
+<br />
 <div class="row">
   <div class="col-md-12">
     <strong style="font-size:18px;">Rooms</strong>
@@ -41,11 +41,11 @@
                 room.roomOriginalPriceForPerTraveller >
               0
             "
-            >Single Supplement : $
+            >(Single Supplement: $
             {{
               room.roomPriceForPerTraveller -
                 room.roomOriginalPriceForPerTraveller
-            }}</span
+            }})</span
           >
         </div>
         <div class="row">
@@ -73,7 +73,7 @@
                     {{ traveller.passport.number }}
                   </span>
                 </td>
-                <td>{{ traveller.countryorarea.name }}</td>
+                <td>{{ traveller.countryOrArea.name }}</td>
               </tr>
             </table>
           </div>

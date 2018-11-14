@@ -231,6 +231,7 @@
           [attr.aria-label]="payment"
           on-click="verify()"
           bind-disabled="
+            paying ||
             !trip.billingInfo.agreeTermAndCondition ||
             !trip.billingInfo.haveReadTripNotes
           "

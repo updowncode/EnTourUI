@@ -442,7 +442,7 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
     traveller.passport.issueDate = null;
     traveller.passport.expiryDate = null;
     traveller.passport.issuePlace = new CountryOrArea();
-    traveller.countryorarea = null;
+    traveller.countryOrArea = null;
     traveller.selectedOptions = null;
     traveller.needVisa = false;
     traveller.needInsuance = false;

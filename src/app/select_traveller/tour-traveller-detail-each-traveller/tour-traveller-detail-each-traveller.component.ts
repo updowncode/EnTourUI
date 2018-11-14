@@ -73,8 +73,8 @@ export class TourTravellerDetailEachTravellerComponent
       ...this.availabledCountryOrAreas
     ];
     this.availabledTitles = ["", ...this.availabledTitles];
-    if (this.traveller.countryorarea.id < 0) {
-      this.traveller.countryorarea = this.availabledCountryOrAreas[0];
+    if (this.traveller.countryOrArea.id < 0) {
+      this.traveller.countryOrArea = this.availabledCountryOrAreas[0];
     }
     if (this.traveller.passport.issuePlace.id < 0) {
       this.traveller.passport.issuePlace = this.availabledCountryOrAreas[0];

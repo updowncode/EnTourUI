@@ -1,0 +1,88 @@
+{
+  "data": {
+    "status": "success",
+    "message": "trnApproved=1&trnId=10100587&messageId=1&messageText=Approved&authCode=TEST&responseType=T&trnAmount=58.00&trnDate=11%2F13%2F2018%207:36:54%20AM&trnOrderNumber=30009868&trnLanguage=eng&trnCustomerName=qing%20li&trnEmailAddress=david@dfsdd.com&trnPhoneNumber=4169290888&avsProcessed=1&avsId=Y&avsResult=1&avsAddrMatch=1&avsPostalMatch=1&avsMessage=Street%20address%20and%20Postal%2FZIP%20match.&cvdId=1&cardType=VI&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=e385a9453a3de7945fc0468cb357d536",
+    "orderNumber": "30009868",
+    "invoiceNumber": null,
+    "trip": {
+      "id": "30004927",
+      "name": "China Encounter 2-for-1",
+      "summary": "Experts in travel to China for the past 40 years! Travel to China on this group journey of her key sites staying in good value accommodation with English speaking guides. From the Great Wall and Forbidden City in Beijing to the city of Suzhou, once called the Venice of the East, where you can explore classical gardens and gain insight into the silk trade, to the picturesque town of Wuxi, this trip covers the highlights. You'll then head onward to Hangzhou to discover this cultural gem and city of lore before traveling to Shanghai for a city tour. Complete with English speaking guides, many meals, and more!",
+      "applicationID": 400,
+      "currencyCode": "CAD",
+      "saleChannel": 5,
+      "dk": "B7777",
+      "userId": 5017302,
+      "remark": "Remarks",
+      "guideline": "",
+      "selectedTravellerQuantity": null,
+      "selectedRoomQuantity": null,
+      "availabledRoomQuantities": null,
+      "availabledTravellerQuantities": null,
+      "startPlace": "location start",
+      "endPlace": "location end",
+      "startCountryOrArea": { "id": 1, "name": "Canada", "code": "CA" },
+      "endCountryOrArea": { "id": 1, "name": "China", "code": "CN" },
+      "startDate": "2019-03-15",
+      "endDate": "2019-03-23",
+      "tripCostForDefaultPerTraveller": 0.0,
+      "tripCostForDefaultTravellerQuantity": 0.0,
+      "tripSingleSupplement": 0.0,
+      "minRoomQuantityForTravellers": 0,
+      "visaPrice": 50.0,
+      "tourInfoSource": null,
+      "billingInfo": null,
+      "includedIn": null,
+      "notIncludeIn": null,
+      "options": null,
+      "rooms": [
+        {
+          "id": 0,
+          "index": 0,
+          "beddingConfig": null,
+          "adultMaxQuantity": 0,
+          "childMaxQuantity": 0,
+          "capacity": 0,
+          "roomOriginalPriceForPerTraveller": 5.0,
+          "roomPriceForPerTraveller": 8.0,
+          "singleSupplement": 0.0,
+          "childDiscount": 0.0,
+          "childPromoAmount": 0.0,
+          "smokingRoom": 0,
+          "extraHotelQuantity": 0,
+          "travellers": [
+            {
+              "id": 0,
+              "title": "Mr",
+              "firstName": "firstName1",
+              "middleName": "",
+              "lastName": "lastName1",
+              "isChild": false,
+              "placeofbirth": "Toronto",
+              "birthday": "1988-06-10T00:00:00",
+              "passport": {
+                "number": "AS232424",
+                "issueDate": "2017-06-10T00:00:00",
+                "expiryDate": "2020-06-10T00:00:00",
+                "issuePlace": { "id": 0, "name": "Canadian", "code": "CA" }
+              },
+              "countryOrArea": { "id": 0, "name": "Canadian", "code": "CA" },
+              "selectedOptions": null,
+              "needVisa": false,
+              "needInsuance": false,
+              "specialRequest": null,
+              "roomId": 0
+            }
+          ],
+          "tourId": null,
+          "tripId": null
+        }
+      ],
+      "availabledRooms": null,
+      "totalPriceForPayment": 0.0,
+      "paymentTypeSurcharges": 0.0,
+      "tourId": null,
+      "tourName": null
+    }
+  }
+}

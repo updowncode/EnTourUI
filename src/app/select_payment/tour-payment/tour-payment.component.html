@@ -14,21 +14,19 @@
       </div>
     </div>
   </div>
+  <app-message></app-message>
   <div class="row" *ngIf="approved;else fail">
     <div class="col-md-12">
-      <div style="border: 1px solid #ccc; padding:30px; margin-top:10px;margin-bottom:10px;">
-        <div class="row">
-          <div class="col-md-12">
-            <p>
-                You have booked the tour successfully.
-            </p>
-          </div>
-        </div>
-      </div>
+        <p>
+            You have booked the tour successfully.
+        </p>
+       
+        <app-review  *ngIf="orderTrip" [trip]="orderTrip">Loading...</app-review>
     </div>
   </div> 
-  <app-review  *ngIf="orderTrip" [trip]="orderTrip"></app-review>
-  <app-message></app-message>
+  
+  
+ 
   <ng-template #fail>
       <button
       type="button"

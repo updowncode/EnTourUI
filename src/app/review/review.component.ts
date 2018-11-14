@@ -15,6 +15,8 @@ export class ReviewComponent implements OnInit {
   constructor(private tourService: EnTourService) {}
 
   ngOnInit() {
+    this.tourService.setTripForReview(this.trip);
     this.reviewInfo = this.tourService.getTotalPrice();
+    this.trip.totalPriceForPayment = this.reviewInfo.totalPrice;
   }
 }

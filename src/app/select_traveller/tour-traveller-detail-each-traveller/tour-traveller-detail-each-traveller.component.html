@@ -70,7 +70,7 @@
     <div class="col-md-4">
       <label>Nationality*</label>
       <div>
-        <select class="form-control" [(ngModel)]="traveller.countryorarea" [compareWith]="compareCountry">
+        <select class="form-control" [(ngModel)]="traveller.countryOrArea" [compareWith]="compareCountry">
           <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
             <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
             <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>

@@ -8,6 +8,7 @@ import { Location } from "@angular/common";
 import { FrontEndCallbackModel } from "../../Models/front-end-callback-model";
 import { OrderDetail } from "../../Models/order-detail";
 import { Trip } from "../../Models/trip";
+import { ReviewInfo } from "../../Models/review-info";
 @Component({
   selector: "app-tour-payment",
   templateUrl: "./tour-payment.component.html",
@@ -30,6 +31,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   emailSubscription: Subscription;
   approved: boolean;
   emailHasBeenSent: boolean;
+  reviewInfo: ReviewInfo;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
@@ -68,17 +70,19 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     this.emailHasBeenSent = true;
   }
   onVerifyUrlResult(resp: any) {
-    this.orderTrip = resp.data.trip;
+    this.orderTrip = Object.assign({}, resp.data.trip);
     this.invoiceNumber = resp.data.invoiceNumber;
     if (resp.data.status === "success") {
       const req = new FrontEndCallbackModel();
       req.callbackurl = location.href;
       req.orderNumber = resp.data.orderNumber;
-      this.emailSubscription = this.tourService
-        .sendInvoiceEmailAsync(req)
-        .subscribe((order1: OrderDetail) => this.onEmailResult(order1));
+
+      // this.reviewInfo = this.tourService.getTotalPrice();
+      // this.emailSubscription = this.tourService
+      //   .sendInvoiceEmailAsync(req)
+      //   .subscribe((order1: OrderDetail) => this.onEmailResult(order1));
     } else {
-      this.messageService.add(resp.data.message);
+      this.messageService.add(resp.data.errorMsg);
     }
   }
   onParams(params: Params) {
@@ -95,7 +99,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         .verifyFrontEndCallBackUrlAsync(req)
         .subscribe(
           (resp: any) => this.onVerifyUrlResult(resp),
-          err => console.log(err || err.data.message)
+          err => console.log(err)
         );
     }
   }

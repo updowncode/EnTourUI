@@ -101,10 +101,10 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
         this.trip.rooms[i].travellers[j].passport.issuePlace.name = "Canada";
         this.trip.rooms[i].travellers[j].passport.issuePlace.code = "CA";
 
-        this.trip.rooms[i].travellers[j].countryorarea = new CountryOrArea();
-        this.trip.rooms[i].travellers[j].countryorarea.id = 4;
-        this.trip.rooms[i].travellers[j].countryorarea.name = "Canada";
-        this.trip.rooms[i].travellers[j].countryorarea.code = "CA";
+        this.trip.rooms[i].travellers[j].countryOrArea = new CountryOrArea();
+        this.trip.rooms[i].travellers[j].countryOrArea.id = 4;
+        this.trip.rooms[i].travellers[j].countryOrArea.name = "Canada";
+        this.trip.rooms[i].travellers[j].countryOrArea.code = "CA";
 
         this.trip.rooms[i].travellers[j].specialRequest =
           "specialRequest" + j.toString();
@@ -155,7 +155,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
               this.trip.rooms[i].travellers[j].id + 1
             }'s Place of Birth is required`;
           }
-          if (this.trip.rooms[i].travellers[j].countryorarea.id < 0) {
+          if (this.trip.rooms[i].travellers[j].countryOrArea.id < 0) {
             return `Room #${this.trip.rooms[i].index}'s passenger ${
               this.trip.rooms[i].travellers[j].id + 1
             }'s Nationality is required`;

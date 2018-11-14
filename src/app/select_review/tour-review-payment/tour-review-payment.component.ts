@@ -41,6 +41,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   optionSummary: OptionSummary[] = [];
   msg = "Loading Review  ...";
   isVerified: boolean;
+  paying = false;
   toursSubscription: Subscription;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -212,6 +213,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     enBook.userId = this.trip.userId;
     enBook.remark = "";
     enBook.insuranceRequest = false;
+    this.paying  = true;
     this.tourService
       .payment(enBook)
       .then(resp => {
@@ -222,6 +224,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
         }
       })
       .catch(error => {
+        this.paying  = false;
         console.log(error._body);
       });
   }

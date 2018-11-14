@@ -13,7 +13,7 @@ export class Traveller {
   placeofbirth: string;
   birthday: Date;
   passport: Passport;
-  countryorarea: CountryOrArea;
+  countryOrArea: CountryOrArea;
   selectedOptions: Option[];
   needVisa: boolean;
   needInsuance: boolean;
