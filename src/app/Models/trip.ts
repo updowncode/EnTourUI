@@ -30,7 +30,7 @@ export class Trip {
   tripCostForDefaultTravellerQuantity: number;
   tripSingleSupplement: number;
   minRoomQuantityForTravellers: number;
-  visaPrice: number;
+  // visaPrice: number;
   tourInfoSource: string;
   billingInfo: BillingInfo;
   includedIn: TripInclude[];

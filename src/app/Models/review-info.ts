@@ -5,10 +5,10 @@ export class ReviewInfo {
   totalRoomPrice: number;
   totalOptionPrice: number;
   totalVisaPrice: number;
-  perVisaPrice: number;
   totalVisaQuantity: number;
-  totalChildDiscount: number;
   totalChildPromo: number;
   extraHotelAmount: number;
+  childrenQuantity: number;
+  promoAmountPerChild: number;
   optionSummary: OptionSummary[];
 }

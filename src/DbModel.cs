@@ -108,8 +108,7 @@ namespace Aspose.Modules.EnTourModule.Models
         public decimal tripCostForDefaultTravellerQuantity { get; set; } //2
         [Required]
         public decimal tripSingleSupplement { get; set; } //295.0
-        [Required]
-        public decimal visaPrice { get; set; } // 50.0
+       
         [Required]
         public string tourCode { get; set; }//"CHG11"
         [Required]
@@ -313,8 +312,6 @@ namespace Aspose.Modules.EnTourModule.Models
         public decimal tripCostForDefaultTravellerQuantity { get; set; } //2
         [Required]
         public decimal tripSingleSupplement { get; set; } //295.0
-        [Required]
-        public decimal visaPrice { get; set; } // 50.0
 
         [Required]
         public string startCountryCode { get; set; } //{ id: 37, name: "Canada", code: "CA" }

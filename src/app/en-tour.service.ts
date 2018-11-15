@@ -189,28 +189,31 @@ export class EnTourService implements OnDestroy {
     this.roomsCanbeMovedTo.next(true);
   }
   getTotalPrice(): ReviewInfo {
-    let totalPrice = 0;
-    let totalRoomPrice = 0;
-    let totalOptionPrice = 0;
-    let totalVisaPrice = 0;
-    let perVisaPrice = 0;
-    let totalVisaQuantity = 0;
-    let totalChildDiscount = 0;
-    let totalChildPromo = 0;
-    let extraHotelAmount = 0;
-    let optionSummaries = new Array<OptionSummary>();
+    const r: ReviewInfo = new ReviewInfo();
+    r.childrenQuantity = 0;
+    r.totalPrice = 0;
+    r.totalRoomPrice = 0;
+    r.totalOptionPrice = 0;
+    r.totalVisaPrice = 0;
+    r.totalVisaQuantity = 0;
+    r.totalChildPromo = 0;
+    r.extraHotelAmount = 0;
+    r.childrenQuantity = 0;
+    r.promoAmountPerChild = 0;
+    r.optionSummary = new Array<OptionSummary>();
     if (this.trip !== undefined) {
-      perVisaPrice = this.trip.visaPrice;
       for (let i = 0; i < this.trip.rooms.length; i++) {
-        totalRoomPrice +=
+        r.totalRoomPrice +=
           this.trip.rooms[i].roomPriceForPerTraveller *
           this.trip.rooms[i].travellers.length;
       }
       for (let i = 0; i < this.trip.rooms.length; i++) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          this.trip.rooms[i].travellers[j].needVisa = false;
           if (this.trip.rooms[i].travellers[j].isChild) {
-            totalChildDiscount += this.trip.rooms[i].childDiscount;
-            totalChildPromo += this.trip.rooms[i].childPromoAmount;
+            r.childrenQuantity++;
+            r.totalChildPromo += this.trip.rooms[i].childPromoAmount;
+            r.promoAmountPerChild = this.trip.rooms[i].childPromoAmount;
           }
           if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
             for (
@@ -218,70 +221,47 @@ export class EnTourService implements OnDestroy {
               k < this.trip.rooms[i].travellers[j].selectedOptions.length;
               k++
             ) {
-              totalOptionPrice += this.trip.rooms[i].travellers[j]
-                .selectedOptions[k].price;
-            }
-          }
-          if (this.trip.rooms[i].travellers[j].needVisa) {
-            totalVisaQuantity++;
-            totalVisaPrice += this.trip.visaPrice;
-          }
-        }
-
-        let childTotalPromo = 0;
-        if (totalChildPromo === 0 && totalChildDiscount > 0) {
-          childTotalPromo = totalChildDiscount;
-        } else {
-          childTotalPromo = totalChildPromo;
-        }
-        totalPrice =
-          totalRoomPrice + totalOptionPrice + totalVisaPrice - childTotalPromo;
-        // Calculate extraHotel Amount
-        for (let m = 0; m < this.trip.rooms.length; m++) {
-          if (this.trip.rooms[m].extraHotelQuantity > 0) {
-            let _childDiscount = 0;
-            let _childPromo = 0;
-            for (let j = 0; j < this.trip.rooms[m].travellers.length; j++) {
-              if (this.trip.rooms[m].travellers[j].isChild) {
-                _childDiscount += this.trip.rooms[m].childDiscount;
-                _childPromo += this.trip.rooms[m].childPromoAmount;
+              if (
+                this.trip.rooms[i].travellers[j].selectedOptions[k].type !==
+                  10 &&
+                this.trip.rooms[i].travellers[j].selectedOptions[k].type !== 20
+              ) {
+                r.totalOptionPrice += this.trip.rooms[i].travellers[
+                  j
+                ].selectedOptions[k].price;
+              } else if (
+                this.trip.rooms[i].travellers[j].selectedOptions[k].type === 20
+              ) {
+                r.totalVisaQuantity++;
+                r.totalVisaPrice += this.trip.rooms[i].travellers[
+                  j
+                ].selectedOptions[k].price;
+                this.trip.rooms[i].travellers[j].needVisa = true;
+              } else if (
+                this.trip.rooms[i].travellers[j].selectedOptions[k].type === 10
+              ) {
+                r.extraHotelAmount += this.trip.rooms[i].travellers[
+                  j
+                ].selectedOptions[k].price;
               }
             }
-            let _childTotalPromoForRoom = 0;
-            if (_childPromo === 0 && _childDiscount > 0) {
-              _childTotalPromoForRoom = _childDiscount;
-            } else {
-              _childTotalPromoForRoom = _childPromo;
-            }
-
-            extraHotelAmount +=
-              (this.trip.rooms[m].roomPriceForPerTraveller *
-                this.trip.rooms[m].travellers.length -
-                _childTotalPromoForRoom) *
-              this.trip.rooms[m].extraHotelQuantity;
-            totalPrice += extraHotelAmount;
           }
         }
+        r.totalPrice =
+          r.totalRoomPrice +
+          r.totalOptionPrice +
+          r.totalVisaPrice +
+          r.extraHotelAmount -
+          r.totalChildPromo;
       }
-      optionSummaries = [
-        ...this.setOptionSummary(
-          this.trip.rooms.reduce((p, u) => [...p, ...u.travellers], [])
-        )
-      ];
-      this.trip.totalPriceForPayment = totalPrice;
+      const travellers = this.trip.rooms.reduce(
+        (p, u) => [...p, ...u.travellers],
+        []
+      );
+      r.optionSummary = [...this.setOptionSummary(travellers)];
+      this.trip.totalPriceForPayment = r.totalPrice;
     }
-    return {
-      totalPrice: totalPrice,
-      totalRoomPrice: totalRoomPrice,
-      totalOptionPrice: totalOptionPrice,
-      totalVisaPrice: totalVisaPrice,
-      perVisaPrice: perVisaPrice,
-      totalVisaQuantity: totalVisaQuantity,
-      totalChildDiscount: totalChildDiscount,
-      totalChildPromo: totalChildPromo,
-      extraHotelAmount: extraHotelAmount,
-      optionSummary: optionSummaries
-    };
+    return r;
   }
   setOptionSummary(travellers: Traveller[]): OptionSummary[] {
     const optionSummaries = new Array<OptionSummary>();
@@ -298,6 +278,7 @@ export class EnTourService implements OnDestroy {
             const os = new OptionSummary();
             os.name = travellers[i].selectedOptions[j].name;
             os.price = travellers[i].selectedOptions[j].price;
+            os.type = travellers[i].selectedOptions[j].type;
             os.quantity = 1;
             os.subTotal = os.price * os.quantity;
             optionSummaries.push(os);

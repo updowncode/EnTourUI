@@ -1,124 +1,275 @@
-<div style="border: 1px solid #CCC; padding:10px;margin-top:10px; margin-bottom: 10px;">
-    <div class="row">
-        <div class="col-md-12">
-            <strong>Passenger {{index + 1}}&nbsp;&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</strong>
-        </div>
+<div
+  style="border: 1px solid #CCC; padding:10px;margin-top:10px; margin-bottom: 10px;"
+>
+  <div class="row">
+    <div class="col-md-12">
+      <strong
+        >Passenger {{ index + 1 }}&nbsp;&nbsp;{{ traveller.firstName }}&nbsp;{{
+          traveller.lastName
+        }}</strong
+      >
     </div>
-    <br />
-    <table class="table table-bordered table-striped" style="width: 100%;">
+  </div>
+  <br />
+  <table class="table table-bordered table-striped" style="width: 100%;">
+    <thead>
+      <tr>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:30%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Location <br />
+          </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Tour <br />
+          </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Price <br />
+          </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        ></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+        <ng-container *ngIf="option.type !== 10 && option.type !== 20">
+          <td>
+            <span style="font-size: 13px;">{{ option.location }}</span>
+          </td>
+          <td>
+            <span style="font-size: 13px;">{{ option.name }} </span>
+          </td>
+          <td>
+            <span style="font-size: 13px;">{{ option.price }} </span>
+          </td>
+          <td style="text-align:center;vertical-align: middle;">
+            <input
+              type="checkbox"
+              style="cursor: pointer;"
+              name="{{'Options' + traveller.id + option.id }}"
+              (change)="changeTravellerOption(traveller, option)"
+              [checked]="isTravellerOption(traveller, option)"
+            />
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <table class="table table-bordered table-striped" style="width: 100%;">
         <thead>
-            <tr>
-                <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                    <span style="font-size: 13px; color: #ffffff;">&nbsp;Location
-                        <br>
-                    </span>
-                </th>
-                <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                    <span style="font-size: 13px; color: #ffffff;">&nbsp;Tour
-                        <br>
-                    </span>
-                </th>
-                <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                    <span style="font-size: 13px; color: #ffffff;">&nbsp;Price
-                        <br>
-                    </span>
-                </th>
-                <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-
-                </th>
-            </tr>
+          <tr>
+            <th
+              style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:30%"
+            >
+              <span style="font-size: 13px; color: #ffffff;"
+                >&nbsp;Visa <br />
+              </span>
+            </th>
+            <th
+            style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
+          >
+            <span style="font-size: 13px; color: #ffffff;"
+              >&nbsp;<br />
+            </span>
+          </th>
+            <th
+              style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+            >
+              <span style="font-size: 13px; color: #ffffff;"
+                >&nbsp;Price <br />
+              </span>
+            </th>
+            <th
+              style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+            ></th>
+          </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
-                <td>
-                    <span style="font-size: 13px;">{{option.location}}</span>
-                </td>
-                <td>
-                    <span style="font-size: 13px;">{{option.name}}
-                    </span>
-                </td>
-                <td>
-                    <span style="font-size: 13px;">{{option.price}}
-                    </span>
-                </td>
-                <td style="text-align:center;vertical-align: middle;">
-                    <input type="checkbox" style="cursor: pointer;"  name="{{'Options' + traveller.id + option.id }}" (change)="changeTravellerOption(traveller, option)"
-                        [checked]="isTravellerOption(traveller, option)">
-
-                </td>
-            </tr>
+          <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+            <ng-container *ngIf="option.type === 20">
+              <td>
+                <span style="font-size: 13px;">{{ option.name }} </span>
+              </td>
+              <td>
+                   
+                  </td>
+              <td>
+                <span style="font-size: 13px;">{{ option.price }} </span>
+              </td>
+              <td style="text-align:center;vertical-align: middle;">
+                <input
+                  type="checkbox"
+                  style="cursor: pointer;"
+                  name="{{'Options' + traveller.id + option.id }}"
+                  (change)="changeTravellerOption(traveller, option)"
+                  [checked]="isTravellerOption(traveller, option)"
+                />
+              </td>
+            </ng-container>
+          </tr>
         </tbody>
-    </table>
-    <br />
-    <div class="row">
-        <div class="col-md-12">
-            <strong style="font-size: 15px;">Travel Visa:</strong>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-10">
-            Do you require an entry visa to China?
-        </div>
-        <div class="col-md-2">
-            <table style="width:100%">
-                <tr>
-                    <td style="width:40%;text-align: right;">Yes</td>
-                    <td>
-                        <input type="radio" style="cursor: pointer;" [value]="true" [checked]="traveller.needVisa === true" name="{{'needVisa' + traveller.id}}"
-                            (change)="onVisaChanged(traveller, true)">
+      </table>
+      <br />
+      <table class="table table-bordered table-striped" style="width: 100%;">
+            <thead>
+              <tr>
+                <th
+                  style="text-align: left; vertical-align: middle; background-color: #3f3f3f; width:30%"
+                >
+                  <span style="font-size: 13px; color: #ffffff;"
+                    >&nbsp;Extra Hotel <br />
+                  </span>
+                </th>
+                <th
+                style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
+              >
+                <span style="font-size: 13px; color: #ffffff;"
+                  >&nbsp; <br />
+                </span>
+              </th>
+                <th
+                  style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+                >
+                  <span style="font-size: 13px; color: #ffffff;"
+                    >&nbsp;Price <br />
+                  </span>
+                </th>
+                <th
+                  style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+                ></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+                <ng-container *ngIf="option.type === 10">
+                  <td>
+                    <span style="font-size: 13px;">{{ option.name }} </span>
+                  </td>
+                  <td>
+                   
                     </td>
-                </tr>
-            </table>
-        </div>
+                  <td>
+                    <span style="font-size: 13px;">{{ option.price }} </span>
+                  </td>
+                  <td style="text-align:center;vertical-align: middle;">
+                    <input
+                      type="checkbox"
+                      style="cursor: pointer;"
+                      name="{{'Options' + traveller.id + option.id }}"
+                      (change)="changeTravellerOption(traveller, option)"
+                      [checked]="isTravellerOption(traveller, option)"
+                    />
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+  <div class="row">
+    <div class="col-md-12">
+      <strong style="font-size: 15px;">Travel Visa:</strong>
     </div>
-    <div class="row">
-        <div class="col-md-10">
-            Canadian citizens using a Canadian passport require a visa to visit China.
-        </div>
-        <div class="col-md-2">
-            <table style="width:100%">
-                <tr>
-                    <td style="width:40%;text-align: right;">No</td>
-                    <td>
-                        <input type="radio" style="cursor: pointer;" [value]="false" [checked]="traveller.needVisa === false" name="{{'needVisa' + traveller.id}}"
-                            (change)="onVisaChanged(traveller, false)">
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-md-12">
-            <strong style="font-size: 15px;">Travel Insurance:</strong>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            Travel Insurance is strongly recommended for your travel purchase. Tour East Holidays can offer travel insurance through
-            Manulife. You may visit our dedicated Manulife Travel Insurance page HERE or you may contact one of our Travel
-            Consultants for a free quote at tour@toureast.com.
-        </div>
-    </div>
-    <br />
-    <div class="row">
+  </div>
 
-        <div class="col-md-12">
-            <input type="radio" style="cursor: pointer;" [value]="true" [checked]="traveller.needInsuance === true" name="{{'needInsuance' + traveller.id}}"
-                (change)="onInsuanceChanged(traveller, true)"> &nbsp;I/We have been offered travel insurance by Tour East Holidays and have been informed of the importance
-            of purchase travel travel insurance after confirming this trips.
-        </div>
-
+  <!-- <div class="row">
+    
+    <div class="col-md-2">
+      <table style="width:100%">
+        <tr>
+          <td style="width:40%;text-align: right;">Yes</td>
+          <td>
+            <input
+              type="radio"
+              style="cursor: pointer;"
+              [value]="true"
+              [checked]="traveller.needVisa === true"
+              name="{{'needVisa' + traveller.id}}"
+              (change)="onVisaChanged(traveller, true)"
+            />
+          </td>
+        </tr>
+      </table>
     </div>
-    <div class="row">
-
-        <div class="col-md-12">
-            <input type="radio" style="cursor: pointer;" [value]="false" [checked]="traveller.needInsuance === false" name="{{'needInsuance' + traveller.id}}"
-                (change)="onInsuanceChanged(traveller, false)"> &nbsp;Declined - I/We do not require travel insurance from Tour East Holidays and understand that penalties
-            apply for cancellations and/or changes according to payment and cancellations policy outlined on the Tour East
-            Holidays Terms & Conditions found HERE.
-        </div>
-
+  </div> -->
+  <div class="row">
+    <div class="col-md-10">
+      Canadian citizens using a Canadian passport require a visa to visit China.
     </div>
+    <div class="col-md-2">
+      <table style="width:100%">
+        <tr>
+          <td style="width:40%;text-align: right;">
+            <!-- No -->
+        </td>
+          <td>
+            <!-- <input
+              type="radio"
+              style="cursor: pointer;"
+              [value]="false"
+              [checked]="traveller.needVisa === false"
+              name="{{'needVisa' + traveller.id}}"
+              (change)="onVisaChanged(traveller, false)"
+            /> -->
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <strong style="font-size: 15px;">Travel Insurance:</strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      Travel Insurance is strongly recommended for your travel purchase. Tour
+      East Holidays can offer travel insurance through Manulife. You may visit
+      our dedicated Manulife Travel Insurance page HERE or you may contact one
+      of our Travel Consultants for a free quote at tour@toureast.com.
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <input
+        type="radio"
+        style="cursor: pointer;"
+        [value]="true"
+        [checked]="traveller.needInsuance === true"
+        name="{{'needInsuance' + traveller.id}}"
+        (change)="onInsuanceChanged(traveller, true)"
+      />
+      &nbsp;I/We have been offered travel insurance by Tour East Holidays and
+      have been informed of the importance of purchase travel travel insurance
+      after confirming this trips.
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <input
+        type="radio"
+        style="cursor: pointer;"
+        [value]="false"
+        [checked]="traveller.needInsuance === false"
+        name="{{'needInsuance' + traveller.id}}"
+        (change)="onInsuanceChanged(traveller, false)"
+      />
+      &nbsp;Declined - I/We do not require travel insurance from Tour East
+      Holidays and understand that penalties apply for cancellations and/or
+      changes according to payment and cancellations policy outlined on the Tour
+      East Holidays Terms & Conditions found HERE.
+    </div>
+  </div>
 </div>

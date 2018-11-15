@@ -59,7 +59,6 @@ export const MockTours: Tour[] = [
         tripCostForDefaultTravellerQuantity: 2.0,
         tripSingleSupplement: 295.0,
         minRoomQuantityForTravellers: 1,
-        visaPrice: 50.0,
         tourInfoSource: "",
         billingInfo: {
           firstName: null,
@@ -99,6 +98,7 @@ export const MockTours: Tour[] = [
             name: "Acrobatic Show",
             price: 50.0,
             enabled: true,
+            type: 2,
             tourId: "CHG11",
             tripId: "30004810"
           }
@@ -114,7 +114,6 @@ export const MockTours: Tour[] = [
             childMaxQuantity: 0,
             roomPriceForPerTraveller: 1449.5,
             singleSupplement: 295.0,
-            childDiscount: 0,
             childPromoAmount: 50,
             smokingRoom: 0,
             extraHotelQuantity: 0,

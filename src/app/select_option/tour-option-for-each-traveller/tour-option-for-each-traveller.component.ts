@@ -26,10 +26,10 @@ export class TourOptionForEachTravellerComponent implements OnInit {
     }
     return false;
   }
-  onVisaChanged(traveller: Traveller, needVisa: boolean) {
-    traveller.needVisa = needVisa;
-    this.tourService.updateRoomInfo();
-  }
+  // onVisaChanged(traveller: Traveller, needVisa: boolean) {
+  //   traveller.needVisa = needVisa;
+  //   this.tourService.updateRoomInfo();
+  // }
   onInsuanceChanged(traveller: Traveller, needInsuance: boolean) {
     traveller.needInsuance = needInsuance;
     this.tourService.updateRoomInfo();

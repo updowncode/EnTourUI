@@ -86,7 +86,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 295.0,
         "minRoomQuantityForTravellers": 1,
-        "visaPrice": 50.0,
+      
         "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
@@ -323,7 +323,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 295.0,
         "minRoomQuantityForTravellers": 1,
-        "visaPrice": 50.0,
+        
         "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
