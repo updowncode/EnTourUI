@@ -51,5 +51,5 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
     this.roomInfoSubscription.unsubscribe();
     this.totalPriceSubscription.unsubscribe();
   }
-  ngOnInit() { this.reviewInfo = this.tourService.getTotalPrice();}
+  ngOnInit() { this.reviewInfo = this.tourService.getTotalPrice(); }
 }

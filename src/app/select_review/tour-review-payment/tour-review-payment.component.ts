@@ -133,18 +133,27 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     enBook.userId = this.trip.userId;
     enBook.remark = "";
     enBook.insuranceRequest = false;
-    this.paying  = true;
+    this.paying = true;
     this.tourService
       .payment(enBook)
       .then(resp => {
         if (resp && resp._body) {
           const bookHtml = JSON.parse(resp._body).data;
-          $(bookHtml).appendTo("#ReturnForm");
-          $("#pay_form").submit();
+          if (bookHtml === "fail") {
+            this.paying = false;
+            this.tourService.openNgxModelDlg(
+              JSON.parse(resp._body).errorMsg,
+              "'trip notes'"
+            );
+          } else {
+            this.paying = false;
+            $(bookHtml).appendTo("#ReturnForm");
+            $("#pay_form").submit();
+          }
         }
       })
       .catch(error => {
-        this.paying  = false;
+        this.paying = false;
         console.log(error._body);
       });
   }

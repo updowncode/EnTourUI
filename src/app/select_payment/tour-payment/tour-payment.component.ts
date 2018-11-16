@@ -66,8 +66,10 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       this.router.navigate(["/"]);
     }
   }
-  onEmailResult(order: OrderDetail) {
+  onEmailResult(result: any) {
+    if (result.data.status === "success") {
     this.emailHasBeenSent = true;
+    }
   }
   onVerifyUrlResult(resp: any) {
     this.orderTrip = Object.assign({}, resp.data.trip);
@@ -77,12 +79,15 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       req.callbackurl = location.href;
       req.orderNumber = resp.data.orderNumber;
 
-      // this.reviewInfo = this.tourService.getTotalPrice();
-      // this.emailSubscription = this.tourService
-      //   .sendInvoiceEmailAsync(req)
-      //   .subscribe((order1: OrderDetail) => this.onEmailResult(order1));
+      this.emailSubscription = this.tourService
+        .sendInvoiceEmailAsync(req)
+        .subscribe((result: any) => this.onEmailResult(result),
+        err => console.log(err));
     } else {
       this.messageService.add(resp.data.errorMsg);
+      this.tourService.openNgxModelDlg(
+        resp.data.errorMsg, "'trip notes1'"
+      );
     }
   }
   onParams(params: Params) {
@@ -99,7 +104,11 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         .verifyFrontEndCallBackUrlAsync(req)
         .subscribe(
           (resp: any) => this.onVerifyUrlResult(resp),
-          err => console.log(err)
+          err => {
+            this.tourService.openNgxModelDlg(
+             err +  "'trip notes'"
+            );
+          }
         );
     }
   }
