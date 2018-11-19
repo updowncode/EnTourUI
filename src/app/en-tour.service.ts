@@ -47,6 +47,7 @@ export class EnTourService implements OnDestroy {
   private trip: Trip;
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
+
   private toursUrl =
     "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
   private bookUrl =
@@ -172,14 +173,14 @@ export class EnTourService implements OnDestroy {
     }
   }
   setupTravellers(rooms: Room[]): Traveller[] {
-    const travellers = [];
-    rooms.forEach((c: Room) => {
-      if (c.travellers != null) {
-        c.travellers.forEach(d => {
-          travellers.push(d);
-        });
-      }
-    });
+    const travellers = rooms.reduce((p, u) => [...p, ...u.travellers], []);
+    // rooms.forEach((c: Room) => {
+    //   if (c.travellers != null) {
+    //     c.travellers.forEach(d => {
+    //       travellers.push(d);
+    //     });
+    //   }
+    // });
     return travellers;
   }
   updateRoomInfo() {
@@ -201,7 +202,7 @@ export class EnTourService implements OnDestroy {
     r.childrenQuantity = 0;
     r.promoAmountPerChild = 0;
     r.optionSummary = new Array<OptionSummary>();
-    if (this.trip !== undefined) {
+    if (this.trip && this.trip.rooms) {
       for (let i = 0; i < this.trip.rooms.length; i++) {
         r.totalRoomPrice +=
           this.trip.rooms[i].roomPriceForPerTraveller *
@@ -300,37 +301,47 @@ export class EnTourService implements OnDestroy {
       JSON.stringify(availabledRooms)
     ) as Room[];
     if (travellers.length === 1) {
-      let singleSupplement = 0;
+      const singleSupplement = roomsFitSelectedTravellersQuantity.find(
+        c => c.capacity === 1
+      ).singleSupplement;
+
+      // for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
+      //   if (roomsFitSelectedTravellersQuantity[j].capacity === 1) {
+      //     singleSupplement =
+      //       roomsFitSelectedTravellersQuantity[j].singleSupplement;
+      //   }
+      // }
       for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
-        if (roomsFitSelectedTravellersQuantity[j].capacity === 2) {
-          singleSupplement =
-            roomsFitSelectedTravellersQuantity[j].singleSupplement;
+        if (roomsFitSelectedTravellersQuantity[j].capacity === 1) {
+          roomsFitSelectedTravellersQuantity[
+            j
+          ].roomPriceForPerTraveller += singleSupplement;
+          // roomsFitSelectedTravellersQuantity[j].roomPriceForPerTraveller +=
+          //   roomsFitSelectedTravellersQuantity[j].singleSupplement === 0
+          //     ? singleSupplement
+          //     : roomsFitSelectedTravellersQuantity[j].singleSupplement;
         }
       }
-      for (let j = 0; j < roomsFitSelectedTravellersQuantity.length; j++) {
+      // const rooms = roomsFitSelectedTravellersQuantity.sort((a, b) => {
+      //   if (a.roomPriceForPerTraveller > b.roomPriceForPerTraveller) {
+      //     return 1;
+      //   }
+      //   if (a.roomPriceForPerTraveller < b.roomPriceForPerTraveller) {
+      //     return -1;
+      //   }
+      //   return 0;
+      // });
+
+      for (let j = roomsFitSelectedTravellersQuantity.length - 1; j > 0; j--) {
         if (roomsFitSelectedTravellersQuantity[j].capacity >= 2) {
-          roomsFitSelectedTravellersQuantity[j].roomPriceForPerTraveller +=
-            roomsFitSelectedTravellersQuantity[j].singleSupplement === 0
-              ? singleSupplement
-              : roomsFitSelectedTravellersQuantity[j].singleSupplement;
+          roomsFitSelectedTravellersQuantity.splice(j, 1);
         }
       }
-      const rooms = roomsFitSelectedTravellersQuantity.sort((a, b) => {
-        if (a.roomPriceForPerTraveller > b.roomPriceForPerTraveller) {
-          return 1;
-        }
-        if (a.roomPriceForPerTraveller < b.roomPriceForPerTraveller) {
-          return -1;
-        }
-        return 0;
-      });
-      // // for (let j = rooms.length - 1; j > 0; j--) {
-      // //   if (rooms[j].capacity > 2) {
-      // //     rooms.splice(j, 1);
-      // //   }
-      // // }
-      rooms.map(c => (c.travellers = Object.assign([], travellers)));
-      return rooms;
+
+      roomsFitSelectedTravellersQuantity.map(
+        c => (c.travellers = Object.assign([], travellers))
+      );
+      return roomsFitSelectedTravellersQuantity;
     } else {
       roomsFitSelectedTravellersQuantity = roomsFitSelectedTravellersQuantity.filter(
         r => r.capacity >= travellers.length

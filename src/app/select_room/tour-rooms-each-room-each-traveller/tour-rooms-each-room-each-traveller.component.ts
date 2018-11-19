@@ -84,7 +84,7 @@ export class TourRoomsEachRoomEachTravellerComponent
     // 在 Angular 第一次显示数据绑定和设置指令/组件的输入属性之后，初始化指令/组件。在第一轮 ngOnChanges() 完成之后调用，只调用一次。
     // this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
     this.updateRoomInfo();
-    this.initData();
+    // this.initData();
   }
   ngDoCheck(): void {
     // 检测，并在发生 Angular 无法或不愿意自己检测的变化时作出反应。在每个 Angular 变更检测周期中调用，ngOnChanges() 和 ngOnInit() 之后。

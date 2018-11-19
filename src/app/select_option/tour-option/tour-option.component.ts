@@ -57,6 +57,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
             } else {
               this.tourService.updateSelectedTour(this.tour);
               this.tourService.updateSelectedTrip(this.trip);
+              this.tourService.updateRoomInfo();
             }
           });
       }

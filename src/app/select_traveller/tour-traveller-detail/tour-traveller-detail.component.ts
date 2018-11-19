@@ -68,7 +68,8 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
         } else {
           this.tourService.updateSelectedTour(this.tour);
           this.tourService.updateSelectedTrip(this.trip);
-          this.initData();
+          this.tourService.updateRoomInfo();
+          // this.initData();
         }
       });
   }
@@ -131,52 +132,52 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
           if (this.trip.rooms[i].travellers[j].firstName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
-            }'s First Name is required`;
+            }'s first name is required`;
           }
           if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
-            }'s Last Name is required`;
+            }'s last name is required`;
           }
           if (this.trip.rooms[i].travellers[j].title.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
-            }'s Title is required`;
+            }'s title is required`;
           }
-          if (this.trip.rooms[i].travellers[j].birthday === null) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+          if (this.trip.rooms[i].travellers[j].birthday === null || !this.isValidDate(this.trip.rooms[i].travellers[j].birthday)) {
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
-            }'s Date of Birth is required`;
+            }'s date of birth is required`;
           }
           if (this.trip.rooms[i].travellers[j].placeofbirth.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
-            }'s Place of Birth is required`;
+            }'s place of birth is required`;
           }
           if (this.trip.rooms[i].travellers[j].countryOrArea.id < 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
-            }'s Nationality is required`;
+            }'s nationality is required`;
           }
           if (this.trip.rooms[i].travellers[j].passport.number.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
-            }'s Passport number is required`;
+            }'s passport number is required`;
           }
-          if (this.trip.rooms[i].travellers[j].passport.issueDate === null) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+          if (this.trip.rooms[i].travellers[j].passport.issueDate === null || !this.isValidDate(this.trip.rooms[i].travellers[j].passport.issueDate)) {
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
             }'s passport issue date is required`;
           }
-          if (this.trip.rooms[i].travellers[j].passport.expiryDate === null) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+          if (this.trip.rooms[i].travellers[j].passport.expiryDate === null || !this.isValidDate(this.trip.rooms[i].travellers[j].passport.expiryDate)) {
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
             }'s passport expiry date is required`;
           }
           if (this.trip.rooms[i].travellers[j].passport.issuePlace.id < 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
+            return `Passenger ${
               this.trip.rooms[i].travellers[j].id + 1
             }'s passport issue place is required`;
           }
@@ -184,6 +185,9 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
       }
     }
     return "";
+  }
+  isValidDate(d: any) {
+    return d instanceof Date && !isNaN(d.getTime());
   }
   verify() {
     const verifyResult = this.allDataCorrect();

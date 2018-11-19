@@ -22,9 +22,11 @@ export class TourRoomsBillingInfoComponent implements OnInit {
       { id: -1, code: "", name: "" },
       ...this.tour.availabledCountryOrAreas
     ];
-    this.trip.billingInfo.country = this.tour.availabledCountryOrAreas[0];
+    this.trip.billingInfo.country = this.tour.availabledCountryOrAreas.find(
+      c => c.code === "CA"
+    );
 
-    this.initData();
+    // this.initData();
   }
   compareFn(c1: CountryOrArea, c2: CountryOrArea): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;

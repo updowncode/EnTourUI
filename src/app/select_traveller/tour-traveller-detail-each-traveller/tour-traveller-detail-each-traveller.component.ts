@@ -73,11 +73,15 @@ export class TourTravellerDetailEachTravellerComponent
       ...this.availabledCountryOrAreas
     ];
     this.availabledTitles = ["", ...this.availabledTitles];
-    if (this.traveller.countryOrArea.id < 0) {
-      this.traveller.countryOrArea = this.availabledCountryOrAreas[0];
+    if (this.traveller.countryOrArea === null || this.traveller.countryOrArea.id < 0) {
+      this.traveller.countryOrArea = this.availabledCountryOrAreas.find(
+        c => c.code === "CA"
+      );
     }
-    if (this.traveller.passport.issuePlace.id < 0) {
-      this.traveller.passport.issuePlace = this.availabledCountryOrAreas[0];
+    if (this.traveller.passport.issuePlace == null || this.traveller.passport.issuePlace.id === undefined || this.traveller.passport.issuePlace.id < 0) {
+      this.traveller.passport.issuePlace = this.availabledCountryOrAreas.find(
+        c => c.code === "CA"
+      );
     }
     if (this.traveller.title === "") {
       this.traveller.title = this.availabledTitles[0];
@@ -95,7 +99,11 @@ export class TourTravellerDetailEachTravellerComponent
     //   day: new Date().getDate()
     // };
 
-    this.minDateForPassportIssue = new Date(new Date().getFullYear() - 20, 0, 1);
+    this.minDateForPassportIssue = new Date(
+      new Date().getFullYear() - 20,
+      0,
+      1
+    );
     // {
     //   year: new Date().getFullYear() - 20,
     //   month: new Date().getMonth() + 1,
@@ -113,7 +121,11 @@ export class TourTravellerDetailEachTravellerComponent
     //   month: new Date().getMonth() + 1,
     //   day: new Date().getDate()
     // };
-    this.maxDateForPassportExpiry = new Date(new Date().getFullYear() + 100, 0, 1);
+    this.maxDateForPassportExpiry = new Date(
+      new Date().getFullYear() + 100,
+      0,
+      1
+    );
     // {
     //   year: new Date().getFullYear() + 100,
     //   month: new Date().getMonth() + 1,

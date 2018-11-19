@@ -1,7 +1,7 @@
 <div style="border: 1px solid #ccc; padding:10px;margin-top:10px; margin-bottom:10px;background-color: #eee">
   <div class="row">
     <div class="col-md-12">
-      <h5>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</h5>
+      <strong>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</strong>
     </div>
   </div>
   <div class="row">
@@ -9,7 +9,7 @@
       <label>Title*</label>
       <select class="form-control" [(ngModel)]="traveller.title" [compareWith]="compareTitle">
         <ng-container *ngFor="let title of availabledTitles">
-          <option [ngValue]="title" *ngIf="title === ''">Select</option>
+          <!-- <option [ngValue]="title" *ngIf="title === ''">Select</option> -->
           <option [ngValue]="title" *ngIf="title !== ''">{{title}}</option>
         </ng-container>
       </select>
@@ -72,7 +72,7 @@
       <div>
         <select class="form-control" [(ngModel)]="traveller.countryOrArea" [compareWith]="compareCountry">
           <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
-            <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
+            <!-- <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option> -->
             <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
           </ng-container>
         </select>
@@ -117,7 +117,7 @@
       <div>
         <select class="form-control" [(ngModel)]="traveller.passport.issuePlace" [compareWith]="compareCountry">
           <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
-            <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
+            <!-- <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option> -->
             <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
           </ng-container>
         </select>

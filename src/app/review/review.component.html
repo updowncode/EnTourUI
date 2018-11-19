@@ -4,7 +4,7 @@
 <div class="row">
   <div class="col-md-12">
     <strong style="font-size:18px;"
-      >{{ trip.tourName }} - {{ trip.name }}</strong
+      >{{ trip.name }}</strong
     >
   </div>
 </div>
@@ -51,8 +51,7 @@
             <table style="width:100%">
               <tr>
                 <td>Title</td>
-                <td>First Name</td>
-                <td>Middle Name</td>
+                <td>First/Middle Name</td>
                 <td>Last Name</td>
                 <td>Is Child</td>
                 <td>Place of Birth</td>
@@ -61,8 +60,7 @@
               </tr>
               <tr *ngFor="let traveller of room.travellers">
                 <td>{{ traveller.title }}</td>
-                <td>{{ traveller.firstName }}</td>
-                <td>{{ traveller.middleName }}</td>
+                <td>{{ traveller.firstName }}&nbsp;{{traveller.middleName}}</td>
                 <td>{{ traveller.lastName }}</td>
                 <td><span *ngIf="traveller.isChild">Yes</span></td>
                 <td>{{ traveller.placeofbirth }}</td>
@@ -114,11 +112,12 @@
   </div>
 </div>
 <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
-  <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
-    <div class="row" *ngIf="option.type !== 10 && option.type !== 20">
-      <div class="col-md-12">
+    <div class="col-md-12">
         <strong style="font-size:18px;">Options</strong>
       </div>
+  <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
+    <div class="row" *ngIf="option.type !== 10 && option.type !== 20">
+     
       <div class="col-md-8">{{ option.name }}</div>
       <div class="col-md-4">
         <div style="margin-right: 10px;">
@@ -127,9 +126,9 @@
       </div>
     </div>
     <div class="row" *ngIf="option.type === 10">
-      <div class="col-md-12">
+      <!-- <div class="col-md-12">
         <strong style="font-size:18px;">Extra Hotel</strong>
-      </div>
+      </div> -->
       <div class="col-md-8">{{ option.name }}</div>
       <div class="col-md-4">
         <div style="margin-right: 10px;">
@@ -138,7 +137,7 @@
       </div>
     </div>
     <div class="row" *ngIf="option.type === 20">
-      <div class="col-md-12"><strong style="font-size:18px;">Visa</strong></div>
+      <!-- <div class="col-md-12"><strong style="font-size:18px;">Visa</strong></div> -->
       <div class="col-md-8">{{ option.name }}</div>
       <div class="col-md-4">
         <div style="margin-right: 10px;">

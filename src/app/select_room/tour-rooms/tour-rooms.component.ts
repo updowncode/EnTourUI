@@ -71,6 +71,13 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     if (this.trip.rooms.length === 0) {
       this.initRooms();
       this.tourService.updateRoomInfo();
+    } else {
+        this.trip.selectedRoomQuantity =  this.trip.availabledRoomQuantities[this.trip.rooms.length - 1];
+        const travellers = this.trip.rooms.reduce(
+          (p, u) => [...p, ...u.travellers],
+          []
+        );
+        this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[travellers.length - 1];
     }
   }
   ngOnInit() {
@@ -316,45 +323,80 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   //   }
   // }
   allDataCorrect(): string {
-    if (this.trip.billingInfo.firstName.length === 0) {
+    if (
+      this.trip.billingInfo.firstName === null ||
+      this.trip.billingInfo.firstName.trim() === ""
+    ) {
       return `First Name is required`;
     }
-    if (this.trip.billingInfo.lastName.length === 0) {
+    if (
+      this.trip.billingInfo.lastName === null ||
+      this.trip.billingInfo.lastName.trim() === ""
+    ) {
       return `Last Name is required`;
     }
-    if (this.trip.billingInfo.email.length === 0) {
+    if (
+      this.trip.billingInfo.email === null ||
+      this.trip.billingInfo.email.trim() === ""
+    ) {
       return `E-Mail is required`;
     }
-    if (this.trip.billingInfo.primaryPhone.length === 0) {
+    // primaryPhone
+    if (
+      this.trip.billingInfo.primaryPhone === null ||
+      this.trip.billingInfo.primaryPhone.trim() === ""
+    ) {
       return `Primary Phone is required`;
     }
-    if (this.trip.billingInfo.mailingAddress.length === 0) {
+    // mailingAddress
+    if (
+      this.trip.billingInfo.mailingAddress === null ||
+      this.trip.billingInfo.mailingAddress.trim() === ""
+    ) {
       return `Mailing Address is required`;
     }
-    if (this.trip.billingInfo.city.length === 0) {
+    // city
+    if (
+      this.trip.billingInfo.city === null ||
+      this.trip.billingInfo.city.trim() === ""
+    ) {
       return `City is required`;
     }
-    if (this.trip.billingInfo.country.id < 0) {
+    if (this.trip.billingInfo.country && this.trip.billingInfo.country.id < 0) {
       return `Country is required`;
     }
-    if (this.trip.billingInfo.provinceStates.length === 0) {
+    // provinceStates
+    if (
+      this.trip.billingInfo.provinceStates === null ||
+      this.trip.billingInfo.provinceStates.trim() === ""
+    ) {
       return `Province or State is required`;
     }
-    if (this.trip.billingInfo.postalCode.length === 0) {
+    // postalCode
+    if (
+      this.trip.billingInfo.postalCode === null ||
+      this.trip.billingInfo.postalCode.trim() === ""
+    ) {
       return `Postal Code is required`;
     }
     for (let i = 0; i < this.trip.rooms.length; i++) {
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-          if (this.trip.rooms[i].travellers[j].firstName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s First Name is required`;
+          // firstName
+          if (
+            this.trip.rooms[i].travellers[j].firstName === null ||
+            this.trip.rooms[i].travellers[j].firstName.trim() === ""
+          ) {
+            return `Passenger ${this.trip.rooms[i].travellers[j].id +
+              1}'s first name is required`;
           }
-          if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s Last Name is required`;
+          // lastName
+          if (
+            this.trip.rooms[i].travellers[j].lastName === null ||
+            this.trip.rooms[i].travellers[j].lastName.trim() === ""
+          ) {
+            return `Passenger ${this.trip.rooms[i].travellers[j].id +
+              1}'s last name is required`;
           }
         }
       }
