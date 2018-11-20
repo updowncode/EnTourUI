@@ -1,5 +1,5 @@
 <div style="background-color:white;margin-top:10px; padding:10px;">
-  <div class="row">
+  <div class="row hidden-xs hidden-print">
     <div class="col-md-12">
       <app-tour-nav-bar [actived]="6"></app-tour-nav-bar>
     </div>
@@ -20,8 +20,14 @@
         <p>
             You have booked the tour successfully.
         </p>
-       
+        <div *ngIf="sendingEmail">Sending Email...</div>
+        <div *ngIf="retrievingInfo">Retrieve Order...</div>
         <app-review  *ngIf="orderTrip" [trip]="orderTrip">Loading...</app-review>
+        <div *ngIf="!sendingEmail && !retrievingInfo">
+          <a class="btn btn-primary no-print"  onclick="window.print();"><i class="fa fa-print"></i> <span>Print</span></a>
+          <a class="btn btn-primary no-print" (click)="ResendEmail()"><i class="fa fa-file"></i> <span>Email</span></a>
+        </div>
+       
     </div>
   </div> 
   

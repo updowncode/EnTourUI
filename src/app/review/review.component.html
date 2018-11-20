@@ -3,9 +3,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <strong style="font-size:18px;"
-      >{{ trip.name }}</strong
-    >
+    <strong style="font-size:18px;">{{ trip.name }}</strong>
   </div>
 </div>
 <div class="row">
@@ -16,13 +14,15 @@
     <em class="fa fa-star colour">&nbsp;</em> Start:
     {{ trip!.startPlace }}&nbsp;{{
       trip.startCountryOrArea.name
-    }}&nbsp;-&nbsp;{{ trip.startDate }}
+    }}&nbsp;-&nbsp;{{ trip.startDate | date: "MMM d, yyyy" }}
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
     <em class="fa fa-star colour">&nbsp;</em> End:
-    {{ trip && trip.endPlace }}&nbsp;&nbsp;-&nbsp;{{ trip.endDate }}
+    {{ trip && trip.endPlace }}&nbsp;&nbsp;-&nbsp;{{
+      trip.endDate | date: "MMM d, yyyy"
+    }}
   </div>
 </div>
 <br />
@@ -51,8 +51,7 @@
             <table style="width:100%">
               <tr>
                 <td>Title</td>
-                <td>First/Middle Name</td>
-                <td>Last Name</td>
+                <td>Name</td>
                 <td>Is Child</td>
                 <td>Place of Birth</td>
                 <td>Passport</td>
@@ -60,8 +59,11 @@
               </tr>
               <tr *ngFor="let traveller of room.travellers">
                 <td>{{ traveller.title }}</td>
-                <td>{{ traveller.firstName }}&nbsp;{{traveller.middleName}}</td>
-                <td>{{ traveller.lastName }}</td>
+                <td>
+                  {{ traveller.firstName }}&nbsp;{{
+                    traveller.middleName
+                  }}&nbsp;{{ traveller.lastName }}
+                </td>
                 <td><span *ngIf="traveller.isChild">Yes</span></td>
                 <td>{{ traveller.placeofbirth }}</td>
                 <td>
@@ -98,7 +100,8 @@
       <div class="col-md-8"></div>
       <div class="col-md-4">
         <div style="margin-right: 10px;">
-          $({{ reviewInfo.promoAmountPerChild }}) x {{reviewInfo.childrenQuantity}}({{reviewInfo.totalChildPromo}})
+          $({{ reviewInfo.promoAmountPerChild }}) x
+          {{ reviewInfo.childrenQuantity }}({{ reviewInfo.totalChildPromo }})
         </div>
       </div>
     </div>
@@ -112,12 +115,9 @@
   </div>
 </div>
 <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
-    <div class="col-md-12">
-        <strong style="font-size:18px;">Options</strong>
-      </div>
+  <div class="col-md-12"><strong style="font-size:18px;">Options</strong></div>
   <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
     <div class="row" *ngIf="option.type !== 10 && option.type !== 20">
-     
       <div class="col-md-8">{{ option.name }}</div>
       <div class="col-md-4">
         <div style="margin-right: 10px;">
@@ -126,9 +126,11 @@
       </div>
     </div>
     <div class="row" *ngIf="option.type === 10">
-      <!-- <div class="col-md-12">
-        <strong style="font-size:18px;">Extra Hotel</strong>
-      </div> -->
+      <!--
+        <div class="col-md-12">
+          <strong style="font-size:18px;">Extra Hotel</strong>
+        </div>
+      -->
       <div class="col-md-8">{{ option.name }}</div>
       <div class="col-md-4">
         <div style="margin-right: 10px;">
@@ -137,7 +139,9 @@
       </div>
     </div>
     <div class="row" *ngIf="option.type === 20">
-      <!-- <div class="col-md-12"><strong style="font-size:18px;">Visa</strong></div> -->
+      <!--
+        <div class="col-md-12"><strong style="font-size:18px;">Visa</strong></div>
+      -->
       <div class="col-md-8">{{ option.name }}</div>
       <div class="col-md-4">
         <div style="margin-right: 10px;">

@@ -34,7 +34,7 @@
               <em class="fa fa-calendar colour">&nbsp;</em>
             </td>
             <td style="width:20%;padding-top: 2px;">Departure:</td>
-            <td style="text-align: right;width:80%;">{{trip?.startDate}}
+            <td style="text-align: right;width:80%;">{{trip?.startDate |  date:'MMM d, yyyy'}}
               <!-- {{trip?.startDate | date:'longDate'}} -->
             </td>
           </tr>

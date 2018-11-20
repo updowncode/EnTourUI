@@ -30,7 +30,8 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   orderDetailSubscription: Subscription;
   emailSubscription: Subscription;
   approved: boolean;
-  emailHasBeenSent: boolean;
+  sendingEmail: boolean;
+  retrievingInfo: boolean;
   reviewInfo: ReviewInfo;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,15 +47,8 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     this.emailSubscription.unsubscribe();
   }
   ngOnInit() {
-    // tslint:disable-next-line:max-line-length
-    //  http://localhost:4200/ENTOUR/PAYMENT?trnApproved=1&trnId=10100577&messageId=1&messageText=Approved&authCode=TEST&responseType=T&trnAmount=110.00&trnDate=9%2F14%2F2018%201:38:33%20PM&trnOrderNumber=123456&trnLanguage=eng&trnCustomerName=qinag&trnEmailAddress=asad@sdf.com&trnPhoneNumber=4169290888&avsProcessed=1&avsId=Y&avsResult=1&avsAddrMatch=1&avsPostalMatch=1&avsMessage=Street%20address%20and%20Postal%2FZIP%20match.&cvdId=1&cardType=VI&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=47b4e59f59ffda947079048cf0ab7f47
-    // tslint:disable-next-line:max-line-length
-    // this.err = `http://localhost:4200/ENTOUR/payment?trnApproved=0&trnId=10100579&messageId=22&messageText=Validation%20greater%20than%20maximum%20amount&authCode=&responseType=T&trnAmount=1449.50&trnDate=9%2F21%2F2018%208:47:55%20AM&trnOrderNumber=30009682&trnLanguage=eng&trnCustomerName=qiang&trnEmailAddress=david.li@toureast.com&trnPhoneNumber=4169290888&avsProcessed=0&avsId=0&avsResult=0&avsAddrMatch=0&avsPostalMatch=0&avsMessage=Address%20Verification%20not%20performed%20for%20this%20transaction.&cvdId=5&cardType=VI&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=005f91ebea978304d623d13824c84a5f`;
-    // tslint:disable-next-line:max-line-length
-    this.err = `http://localhost:4200/ENTOUR/PAYMENT?trnApproved=0&trnId=10100571&messageId=16&messageText=Duplicate+Transaction+-+This+transaction+has+already+been+approved&authCode=&responseType=T&trnAmount=10.00&trnDate=8%2F16%2F2018+10%3A59%3A04+AM&trnOrderNumber=30000001&trnLanguage=eng&trnCustomerName=w334&trnEmailAddress=david%2Eli%40toureast%2Ecom&trnPhoneNumber=4169290888&avsProcessed=0&avsId=0&avsResult=0&avsAddrMatch=0&avsPostalMatch=0&avsMessage=Address+Verification+not+performed+for+this+transaction%2E&cvdId=5&cardType=VI&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=9452272872de21e7df64e80add128a32`;
-    // tslint:disable-next-line:max-line-length
-    this.err = `http://localhost:4200/ENTOUR/PAYMENT?trnApproved=1&trnId=10100574&messageId=1&messageText=Approved&authCode=TEST&responseType=T&trnAmount=10.00&trnDate=8%2F16%2F2018+11%3A56%3A13+AM&trnOrderNumber=30000001&trnLanguage=eng&trnCustomerName=klkl&trnEmailAddress=david%2Eli%40toureast%2Ecom&trnPhoneNumber=4169290888&avsProcessed=1&avsId=Y&avsResult=1&avsAddrMatch=1&avsPostalMatch=1&avsMessage=Street+address+and+Postal%2FZIP+match%2E&cvdId=1&cardType=VI&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=503089bc9ca34f953c4a2b62b904b574`;
-    this.emailHasBeenSent = false;
+    this.sendingEmail = false;
+    this.retrievingInfo = false;
     this.subscription = this.activatedRoute.queryParams.subscribe(params =>
       this.onParams(params)
     );
@@ -66,12 +60,32 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       this.router.navigate(["/"]);
     }
   }
-  onEmailResult(result: any) {
-    if (result.data.status === "success") {
-    this.emailHasBeenSent = true;
+  onEmailResult(resp: any) {
+    this.sendingEmail = false;
+    if (resp.data.status === "success") {
+      localStorage.setItem("EmailHasBeenSent", "true");
+    } else {
+      localStorage.removeItem("EmailHasBeenSent");
+      this.messageService.add(resp.data.errorMsg);
     }
   }
+  ResendEmail() {
+    const req = new FrontEndCallbackModel();
+    req.callbackurl = location.href;
+    req.orderNumber = this.orderNumber;
+    this.sendingEmail = true;
+    this.emailSubscription = this.tourService
+      .sendInvoiceEmailAsync(req)
+      .subscribe(
+        (result: any) => this.onEmailResult(result),
+        err => {
+          this.sendingEmail = false;
+          console.log(err);
+        }
+      );
+  }
   onVerifyUrlResult(resp: any) {
+    this.retrievingInfo = false;
     this.orderTrip = Object.assign({}, resp.data.trip);
     this.invoiceNumber = resp.data.invoiceNumber;
     if (resp.data.status === "success") {
@@ -79,15 +93,21 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       req.callbackurl = location.href;
       req.orderNumber = resp.data.orderNumber;
 
-      this.emailSubscription = this.tourService
-        .sendInvoiceEmailAsync(req)
-        .subscribe((result: any) => this.onEmailResult(result),
-        err => console.log(err));
+      if (localStorage.getItem("EmailHasBeenSent") == null) {
+        this.sendingEmail = true;
+        this.emailSubscription = this.tourService
+          .sendInvoiceEmailAsync(req)
+          .subscribe(
+            (result: any) => this.onEmailResult(result),
+            err => {
+              this.sendingEmail = false;
+              console.log(err);
+            }
+          );
+      }
     } else {
       this.messageService.add(resp.data.errorMsg);
-      this.tourService.openNgxModelDlg(
-        resp.data.errorMsg, "'trip notes1'"
-      );
+      this.tourService.openNgxModelDlg(resp.data.errorMsg, "'trip notes1'");
     }
   }
   onParams(params: Params) {
@@ -95,6 +115,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     if (!this.approved) {
       this.messageService.add(params.messageText);
     } else {
+      this.retrievingInfo = true;
       this.orderNumber = params.trnOrderNumber;
       this.messageService.add(`Order Number: ${params.trnOrderNumber}`);
       const req = new FrontEndCallbackModel();
@@ -105,9 +126,8 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         .subscribe(
           (resp: any) => this.onVerifyUrlResult(resp),
           err => {
-            this.tourService.openNgxModelDlg(
-             err +  "'trip notes'"
-            );
+            this.retrievingInfo = false;
+            this.tourService.openNgxModelDlg(err + "'trip notes'");
           }
         );
     }

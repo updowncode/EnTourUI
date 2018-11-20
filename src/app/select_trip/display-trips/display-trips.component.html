@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="row" *ngIf="tour">
                 <div class="col-md-12">
-                    <strong style="font-size:28px;" class="tecolor">{{tour.name}}:Tour Dates & Availability</strong>
+                    <strong style="font-size:28px;" class="tecolor">{{trip.name}}:Tour Dates & Availability</strong>
                 </div>
             </div>
             <!-- <div class="row">
@@ -24,47 +24,47 @@
             <table class="table table-bordered" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th colspan="2" style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                        <th colspan="2" style="text-align: center; vertical-align: middle; background-color: #3f3f3f;">
                             <span style="font-size: 13px; color: #ffffff;">&nbsp;Start Date
                                 <br>
                             </span>
                         </th>
-                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                        <th style="text-align: center; vertical-align: middle; background-color: #3f3f3f;">
                             <span style="font-size: 13px; color: #ffffff;">&nbsp;End Date
                                 <br>
                             </span>
                         </th>
-                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Trip Cost (for {{trip.tripCostForDefaultTravellerQuantity}})
+                        <th style="text-align: center; vertical-align: middle; background-color: #3f3f3f;">
+                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Trip Cost {{trip.currencyCode}} (for {{trip.tripCostForDefaultTravellerQuantity}})
                                 <br>
                             </span>
                         </th>
-                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
-                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Single Supplement
+                        <th style="text-align: center; vertical-align: middle; background-color: #3f3f3f;">
+                            <span style="font-size: 13px; color: #ffffff;">&nbsp;Single Supplement {{trip.currencyCode}} 
                                 <br>
                             </span>
                         </th>
-                        <th style="text-align: left; vertical-align: middle; background-color: #3f3f3f;">
+                        <th style="text-align: center; vertical-align: middle; background-color: #3f3f3f;">
 
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr style="cursor:pointer;" *ngFor="let t of tour.trips; trackBy: trackByTrips" [class.trselected]="t === trip" (mouseover)="onSelectTrip(t)" (click)="onSelectTrip(t)">
-                        <td [attr.colspan]="1+1">
-                            <span style="font-size: 13px;">{{t.startDate}}</span>
+                        <td [attr.colspan]="1+1" style="text-align:right;">
+                            <span style="font-size: 13px;">{{t.startDate |  date:'EEE, MMM d, yyyy'}}</span>
                         </td>
-                        <td>
-                            <span style="font-size: 13px;">{{t.endDate}}
+                        <td style="text-align:right;">
+                            <span style="font-size: 13px;">{{t.endDate |  date:'EEE, MMM d, yyyy'}}
                             </span>
                         </td>
-                        <td>
+                        <td style="text-align:right;">
                             <span style="font-size: 13px;" *ngIf="t.tripCostForDefaultPerTraveller > 0">{{t.tripCostForDefaultPerTraveller}}
                             </span>
                             <span style="font-size: 13px;" *ngIf="t.tripCostForDefaultPerTraveller == -1">Sold Out
                             </span>
                         </td>
-                        <td>
+                        <td style="text-align:right;">
                             <span style="font-size: 13px;"  *ngIf="t.tripSingleSupplement > 0">{{t.tripSingleSupplement}}
                             </span>
                             <span style="font-size: 13px;"  *ngIf="t.tripSingleSupplement == -1">Sold Out
@@ -75,7 +75,7 @@
                              
                                 Select it
                             </a> -->
-                            <a class="btn btn-warning" style="background-color:#d47027!important; color: white;" (click)="gotoTraveller(tour.id, t.id)">Select</a>
+                            <button class="btn btn-warning" style="background-color:#d47027!important; color: white;" bind-disabled="t.tripCostForDefaultPerTraveller == -1 || t.tripCostForDefaultPerTraveller == -1" (click)="gotoTraveller(tour.id, t.id)">Select</button>
                             <!-- <button mat-raised-button color="primary"  #myNav style="background-color:#d47027!important"  (click)="gotoTraveller(tour.id, t.id)">Select</button> -->
                         </td>
                     </tr>
