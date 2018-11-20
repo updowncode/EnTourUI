@@ -57,6 +57,10 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.isVerified = false;
+    if (localStorage.getItem("EmailHasBeenSent") !== null) {
+      localStorage.removeItem("EmailHasBeenSent");
+    }
+
     this.tourId = this.activatedRoute.snapshot.queryParamMap.get("tourId");
     this.tripId = this.activatedRoute.snapshot.queryParamMap.get("tripId");
     this.toursSubscription = this.tourService

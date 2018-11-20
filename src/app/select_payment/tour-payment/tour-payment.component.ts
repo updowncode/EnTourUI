@@ -86,29 +86,63 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   }
   onVerifyUrlResult(resp: any) {
     this.retrievingInfo = false;
-    this.orderTrip = Object.assign({}, resp.data.trip);
-    this.invoiceNumber = resp.data.invoiceNumber;
-    if (resp.data.status === "success") {
-      const req = new FrontEndCallbackModel();
-      req.callbackurl = location.href;
-      req.orderNumber = resp.data.orderNumber;
-
-      if (localStorage.getItem("EmailHasBeenSent") == null) {
-        this.sendingEmail = true;
-        this.emailSubscription = this.tourService
-          .sendInvoiceEmailAsync(req)
-          .subscribe(
-            (result: any) => this.onEmailResult(result),
-            err => {
-              this.sendingEmail = false;
-              console.log(err);
-            }
-          );
-      }
+    if (resp.data === "fail") {
+      this.tourService.openNgxModelDlg(resp.errorMsg, "Retrieve Order");
     } else {
-      this.messageService.add(resp.data.errorMsg);
-      this.tourService.openNgxModelDlg(resp.data.errorMsg, "'trip notes1'");
+      this.orderTrip = Object.assign({}, resp.data.trip);
+      this.invoiceNumber = resp.data.invoiceNumber;
+      if (this.invoiceNumber.length > 0) {
+        this.messageService.clearMessage();
+        this.messageService.add(
+          `Order Number: ${this.orderNumber} Invoice Number: ${
+            this.invoiceNumber
+          }`
+        );
+      }
+      if (resp.data.status === "success") {
+        const req = new FrontEndCallbackModel();
+        req.callbackurl = location.href;
+        req.orderNumber = resp.data.orderNumber;
+
+        if (localStorage.getItem("EmailHasBeenSent") == null) {
+          this.sendingEmail = true;
+          this.emailSubscription = this.tourService
+            .sendInvoiceEmailAsync(req)
+            .subscribe(
+              (result: any) => this.onEmailResult(result),
+              err => {
+                this.sendingEmail = false;
+                console.log(err);
+              }
+            );
+        }
+      } else {
+        this.tourService.openNgxModelDlg(resp.data.message, "Order");
+      }
     }
+    // this.orderTrip = Object.assign({}, resp.data.trip);
+    // this.invoiceNumber = resp.data.invoiceNumber;
+    // if (resp.data.status === "success") {
+    //   const req = new FrontEndCallbackModel();
+    //   req.callbackurl = location.href;
+    //   req.orderNumber = resp.data.orderNumber;
+
+    //   if (localStorage.getItem("EmailHasBeenSent") == null) {
+    //     this.sendingEmail = true;
+    //     this.emailSubscription = this.tourService
+    //       .sendInvoiceEmailAsync(req)
+    //       .subscribe(
+    //         (result: any) => this.onEmailResult(result),
+    //         err => {
+    //           this.sendingEmail = false;
+    //           console.log(err);
+    //         }
+    //       );
+    //   }
+    // } else {
+    //   this.messageService.add(resp.data.errorMsg);
+    //   this.tourService.openNgxModelDlg(resp.data.errorMsg, "'trip notes1'");
+    // }
   }
   onParams(params: Params) {
     this.approved = params.trnApproved === "1";

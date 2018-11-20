@@ -17,11 +17,11 @@
   <app-message></app-message>
   <div class="row" *ngIf="approved;else fail">
     <div class="col-md-12">
-        <p>
-            You have booked the tour successfully.
+        <p style="font-size: 18px;" class="tecolor">
+            Congratulation! You have booked the tour successfully. Please write down your order number for the further reference.
         </p>
         <div *ngIf="sendingEmail">Sending Email...</div>
-        <div *ngIf="retrievingInfo">Retrieve Order...</div>
+        <div *ngIf="retrievingInfo">Retrieving Order...</div>
         <app-review  *ngIf="orderTrip" [trip]="orderTrip">Loading...</app-review>
         <div *ngIf="!sendingEmail && !retrievingInfo">
           <a class="btn btn-primary no-print"  onclick="window.print();"><i class="fa fa-print"></i> <span>Print</span></a>
