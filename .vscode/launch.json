@@ -7,6 +7,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "changeurl",
+            "program": "${workspaceRoot}/changeurl.js",
+            "args": ["-t"],
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Publish",
             "program": "${workspaceRoot}/publish.js"
         },
