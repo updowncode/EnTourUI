@@ -45,26 +45,33 @@ export class EnTourService implements OnDestroy {
   private tours: Tour[] = [];
   private tour: Tour;
   private trip: Trip;
+
+  private siteIPToPublish = "dnndev.me";
+  // private siteIPToPublish = "192.168.168.117:8019";
+
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
 
   private toursUrl =
-    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
+    "http://" +
+    this.siteIPToPublish +
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
   private bookUrl =
-    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
+    "http://" +
+    this.siteIPToPublish +
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
   private verifyfrontendcallbackUrl =
-    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/verifyfrontendcallback"; // URL to web api
+    "http://" +
+    this.siteIPToPublish +
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/verifyfrontendcallback"; // URL to web api
   private sendInvoiceEmailUrl =
-    "http://dnndev.me/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
-
-  //    private toursUrl =
-  //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
-  //  private bookUrl =
-  //    "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
-  // private verifyfrontendcallbackUrl =
-  //   "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/verifyfrontendcallback"; // URL to web api
-  // private sendInvoiceEmailUrl =
-  //   "http://192.168.168.117:8019/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
+    "http://" +
+    this.siteIPToPublish +
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
+  private sendNoInvoiceEmailUrl =
+    "http://" +
+    this.siteIPToPublish +
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendNoInvoiceEmail"; // URL to web api
 
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);
@@ -390,7 +397,7 @@ export class EnTourService implements OnDestroy {
   verifyFrontEndCallBackUrlAsync(
     req: FrontEndCallbackModel
   ): Observable<OrderDetail> {
-    const header = new HttpHeaders().set("Content-type", "application/json");
+    const header = new HttpHeaders().set("content-type", "application/json");
     return this.httpClient
       .post<any>(this.verifyfrontendcallbackUrl, JSON.stringify(req), {
         headers: header
@@ -404,8 +411,22 @@ export class EnTourService implements OnDestroy {
         )
       );
   }
+  sendEmailWithoutInvoiceAsync(
+    req: FrontEndCallbackModel
+  ): Observable<OrderDetail> {
+    const header = new HttpHeaders().set("content-type", "application/json");
+    return this.httpClient
+      .post<any>(this.sendInvoiceEmailUrl, JSON.stringify(req), {
+        headers: header
+      })
+      .pipe(
+        catchError(
+          this.handleObservableError("sendInvoiceEmailAsync", new OrderDetail())
+        )
+      );
+  }
   sendInvoiceEmailAsync(req: FrontEndCallbackModel): Observable<OrderDetail> {
-    const header = new HttpHeaders().set("Content-type", "application/json");
+    const header = new HttpHeaders().set("content-type", "application/json");
     return this.httpClient
       .post<any>(this.sendInvoiceEmailUrl, JSON.stringify(req), {
         headers: header

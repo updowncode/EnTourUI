@@ -117,6 +117,21 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
             );
         }
       } else {
+        const req = new FrontEndCallbackModel();
+        req.callbackurl = location.href;
+        req.orderNumber = resp.data.orderNumber;
+        if (localStorage.getItem("EmailHasBeenSent") == null) {
+          this.sendingEmail = true;
+          this.emailSubscription = this.tourService
+            .sendEmailWithoutInvoiceAsync(req)
+            .subscribe(
+              (result: any) => this.onEmailResult(result),
+              err => {
+                this.sendingEmail = false;
+                console.log(err);
+              }
+            );
+        }
         this.tourService.openNgxModelDlg(resp.data.message, "Order");
       }
     }
