@@ -24,8 +24,8 @@
         <div *ngIf="retrievingInfo">Retrieving Order...</div>
         <app-review  *ngIf="orderTrip" [trip]="orderTrip">Loading...</app-review>
         <div *ngIf="!sendingEmail && !retrievingInfo">
-          <a class="btn btn-primary no-print"  onclick="window.print();"><i class="fa fa-print"></i> <span>Print</span></a>
-          <a class="btn btn-primary no-print" (click)="ResendEmail()"><i class="fa fa-file"></i> <span>Email</span></a>
+          <a class="btn btn-primary  btn-lg no-print"  onclick="window.print();"><i class="fa fa-print"></i> <span>Print</span></a>
+          <a class="btn btn-primary  btn-lg no-print" (click)="ResendEmail()"><i class="fa fa-file"></i> <span>Email</span></a>
         </div>
        
     </div>

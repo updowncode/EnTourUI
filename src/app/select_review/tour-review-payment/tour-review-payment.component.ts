@@ -51,7 +51,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     private messageService: MessageService
   ) {}
   reviewInfo: ReviewInfo;
-  tourInfoSources: string[] = ["", "Toronto Star", "Tour East Website"];
+  tourInfoSources: string[] = ["", "Search Engine", "Facebook", "Instagram", "Twitter", "Toronto Star", "eBlast", "Word of Mouth", "TraveLife", "Tour East Website", "Other"];
   ngOnDestroy() {
     this.toursSubscription.unsubscribe();
   }

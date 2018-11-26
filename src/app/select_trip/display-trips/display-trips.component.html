@@ -10,7 +10,7 @@
       <div class="row" *ngIf="tour">
         <div class="col-md-12">
           <strong style="font-size:28px;" class="tecolor"
-            >{{ trip.name }}:Tour Dates & Availability</strong
+            >{{ trip.name }}:&nbsp;Tour Dates & Availability</strong
           >
         </div>
       </div>
@@ -23,6 +23,7 @@
       -->
     </div>
   </div>
+  <br />
   <div class="row" *ngIf="tour && tour.trips; else: loading">
     <div class="col-md-12">
       <table class="table table-bordered" style="width: 100%;">

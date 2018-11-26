@@ -72,12 +72,16 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       this.initRooms();
       this.tourService.updateRoomInfo();
     } else {
-        this.trip.selectedRoomQuantity =  this.trip.availabledRoomQuantities[this.trip.rooms.length - 1];
-        const travellers = this.trip.rooms.reduce(
-          (p, u) => [...p, ...u.travellers],
-          []
-        );
-        this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[travellers.length - 1];
+      this.trip.selectedRoomQuantity = this.trip.availabledRoomQuantities[
+        this.trip.rooms.length - 1
+      ];
+      const travellers = this.trip.rooms.reduce(
+        (p, u) => [...p, ...u.travellers],
+        []
+      );
+      this.trip.selectedTravellerQuantity = this.trip.availabledTravellerQuantities[
+        travellers.length - 1
+      ];
     }
   }
   ngOnInit() {
@@ -323,61 +327,78 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   //   }
   // }
   allDataCorrect(): string {
+    let errQuantity = 0;
     if (
       this.trip.billingInfo.firstName === null ||
       this.trip.billingInfo.firstName.trim() === ""
     ) {
-      return `First Name is required`;
+      // return `First Name is required`;
+      errQuantity++;
+      $("#firstName").addClass("ng-invalid ng-touched");
     }
     if (
       this.trip.billingInfo.lastName === null ||
       this.trip.billingInfo.lastName.trim() === ""
     ) {
-      return `Last Name is required`;
+      // return `Last Name is required`;
+      errQuantity++;
+      $("#lastName").addClass("ng-invalid ng-touched");
     }
     if (
       this.trip.billingInfo.email === null ||
       this.trip.billingInfo.email.trim() === ""
     ) {
-      return `E-Mail is required`;
+      errQuantity++;
+      $("#email").addClass("ng-invalid ng-touched");
+      // return `E-Mail is required`;
     }
     // primaryPhone
     if (
       this.trip.billingInfo.primaryPhone === null ||
       this.trip.billingInfo.primaryPhone.trim() === ""
     ) {
-      return `Primary Phone is required`;
+      errQuantity++;
+      $("#primaryPhone").addClass("ng-invalid ng-touched");
+      // return `Primary Phone is required`;
     }
     // mailingAddress
     if (
       this.trip.billingInfo.mailingAddress === null ||
       this.trip.billingInfo.mailingAddress.trim() === ""
     ) {
-      return `Mailing Address is required`;
+      errQuantity++;
+      $("#mailingAddress").addClass("ng-invalid ng-touched");
+      // return `Mailing Address is required`;
     }
     // city
     if (
       this.trip.billingInfo.city === null ||
       this.trip.billingInfo.city.trim() === ""
     ) {
-      return `City is required`;
+      errQuantity++;
+      $("#city").addClass("ng-invalid ng-touched");
+      // return `City is required`;
     }
-    if (this.trip.billingInfo.country && this.trip.billingInfo.country.id < 0) {
-      return `Country is required`;
-    }
+    // if (this.trip.billingInfo.country && this.trip.billingInfo.country.id < 0) {
+    //   return `Country is required`;
+    // }
     // provinceStates
     if (
       this.trip.billingInfo.provinceStates === null ||
       this.trip.billingInfo.provinceStates.trim() === ""
     ) {
-      return `Province or State is required`;
+      errQuantity++;
+      $("#provinceStates").addClass("ng-invalid ng-touched");
+      // return `Province or State is required`;
     }
     // postalCode
     if (
       this.trip.billingInfo.postalCode === null ||
       this.trip.billingInfo.postalCode.trim() === ""
     ) {
-      return `Postal Code is required`;
+      errQuantity++;
+      $("#postalCode").addClass("ng-invalid ng-touched");
+      // return `Postal Code is required`;
     }
     for (let i = 0; i < this.trip.rooms.length; i++) {
       if (this.trip.rooms[i].travellers.length > 0) {
@@ -387,19 +408,34 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
             this.trip.rooms[i].travellers[j].firstName === null ||
             this.trip.rooms[i].travellers[j].firstName.trim() === ""
           ) {
-            return `Passenger ${this.trip.rooms[i].travellers[j].id +
-              1}'s first name is required`;
+            $("input[name='psgFirstName'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${this.trip.rooms[i].travellers[j].id +
+            //   1}'s first name is required`;
           }
           // lastName
           if (
             this.trip.rooms[i].travellers[j].lastName === null ||
             this.trip.rooms[i].travellers[j].lastName.trim() === ""
           ) {
-            return `Passenger ${this.trip.rooms[i].travellers[j].id +
-              1}'s last name is required`;
+            $("input[name='psgLastName'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${this.trip.rooms[i].travellers[j].id +
+            //   1}'s last name is required`;
           }
         }
       }
+    }
+    if (errQuantity > 0) {
+      return "Please fill all the required fields";
     }
     return "";
   }

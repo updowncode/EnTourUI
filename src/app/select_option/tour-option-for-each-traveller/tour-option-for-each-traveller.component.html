@@ -3,11 +3,13 @@
 >
   <div class="row">
     <div class="col-md-12">
-      <strong
-        >Passenger {{ index + 1 }}&nbsp;&nbsp;{{ traveller.firstName }}&nbsp;{{
-          traveller.lastName
-        }}</strong
-      >
+      <div style="font-size:18px;">
+        <strong
+          >Passenger {{ index + 1 }}&nbsp;-&nbsp;{{
+            traveller.firstName
+          }}&nbsp;{{ traveller.lastName }}</strong
+        >
+      </div>
     </div>
   </div>
   <br />
@@ -65,143 +67,35 @@
       </tr>
     </tbody>
   </table>
-  <br />
-  <table class="table table-bordered table-striped" style="width: 100%;">
-        <thead>
-          <tr>
-            <th
-              style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:30%"
-            >
-              <span style="font-size: 13px; color: #ffffff;"
-                >&nbsp;Visa <br />
-              </span>
-            </th>
-            <th
-            style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
-          >
-            <span style="font-size: 13px; color: #ffffff;"
-              >&nbsp;<br />
-            </span>
-          </th>
-            <th
-              style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-            >
-              <span style="font-size: 13px; color: #ffffff;"
-                >&nbsp;Price <br />
-              </span>
-            </th>
-            <th
-              style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-            ></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
-            <ng-container *ngIf="option.type === 20">
-              <td>
-                <span style="font-size: 13px;">{{ option.name }} </span>
-              </td>
-              <td>
-                   
-                  </td>
-              <td>
-                <span style="font-size: 13px;">{{ option.price }} </span>
-              </td>
-              <td style="text-align:center;vertical-align: middle;">
-                <input
-                  type="checkbox"
-                  style="cursor: pointer;"
-                  name="{{'Options' + traveller.id + option.id }}"
-                  (change)="changeTravellerOption(traveller, option)"
-                  [checked]="isTravellerOption(traveller, option)"
-                />
-              </td>
-            </ng-container>
-          </tr>
-        </tbody>
-      </table>
-      <br />
-      <table class="table table-bordered table-striped" style="width: 100%;">
-            <thead>
-              <tr>
-                <th
-                  style="text-align: left; vertical-align: middle; background-color: #3f3f3f; width:30%"
-                >
-                  <span style="font-size: 13px; color: #ffffff;"
-                    >&nbsp;Extra Hotel <br />
-                  </span>
-                </th>
-                <th
-                style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
-              >
-                <span style="font-size: 13px; color: #ffffff;"
-                  >&nbsp; <br />
-                </span>
-              </th>
-                <th
-                  style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-                >
-                  <span style="font-size: 13px; color: #ffffff;"
-                    >&nbsp;Price <br />
-                  </span>
-                </th>
-                <th
-                  style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-                ></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
-                <ng-container *ngIf="option.type === 10">
-                  <td>
-                    <span style="font-size: 13px;">{{ option.name }} </span>
-                  </td>
-                  <td>
-                   
-                    </td>
-                  <td>
-                    <span style="font-size: 13px;">{{ option.price }} </span>
-                  </td>
-                  <td style="text-align:center;vertical-align: middle;">
-                    <input
-                      type="checkbox"
-                      style="cursor: pointer;"
-                      name="{{'Options' + traveller.id + option.id }}"
-                      (change)="changeTravellerOption(traveller, option)"
-                      [checked]="isTravellerOption(traveller, option)"
-                    />
-                  </td>
-                </ng-container>
-              </tr>
-            </tbody>
-          </table>
-          <br />
+  <hr />
   <div class="row">
     <div class="col-md-12">
       <strong style="font-size: 15px;">Travel Visa:</strong>
     </div>
   </div>
 
-  <!-- <div class="row">
-    
-    <div class="col-md-2">
-      <table style="width:100%">
-        <tr>
-          <td style="width:40%;text-align: right;">Yes</td>
-          <td>
-            <input
-              type="radio"
-              style="cursor: pointer;"
-              [value]="true"
-              [checked]="traveller.needVisa === true"
-              name="{{'needVisa' + traveller.id}}"
-              (change)="onVisaChanged(traveller, true)"
-            />
-          </td>
-        </tr>
-      </table>
+  <!--
+    <div class="row">
+
+      <div class="col-md-2">
+        <table style="width:100%">
+          <tr>
+            <td style="width:40%;text-align: right;">Yes</td>
+            <td>
+              <input
+                type="radio"
+                style="cursor: pointer;"
+                [value]="true"
+                [checked]="traveller.needVisa === true"
+                name="{{'needVisa' + traveller.id}}"
+                (change)="onVisaChanged(traveller, true)"
+              />
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
-  </div> -->
+  -->
   <div class="row">
     <div class="col-md-10">
       Canadian citizens using a Canadian passport require a visa to visit China.
@@ -209,24 +103,126 @@
     <div class="col-md-2">
       <table style="width:100%">
         <tr>
-          <td style="width:40%;text-align: right;">
-            <!-- No -->
-        </td>
+          <td style="width:40%;text-align: right;"><!-- No --></td>
           <td>
-            <!-- <input
-              type="radio"
-              style="cursor: pointer;"
-              [value]="false"
-              [checked]="traveller.needVisa === false"
-              name="{{'needVisa' + traveller.id}}"
-              (change)="onVisaChanged(traveller, false)"
-            /> -->
+            <!--
+              <input
+                type="radio"
+                style="cursor: pointer;"
+                [value]="false"
+                [checked]="traveller.needVisa === false"
+                name="{{'needVisa' + traveller.id}}"
+                (change)="onVisaChanged(traveller, false)"
+              />
+            -->
           </td>
         </tr>
       </table>
     </div>
   </div>
-  <br />
+
+  <table class="table table-bordered table-striped" style="width: 100%;">
+    <thead>
+      <tr>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:30%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Visa <br />
+          </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
+        >
+          <span style="font-size: 13px; color: #ffffff;">&nbsp;<br /> </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Price <br />
+          </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        ></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+        <ng-container *ngIf="option.type === 20">
+          <td>
+            <span style="font-size: 13px;">{{ option.name }} </span>
+          </td>
+          <td></td>
+          <td>
+            <span style="font-size: 13px;">{{ option.price }} </span>
+          </td>
+          <td style="text-align:center;vertical-align: middle;">
+            <input
+              type="checkbox"
+              style="cursor: pointer;"
+              name="{{'Options' + traveller.id + option.id }}"
+              (change)="changeTravellerOption(traveller, option)"
+              [checked]="isTravellerOption(traveller, option)"
+            />
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
+  <table class="table table-bordered table-striped" style="width: 100%;">
+    <thead>
+      <tr>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f; width:30%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Extra Hotel <br />
+          </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
+        >
+          <span style="font-size: 13px; color: #ffffff;">&nbsp; <br /> </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Price <br />
+          </span>
+        </th>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        ></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+        <ng-container *ngIf="option.type === 10">
+          <td>
+            <span style="font-size: 13px;">{{ option.name }} </span>
+          </td>
+          <td></td>
+          <td>
+            <span style="font-size: 13px;">{{ option.price }} </span>
+          </td>
+          <td style="text-align:center;vertical-align: middle;">
+            <input
+              type="checkbox"
+              style="cursor: pointer;"
+              name="{{'Options' + traveller.id + option.id }}"
+              (change)="changeTravellerOption(traveller, option)"
+              [checked]="isTravellerOption(traveller, option)"
+            />
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
   <div class="row">
     <div class="col-md-12">
       <strong style="font-size: 15px;">Travel Insurance:</strong>

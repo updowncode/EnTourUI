@@ -1,20 +1,9 @@
 <div *ngIf="trip">
-  <div *ngIf="trip.notIncludeIn.length">
-    <p>
-      <strong>
-        <span style="font-size: 15px;">&nbsp;Not IncludeIn:</span>
-      </strong>
-    </p>
-    <ul class="fa-ul">
-      <li *ngFor="let nIn of trip.notIncludeIn">
-        <p  [innerHTML]="nIn.text"></p>
-      </li>
-    </ul>
-  </div>
+
   <div *ngIf="trip.includedIn.length">
     <p>
       <strong>
-        <span style="font-size: 15px;">&nbsp;IncludeIn:</span>
+        <span style="font-size: 15px;">&nbsp;Include in your trip:</span>
       </strong>
     </p>
     <ul class="fa-ul">
@@ -23,5 +12,16 @@
       </li>
     </ul>
   </div>
-
+  <div *ngIf="trip.notIncludeIn.length">
+      <p>
+        <strong>
+          <span style="font-size: 15px;">&nbsp;Not include in your trip:</span>
+        </strong>
+      </p>
+      <ul class="fa-ul">
+        <li *ngFor="let nIn of trip.notIncludeIn">
+          <p  [innerHTML]="nIn.text"></p>
+        </li>
+      </ul>
+    </div>
 </div>

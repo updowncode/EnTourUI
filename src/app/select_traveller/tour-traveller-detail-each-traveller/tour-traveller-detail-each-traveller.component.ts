@@ -72,7 +72,7 @@ export class TourTravellerDetailEachTravellerComponent
       { id: -1, code: "", name: "" },
       ...this.availabledCountryOrAreas
     ];
-    this.availabledTitles = ["", ...this.availabledTitles];
+    // this.availabledTitles = ["", ...this.availabledTitles];
     if (this.traveller.countryOrArea === null || this.traveller.countryOrArea.id < 0) {
       this.traveller.countryOrArea = this.availabledCountryOrAreas.find(
         c => c.code === "CA"

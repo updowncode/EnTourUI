@@ -1,17 +1,20 @@
 <div class="row" *ngIf="trip">
   <div class="col-md-12">
     <div style="background-color: #eee;padding:1em;">
-      <div class="row">
+      <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-12">
-          <strong style="font-size:18px;">Primary and billing contact</strong>
+          <strong style="font-size:28px;">Primary and billing contact</strong>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <label for="firstname">First Name*</label>
-          <input type="text" class="form-control" id="firstName" required [(ngModel)]="trip.billingInfo.firstName" name="firstName"
-            appForbiddenName="bob" #firstName="ngModel">
-          <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
+          <label for="firstname" style="margin-bottom: 0px;">First Name*</label>
+          <input type="text" class=" form-control" id="firstName"  required [(ngModel)]="trip.billingInfo.firstName" name="firstName"
+ 
+            #firstName="ngModel">
+
+            <!-- [ngClass]="{'red-border-class': firstName.errors && firstName.errors.required && firstName.invalid && (firstName.dirty || firstName.touched)}"  -->
+          <!--            appForbiddenName="bob" <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
 
             <div *ngIf="firstName.errors.required">
               Name is required.
@@ -20,10 +23,10 @@
               Name cannot be Bob.
             </div>
 
-          </div>
+          </div> -->
         </div>
         <div class="col-md-6">
-          <label for="lastname">Last Name*</label>
+          <label for="lastname" style="margin-bottom: 0px;">Last Name*</label>
           <input type="text" class="form-control" id="lastName" required bindon-ngModel="trip.billingInfo.lastName"
             name="lastName" #lastName="ngModel">
           <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
@@ -31,9 +34,9 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" style="margin-top:5px;">
         <div class="col-md-4">
-          <label for="email">E-Mail*</label>
+          <label for="email" style="margin-bottom: 0px;">E-Mail*</label>
           <input type="text" class="form-control" id="email" required [(ngModel)]="trip.billingInfo.email" name="email"
             #email="ngModel">
           <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
@@ -41,7 +44,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <label for="primaryPhone">Primary Phone*</label>
+          <label for="primaryPhone" style="margin-bottom: 0px;">Primary Phone*</label>
           <input type="text" class="form-control" id="primaryPhone" required [(ngModel)]="trip.billingInfo.primaryPhone"
             name="primaryPhone" #primaryPhone="ngModel">
           <div [hidden]="primaryPhone.valid || primaryPhone.pristine" class="alert alert-danger">
@@ -49,15 +52,15 @@
           </div>
         </div>
         <div class="col-md-4">
-          <label for="secondaryPhone">Secondary Phone</label>
+          <label for="secondaryPhone" style="margin-bottom: 0px;">Secondary Phone</label>
           <input type="text" class="form-control" id="secondaryPhone" [(ngModel)]="trip.billingInfo.secondaryPhone"
             name="secondaryPhone" #secondaryPhone="ngModel">
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" style="margin-top:5px;">
         <div class="col-md-8">
-          <label for="mailingAddress">Mailing Address*</label>
+          <label for="mailingAddress" style="margin-bottom: 0px;">Mailing Address*</label>
           <input type="text" class="form-control" id="mailingAddress" required [(ngModel)]="trip.billingInfo.mailingAddress"
             name="mailingAddress" #mailingAddress="ngModel">
           <div [hidden]="mailingAddress.valid || mailingAddress.pristine" class="alert alert-danger">
@@ -65,7 +68,7 @@
           </div>
         </div>
         <div class="col-md-4">
-          <label for="city">City*</label>
+          <label for="city" style="margin-bottom: 0px;">City*</label>
           <input type="text" class="form-control" id="city" required [(ngModel)]="trip.billingInfo.city"
             #billingInfoCity="ngModel" name="billingInfoCity">
           <!--  [value]="trip.billingInfo.city" (input)="trip.billingInfo.city=$event.target.value"-->
@@ -74,11 +77,11 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" style="margin-top:5px;">
         <div class="col-md-5">
 
           <div class="form-group">
-            <label for="country">Country*</label>
+            <label for="country" style="margin-bottom: 0px;">Country*</label>
             <select class="form-control" required #billingInfoCountry="ngModel" name="billingInfoCountry" [compareWith]="compareFn"
               [ngModel]="trip.billingInfo.country" (ngModelChange)="trip.billingInfo.country=$event">
               <ng-container *ngFor="let countryorarea of tour.availabledCountryOrAreas">
@@ -93,7 +96,7 @@
           </div>
         </div>
         <div class="col-md-5">
-          <label for="provinceStates">Province or State*</label>
+          <label for="provinceStates" style="margin-bottom: 0px;">Province or State*</label>
           <input type="text" class="form-control" id="provinceStates" required [(ngModel)]="trip.billingInfo.provinceStates"
             name="provinceStates" #provinceStates="ngModel">
           <div [hidden]="provinceStates.valid || provinceStates.pristine" class="alert alert-danger">
@@ -101,7 +104,7 @@
           </div>
         </div>
         <div class="col-md-2">
-          <label for="postalCode">Postal Code*</label>
+          <label for="postalCode" style="margin-bottom: 0px;">Postal Code*</label>
           <input type="text" class="form-control" id="postalCode" required [(ngModel)]="trip.billingInfo.postalCode"
             name="postalCode" #postalCode="ngModel">
           <div [hidden]="postalCode.valid || postalCode.pristine" class="alert alert-danger">

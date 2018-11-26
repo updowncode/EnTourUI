@@ -86,12 +86,20 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
 
         this.trip.rooms[i].travellers[j].passport.number = "AS232424";
 
-        this.trip.rooms[i].travellers[j].passport.issueDate = new Date(2017, 5, 10);
+        this.trip.rooms[i].travellers[j].passport.issueDate = new Date(
+          2017,
+          5,
+          10
+        );
         // this.trip.rooms[i].travellers[j].passport.issueDate.year = new Date().getFullYear();
         // this.trip.rooms[i].travellers[j].passport.issueDate.month = new Date().getMonth() + 1;
         // this.trip.rooms[i].travellers[j].passport.issueDate.day = new Date().getDate();
 
-        this.trip.rooms[i].travellers[j].passport.expiryDate = new Date(2020, 5, 10);
+        this.trip.rooms[i].travellers[j].passport.expiryDate = new Date(
+          2020,
+          5,
+          10
+        );
         // this.trip.rooms[i].travellers[j].passport.expiryDate.year = new Date().getFullYear();
         // this.trip.rooms[i].travellers[j].passport.expiryDate.month = new Date().getMonth() + 1;
         // this.trip.rooms[i].travellers[j].passport.expiryDate.day = new Date().getDate();
@@ -128,61 +136,103 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     }
   }
   allDataCorrect(): string {
+    let errQuantity = 0;
     for (let i = 0; i < this.trip.rooms.length; i++) {
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
           if (this.trip.rooms[i].travellers[j].firstName.length === 0) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s first name is required`;
+            $("input[name='firstName'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${
+            //   this.trip.rooms[i].travellers[j].id + 1
+            // }'s first name is required`;
           }
           if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s last name is required`;
+            $("input[name='lastName'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${
+            //   this.trip.rooms[i].travellers[j].id + 1
+            // }'s last name is required`;
           }
-          if (this.trip.rooms[i].travellers[j].title.length === 0) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s title is required`;
-          }
-          if (this.trip.rooms[i].travellers[j].birthday === null || !this.isValidDate(this.trip.rooms[i].travellers[j].birthday)) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s date of birth is required`;
+
+          if (
+            this.trip.rooms[i].travellers[j].birthday === null ||
+            !this.isValidDate(this.trip.rooms[i].travellers[j].birthday)
+          ) {
+            $("input[name='birthday'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${
+            //   this.trip.rooms[i].travellers[j].id + 1
+            // }'s date of birth is required`;
           }
           if (this.trip.rooms[i].travellers[j].placeofbirth.length === 0) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s place of birth is required`;
-          }
-          if (this.trip.rooms[i].travellers[j].countryOrArea.id < 0) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s nationality is required`;
+            $("input[name='placeofbirth'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
           }
           if (this.trip.rooms[i].travellers[j].passport.number.length === 0) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s passport number is required`;
+            $("input[name='passportnumber'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${
+            //   this.trip.rooms[i].travellers[j].id + 1
+            // }'s passport number is required`;
           }
-          if (this.trip.rooms[i].travellers[j].passport.issueDate === null || !this.isValidDate(this.trip.rooms[i].travellers[j].passport.issueDate)) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s passport issue date is required`;
+          if (
+            this.trip.rooms[i].travellers[j].passport.issueDate === null ||
+            !this.isValidDate(
+              this.trip.rooms[i].travellers[j].passport.issueDate
+            )
+          ) {
+            $("input[name='passportissueDate'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${
+            //   this.trip.rooms[i].travellers[j].id + 1
+            // }'s passport issue date is required`;
           }
-          if (this.trip.rooms[i].travellers[j].passport.expiryDate === null || !this.isValidDate(this.trip.rooms[i].travellers[j].passport.expiryDate)) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s passport expiry date is required`;
-          }
-          if (this.trip.rooms[i].travellers[j].passport.issuePlace.id < 0) {
-            return `Passenger ${
-              this.trip.rooms[i].travellers[j].id + 1
-            }'s passport issue place is required`;
+          if (
+            this.trip.rooms[i].travellers[j].passport.expiryDate === null ||
+            !this.isValidDate(
+              this.trip.rooms[i].travellers[j].passport.expiryDate
+            )
+          ) {
+            $("input[name='passportexpiryDate'").each(function(index, el) {
+              if ($(el).val() === "") {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+            // return `Passenger ${
+            //   this.trip.rooms[i].travellers[j].id + 1
+            // }'s passport expiry date is required`;
           }
         }
       }
+    }
+    if (errQuantity > 0) {
+      return "Please fill all the required fields";
     }
     return "";
   }

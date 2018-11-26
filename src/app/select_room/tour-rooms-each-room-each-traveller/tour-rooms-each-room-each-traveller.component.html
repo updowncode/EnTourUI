@@ -1,4 +1,4 @@
-<div style="margin-bottom: 10px; background-color: rgb(228, 241, 222); padding:10px;" *ngIf="traveller">
+<div style="margin-bottom: 10px;  padding:10px;" *ngIf="traveller">
   <div class="row">
     <div class="col-md-12">
 
@@ -20,11 +20,11 @@
   </div>
   <div class="row"[ngClass]="{evenbckcolor: room.index % 2 === 0, oddbckcolor: room.index % 2 !== 0}"  style="margin:5px 0px 5px 0px;padding:5px;">
     <div class="col-md-4">
-      <label>First Name*</label>
+      <label style="margin-bottom:0px;">First Name*</label>
       <input type="text" class="form-control" required [(ngModel)]="traveller.firstName" name="psgFirstName">
     </div>
     <div class="col-md-4">
-      <label>Last Name*</label>
+      <label style="margin-bottom:0px;">Last Name*</label>
       <input type="text" class="form-control" required [(ngModel)]="traveller.lastName" name="psgLastName">
     </div>
     <div class="col-md-4">
@@ -48,7 +48,7 @@
   </div>
   <div class="row" *ngIf="showRoomInfo" style="margin-top:10px;">
     <div class="col-md-6">
-      <label>Bedding Configuration*</label>
+      <label style="margin-bottom:0px;">Bedding Configuration*</label>
       <div>
         <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
           <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
