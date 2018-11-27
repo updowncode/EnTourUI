@@ -29,7 +29,7 @@
       "tripCostForDefaultTravellerQuantity": 0.0,
       "tripSingleSupplement": 0.0,
       "minRoomQuantityForTravellers": 0,
-      "tourInfoSource": null,
+   
       "billingInfo": null,
       "includedIn": null,
       "notIncludeIn": null,
@@ -426,7 +426,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": -1.0,
         "minRoomQuantityForTravellers": 1,
-        "tourInfoSource": "",
+        // "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
           "lastName": null,
@@ -612,7 +612,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 3.0,
         "minRoomQuantityForTravellers": 1,
-        "tourInfoSource": "",
+        // "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
           "lastName": null,
@@ -778,7 +778,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 295.0,
         "minRoomQuantityForTravellers": 1,
-        "tourInfoSource": "",
+        // "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
           "lastName": null,
@@ -961,7 +961,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 300.0,
         "minRoomQuantityForTravellers": 1,
-        "tourInfoSource": "",
+        // "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
           "lastName": null,
@@ -1120,7 +1120,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 300.0,
         "minRoomQuantityForTravellers": 1,
-        "tourInfoSource": "",
+        // "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
           "lastName": null,
@@ -1269,7 +1269,7 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 300.0,
         "minRoomQuantityForTravellers": 1,
-        "tourInfoSource": "",
+        // "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
           "lastName": null,

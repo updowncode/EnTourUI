@@ -19,8 +19,8 @@ export const MockTours: Tour[] = [
       { id: 1, name: "United Arab Emirates", code: "AE" },
       { id: 2, name: "Afghanistan", code: "AF" },
       { id: 3, name: "Antigua and Barbuda", code: "AG" },
-      { id: 4, name: "Anguilla", code: "AI" },
-      ],
+      { id: 4, name: "Anguilla", code: "AI" }
+    ],
     trips: [
       {
         id: "30004810",
@@ -40,14 +40,14 @@ export const MockTours: Tour[] = [
         availabledRoomQuantities: [
           { id: 1, name: "Capacity: 1" },
           { id: 2, name: "Capacity: 2" },
-          { id: 3, name: "Capacity: 3" },
+          { id: 3, name: "Capacity: 3" }
         ],
         availabledTravellerQuantities: [
           { id: 1, name: "Traveller Quantity: 1" },
           { id: 2, name: "Traveller Quantity: 2" },
           { id: 3, name: "Traveller Quantity: 3" },
           { id: 4, name: "Traveller Quantity: 4" },
-          { id: 5, name: "Traveller Quantity: 5" },
+          { id: 5, name: "Traveller Quantity: 5" }
         ],
         startPlace: "Toronto,Edmonton,Ottawa,Montréal,Vancouver,Calgary",
         endPlace: "Asia,China,Beijing",
@@ -59,7 +59,7 @@ export const MockTours: Tour[] = [
         tripCostForDefaultTravellerQuantity: 2.0,
         tripSingleSupplement: 295.0,
         minRoomQuantityForTravellers: 1,
-        tourInfoSource: "",
+        // tourInfoSource: "",
         billingInfo: {
           firstName: null,
           lastName: null,
@@ -104,7 +104,8 @@ export const MockTours: Tour[] = [
           }
         ],
         rooms: [],
-
+        infoSource: [],
+        selectedInfoSource: null,
         availabledRooms: [
           {
             id: 0,

@@ -85,7 +85,7 @@
             <select class="form-control" required #billingInfoCountry="ngModel" name="billingInfoCountry" [compareWith]="compareFn"
               [ngModel]="trip.billingInfo.country" (ngModelChange)="trip.billingInfo.country=$event">
               <ng-container *ngFor="let countryorarea of tour.availabledCountryOrAreas">
-                <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option>
+
                 <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
               </ng-container>
             </select>

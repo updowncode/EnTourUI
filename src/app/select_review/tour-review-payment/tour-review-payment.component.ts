@@ -20,6 +20,7 @@ import { MessageService } from "../../message.service";
 import { EnBook } from "../../Models/en-book";
 import { ReviewInfo } from "../../Models/review-info";
 import { OptionSummary } from "../../Models/option-summary";
+import { InfoSource } from "../../Models/info-source";
 @Component({
   selector: "app-tour-review-payment",
   templateUrl: "./tour-review-payment.component.html",
@@ -51,9 +52,12 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
     private messageService: MessageService
   ) {}
   reviewInfo: ReviewInfo;
-  tourInfoSources: string[] = ["", "Search Engine", "Facebook", "Instagram", "Twitter", "Toronto Star", "eBlast", "Word of Mouth", "TraveLife", "Tour East Website", "Other"];
+  // tourInfoSources: string[] = ["", "Search Engine", "Facebook", "Instagram", "Twitter", "Toronto Star", "eBlast", "Word of Mouth", "TraveLife", "Tour East Website", "Other"];
   ngOnDestroy() {
     this.toursSubscription.unsubscribe();
+  }
+  compareFn(c1: InfoSource, c2: InfoSource): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
   ngOnInit() {
     this.isVerified = false;
@@ -104,6 +108,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
   }
   initTrip() {
     this.reviewInfo = this.tourService.getTotalPrice();
+    this.trip.selectedInfoSource = this.trip.infoSource.find(c => c.id === -1);
   }
   verify() {
     this.isVerified = true;

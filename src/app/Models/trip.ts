@@ -5,6 +5,7 @@ import { BillingInfo } from "./billing-info";
 import { TripInclude } from "./trip-include";
 import { CountryOrArea } from "./countryorarea";
 import { RoomCfg } from "./room-cfg";
+import { InfoSource } from "./info-source";
 
 export class Trip {
   id: string;
@@ -31,13 +32,15 @@ export class Trip {
   tripCostForDefaultTravellerQuantity: number;
   tripSingleSupplement: number;
   minRoomQuantityForTravellers: number;
-  // visaPrice: number;
-  tourInfoSource: string;
+  // // visaPrice: number;
+  // tourInfoSource: string;
   billingInfo: BillingInfo;
   includedIn: TripInclude[];
   notIncludeIn: TripInclude[];
   options: Option[];
   availabledRooms: Room[];
+  infoSource: InfoSource[];
+  selectedInfoSource: InfoSource;
   rooms: Room[];
   totalPriceForPayment: number;
   paymentTypeSurcharges: number;

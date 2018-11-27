@@ -35,10 +35,9 @@
         <strong style="font-size:18px;">How did you hear about us?</strong>
       </div>
       <div class="col-md-3 col-sm-12 col-sm-12">
-        <select class="form-control" [(ngModel)]="trip.tourInfoSource">
-          <ng-container *ngFor="let info of tourInfoSources">
-            <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
-            <option [ngValue]="info" *ngIf="info !== ''">{{ info }}</option>
+        <select class="form-control" [(ngModel)]="trip.selectedInfoSource" [compareWith]="compareFn">
+          <ng-container *ngFor="let info of trip.infoSource">
+            <option [ngValue]="info">{{ info.id === -1 ? "--Select--" : info.description }}</option>
           </ng-container>
         </select>
       </div>

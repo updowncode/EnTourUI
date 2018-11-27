@@ -1,4 +1,4 @@
-<br /><br />
+<br />
 <div class="row">
   <div class="col-md-12">
     <strong style="font-size:18px;">Billing Information</strong>
@@ -55,10 +55,10 @@
             {{
               room.roomPriceForPerTraveller -
                 room.roomOriginalPriceForPerTraveller
-            }})</span
-          >
+            }})</span>
           <span *ngIf="room.smokingRoom == 0">Non-smoking</span>
           <span *ngIf="room.smokingRoom == 1">Smoking</span>
+          <span *ngIf="room.selectedRoomCfg.id !== -1">&nbsp;/&nbsp;{{room.selectedRoomCfg.description}}</span>
         </div>
       </div>
       <div class="col-md-4">

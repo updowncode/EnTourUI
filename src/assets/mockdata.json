@@ -86,8 +86,8 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 295.0,
         "minRoomQuantityForTravellers": 1,
-      
-        "tourInfoSource": "",
+
+        // "tourInfoSource": "",
         "billingInfo": {
           "firstName": null,
           "lastName": null,
@@ -323,8 +323,8 @@
         "tripCostForDefaultTravellerQuantity": 2.0,
         "tripSingleSupplement": 295.0,
         "minRoomQuantityForTravellers": 1,
-        
-        "tourInfoSource": "",
+
+    
         "billingInfo": {
           "firstName": null,
           "lastName": null,
