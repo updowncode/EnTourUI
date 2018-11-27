@@ -104,6 +104,7 @@ export const MockTours: Tour[] = [
           }
         ],
         rooms: [],
+
         availabledRooms: [
           {
             id: 0,
@@ -117,6 +118,8 @@ export const MockTours: Tour[] = [
             childPromoAmount: 50,
             smokingRoom: 0,
             extraHotelQuantity: 0,
+            roomCfgList: [],
+            selectedRoomCfg: null,
             travellers: [],
             tourId: "CHG11",
             tripId: "30004810"

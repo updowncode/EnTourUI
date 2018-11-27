@@ -1,4 +1,5 @@
 import { Traveller } from "./traveller";
+import { RoomCfg } from "./room-cfg";
 
 export class Room {
   id: number;
@@ -13,6 +14,8 @@ export class Room {
   smokingRoom: number; // 0: Non-Smoking, 1: Smoking, -1: unknown
   extraHotelQuantity: number;
   travellers: Traveller[];
+  roomCfgList: RoomCfg[];
+  selectedRoomCfg: RoomCfg;
   tourId: string;
   tripId: string;
 }

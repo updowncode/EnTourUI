@@ -4,6 +4,7 @@ import { Room } from "./room";
 import { BillingInfo } from "./billing-info";
 import { TripInclude } from "./trip-include";
 import { CountryOrArea } from "./countryorarea";
+import { RoomCfg } from "./room-cfg";
 
 export class Trip {
   id: string;

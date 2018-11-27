@@ -50,11 +50,18 @@
     <div class="col-md-6">
       <label style="margin-bottom:0px;">Bedding Configuration*</label>
       <div>
-        <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
+        <!-- <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
           <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
             <option [ngValue]="room">{{room.beddingConfig}}</option>
           </ng-container>
-        </select>
+        </select> -->
+        <select *ngIf="room.roomCfgList.length > 0" class="form-control" name="roomCfg" [compareWith]="compareFn"
+        [(ngModel)]="room.selectedRoomCfg">
+        <ng-container *ngFor="let roomCfg of room.roomCfgList">
+          <option [ngValue]="roomCfg" *ngIf="roomCfg.id < 0">--Select--</option>
+          <option [ngValue]="roomCfg" *ngIf="roomCfg.id >= 0">{{roomCfg.description}}</option>
+        </ng-container>
+      </select>
       </div>
     </div>
     <div class="col-md-3">

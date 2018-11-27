@@ -23,6 +23,7 @@ import { EnTourService } from "../../en-tour.service";
 import { Subscription } from "rxjs";
 // tslint:disable-next-line:max-line-length
 import { TourRoomsEachRoomEachTravellerChildComponent } from "../tour-rooms-each-room-each-traveller-child/tour-rooms-each-room-each-traveller-child.component";
+import { RoomCfg } from "../../Models/room-cfg";
 
 @Component({
   selector: "app-tour-rooms-each-room-each-traveller",
@@ -79,7 +80,9 @@ export class TourRoomsEachRoomEachTravellerComponent
       }
     }
   }
-
+  compareFn(c1: RoomCfg, c2: RoomCfg): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
   ngOnInit(): void {
     // 在 Angular 第一次显示数据绑定和设置指令/组件的输入属性之后，初始化指令/组件。在第一轮 ngOnChanges() 完成之后调用，只调用一次。
     // this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -100,7 +103,6 @@ export class TourRoomsEachRoomEachTravellerComponent
   }
   ngAfterContentInit(): void {
     // 当把内容投影进组件之后调用。第一次 ngDoCheck() 之后调用，只调用一次。
-
     // console.log(
     //   `AfterContentInit: this passenger index: "${
     //     this.contentChild.traveller.id
@@ -157,6 +159,7 @@ export class TourRoomsEachRoomEachTravellerComponent
     } else {
       this.showRoomInfo = false;
     }
+    this.room.roomCfgList.forEach(c => (c.roomIndex = this.room.index));
   }
   reSortBedConfig() {
     const newBedRoomsForSelectedTravellers: Room[] = [];
