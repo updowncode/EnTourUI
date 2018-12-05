@@ -20,15 +20,16 @@
         <p style="font-size: 18px;" class="tecolor no-print">
           Congratulations! You have booked the tour successfully. Please write down your order number for further reference.
         </p>
-        <p style="font-size: 18px;" class="tecolor no-print">
-          A copy of the invoice has been sent to your email. 
+        <p style="font-size: 18px;" class="tecolor no-print" *ngIf="sendEmailDone">
+          A copy of the confirmation has been sent to your email. 
         </p>
         <div *ngIf="sendingEmail">Sending email...</div>
-        <div *ngIf="retrievingInfo">Retrieving order...</div>
+        <div *ngIf="retrievingInfo" style="text-align:center;font-size:28px;margin-top: 100px; margin-bottom: 100px;color:rgb(246, 121, 4)"> Retrieving your order...</div>
         <app-review  *ngIf="orderTrip" [trip]="orderTrip">Loading...</app-review>
+        <br />
         <div *ngIf="!sendingEmail && !retrievingInfo">
           <a class="btn btn-primary  btn-lg no-print"  onclick="window.print();"><i class="fa fa-print"></i> <span>Print</span></a>
-          <a class="btn btn-primary  btn-lg no-print" (click)="ResendEmail()"><i class="fa fa-file"></i> <span>Email</span></a>
+          <a class="btn btn-primary  btn-lg no-print"  *ngIf="!sendEmailDone" (click)="ResendEmail()"><i class="fa fa-file"></i> <span>Email</span></a>
         </div>
        
     </div>
@@ -37,7 +38,7 @@
   
  
   <ng-template #fail>
-      <button
+      <!-- <button
       type="button"
       class="btn btn-warning"
       style="background-color:#d47027!important; color: white;"
@@ -46,7 +47,7 @@
       (click)="goBack()"
     >
       Go Back
-    </button>
+    </button> -->
   </ng-template>
  
 </div>

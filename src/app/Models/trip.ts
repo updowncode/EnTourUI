@@ -44,6 +44,8 @@ export class Trip {
   rooms: Room[];
   totalPriceForPayment: number;
   paymentTypeSurcharges: number;
+  minimumDeposit: number;
+  paidAmounts: number[];
   tourId: string;
   tourName: string;
 }

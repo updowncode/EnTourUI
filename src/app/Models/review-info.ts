@@ -1,6 +1,7 @@
 import { OptionSummary } from "./option-summary";
 
 export class ReviewInfo {
+  minimumDepositTotal: number;
   totalPrice: number;
   totalRoomPrice: number;
   totalOptionPrice: number;

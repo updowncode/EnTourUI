@@ -8,7 +8,15 @@ import {
   Subscription,
   throwError
 } from "rxjs";
-import { map, delay, switchMap, catchError, tap, retry } from "rxjs/operators";
+import {
+  map,
+  delay,
+  switchMap,
+  catchError,
+  tap,
+  retry,
+  groupBy
+} from "rxjs/operators";
 import { MessageService } from "./message.service";
 import { Tour } from "./Models/tour";
 import { MockTours } from "./Models/mock-tours";
@@ -46,7 +54,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = 'dnndev.me';
+  private siteIPToPublish = "dnndev.me";
 
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
@@ -205,10 +213,63 @@ private siteIPToPublish = 'dnndev.me';
     r.totalVisaQuantity = 0;
     r.totalChildPromo = 0;
     r.extraHotelAmount = 0;
-    r.childrenQuantity = 0;
     r.promoAmountPerChild = 0;
     r.optionSummary = new Array<OptionSummary>();
+
+    // if (this.trip && this.trip.rooms) {
+    //   r.totalRoomPrice = this.trip.rooms.reduce(
+    //     (a, b) => a + b.roomPriceForPerTraveller * b.travellers.length,
+    //     0
+    //   );
+    //   this.trip.rooms = this.trip.rooms.map(c => {
+    //     c.travellers.forEach(d => (d.needVisa = false));
+    //     return c;
+    //   });
+    //   const t = this.trip.rooms.reduce(
+    //     (a, b) => [...a, ...b.travellers],
+    //     new Array<Traveller>()
+    //   );
+    //   r.childrenQuantity = t.filter(c => c.isChild).length;
+
+    //   r.totalChildPromo =
+    //     r.childrenQuantity > 0
+    //       ? this.trip.rooms.reduce((a, b) => a + b.childPromoAmount * b.travellers.filter(c => c.isChild).length, 0)
+    //       : 0;
+
+    //   const o = t.reduce(
+    //     (c, d) => [...c, ...d.selectedOptions],
+    //     new Array<Option>()
+    //   );
+    //   if (o.filter( c => c !== null).some(c => c.id > 0)) {
+    //     r.totalOptionPrice = o
+    //       .filter(c => c !== null && c.type !== 10 && c.type !== 20)
+    //       .reduce((a, b) => a + b.price, 0);
+    //     r.totalVisaPrice = o
+    //       .filter(c => c !== null && c.type === 20)
+    //       .reduce((a, b) => a + b.price, 0);
+    //     r.totalVisaQuantity = o.filter(c => c !== null && c.type === 20).length;
+    //     r.extraHotelAmount = o
+    //       .filter(c => c !== null && c.type === 10)
+    //       .reduce((a, b) => a + b.price, 0);
+    //   }
+    //   r.totalPrice =
+    //     r.totalRoomPrice +
+    //     r.totalOptionPrice +
+    //     r.totalVisaPrice +
+    //     r.extraHotelAmount -
+    //     r.totalChildPromo;
+    //   r.optionSummary = [...this.setOptionSummary(t)];
+    //   // r.optionSummary = [...this.setOptionSummar1(t)];
+    //   this.trip.totalPriceForPayment = r.totalPrice;
+    //   r.minimumDepositTotal  = this.trip.minimumDeposit * t.length;
+    // }
+    // return r;
+
     if (this.trip && this.trip.rooms) {
+      const t = this.trip.rooms.reduce(
+        (a, b) => [...a, ...b.travellers],
+        new Array<Traveller>()
+      );
       for (let i = 0; i < this.trip.rooms.length; i++) {
         r.totalRoomPrice +=
           this.trip.rooms[i].roomPriceForPerTraveller *
@@ -267,8 +328,34 @@ private siteIPToPublish = 'dnndev.me';
       );
       r.optionSummary = [...this.setOptionSummary(travellers)];
       this.trip.totalPriceForPayment = r.totalPrice;
+      r.minimumDepositTotal = this.trip.minimumDeposit * t.length;
     }
     return r;
+  }
+  setOptionSummar1(travellers: Traveller[]): OptionSummary[] {
+    const optionSummaries = new Array<OptionSummary>();
+    const options = travellers.reduce(
+      (a, b) => [...a, ...b.selectedOptions],
+      new Array<Option>()
+    );
+    if (options[0]) {
+      const source = of(options).subscribe(result => {
+        const ops = result
+          .filter(c => c !== null)
+          .reduce((p, n) => {
+            if (!p[n.name]) {
+              p[n.name] = [];
+            }
+            p[n.name].push(n);
+            return p;
+          }, {});
+      });
+      // const groups = source
+      //   .groupBy(c => c.name)
+      //   .flatMap(g => g.reduce((acc, cur) => [...acc, cur], []));
+    }
+
+    return optionSummaries;
   }
   setOptionSummary(travellers: Traveller[]): OptionSummary[] {
     const optionSummaries = new Array<OptionSummary>();
@@ -401,14 +488,7 @@ private siteIPToPublish = 'dnndev.me';
       .post<any>(this.verifyfrontendcallbackUrl, JSON.stringify(req), {
         headers: header
       })
-      .pipe(
-        catchError(
-          this.handleObservableError(
-            "verifyFrontEndCallBackUrlAsync",
-            new OrderDetail()
-          )
-        )
-      );
+      .pipe(catchError(this.handleError4));
   }
   sendEmailWithoutInvoiceAsync(
     req: FrontEndCallbackModel
@@ -442,13 +522,29 @@ private siteIPToPublish = 'dnndev.me';
       this.messageService.add(`${message}`);
     }
   }
+  private handleError4(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error("An error occurred:", error.error.message);
+      // return an observable with a user-facing error message
+      return throwError("Network issue, please try again later.");
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
+      );
+      // return an observable with a user-facing error message
+      return throwError(`Error Code: ${error.status}: ${error.error}`);
+    }
+  }
   private handleObservableError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
+      // this.log(`${operation} failed: ${error.message}`);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

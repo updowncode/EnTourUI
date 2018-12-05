@@ -128,6 +128,8 @@ export const MockTours: Tour[] = [
         ],
         totalPriceForPayment: 0,
         paymentTypeSurcharges: 0,
+        minimumDeposit: 100,
+        paidAmounts:[],
         tourId: "CHG11",
         tourName: ""
       }

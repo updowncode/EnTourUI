@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { EnTourService } from "../../en-tour.service";
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { slideInDownAnimation } from "../../app.animations";
 import { MessageService } from "../../message.service";
 import { Location } from "@angular/common";
@@ -31,6 +31,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   emailSubscription: Subscription;
   approved: boolean;
   sendingEmail: boolean;
+  sendEmailDone: boolean;
   retrievingInfo: boolean;
   reviewInfo: ReviewInfo;
   constructor(
@@ -48,6 +49,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.sendingEmail = false;
+    this.sendEmailDone = false;
     this.retrievingInfo = false;
     this.subscription = this.activatedRoute.queryParams.subscribe(params =>
       this.onParams(params)
@@ -62,7 +64,9 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   }
   onEmailResult(resp: any) {
     this.sendingEmail = false;
+
     if (resp.data.status === "success") {
+      this.sendEmailDone = true;
       localStorage.setItem("EmailHasBeenSent", "true");
     } else {
       localStorage.removeItem("EmailHasBeenSent");
@@ -86,6 +90,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   }
   onVerifyUrlResult(resp: any) {
     this.retrievingInfo = false;
+
     if (resp.data === "fail") {
       this.tourService.openNgxModelDlg(resp.errorMsg, "Retrieve Order");
     } else {
@@ -106,6 +111,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
 
         if (localStorage.getItem("EmailHasBeenSent") == null) {
           this.sendingEmail = true;
+          this.sendEmailDone = false;
           this.emailSubscription = this.tourService
             .sendInvoiceEmailAsync(req)
             .subscribe(
@@ -115,6 +121,8 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
                 console.log(err);
               }
             );
+        } else {
+          this.sendEmailDone = true;
         }
       } else {
         const req = new FrontEndCallbackModel();
@@ -122,6 +130,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         req.orderNumber = resp.data.orderNumber;
         if (localStorage.getItem("EmailHasBeenSent") == null) {
           this.sendingEmail = true;
+          this.sendEmailDone = false;
           this.emailSubscription = this.tourService
             .sendEmailWithoutInvoiceAsync(req)
             .subscribe(
@@ -131,6 +140,8 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
                 console.log(err);
               }
             );
+        } else {
+          this.sendEmailDone = true;
         }
         this.tourService.openNgxModelDlg(resp.data.message, "Order");
       }
@@ -162,7 +173,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   onParams(params: Params) {
     this.approved = params.trnApproved === "1";
     if (!this.approved) {
-      this.messageService.add(params.messageText);
+      this.messageService.add(`Payment fail: ${params.messageText}`);
     } else {
       this.retrievingInfo = true;
       this.orderNumber = params.trnOrderNumber;
@@ -176,7 +187,10 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
           (resp: any) => this.onVerifyUrlResult(resp),
           err => {
             this.retrievingInfo = false;
-            this.tourService.openNgxModelDlg(err + "'trip notes'");
+            // this.messageService.add(`Network issue, please try again to retrieve your order: ${err}`);
+            this.tourService.openNgxModelDlg(
+              `Network issue, please try again to retrieve your order`
+            );
           }
         );
     }
