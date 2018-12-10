@@ -99,7 +99,10 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       if (this.invoiceNumber.length > 0) {
         this.messageService.clearMessage();
         this.messageService.add(
-          `Order Number: ${this.orderNumber} Invoice Number: ${
+          `Order Number: ${this.orderNumber}`
+        );
+        this.messageService.add(
+          `Invoice Number: ${
             this.invoiceNumber
           }`
         );

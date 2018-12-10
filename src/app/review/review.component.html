@@ -192,7 +192,7 @@
   <div class="col-md-1">
       <strong
       >${{
-        reviewInfo.totalRoomPrice - reviewInfo.totalChildPromo | number: ".2"
+        reviewInfo.totalRoomPrice - reviewInfo.totalChildPromo | number: "1.2-2"
       }}</strong
     >
   </div>
@@ -222,7 +222,7 @@
       >${{
         reviewInfo.totalOptionPrice +
           reviewInfo.totalVisaPrice +
-          reviewInfo.extraHotelAmount | number: ".2"
+          reviewInfo.extraHotelAmount | number: "1.2-2"
       }}</strong
     >
   </div>
@@ -234,13 +234,13 @@
 </div>
 <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
   <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
-    <div class="row" *ngIf="option.type !== 10 && option.type !== 20">
+    <div class="row">
       <div class="col-md-11">
-        {{ option.name }}&nbsp;(${{ option.price | number: ".2" }} x
+        {{ option.name }}&nbsp;(${{ option.price | number: "1.2-2" }} x
         {{ option.quantity }})
       </div>
       <div class="col-md-1">
-        ${{ option.price * option.quantity | number: ".2" }}
+        ${{ option.price * option.quantity | number: "1.2-2" }}
         <!-- ({{ option.subTotal }}) -->
       </div>
     </div>
@@ -252,13 +252,13 @@
 
   <div class="row">
     <div class="col-md-11 text-right">Subtotal:</div>
-    <div class="col-md-1">${{ trip.totalPriceForPayment | number: ".2" }}</div>
+    <div class="col-md-1">${{ trip.totalPriceForPayment | number: "1.2-2" }}</div>
   </div>
   <div class="row">
     <div class="col-md-11 text-right">Credit Card Surcharge:</div>
     <div class="col-md-1">
       ${{
-        trip.paymentTypeSurcharges * trip.totalPriceForPayment | number: ".2"
+        (trip.paymentTypeSurcharges * trip.totalPriceForPayment) | number: "1.2-2"
       }}
     </div>
   </div>
@@ -266,8 +266,8 @@
     <div class="col-md-11 text-right">Total Price:</div>
     <div class="col-md-1">
       ${{
-        (1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment
-          | number: ".2"
+        ((1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment)
+          | number: "1.2-2"
       }}
     </div>
   </div>
@@ -275,18 +275,18 @@
     <div class="col-md-11 text-right">Minimum Deposit:</div>
     <div class="col-md-1">
       ${{
-        trip.minimumDeposit * trip.selectedTravellerQuantity.id | number: ".2"
+        (trip.minimumDeposit * trip.selectedTravellerQuantity.id) | number: "1.2-2"
       }}
     </div>
   </div>
   <ng-template #paid>
     <div class="row" *ngFor="let paymentAmount of trip.paidAmounts">
       <div class="col-md-11 text-right">Payment:</div>
-      <div class="col-md-1">${{ paymentAmount | number: ".2" }}</div>
+      <div class="col-md-1">${{ paymentAmount | number: "1.2-2" }}</div>
     </div>
     <div class="row">
-      <div class="col-md-11 text-right">Own:</div>
-      <div class="col-md-1">${{ own | number: ".2" }}</div>
+      <div class="col-md-11 text-right">Tour Package Balance Owing:</div>
+      <div class="col-md-1">${{ own | number: "1.2-2" }}</div>
     </div>
   </ng-template>
   <br />

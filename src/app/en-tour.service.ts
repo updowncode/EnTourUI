@@ -6,7 +6,8 @@ import {
   BehaviorSubject,
   Subject,
   Subscription,
-  throwError
+  throwError,
+  from
 } from "rxjs";
 import {
   map,
@@ -15,7 +16,9 @@ import {
   catchError,
   tap,
   retry,
-  groupBy
+  groupBy,
+  mergeMap,
+  toArray
 } from "rxjs/operators";
 import { MessageService } from "./message.service";
 import { Tour } from "./Models/tour";
@@ -54,7 +57,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-  private siteIPToPublish = "dnndev.me";
+private siteIPToPublish = 'dnndev.me';
 
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
@@ -216,145 +219,148 @@ export class EnTourService implements OnDestroy {
     r.promoAmountPerChild = 0;
     r.optionSummary = new Array<OptionSummary>();
 
-    // if (this.trip && this.trip.rooms) {
-    //   r.totalRoomPrice = this.trip.rooms.reduce(
-    //     (a, b) => a + b.roomPriceForPerTraveller * b.travellers.length,
-    //     0
-    //   );
-    //   this.trip.rooms = this.trip.rooms.map(c => {
-    //     c.travellers.forEach(d => (d.needVisa = false));
-    //     return c;
-    //   });
-    //   const t = this.trip.rooms.reduce(
-    //     (a, b) => [...a, ...b.travellers],
-    //     new Array<Traveller>()
-    //   );
-    //   r.childrenQuantity = t.filter(c => c.isChild).length;
-
-    //   r.totalChildPromo =
-    //     r.childrenQuantity > 0
-    //       ? this.trip.rooms.reduce((a, b) => a + b.childPromoAmount * b.travellers.filter(c => c.isChild).length, 0)
-    //       : 0;
-
-    //   const o = t.reduce(
-    //     (c, d) => [...c, ...d.selectedOptions],
-    //     new Array<Option>()
-    //   );
-    //   if (o.filter( c => c !== null).some(c => c.id > 0)) {
-    //     r.totalOptionPrice = o
-    //       .filter(c => c !== null && c.type !== 10 && c.type !== 20)
-    //       .reduce((a, b) => a + b.price, 0);
-    //     r.totalVisaPrice = o
-    //       .filter(c => c !== null && c.type === 20)
-    //       .reduce((a, b) => a + b.price, 0);
-    //     r.totalVisaQuantity = o.filter(c => c !== null && c.type === 20).length;
-    //     r.extraHotelAmount = o
-    //       .filter(c => c !== null && c.type === 10)
-    //       .reduce((a, b) => a + b.price, 0);
-    //   }
-    //   r.totalPrice =
-    //     r.totalRoomPrice +
-    //     r.totalOptionPrice +
-    //     r.totalVisaPrice +
-    //     r.extraHotelAmount -
-    //     r.totalChildPromo;
-    //   r.optionSummary = [...this.setOptionSummary(t)];
-    //   // r.optionSummary = [...this.setOptionSummar1(t)];
-    //   this.trip.totalPriceForPayment = r.totalPrice;
-    //   r.minimumDepositTotal  = this.trip.minimumDeposit * t.length;
-    // }
-    // return r;
-
     if (this.trip && this.trip.rooms) {
+      r.totalRoomPrice = this.trip.rooms.reduce(
+        (a, b) => a + b.roomPriceForPerTraveller * b.travellers.length,
+        0
+      );
+      this.trip.rooms = this.trip.rooms.map(c => {
+        c.travellers.forEach(d => (d.needVisa = false));
+        return c;
+      });
       const t = this.trip.rooms.reduce(
         (a, b) => [...a, ...b.travellers],
         new Array<Traveller>()
       );
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        r.totalRoomPrice +=
-          this.trip.rooms[i].roomPriceForPerTraveller *
-          this.trip.rooms[i].travellers.length;
-      }
-      for (let i = 0; i < this.trip.rooms.length; i++) {
-        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-          this.trip.rooms[i].travellers[j].needVisa = false;
-          if (this.trip.rooms[i].travellers[j].isChild) {
-            r.childrenQuantity++;
-            r.totalChildPromo += this.trip.rooms[i].childPromoAmount;
-            r.promoAmountPerChild = this.trip.rooms[i].childPromoAmount;
-          }
-          if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
-            for (
-              let k = 0;
-              k < this.trip.rooms[i].travellers[j].selectedOptions.length;
-              k++
-            ) {
-              if (
-                this.trip.rooms[i].travellers[j].selectedOptions[k].type !==
-                  10 &&
-                this.trip.rooms[i].travellers[j].selectedOptions[k].type !== 20
-              ) {
-                r.totalOptionPrice += this.trip.rooms[i].travellers[
-                  j
-                ].selectedOptions[k].price;
-              } else if (
-                this.trip.rooms[i].travellers[j].selectedOptions[k].type === 20
-              ) {
-                r.totalVisaQuantity++;
-                r.totalVisaPrice += this.trip.rooms[i].travellers[
-                  j
-                ].selectedOptions[k].price;
-                this.trip.rooms[i].travellers[j].needVisa = true;
-              } else if (
-                this.trip.rooms[i].travellers[j].selectedOptions[k].type === 10
-              ) {
-                r.extraHotelAmount += this.trip.rooms[i].travellers[
-                  j
-                ].selectedOptions[k].price;
-              }
-            }
-          }
-        }
-        r.totalPrice =
-          r.totalRoomPrice +
-          r.totalOptionPrice +
-          r.totalVisaPrice +
-          r.extraHotelAmount -
-          r.totalChildPromo;
-      }
-      const travellers = this.trip.rooms.reduce(
-        (p, u) => [...p, ...u.travellers],
-        []
+      r.childrenQuantity = t.filter(c => c.isChild).length;
+
+      r.totalChildPromo =
+        r.childrenQuantity > 0
+          ? this.trip.rooms.reduce(
+              (a, b) =>
+                a +
+                b.childPromoAmount * b.travellers.filter(c => c.isChild).length,
+              0
+            )
+          : 0;
+
+      const o = t.reduce(
+        (c, d) => [...c, ...d.selectedOptions],
+        new Array<Option>()
       );
-      r.optionSummary = [...this.setOptionSummary(travellers)];
+      if (o.filter(c => c !== null).some(c => c.id > 0)) {
+        r.totalOptionPrice = o
+          .filter(c => c !== null && c.type !== 10 && c.type !== 20)
+          .reduce((a, b) => a + b.price, 0);
+        r.totalVisaPrice = o
+          .filter(c => c !== null && c.type === 20)
+          .reduce((a, b) => a + b.price, 0);
+        r.totalVisaQuantity = o.filter(c => c !== null && c.type === 20).length;
+        r.extraHotelAmount = o
+          .filter(c => c !== null && c.type === 10)
+          .reduce((a, b) => a + b.price, 0);
+      }
+      r.totalPrice =
+        r.totalRoomPrice +
+        r.totalOptionPrice +
+        r.totalVisaPrice +
+        r.extraHotelAmount -
+        r.totalChildPromo;
+      r.optionSummary = [...this.setOptionSummary2(t)];
       this.trip.totalPriceForPayment = r.totalPrice;
       r.minimumDepositTotal = this.trip.minimumDeposit * t.length;
     }
     return r;
+
+    // if (this.trip && this.trip.rooms) {
+    //   const t = this.trip.rooms.reduce(
+    //     (a, b) => [...a, ...b.travellers],
+    //     new Array<Traveller>()
+    //   );
+    //   for (let i = 0; i < this.trip.rooms.length; i++) {
+    //     r.totalRoomPrice +=
+    //       this.trip.rooms[i].roomPriceForPerTraveller *
+    //       this.trip.rooms[i].travellers.length;
+    //   }
+    //   for (let i = 0; i < this.trip.rooms.length; i++) {
+    //     for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+    //       this.trip.rooms[i].travellers[j].needVisa = false;
+    //       if (this.trip.rooms[i].travellers[j].isChild) {
+    //         r.childrenQuantity++;
+    //         r.totalChildPromo += this.trip.rooms[i].childPromoAmount;
+    //         r.promoAmountPerChild = this.trip.rooms[i].childPromoAmount;
+    //       }
+    //       if (this.trip.rooms[i].travellers[j].selectedOptions !== null) {
+    //         for (
+    //           let k = 0;
+    //           k < this.trip.rooms[i].travellers[j].selectedOptions.length;
+    //           k++
+    //         ) {
+    //           if (
+    //             this.trip.rooms[i].travellers[j].selectedOptions[k].type !==
+    //               10 &&
+    //             this.trip.rooms[i].travellers[j].selectedOptions[k].type !== 20
+    //           ) {
+    //             r.totalOptionPrice += this.trip.rooms[i].travellers[
+    //               j
+    //             ].selectedOptions[k].price;
+    //           } else if (
+    //             this.trip.rooms[i].travellers[j].selectedOptions[k].type === 20
+    //           ) {
+    //             r.totalVisaQuantity++;
+    //             r.totalVisaPrice += this.trip.rooms[i].travellers[
+    //               j
+    //             ].selectedOptions[k].price;
+    //             this.trip.rooms[i].travellers[j].needVisa = true;
+    //           } else if (
+    //             this.trip.rooms[i].travellers[j].selectedOptions[k].type === 10
+    //           ) {
+    //             r.extraHotelAmount += this.trip.rooms[i].travellers[
+    //               j
+    //             ].selectedOptions[k].price;
+    //           }
+    //         }
+    //       }
+    //     }
+    //     r.totalPrice =
+    //       r.totalRoomPrice +
+    //       r.totalOptionPrice +
+    //       r.totalVisaPrice +
+    //       r.extraHotelAmount -
+    //       r.totalChildPromo;
+    //   }
+    //   const travellers = this.trip.rooms.reduce(
+    //     (p, u) => [...p, ...u.travellers],
+    //     []
+    //   );
+    //   r.optionSummary = [...this.setOptionSummary2(travellers)];
+    //   this.trip.totalPriceForPayment = r.totalPrice;
+    //   r.minimumDepositTotal = this.trip.minimumDeposit * t.length;
+    // }
+    // return r;
   }
-  setOptionSummar1(travellers: Traveller[]): OptionSummary[] {
+  setOptionSummary2(travellers: Traveller[]): OptionSummary[] {
     const optionSummaries = new Array<OptionSummary>();
-    const options = travellers.reduce(
-      (a, b) => [...a, ...b.selectedOptions],
-      new Array<Option>()
-    );
-    if (options[0]) {
-      const source = of(options).subscribe(result => {
-        const ops = result
-          .filter(c => c !== null)
-          .reduce((p, n) => {
-            if (!p[n.name]) {
-              p[n.name] = [];
-            }
-            p[n.name].push(n);
-            return p;
-          }, {});
+    if (travellers.some(c => c.selectedOptions && c.selectedOptions.some(d => d.name !== null))) {
+      const options = from<Option>(
+        travellers.filter(c => c.selectedOptions != null && c.selectedOptions.some(d => d.name !== null)).reduce((a, b) => [...a, ...b.selectedOptions], [])
+      );
+      const groups = options.pipe(
+        groupBy(option => option.name),
+        mergeMap(group => group.pipe(toArray()))
+      );
+      groups.subscribe(v => {
+        const os = new OptionSummary();
+        os.name = v[0].name;
+        os.price = v[0].price;
+        os.type = v[0].type;
+        os.quantity = v.length;
+        os.subTotal = os.price * os.quantity;
+        optionSummaries.push(os);
       });
-      // const groups = source
-      //   .groupBy(c => c.name)
-      //   .flatMap(g => g.reduce((acc, cur) => [...acc, cur], []));
     }
 
+    // http://localhost:4200/ENTOUR/payment?trnApproved=1&trnId=10100123&messageId=1&messageText=Approved&authCode=T3139S&responseType=T&trnAmount=1.00&trnDate=12%2F7%2F2018%208:56:18%20AM&trnOrderNumber=30009908&trnLanguage=eng&trnCustomerName=HUNG%20MAN%20TAM&trnEmailAddress=herman.tam@toureast.com&trnPhoneNumber=9055676419&avsProcessed=1&avsId=X&avsResult=1&avsAddrMatch=1&avsPostalMatch=1&avsMessage=Street%20address%20and%20Postal%2FZIP%20match.&cvdId=1&cardType=MC&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=13881a9e68e8309cacf824c2e8c63b65
     return optionSummaries;
   }
   setOptionSummary(travellers: Traveller[]): OptionSummary[] {
