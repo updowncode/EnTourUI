@@ -70,7 +70,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       localStorage.setItem("EmailHasBeenSent", "true");
     } else {
       localStorage.removeItem("EmailHasBeenSent");
-      this.messageService.add(resp.data.errorMsg);
+      this.messageService.add(resp.errorMsg);
     }
   }
   ResendEmail() {
@@ -78,15 +78,32 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     req.callbackurl = location.href;
     req.orderNumber = this.orderNumber;
     this.sendingEmail = true;
-    this.emailSubscription = this.tourService
-      .sendInvoiceEmailAsync(req)
-      .subscribe(
-        (result: any) => this.onEmailResult(result),
-        err => {
-          this.sendingEmail = false;
-          console.log(err);
-        }
-      );
+    this.sendEmailDone = false;
+    if (this.invoiceNumber.length > 0) {
+      this.emailSubscription = this.tourService
+        .sendInvoiceEmailAsync(req)
+        .subscribe(
+          (result: any) => this.onEmailResult(result),
+          err => {
+            this.sendingEmail = false;
+            this.tourService.openNgxModelDlg(
+              `Network issue, please try again to retrieve your order`
+            );
+          }
+        );
+    } else {
+      this.emailSubscription = this.tourService
+        .sendEmailWithoutInvoiceAsync(req)
+        .subscribe(
+          (result: any) => this.onEmailResult(result),
+          err => {
+            this.sendingEmail = false;
+            this.tourService.openNgxModelDlg(
+              `Network issue, please try again to retrieve your order`
+            );
+          }
+        );
+    }
   }
   onVerifyUrlResult(resp: any) {
     this.retrievingInfo = false;
@@ -96,16 +113,10 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     } else {
       this.orderTrip = Object.assign({}, resp.data.trip);
       this.invoiceNumber = resp.data.invoiceNumber;
+      this.messageService.clearMessage();
+      this.messageService.add(`Order Number: ${this.orderNumber}`);
       if (this.invoiceNumber.length > 0) {
-        this.messageService.clearMessage();
-        this.messageService.add(
-          `Order Number: ${this.orderNumber}`
-        );
-        this.messageService.add(
-          `Invoice Number: ${
-            this.invoiceNumber
-          }`
-        );
+        this.messageService.add(`Invoice Number: ${this.invoiceNumber}`);
       }
       if (resp.data.status === "success") {
         const req = new FrontEndCallbackModel();
@@ -116,38 +127,43 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
           this.sendingEmail = true;
           this.sendEmailDone = false;
           this.emailSubscription = this.tourService
-            .sendInvoiceEmailAsync(req)
-            .subscribe(
-              (result: any) => this.onEmailResult(result),
-              err => {
-                this.sendingEmail = false;
-                console.log(err);
-              }
-            );
-        } else {
-          this.sendEmailDone = true;
-        }
-      } else {
-        const req = new FrontEndCallbackModel();
-        req.callbackurl = location.href;
-        req.orderNumber = resp.data.orderNumber;
-        if (localStorage.getItem("EmailHasBeenSent") == null) {
-          this.sendingEmail = true;
-          this.sendEmailDone = false;
-          this.emailSubscription = this.tourService
             .sendEmailWithoutInvoiceAsync(req)
             .subscribe(
               (result: any) => this.onEmailResult(result),
               err => {
                 this.sendingEmail = false;
                 console.log(err);
+                this.tourService.openNgxModelDlg(
+                  `Network issue, please try again to retrieve your order`
+                );
               }
             );
         } else {
+          this.sendingEmail = false;
           this.sendEmailDone = true;
         }
-        this.tourService.openNgxModelDlg(resp.data.message, "Order");
       }
+      // else {
+      //   const req = new FrontEndCallbackModel();
+      //   req.callbackurl = location.href;
+      //   req.orderNumber = resp.data.orderNumber;
+      //   if (localStorage.getItem("EmailHasBeenSent") == null) {
+      //     this.sendingEmail = true;
+      //     this.sendEmailDone = false;
+      //     this.emailSubscription = this.tourService
+      //       .sendEmailWithoutInvoiceAsync(req)
+      //       .subscribe(
+      //         (result: any) => this.onEmailResult(result),
+      //         err => {
+      //           this.sendingEmail = false;
+      //           console.log(err);
+      //         }
+      //       );
+      //   } else {
+      //     this.sendEmailDone = true;
+      //   }
+      //   this.tourService.openNgxModelDlg(resp.data.message, "Order");
+      // }
     }
     // this.orderTrip = Object.assign({}, resp.data.trip);
     // this.invoiceNumber = resp.data.invoiceNumber;

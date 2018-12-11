@@ -81,7 +81,7 @@ private siteIPToPublish = 'dnndev.me';
   private sendNoInvoiceEmailUrl =
     "http://" +
     this.siteIPToPublish +
-    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendNoInvoiceEmail"; // URL to web api
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendEmailWithoutInvoice"; // URL to web api
 
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);
@@ -501,7 +501,7 @@ private siteIPToPublish = 'dnndev.me';
   ): Observable<OrderDetail> {
     const header = new HttpHeaders().set("content-type", "application/json");
     return this.httpClient
-      .post<any>(this.sendInvoiceEmailUrl, JSON.stringify(req), {
+      .post<any>(this.sendNoInvoiceEmailUrl, JSON.stringify(req), {
         headers: header
       })
       .pipe(
