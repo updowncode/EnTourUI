@@ -20,7 +20,7 @@
         <p style="font-size: 18px;" class="tecolor no-print">
           Congratulations! You have booked the tour successfully. Please write down your order number for further reference.
         </p>
-        <p style="font-size: 18px;" class="tecolor no-print" *ngIf="!sendingEmail">
+        <p style="font-size: 18px;" class="tecolor no-print" *ngIf="sendEmailDone">
           A copy of the confirmation has been sent to your email. 
         </p>
         <div *ngIf="sendingEmail">Sending email...</div>

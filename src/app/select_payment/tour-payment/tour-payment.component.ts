@@ -1,7 +1,17 @@
 import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { EnTourService } from "../../en-tour.service";
-import { Subscription, Observable } from "rxjs";
+import {
+  Subscription,
+  Observable,
+  fromEvent,
+  interval,
+  empty,
+  merge,
+  from,
+  of
+} from "rxjs";
+import { fromPromise } from 'rxjs/observable/fromPromise';
 import { slideInDownAnimation } from "../../app.animations";
 import { MessageService } from "../../message.service";
 import { Location } from "@angular/common";
@@ -9,6 +19,7 @@ import { FrontEndCallbackModel } from "../../Models/front-end-callback-model";
 import { OrderDetail } from "../../Models/order-detail";
 import { Trip } from "../../Models/trip";
 import { ReviewInfo } from "../../Models/review-info";
+import { map, mapTo, startWith, switchMap, scan, takeWhile, mergeMap, catchError } from "rxjs/operators";
 @Component({
   selector: "app-tour-payment",
   templateUrl: "./tour-payment.component.html",
@@ -72,6 +83,49 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       localStorage.removeItem("EmailHasBeenSent");
       this.messageService.add(resp.errorMsg);
     }
+  }
+  countdown() {
+    const canbeclicked = document.querySelector("#id");
+    const clickStream = fromEvent(canbeclicked, 'click');
+
+    const countdownSeconds = 10;
+    const setHTML = id => val => (document.getElementById(id).innerHTML = val);
+    const pauseButton = document.getElementById("pause");
+    const resumeButton = document.getElementById("resume");
+    const interval$ = interval(1000).pipe(mapTo(-1));
+
+    const pause$ = fromEvent(pauseButton, "click").pipe(mapTo(false));
+    const resume$ = fromEvent(resumeButton, "click").pipe(mapTo(true));
+    const timer$ = merge(pause$, resume$)
+      .pipe(
+        startWith(true),
+        // 如果定时器暂停，则返回空的 Observable
+        switchMap(val => (val ? interval$ : empty())),
+        scan((acc, curr) => (curr ? curr + acc : acc), countdownSeconds),
+        takeWhile(v => v >= 0)
+      )
+      .subscribe(setHTML("remaining"));
+
+    const promiseSource = from(new Promise(resolve => resolve("Hello World!")));
+
+    const myPromise = willReject => {
+      return new Promise((resolve, reject) => {
+        if (willReject) {
+          reject("Rejected!");
+        }
+        resolve("Resolved!");
+      });
+    };
+    // 先发出 true，然后是 false
+    const source = of(true, false);
+    const example = source.pipe(
+      mergeMap(val =>
+        fromPromise(myPromise(val)).pipe(
+          // 捕获并优雅地处理 reject 的结果
+          catchError(error => of(`Error: ${error}`))
+        )
+      )
+    );
   }
   ResendEmail() {
     const req = new FrontEndCallbackModel();
@@ -202,16 +256,17 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       req.orderNumber = this.orderNumber;
       this.orderDetailSubscription = this.tourService
         .verifyFrontEndCallBackUrlAsync(req)
-        .subscribe(
-          (resp: any) => this.onVerifyUrlResult(resp),
-          err => {
+        .subscribe({
+          next: (resp: any) => this.onVerifyUrlResult(resp),
+          complete: () => console.log('Complete!'),
+          error: err => {
             this.retrievingInfo = false;
             // this.messageService.add(`Network issue, please try again to retrieve your order: ${err}`);
             this.tourService.openNgxModelDlg(
               `Network issue, please try again to retrieve your order`
             );
           }
-        );
+        });
     }
   }
 }
