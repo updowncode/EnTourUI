@@ -57,7 +57,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = '192.168.168.117:8019';
+private siteIPToPublish = 'dnndev.me';
 
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
@@ -103,7 +103,7 @@ private siteIPToPublish = '192.168.168.117:8019';
     private modalService: NgbModal,
     private ngxModelDlgService: BsModalService
   ) {
-    const setTour = tour => this.tour = tour;
+    const setTour = tour => (this.tour = tour);
     this.tourSubscription = this.tour$.subscribe(setTour);
     // this.tourSubscription = this.tour$.subscribe(tour => {
     //   this.tour = tour;
@@ -343,11 +343,22 @@ private siteIPToPublish = '192.168.168.117:8019';
   }
   setOptionSummary2(travellers: Traveller[]): OptionSummary[] {
     const optionSummaries = new Array<OptionSummary>();
-    if (travellers.some(c => c.selectedOptions && c.selectedOptions.some(d => d.name !== null))) {
+    if (
+      travellers.some(
+        c => c.selectedOptions && c.selectedOptions.some(d => d.name !== null)
+      )
+    ) {
       const options = from<Option>(
-        travellers.filter(c => c.selectedOptions != null && c.selectedOptions.some(d => d.name !== null)).reduce((a, b) => [...a, ...b.selectedOptions], [])
+        travellers
+          .filter(
+            c =>
+              c.selectedOptions != null &&
+              c.selectedOptions.some(d => d.name !== null)
+          )
+          .reduce((a, b) => [...a, ...b.selectedOptions], [])
       );
-      const groups = options.pipe(
+      const groups = options
+      .pipe(
         groupBy(option => option.name),
         mergeMap(group => group.pipe(toArray()))
       );
@@ -508,7 +519,10 @@ private siteIPToPublish = '192.168.168.117:8019';
       })
       .pipe(
         catchError(
-          this.handleObservableError("sendInvoiceEmailAsync", new OrderDetail())
+          this.handleObservableError(
+            "sendNoInvoiceEmailAsync",
+            new OrderDetail()
+          )
         )
       );
   }

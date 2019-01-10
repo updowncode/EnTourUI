@@ -1,166 +1,169 @@
-<br />
-<div class="row">
-  <div class="col-md-12">
-    <strong style="font-size:18px;">Billing Information</strong>
+<div style="padding:5px;">
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <strong style="font-size:18px;">Billing Information</strong>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <table
-      style="width:100%;margin-top: 5px;"
-      class="table table-striped table-hover table-condensed"
-    >
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Mailing Address</th>
-        <th>City</th>
-        <th>Prov.</th>
-        <th>Country</th>
-        <th>Postal Code</th>
-      </tr>
-      <tr>
-        <td>
-          {{ trip.billingInfo.firstName }}&nbsp;{{ trip.billingInfo.lastName }}
-        </td>
-        <td>{{ trip.billingInfo.email }}</td>
-        <td>
-          {{ trip.billingInfo.primaryPhone
-          }}<span *ngIf="trip.billingInfo.secondaryPhone"
-            >/{{ trip.billingInfo.secondaryPhone }}</span
-          >
-        </td>
-        <td>{{ trip.billingInfo.mailingAddress }}</td>
-        <td>{{ trip.billingInfo.city }}</td>
-        <td>{{ trip.billingInfo.provinceStates }}</td>
-        <td>{{ trip.billingInfo.country.name }}</td>
-        <td>{{ trip.billingInfo.postalCode }}</td>
-      </tr>
-    </table>
+  <div class="row">
+    <div class="col-md-12">
+      <table
+        style="width:100%;margin-top: 5px;"
+        class="table table-striped table-hover table-condensed"
+      >
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Mailing Address</th>
+          <th>City</th>
+          <th>Prov.</th>
+          <th>Country</th>
+          <th>Postal Code</th>
+        </tr>
+        <tr>
+          <td>
+            {{ trip.billingInfo.firstName }}&nbsp;{{
+              trip.billingInfo.lastName
+            }}
+          </td>
+          <td>{{ trip.billingInfo.email }}</td>
+          <td>
+            {{ trip.billingInfo.primaryPhone
+            }}<span *ngIf="trip.billingInfo.secondaryPhone"
+              >/{{ trip.billingInfo.secondaryPhone }}</span
+            >
+          </td>
+          <td>{{ trip.billingInfo.mailingAddress }}</td>
+          <td>{{ trip.billingInfo.city }}</td>
+          <td>{{ trip.billingInfo.provinceStates }}</td>
+          <td>{{ trip.billingInfo.country.name }}</td>
+          <td>{{ trip.billingInfo.postalCode }}</td>
+        </tr>
+      </table>
+    </div>
   </div>
-</div>
-<br />
-<div class="row">
-  <div class="col-md-12"><strong style="font-size:18px;">Rooms</strong></div>
-  <div class="col-md-12" *ngFor="let room of trip.rooms">
-    <div class="row">
-      <div class="col-md-8">
-        <div>
-          <span> Room #{{ room.index }} </span>
-          <span
-            *ngIf="
-              room.roomPriceForPerTraveller -
-                room.roomOriginalPriceForPerTraveller >
-              0
-            "
-            >(Single Supplement: $
-            {{
-              room.roomPriceForPerTraveller -
-                room.roomOriginalPriceForPerTraveller
-            }})</span
-          >
-          <span *ngIf="room.smokingRoom == 0">Non-smoking</span>
-          <span *ngIf="room.smokingRoom == 1">Smoking</span>
-          <span *ngIf="room.selectedRoomCfg.id !== -1"
-            >&nbsp;/&nbsp;{{ room.selectedRoomCfg.description }}</span
-          >
+  <br />
+  <div class="row">
+    <div class="col-md-12"><strong style="font-size:18px;">Rooms</strong></div>
+    <div class="col-md-12" *ngFor="let room of trip.rooms">
+      <div class="row">
+        <div class="col-md-8">
+          <div>
+            <span> Room #{{ room.index }} </span>
+            <span
+              *ngIf="
+                room.roomPriceForPerTraveller -
+                  room.roomOriginalPriceForPerTraveller >
+                0
+              "
+              >(Single Supplement: $
+              {{
+                room.roomPriceForPerTraveller -
+                  room.roomOriginalPriceForPerTraveller
+              }})</span
+            >
+            <span *ngIf="room.smokingRoom == 0">Non-smoking</span>
+            <span *ngIf="room.smokingRoom == 1">Smoking</span>
+            <span *ngIf="room.selectedRoomCfg.id !== -1"
+              >&nbsp;/&nbsp;{{ room.selectedRoomCfg.description }}</span
+            >
+          </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div style="margin-right: 10px;">
-          <!--
+        <div class="col-md-4">
+          <div style="margin-right: 10px;">
+            <!--
             ${{ room.roomPriceForPerTraveller }} x
             {{ room.travellers.length }} ({{
               room.roomPriceForPerTraveller * room.travellers.length
             }})
-          -->
+          --></div>
         </div>
-      </div>
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-12">
-            <table
-              style="width:100%;margin-top: 5px;"
-              class="table table-striped table-hover table-condensed"
-            >
-              <tr>
-                <th>Title</th>
-                <th>Name</th>
-                <th>DOB</th>
-                <th>Is Child</th>
-                <th>Country</th>
-                <th>Passport Number</th>
-                <th>Passport Issue Date</th>
-                <th>Passport Expiry Date</th>
-                <th>Passport Issue Place</th>
-                <th>National</th>
-                <th>Insurance</th>
-                <!-- <th>Comments</th> -->
-              </tr>
-              <tr *ngFor="let traveller of room.travellers">
-                <td>{{ traveller.title }}</td>
-                <td>
-                  {{ traveller.firstName }}&nbsp;{{
-                    traveller.middleName
-                  }}&nbsp;{{ traveller.lastName }}
-                </td>
-                <td>{{ traveller.birthday | date: "yyyy-MM-dd" }}</td>
-                <td>
-                  <span *ngIf="traveller.isChild">Yes</span
-                  ><span *ngIf="!traveller.isChild">No</span>
-                </td>
-                <td>{{ traveller.placeofbirth }}</td>
-                <td>
-                  <span *ngIf="traveller.passport">
-                    {{ traveller.passport.number }}
-                  </span>
-                </td>
-                <td>
-                  <span *ngIf="traveller.passport">
-                    {{ traveller.passport.issueDate | date: "yyyy-MM-dd" }}
-                  </span>
-                </td>
-                <td>
-                  <span *ngIf="traveller.passport">
-                    {{ traveller.passport.expiryDate | date: "yyyy-MM-dd" }}
-                  </span>
-                </td>
-                <td>
-                  <span
-                    *ngIf="traveller.passport && traveller.passport.issuePlace"
-                  >
-                    {{ traveller.passport.issuePlace.name }}
-                  </span>
-                </td>
-                <td>
-                  <span *ngIf="traveller.countryOrArea">{{
-                    traveller.countryOrArea.name
-                  }}</span>
-                </td>
-                <td>
-                  <span *ngIf="traveller.needInsuance">Yes</span
-                  ><span *ngIf="!traveller.needInsuance">No</span>
-                </td>
-                <!--
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <table
+                style="width:100%;margin-top: 5px;"
+                class="table table-striped table-hover table-condensed"
+              >
+                <tr>
+                  <th>Title</th>
+                  <th>Name</th>
+                  <th>DOB</th>
+                  <th>Is Child</th>
+                  <th>Country</th>
+                  <th>Passport Number</th>
+                  <th>Passport Issue Date</th>
+                  <th>Passport Expiry Date</th>
+                  <th>Passport Issue Place</th>
+                  <th>National</th>
+                  <th>Insurance</th>
+                  <!-- <th>Comments</th> -->
+                </tr>
+                <tr *ngFor="let traveller of room.travellers">
+                  <td>{{ traveller.title }}</td>
+                  <td>
+                    {{ traveller.firstName }}&nbsp;{{
+                      traveller.middleName
+                    }}&nbsp;{{ traveller.lastName }}
+                  </td>
+                  <td>{{ traveller.birthday | date: "yyyy-MM-dd" }}</td>
+                  <td>
+                    <span *ngIf="traveller.isChild">Yes</span
+                    ><span *ngIf="!traveller.isChild">No</span>
+                  </td>
+                  <td>{{ traveller.placeofbirth }}</td>
+                  <td>
+                    <span *ngIf="traveller.passport">
+                      {{ traveller.passport.number }}
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="traveller.passport">
+                      {{ traveller.passport.issueDate | date: "yyyy-MM-dd" }}
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="traveller.passport">
+                      {{ traveller.passport.expiryDate | date: "yyyy-MM-dd" }}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      *ngIf="
+                        traveller.passport && traveller.passport.issuePlace
+                      "
+                    >
+                      {{ traveller.passport.issuePlace.name }}
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="traveller.countryOrArea">{{
+                      traveller.countryOrArea.name
+                    }}</span>
+                  </td>
+                  <td>
+                    <span *ngIf="traveller.needInsuance">Yes</span
+                    ><span *ngIf="!traveller.needInsuance">No</span>
+                  </td>
+                  <!--
                   <td>
                     {{traveller.specialRequest}}
                   </td>
-                -->
-              </tr>
-            </table>
+                --></tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <hr style="border-top: 1px solid #000;margin-top: 0px;" />
+  <div class="row">
+    <div class="col-md-12">
+      <hr style="border-top: 1px solid #000;margin-top: 0px;" />
+    </div>
   </div>
-</div>
-<!--
+  <!--
   <div class="row" *ngIf="reviewInfo.totalChildPromo > 0">
     <div class="col-md-12">
       <strong style="font-size:18px;">Child Promo</strong>
@@ -178,78 +181,92 @@
     </div>
   </div>
 -->
-<!--
+  <!--
   <div class="row">
     <div class="col-md-12"><hr style="color: #000;" /></div>
   </div>
 -->
 <div class="row">
-  <div class="col-md-10">
-    <strong style="font-size:18px;"
-      >{{ trip.name }} (x {{ trip.rooms.length }} Room)</strong
-    >
-  </div>
-  <div class="col-md-1 text-right"><strong>Subtotal:</strong></div>
-  <div class="col-md-1">
+    <div class="col-md-11">
+      <div class="row">
+        <div class="col-md-10">
+          <strong style="font-size:18px;">{{ trip.name }} (x {{ trip.rooms.length }} Room)</strong>
+        </div>
+        <div class="col-md-2 text-right"><strong>Subtotal:</strong></div>
+      </div>
+    </div>
+
+    <div class="col-md-1 text-right" style="padding-left:0px;">
       <strong
-      >${{
-        reviewInfo.totalRoomPrice - reviewInfo.totalChildPromo | number: "1.2-2"
-      }}</strong
-    >
-  </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-      <hr style="margin-top:5px;margin-bottom: 5px;border-top: 1px solid #aaa;" />
+        >${{
+          reviewInfo.totalRoomPrice - reviewInfo.totalChildPromo
+            | number: "1.2-2"
+        }}</strong
+      >
     </div>
   </div>
-<div class="row">
-  <div class="col-md-12">
-    Start:
-    {{ trip.startDate | date: "MMMM d, yyyy" }}
+
+ 
+  <div class="row">
+    <div class="col-md-12">
+      <hr
+        style="margin-top:5px;margin-bottom: 5px;border-top: 1px solid #aaa;"
+      />
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    End:
-    {{ trip.endDate | date: "MMMM d, yyyy" }}
+  <div class="row">
+    <div class="col-md-12">
+      Start: {{ trip.startDate | date: "MMMM d, yyyy" }}
+    </div>
   </div>
-</div>
-<div *ngIf="reviewInfo.optionSummary.length > 0"><br /></div>
-<div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
-  <div class="col-md-10"><strong style="font-size:18px;">Options</strong></div>
-  <div class="col-md-1 text-right"><strong>Subtotal:</strong></div>
-  <div class="col-md-1">
-    <strong 
-      >${{
-        reviewInfo.totalOptionPrice +
-          reviewInfo.totalVisaPrice +
-          reviewInfo.extraHotelAmount | number: "1.2-2"
-      }}</strong
-    >
+  <div class="row">
+    <div class="col-md-12">End: {{ trip.endDate | date: "MMMM d, yyyy" }}</div>
   </div>
-</div>
-<div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
-  <div class="col-md-12">
-    <hr style="margin-top:5px;margin-bottom: 5px;border-top: 1px solid #aaa;" />
-  </div>
-</div>
-<div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
-  <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
-    <div class="row">
-      <div class="col-md-11">
-        {{ option.name }}&nbsp;(${{ option.price | number: "1.2-2" }} x
-        {{ option.quantity }})
+  <div *ngIf="reviewInfo.optionSummary.length > 0"><br /></div>
+  <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
+    <div class="col-md-11">
+      <div class="row">
+        <div class="col-md-10">
+          <strong style="font-size:18px;">Options</strong>
+        </div>
+        <div class="col-md-2 text-right"><strong>Subtotal:</strong></div>
       </div>
-      <div class="col-md-1">
-        ${{ option.price * option.quantity | number: "1.2-2" }}
-        <!-- ({{ option.subTotal }}) -->
+    </div>
+
+    <div class="col-md-1 text-right" style="padding-left:0px;">
+      <strong
+        >${{
+          reviewInfo.totalOptionPrice +
+            reviewInfo.totalVisaPrice +
+            reviewInfo.extraHotelAmount | number: "1.2-2"
+        }}</strong
+      >
+    </div>
+  </div>
+  <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
+    <div class="col-md-12">
+      <hr
+        style="margin-top:5px;margin-bottom: 5px;border-top: 1px solid #aaa;"
+      />
+    </div>
+  </div>
+  <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
+    <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
+      <div class="row">
+        <div class="col-md-10">
+          {{ option.name }}&nbsp;(${{ option.price | number: "1.2-2" }} x
+          {{ option.quantity }})
+        </div>
+        <div class="col-md-2 text-right" style="padding-left:0px;">
+          ${{ option.price * option.quantity | number: "1.2-2" }}
+          <!-- ({{ option.subTotal }}) -->
+        </div>
       </div>
     </div>
   </div>
 </div>
 <br />
-<div style="background-color: #ddd; font-weight: bold;">
+<div style="background-color: #ddd; font-weight: bold; padding:5px;">
   <br />
   <!-- <div class="row">
     <div class="col-md-11 text-right">Subtotal:</div>
@@ -265,29 +282,36 @@
   </div> -->
   <div class="row">
     <div class="col-md-11 text-right">Total Price:</div>
-    <div class="col-md-1">
+    <div class="col-md-1  text-right" style="padding-left:0px;">
       ${{
-        ((1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment)
+        (1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment
           | number: "1.2-2"
       }}
     </div>
   </div>
-  <div class="row" *ngIf="trip.paidAmounts == null; else: paid">
-    <div class="col-md-11 text-right">Minimum Deposit:</div>
-    <div class="col-md-1">
+  <div class="row" *ngIf="trip.paidAmounts == null; else paid">
+    <div class="col-md-11  text-right">Minimum Deposit:</div>
+    <div class="col-md-1  text-right" style="padding-left:0px;">
       ${{
-        (trip.minimumDeposit * trip.selectedTravellerQuantity.id) | number: "1.2-2"
+        trip.minimumDeposit * trip.selectedTravellerQuantity.id
+          | number: "1.2-2"
       }}
     </div>
   </div>
+
   <ng-template #paid>
-    <div class="row" *ngFor="let paymentAmount of trip.paidAmounts">
-      <div class="col-md-11 text-right">Payment:</div>
-      <div class="col-md-1">${{ paymentAmount | number: "1.2-2" }}</div>
+    <div class="row" *ngFor="let paymentAmount of trip.paidAmounts; let i=index;">
+      <div class="col-md-11 text-right" *ngIf="i === 0">Deposit:</div>
+      <div class="col-md-11 text-right" *ngIf="i > 0">Payment:</div>
+      <div class="col-md-1 text-right" style="padding-left:0px;">
+        ${{ paymentAmount | number: "1.2-2" }}
+      </div>
     </div>
     <div class="row">
-      <div class="col-md-11 text-right">Tour Package Balance Owing:</div>
-      <div class="col-md-1">$({{ own | number: "1.2-2" }})</div>
+      <div class="col-md-11 text-right">Balance Owing:</div>
+      <div class="col-md-1 text-right" style="padding-left:0px;">
+        ${{ own | number: "1.2-2" }}
+      </div>
     </div>
   </ng-template>
   <br />

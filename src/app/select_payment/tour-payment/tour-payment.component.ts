@@ -11,7 +11,7 @@ import {
   from,
   of
 } from "rxjs";
-import { fromPromise } from 'rxjs/observable/fromPromise';
+import { fromPromise } from "rxjs/observable/fromPromise";
 import { slideInDownAnimation } from "../../app.animations";
 import { MessageService } from "../../message.service";
 import { Location } from "@angular/common";
@@ -19,7 +19,17 @@ import { FrontEndCallbackModel } from "../../Models/front-end-callback-model";
 import { OrderDetail } from "../../Models/order-detail";
 import { Trip } from "../../Models/trip";
 import { ReviewInfo } from "../../Models/review-info";
-import { map, mapTo, startWith, switchMap, scan, takeWhile, mergeMap, catchError } from "rxjs/operators";
+import {
+  map,
+  mapTo,
+  startWith,
+  switchMap,
+  scan,
+  takeWhile,
+  mergeMap,
+  catchError,
+  withLatestFrom
+} from "rxjs/operators";
 @Component({
   selector: "app-tour-payment",
   templateUrl: "./tour-payment.component.html",
@@ -76,7 +86,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   onEmailResult(resp: any) {
     this.sendingEmail = false;
 
-    if (resp.data.status === "success") {
+    if (resp.data.status === "Processed") {
       this.sendEmailDone = true;
       localStorage.setItem("EmailHasBeenSent", "true");
     } else {
@@ -86,7 +96,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   }
   countdown() {
     const canbeclicked = document.querySelector("#id");
-    const clickStream = fromEvent(canbeclicked, 'click');
+    const clickStream = fromEvent(canbeclicked, "click");
 
     const countdownSeconds = 10;
     const setHTML = id => val => (document.getElementById(id).innerHTML = val);
@@ -102,6 +112,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         // 如果定时器暂停，则返回空的 Observable
         switchMap(val => (val ? interval$ : empty())),
         scan((acc, curr) => (curr ? curr + acc : acc), countdownSeconds),
+
         takeWhile(v => v >= 0)
       )
       .subscribe(setHTML("remaining"));
@@ -172,7 +183,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
       if (this.invoiceNumber.length > 0) {
         this.messageService.add(`Invoice Number: ${this.invoiceNumber}`);
       }
-      if (resp.data.status === "success") {
+      if (resp.data.status === "Processed") {
         const req = new FrontEndCallbackModel();
         req.callbackurl = location.href;
         req.orderNumber = resp.data.orderNumber;
@@ -258,7 +269,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         .verifyFrontEndCallBackUrlAsync(req)
         .subscribe({
           next: (resp: any) => this.onVerifyUrlResult(resp),
-          complete: () => console.log('Complete!'),
+          complete: () => console.log("Complete!"),
           error: err => {
             this.retrievingInfo = false;
             // this.messageService.add(`Network issue, please try again to retrieve your order: ${err}`);
