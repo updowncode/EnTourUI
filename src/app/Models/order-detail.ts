@@ -6,6 +6,10 @@ export class OrderDetail {
     message: string;
     orderNumber: string;
     invoiceNumber: string;
+    totalRoomPriceIncludeChild: number;
+    totalOptionPrice: number;
+    totalVisaPrice: number;
+    extraHotelAmount: number;
     selectedPaymentType: number;
     enPaymentTypeList: EnPaymentType[];
     trip: Trip;

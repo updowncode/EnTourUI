@@ -5,7 +5,7 @@
     </div>
   </div>
   <br />
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12">
@@ -13,32 +13,431 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <app-message></app-message>
-  <div class="row" *ngIf="approved;else fail">
+  <div class="row" *ngIf="approved; else fail">
     <div class="col-md-12">
-        <p style="font-size: 18px;" class="tecolor no-print">
-          Congratulations! You have booked the tour successfully. Please write down your order number for further reference.
-        </p>
-        <p style="font-size: 18px;" class="tecolor no-print" *ngIf="sendEmailDone">
-          A copy of the confirmation has been sent to your email. 
-        </p>
-        <div *ngIf="sendingEmail">Sending email...</div>
-        <div *ngIf="retrievingInfo" style="text-align:center;font-size:28px;margin-top: 100px; margin-bottom: 100px;color:rgb(246, 121, 4)"> Retrieving your order...</div>
-        <app-review  *ngIf="orderTrip" [trip]="orderTrip">Loading...</app-review>
-        <br />
-        <div *ngIf="!sendingEmail && !retrievingInfo">
-          <a class="btn btn-primary  btn-lg no-print"  onclick="window.print();"><i class="fa fa-print"></i> <span>Print</span></a>
-          <a class="btn btn-primary  btn-lg no-print"  *ngIf="!sendEmailDone" (click)="ResendEmail()"><i class="fa fa-file"></i> <span>Email</span></a>
+      <div class="row">
+        <div class="col-md-10">
+          <table style="width:100%;">
+            <tr>
+              <td rowspan="2" style="width:1%">
+                <img src="../assets/Checked.JPG" />
+              </td>
+              <td>
+                <div
+                  style="font-family: Arial,Helvetica,sans-serif; font-size: 25px; color: rgb(248, 153, 28)"
+                  size="25"
+                >
+                  YOUR BOOKING IS COMPLETE
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family: Arial,Helvetica,sans-serif; ">
+                Thank you for choosing Tour East Holidays
+              </td>
+            </tr>
+          </table>
         </div>
-       
+        <div class="col-md-2">
+          <table style="width:100%;">
+            <tr>
+              <td>
+                <a href="https://www.toureast.com">
+                  <img
+                    src="../assets/TE-logo.png"
+                    style="border-width: 0px; border-style: none; border-color: transparent; display: block;"
+                    height="58"
+                    width="auto"
+                  />
+                </a>
+              </td>
+              <td style="font-family: Arial,Helvetica,sans-serif; color: gray">
+                DISCOVER.<br />EXPLORE.<br />EXPERENCE.
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <br />
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Confirmation Number #: {{ orderNumber }}</label>
+                </div>
+                <div class="col-md-6 text-right">
+                  <label *ngIf="invoiceNumber"
+                    >Invoice Number #: {{ invoiceNumber }}</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="panel-body">
+              If you have any questions or conterns, please contact us right
+              away at 1.877.578.8888 or by email at tour@toureast.com.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <br />
+          <div class="panel panel-info">
+            <div class="panel-heading"><div>Price Information</div></div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div *ngIf="retrievingInfo">Retrieving...</div>
+                  <div *ngIf="orderTrip">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <strong
+                          >{{ orderTrip.name }} |
+                          {{ orderTrip.startDate | date: "MMMM d, yyyy" }} -
+                          {{ orderTrip.endDate | date: "MMMM d, yyyy" }}
+                        </strong>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12"><hr /></div>
+                    </div>
+                    <div class="row" *ngFor="let room of orderTrip.rooms">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <span> Room #{{ room.index }} </span>
+                            <span
+                              *ngIf="
+                                room.roomPriceForPerTraveller -
+                                  room.roomOriginalPriceForPerTraveller >
+                                0
+                              "
+                              >(Single Supplement: $
+                              {{
+                                room.roomPriceForPerTraveller -
+                                  room.roomOriginalPriceForPerTraveller
+                              }})</span
+                            >
+                            <span *ngIf="room.smokingRoom == 0"
+                              >Non-smoking</span
+                            >
+                            <span *ngIf="room.smokingRoom == 1">Smoking</span>
+                            <span *ngIf="room.selectedRoomCfg.id !== -1"
+                              >&nbsp;/&nbsp;{{
+                                room.selectedRoomCfg.description
+                              }}</span
+                            >
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                          *ngFor="let traveller of room.travellers"
+                        >
+                          <div class="col-md-6">
+                            &nbsp;&nbsp;{{ traveller.title }}.&nbsp;
+                            {{ traveller.firstName }}&nbsp;{{
+                              traveller.middleName
+                            }}&nbsp;{{ traveller.lastName }}
+                          </div>
+                          <div class="col-md-6 text-right">
+                            $&nbsp;{{
+                              room.roomPriceForPerTraveller -
+                                (traveller.isChild ? room.childPromoAmount : 0)
+                                | number: "1.2-2"
+                            }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12"><hr /></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 text-right">
+                        <strong>Subtotal:</strong>
+                      </div>
+                      <div class="col-md-4 text-right">
+                        $&nbsp;{{
+                          totalRoomPriceIncludeChild | number: "1.2-2"
+                        }}
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12"><hr /></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12"><strong>Options</strong></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12"><hr /></div>
+                    </div>
+                    <ng-container *ngFor="let room of orderTrip.rooms">
+                      <ng-container *ngFor="let traveller of room.travellers">
+                        <div class="row">
+                          <div class="col-md-12">
+                            {{ traveller.title }}.&nbsp;
+                            {{ traveller.firstName }}&nbsp;{{
+                              traveller.middleName
+                            }}&nbsp;{{ traveller.lastName }}
+                          </div>
+                        </div>
+                        <ng-container *ngIf="traveller.selectedOptions">
+                          <div
+                            class="row"
+                            *ngFor="let option of traveller.selectedOptions"
+                          >
+                            <div class="col-md-6 ">
+                              &nbsp;&nbsp;{{ option.name }}
+                            </div>
+                            <div class="col-md-6 text-right">
+                              $&nbsp;{{ option.price | number: "1.2-2" }}
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                    <div class="row">
+                      <div class="col-md-12"><hr /></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 text-right">
+                        <strong>Subtotal:</strong>
+                      </div>
+                      <div class="col-md-4 text-right">
+                        $&nbsp;{{
+                          totalOptionPrice + totalVisaPrice + extraHotelAmount
+                            | number: "1.2-2"
+                        }}
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12"><hr /></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 text-right">
+                        <strong>Total:</strong>
+                      </div>
+                      <div class="col-md-4 text-right">
+                        <strong
+                          >$&nbsp;{{
+                            totalRoomPriceIncludeChild +
+                              totalOptionPrice +
+                              totalVisaPrice +
+                              extraHotelAmount | number: "1.2-2"
+                          }}</strong
+                        >
+                      </div>
+                    </div>
+                    <div class="row" *ngFor="let payment of orderTrip.paidAmounts; let i = index">
+                      <div class="col-md-8 text-right">
+                        <strong *ngIf="i == 0">Deposit:</strong>
+                        <strong *ngIf="i > 0">Payment:</strong>
+                      </div>
+                      <div class="col-md-4 text-right">
+                        <strong
+                          >$&nbsp;{{
+                            payment | number: "1.2-2"
+                          }}</strong
+                        >
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 text-right">
+                        <strong>Balance Owning:</strong>
+                      </div>
+                      <div class="col-md-4 text-right">
+                        <strong
+                          >$&nbsp;{{
+                            totalRoomPriceIncludeChild +
+                              totalOptionPrice +
+                              totalVisaPrice +
+                              extraHotelAmount - totalPaidAmount | number: "1.2-2"
+                          }}</strong
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <br />
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <div>Traveller Contact Information</div>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-5">Contact Name:</div>
+                    <div class="col-md-7">
+                      {{
+                        orderTrip.billingInfo.firstName +
+                          " " +
+                          orderTrip.billingInfo.lastName
+                      }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">Phone:</div>
+                    <div class="col-md-7">
+                      {{
+                        orderTrip.billingInfo.primaryPhone +
+                          orderTrip.billingInfo.secondaryPhone
+                      }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">Billing Address:</div>
+                    <div class="col-md-7">
+                      {{ orderTrip.billingInfo.mailingAddress }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5">Email:</div>
+                    <div class="col-md-7">
+                      {{ orderTrip.billingInfo.email }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-info">
+                <div class="panel-heading"><div>What's Next</div></div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div *ngIf="sendEmailDone">
+                        A confirmation email has also been sent to you with the
+                        trip details. You can also view and print a copy of the
+                        deposit receipt by clicking on the button below:
+                      </div>
+                      <div *ngIf="sendingEmail">
+                        Sending confirmation email...
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <a
+                        href="#"
+                        class="btn btn-primary"
+                        style="text-decoration: none;color:white; font-weight: bold;"
+                        >Deposit Receipt</a
+                      >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      Please also take some time to read the
+                      <span style="color:white; color: rgb(248, 153, 28);"
+                        >trip notes</span
+                      >
+                      if you haven't already done so.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-info">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <strong>Need Travel Insurance?</strong>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <br />
+                  Do not travel without Travel Insurance. Travel Insurance is
+                  recommended for your trip. In order to protect your interests,
+                  we recommend that you purchase travel insurance including
+                  accident, illness, baggage, and cancellation. Suitable medical
+                  facilities may be few and far between, and in many locations
+                  not up to standard. Tour East recommends travelers to see
+                  their health-care provider or a travel medicine clinic for up
+                  to date guidance and medical advice. Tour East Holiday’s
+                  offers medical and/or trip cancellation insurance through
+                  Manulife World Travel Insurance. Manulife offers multiple
+                  policy options. If you are not already covered, please click
+                  the link below to purchase from Manulife directly or contact
+                  us at 1.877.578.8888 with your confirmation number within
+                  48hrs of booking your trip for assistance. By not contacting
+                  us to purchase travel insurance we understand that you already
+                  have the appropriate travel insurance or have decided to opt
+                  out of purchasing insurance for your trip. <br />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <a
+                    href="https://www.igoinsured.com/direct/ManulifeWorld.aspx?ag=tehstba"
+                  >
+                    <img
+                      alt="Insurance"
+                      src="../assets/InsurancePrg.JPG"
+                      height="100"
+                      width="780"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div> 
-  
-  
- 
+    <!-- <div class="col-md-12">
+      <p style="font-size: 18px;" class="tecolor no-print">
+        Congratulations! You have booked the tour successfully. Please write
+        down your order number for further reference.
+      </p>
+      <p
+        style="font-size: 18px;"
+        class="tecolor no-print"
+        *ngIf="sendEmailDone"
+      >
+        A copy of the confirmation has been sent to your email.
+      </p>
+      <div *ngIf="sendingEmail">Sending email...</div>
+      <div
+        *ngIf="retrievingInfo"
+        style="text-align:center;font-size:28px;margin-top: 100px; margin-bottom: 100px;color:rgb(246, 121, 4)"
+      >
+        Retrieving your order...
+      </div>
+      <app-review *ngIf="orderTrip" [trip]="orderTrip">Loading...</app-review>
+      <br />
+      <div *ngIf="!sendingEmail && !retrievingInfo">
+        <a class="btn btn-primary  btn-lg no-print" onclick="window.print();"
+          ><i class="fa fa-print"></i> <span>Print</span></a
+        >
+        <a
+          class="btn btn-primary  btn-lg no-print"
+          *ngIf="!sendEmailDone"
+          (click)="ResendEmail()"
+          ><i class="fa fa-file"></i> <span>Email</span></a
+        >
+      </div>
+    </div> -->
+  </div>
   <ng-template #fail>
-      <!-- <button
+    <!-- <button
       type="button"
       class="btn btn-warning"
       style="background-color:#d47027!important; color: white;"
@@ -49,5 +448,4 @@
       Go Back
     </button> -->
   </ng-template>
- 
 </div>

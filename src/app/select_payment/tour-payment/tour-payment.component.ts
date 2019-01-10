@@ -55,6 +55,11 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   sendEmailDone: boolean;
   retrievingInfo: boolean;
   reviewInfo: ReviewInfo;
+  totalRoomPriceIncludeChild: number;
+  totalVisaPrice: number;
+  totalOptionPrice: number;
+  extraHotelAmount: number;
+  totalPaidAmount: number;
   constructor(
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
@@ -170,6 +175,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         );
     }
   }
+
   onVerifyUrlResult(resp: any) {
     this.retrievingInfo = false;
 
@@ -178,11 +184,17 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     } else {
       this.orderTrip = Object.assign({}, resp.data.trip);
       this.invoiceNumber = resp.data.invoiceNumber;
-      this.messageService.clearMessage();
-      this.messageService.add(`Order Number: ${this.orderNumber}`);
-      if (this.invoiceNumber.length > 0) {
-        this.messageService.add(`Invoice Number: ${this.invoiceNumber}`);
-      }
+
+      this.totalRoomPriceIncludeChild = resp.data.totalRoomPriceIncludeChild;
+      this.totalOptionPrice = resp.data.totalOptionPrice;
+      this.totalVisaPrice = resp.data.totalVisaPrice;
+      this.extraHotelAmount = resp.data.extraHotelAmount;
+      this.totalPaidAmount = resp.data.trip.paidAmounts.reduce((a: number, b: number) => a + b, 0);
+      // this.messageService.clearMessage();
+      // this.messageService.add(`Order Number: ${this.orderNumber}`);
+      // if (this.invoiceNumber.length > 0) {
+      //   this.messageService.add(`Invoice Number: ${this.invoiceNumber}`);
+      // }
       if (resp.data.status === "Processed") {
         const req = new FrontEndCallbackModel();
         req.callbackurl = location.href;
@@ -261,7 +273,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     } else {
       this.retrievingInfo = true;
       this.orderNumber = params.trnOrderNumber;
-      this.messageService.add(`Order Number: ${params.trnOrderNumber}`);
+     // this.messageService.add(`Order Number: ${params.trnOrderNumber}`);
       const req = new FrontEndCallbackModel();
       req.callbackurl = location.href;
       req.orderNumber = this.orderNumber;
