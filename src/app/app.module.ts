@@ -65,6 +65,8 @@ import { TourRoomsEachRoomEachTravellerDynamicComponent } from "./select_room/to
 import { TourRoomsEachRoomEachTravellerChildDynamicComponent } from "./select_room/tour-rooms-each-room-each-traveller-child-dynamic/tour-rooms-each-room-each-traveller-child-dynamic.component";
 import { ReviewComponent } from "./review/review.component";
 import { NoopInterceptor } from "./share/noop-interceptor";
+import { ReceiptComponent } from './receipt/receipt.component';
+import { SafePipe } from './safe.pipe';
 // import { NoopInterceptor } from "../../node_modules/@angular/common/http/src/interceptor";
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
@@ -115,6 +117,8 @@ import { NoopInterceptor } from "./share/noop-interceptor";
     TourRoomsEachRoomEachTravellerDynamicComponent,
     TourRoomsEachRoomEachTravellerChildDynamicComponent,
     ReviewComponent,
+    ReceiptComponent,
+    SafePipe,
     FetchJsonPipe,
     KeysPipe,
     NgbdModalContent

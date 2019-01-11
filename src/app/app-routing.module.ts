@@ -12,6 +12,7 @@ import { TestComponent } from "./test/test.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 // import { DynamicFormComponent } from "./dynamic-form/dynamic-form.component";
 import { TourRoomsDynamicComponent } from "./select_room/tour-rooms-dynamic/tour-rooms-dynamic.component";
+import { ReceiptComponent } from "./receipt/receipt.component";
 
 const routes: Routes = [
   { path: "tours", component: TourListComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: "review", component: TourReviewPaymentComponent },
   { path: "PAYMENT", redirectTo: "payment" },
   { path: "payment", component: TourPaymentComponent },
+  { path: "receipt", component: ReceiptComponent },
   // { path: "dynamic", component: DynamicFormComponent },
   // tslint:disable-next-line:max-line-length
   // http://localhost:4200/ENTOUR/PAYMENT?trnApproved=1&trnId=10100577&messageId=1&messageText=Approved&authCode=TEST&responseType=T&trnAmount=110.00&trnDate=9%2F14%2F2018%201:38:33%20PM&trnOrderNumber=123456&trnLanguage=eng&trnCustomerName=qinag&trnEmailAddress=asad@sdf.com&trnPhoneNumber=4169290888&avsProcessed=1&avsId=Y&avsResult=1&avsAddrMatch=1&avsPostalMatch=1&avsMessage=Street%20address%20and%20Postal%2FZIP%20match.&cvdId=1&cardType=VI&trnType=P&paymentMethod=CC&ref1=&ref2=&ref3=&ref4=&ref5=&hashValue=47b4e59f59ffda947079048cf0ab7f47

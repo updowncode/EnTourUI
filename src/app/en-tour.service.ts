@@ -57,7 +57,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = 'dnndev.me';
+private siteIPToPublish = '192.168.168.117:8019';
 
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
@@ -78,6 +78,10 @@ private siteIPToPublish = 'dnndev.me';
     "http://" +
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
+    private getReceiptUrl =
+    "http://" +
+    this.siteIPToPublish +
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/GetReceipt"; // URL to web api
   private sendNoInvoiceEmailUrl =
     "http://" +
     this.siteIPToPublish +
@@ -613,6 +617,13 @@ private siteIPToPublish = 'dnndev.me';
       .toPromise()
       .then(response => response.json() as Tour[])
       .then(resp => (this.tours = Object.assign([], resp)))
+      .catch(this.handleError);
+  }
+  getReceipt(oid: string) {
+    const url = `${this.getReceiptUrl}?orderNumber=${oid}`;
+    return this.httpClient
+      .get(url, { responseType: 'text' })
+      .toPromise()
       .catch(this.handleError);
   }
   getTour(id: string): Promise<Tour> {

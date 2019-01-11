@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, OnDestroy } from "@angular/core";
+import { Component, OnInit, HostBinding, OnDestroy, Inject } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { EnTourService } from "../../en-tour.service";
 import {
@@ -14,7 +14,7 @@ import {
 import { fromPromise } from "rxjs/observable/fromPromise";
 import { slideInDownAnimation } from "../../app.animations";
 import { MessageService } from "../../message.service";
-import { Location } from "@angular/common";
+import { Location, APP_BASE_HREF } from "@angular/common";
 import { FrontEndCallbackModel } from "../../Models/front-end-callback-model";
 import { OrderDetail } from "../../Models/order-detail";
 import { Trip } from "../../Models/trip";
@@ -61,6 +61,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   extraHotelAmount: number;
   totalPaidAmount: number;
   constructor(
+    @Inject(APP_BASE_HREF) public baseHref: string,
     private activatedRoute: ActivatedRoute,
     private tourService: EnTourService,
     private router: Router,

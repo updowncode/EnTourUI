@@ -1,0 +1,8 @@
+<div style="background-color:white;margin-top:10px; padding:10px;">
+  <div *ngIf="receipt else loading" [innerHTML]="receipt | safeHtml"></div>
+  <ng-template #loading>
+    Loading...
+    </ng-template>
+</div>
+
+    
