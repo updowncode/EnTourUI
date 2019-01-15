@@ -25,7 +25,7 @@
         (roomChangedToRequest)="onRoomChangedTo($event)" (roomMovedToRequest)="onRoomMovedTo($event)"
         [bedRoomsForSelectedTravellers]="bedRoomsForSelectedTravellers" [roomIndex]="roomIndex" [room]="room" [trip]="trip"
         *ngFor="let traveller of room.travellers">
-        <app-tour-rooms-each-room-each-traveller-child [traveller]="traveller"></app-tour-rooms-each-room-each-traveller-child>
+        <app-tour-rooms-each-room-each-traveller-child [traveller]="traveller">Loading...</app-tour-rooms-each-room-each-traveller-child>
       </app-tour-rooms-each-room-each-traveller>
     </div>
   </div>

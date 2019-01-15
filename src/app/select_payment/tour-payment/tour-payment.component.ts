@@ -81,6 +81,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.queryParams.subscribe(params =>
       this.onParams(params)
     );
+    window.scrollTo(0, 0);
   }
   goBack(): void {
     if (window.history.length > 1) {

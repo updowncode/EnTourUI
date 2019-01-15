@@ -42,5 +42,6 @@ export class TourListComponent implements OnInit, OnDestroy {
       this.loaded = true;
       this.tourService.saveTours(tours);
     });
+    window.scrollTo(0, 0);
   }
 }

@@ -1,13 +1,15 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12"  *ngIf="trip">
       <strong style="font-size:18px; color:colour">Trip Summary</strong>
+      <div>- ${{trip.tripCostForDefaultPerTraveller}}/Person</div>
+      <div>- ${{trip.tripSingleSupplement}}/Single Supplement</div>
     </div>
   </div>
-  <div class="row">
+  <div class="row"  *ngIf="trip">
     <div class="col-md-12">
       <div style="background-color:#eee;margin-top:10px; padding-top:1em;padding-left: 1em; padding-right: 1em;">
         <div *ngIf="tour"><strong style="font-size:18px;"></strong>{{$any(tour).name}}</div>
-        <div *ngIf="trip">{{trip.name}}</div>
+        <!-- <div *ngIf="trip">{{trip.name}}</div> -->
         <br>
         <table style="width:100%;">
           <tr>
@@ -15,7 +17,7 @@
               <em class="fa fa-star colour">&nbsp;</em>
             </td>
             <td style="width:20%;padding-top: 2px;">Start:</td>
-            <td style="text-align: right;width:80%;" *ngIf="trip">{{trip!.startPlace}}</td> 
+            <td style="text-align: right;width:80%;">{{trip!.startPlace}}</td> 
             <!-- --strictNullChecks 如果你打开了严格控制检测，那就要用到这个模板操作符，而其它情况下则是可选的-->
           </tr>
         </table>
@@ -46,20 +48,20 @@
             <td style="text-align: right;width:10%;" *ngIf="trip">{{trip.selectedTravellerQuantity.id}}</td>
           </tr>
         </table>
-        <hr />
-        <table style="width:100%;">
+        <hr *ngIf="reviewInfo && reviewInfo.totalOptionPrice > 0 && reviewInfo.totalVisaPrice > 0 && reviewInfo.extraHotelAmount > 0"/>
+        <table style="width:100%;" *ngIf="reviewInfo && reviewInfo.totalOptionPrice > 0 ">
           <tr>
             <td style="width:90%">Optional Tours:</td>
             <td style="text-align: right;width:10%;padding-top: 2px;"><span *ngIf="reviewInfo">${{reviewInfo.totalOptionPrice}}</span></td>
           </tr>
         </table>
-        <table style="width:100%;">
+        <table style="width:100%;" *ngIf="reviewInfo && reviewInfo.totalVisaPrice > 0 ">
           <tr>
             <td style="width:90%">Visa:</td>
             <td style="text-align: right;width:10%;padding-top: 2px;"><span *ngIf="reviewInfo">${{reviewInfo.totalVisaPrice}}</span></td>
           </tr>
         </table>
-        <table style="width:100%;">
+        <table style="width:100%;" *ngIf="reviewInfo && reviewInfo.extraHotelAmount > 0 ">
           <tr>
             <td style="width:90%">Extra Hotel:</td>
             <td style="text-align: right;width:10%;padding-top: 2px;"><span *ngIf="reviewInfo">${{reviewInfo.extraHotelAmount}}</span></td>

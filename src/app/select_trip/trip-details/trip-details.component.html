@@ -8,7 +8,7 @@
     </p>
     <ul class="fa-ul">
       <li *ngFor="let in of trip.includedIn">
-        <p [innerHTML]="in.text"></p>
+        <div [innerHTML]="in.text | safeHtml"></div> 
       </li>
     </ul>
   </div>
@@ -20,7 +20,7 @@
       </p>
       <ul class="fa-ul">
         <li *ngFor="let nIn of trip.notIncludeIn">
-          <p  [innerHTML]="nIn.text"></p>
+          <div  [innerHTML]="nIn.text | safeHtml"></div>
         </li>
       </ul>
     </div>

@@ -62,6 +62,7 @@ export class TourOptionComponent implements OnInit, OnDestroy {
           });
       }
     );
+    window.scrollTo(0, 0);
   }
 
   onResult(tour: Tour): number {

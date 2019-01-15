@@ -15,9 +15,14 @@ export class TourOptionForEachTravellerComponent implements OnInit {
   index: number;
   @Input()
   options: Option[];
+  hasVisaOption: boolean;
+  hasExtraHotelOption: boolean;
   constructor(private tourService: EnTourService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.hasVisaOption = this.options.some( c => c.type === 20);
+    this.hasExtraHotelOption = this.options.some( c => c.type === 10);
+  }
   isTravellerOption(traveller: Traveller, option: Option) {
     if (traveller.selectedOptions != null) {
       return (

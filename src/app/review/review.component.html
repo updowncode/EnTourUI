@@ -98,59 +98,59 @@
                   <th>Passport Issue Place</th>
                   <th>National</th>
                   <th>Insurance</th>
-                  <!-- <th>Comments</th> -->
                 </tr>
-                <tr *ngFor="let traveller of room.travellers">
-                  <td>{{ traveller.title }}</td>
-                  <td>
-                    {{ traveller.firstName }}&nbsp;{{
-                      traveller.middleName
-                    }}&nbsp;{{ traveller.lastName }}
-                  </td>
-                  <td>{{ traveller.birthday | date: "yyyy-MM-dd" }}</td>
-                  <td>
-                    <span *ngIf="traveller.isChild">Yes</span
-                    ><span *ngIf="!traveller.isChild">No</span>
-                  </td>
-                  <td>{{ traveller.placeofbirth }}</td>
-                  <td>
-                    <span *ngIf="traveller.passport">
-                      {{ traveller.passport.number }}
-                    </span>
-                  </td>
-                  <td>
-                    <span *ngIf="traveller.passport">
-                      {{ traveller.passport.issueDate | date: "yyyy-MM-dd" }}
-                    </span>
-                  </td>
-                  <td>
-                    <span *ngIf="traveller.passport">
-                      {{ traveller.passport.expiryDate | date: "yyyy-MM-dd" }}
-                    </span>
-                  </td>
-                  <td>
-                    <span
-                      *ngIf="
-                        traveller.passport && traveller.passport.issuePlace
-                      "
-                    >
-                      {{ traveller.passport.issuePlace.name }}
-                    </span>
-                  </td>
-                  <td>
-                    <span *ngIf="traveller.countryOrArea">{{
-                      traveller.countryOrArea.name
-                    }}</span>
-                  </td>
-                  <td>
-                    <span *ngIf="traveller.needInsuance">Yes</span
-                    ><span *ngIf="!traveller.needInsuance">No</span>
-                  </td>
-                  <!--
-                  <td>
-                    {{traveller.specialRequest}}
-                  </td>
-                --></tr>
+                <ng-container *ngFor="let traveller of room.travellers">
+                  <tr>
+                    <td>{{ traveller.title }}</td>
+                    <td>
+                      {{ traveller.firstName }}&nbsp;{{
+                        traveller.middleName
+                      }}&nbsp;{{ traveller.lastName }}
+                    </td>
+                    <td>{{ traveller.birthday | date: "yyyy-MM-dd" }}</td>
+                    <td>
+                      <span *ngIf="traveller.isChild">Yes</span
+                      ><span *ngIf="!traveller.isChild">No</span>
+                    </td>
+                    <td>{{ traveller.placeofbirth }}</td>
+                    <td>
+                      <span *ngIf="traveller.passport">
+                        {{ traveller.passport.number }}
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="traveller.passport">
+                        {{ traveller.passport.issueDate | date: "yyyy-MM-dd" }}
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="traveller.passport">
+                        {{ traveller.passport.expiryDate | date: "yyyy-MM-dd" }}
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        *ngIf="
+                          traveller.passport && traveller.passport.issuePlace
+                        "
+                      >
+                        {{ traveller.passport.issuePlace.name }}
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="traveller.countryOrArea">{{
+                        traveller.countryOrArea.name
+                      }}</span>
+                    </td>
+                    <td>
+                      <span *ngIf="traveller.needInsuance">Yes</span
+                      ><span *ngIf="!traveller.needInsuance">No</span>
+                    </td>
+                  </tr>
+                  <tr *ngIf="traveller.specialRequest">
+                    <td colspan="11">{{ traveller.specialRequest }}</td>
+                  </tr>
+                </ng-container>
               </table>
             </div>
           </div>
@@ -186,11 +186,13 @@
     <div class="col-md-12"><hr style="color: #000;" /></div>
   </div>
 -->
-<div class="row">
+  <div class="row">
     <div class="col-md-11">
       <div class="row">
         <div class="col-md-10">
-          <strong style="font-size:18px;">{{ trip.name }} (x {{ trip.rooms.length }} Room)</strong>
+          <strong style="font-size:18px;"
+            >{{ trip.name }} (x {{ trip.rooms.length }} Room)</strong
+          >
         </div>
         <div class="col-md-2 text-right"><strong>Subtotal:</strong></div>
       </div>
@@ -206,7 +208,6 @@
     </div>
   </div>
 
- 
   <div class="row">
     <div class="col-md-12">
       <hr
@@ -290,7 +291,7 @@
     </div>
   </div>
   <div class="row" *ngIf="trip.paidAmounts == null; else paid">
-    <div class="col-md-11  text-right">Minimum Deposit:</div>
+    <div class="col-md-11  text-right">Minimum Deposit:(After pay minimum deposit amount, our agent will contact you for paying the remaining amount)</div>
     <div class="col-md-1  text-right" style="padding-left:0px;">
       ${{
         trip.minimumDeposit * trip.selectedTravellerQuantity.id
@@ -300,7 +301,10 @@
   </div>
 
   <ng-template #paid>
-    <div class="row" *ngFor="let paymentAmount of trip.paidAmounts; let i=index;">
+    <div
+      class="row"
+      *ngFor="let paymentAmount of trip.paidAmounts; let i = index"
+    >
       <div class="col-md-11 text-right" *ngIf="i === 0">Deposit:</div>
       <div class="col-md-11 text-right" *ngIf="i > 0">Payment:</div>
       <div class="col-md-1 text-right" style="padding-left:0px;">

@@ -22,8 +22,8 @@ export class ReviewComponent implements OnInit {
     this.trip.totalPriceForPayment = this.reviewInfo.totalPrice;
     if (this.trip.paidAmounts) {
       this.own =
-        (1 + this.trip.paymentTypeSurcharges) * this.trip.totalPriceForPayment -
-        this.trip.paidAmounts.reduce((a, b) => a + b, 0);
+       this.trip.totalPriceForPayment -
+        this.trip.paidAmounts.reduce((a, b) => a + b, 0); // (1 + this.trip.paymentTypeSurcharges) *
       this.isDeposit = this.own > 0;
     }
   }

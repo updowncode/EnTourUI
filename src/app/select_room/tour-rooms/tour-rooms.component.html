@@ -53,10 +53,10 @@
             </div>
           </div>
           <br />
-          <app-tour-rooms-billing-info *ngIf="trip" [tour]="tour" [trip]="trip"></app-tour-rooms-billing-info>
+          <!-- <app-tour-rooms-billing-info *ngIf="trip" [tour]="tour" [trip]="trip"></app-tour-rooms-billing-info> -->
           <div *ngIf="trip">
             <app-tour-rooms-each-room [room]="room" [trip]="trip" [roomIndex]="room.index" on-removeRoom="onRemoveRoom(room)"
-              (roomCanbeMovedToRequest)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms"></app-tour-rooms-each-room>
+              (roomCanbeMovedToRequest)="onRoomCanbeMovedTo($event)" *ngFor="let room of trip.rooms">Loading...</app-tour-rooms-each-room>
             <!-- <div *ngFor="let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd">
               ({{i}}) {{hero.name}}
             </div>

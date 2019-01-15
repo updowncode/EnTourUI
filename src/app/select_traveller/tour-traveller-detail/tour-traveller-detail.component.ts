@@ -72,6 +72,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
           // this.initData();
         }
       });
+      window.scrollTo(0, 0);
   }
   initData() {
     for (let i = 0; i < this.trip.rooms.length; i++) {
@@ -137,6 +138,78 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   }
   allDataCorrect(): string {
     let errQuantity = 0;
+    if (
+      this.trip.billingInfo.firstName === null ||
+      this.trip.billingInfo.firstName.trim() === ""
+    ) {
+      // return `First Name is required`;
+      errQuantity++;
+      $("#firstName").addClass("ng-invalid ng-touched");
+    }
+    if (
+      this.trip.billingInfo.lastName === null ||
+      this.trip.billingInfo.lastName.trim() === ""
+    ) {
+      // return `Last Name is required`;
+      errQuantity++;
+      $("#lastName").addClass("ng-invalid ng-touched");
+    }
+    if (
+      this.trip.billingInfo.email === null ||
+      this.trip.billingInfo.email.trim() === ""
+    ) {
+      errQuantity++;
+      $("#email").addClass("ng-invalid ng-touched");
+      // return `E-Mail is required`;
+    }
+    // primaryPhone
+    if (
+      this.trip.billingInfo.primaryPhone === null ||
+      this.trip.billingInfo.primaryPhone.trim() === ""
+    ) {
+      errQuantity++;
+      $("#primaryPhone").addClass("ng-invalid ng-touched");
+      // return `Primary Phone is required`;
+    }
+    // mailingAddress
+    if (
+      this.trip.billingInfo.mailingAddress === null ||
+      this.trip.billingInfo.mailingAddress.trim() === ""
+    ) {
+      errQuantity++;
+      $("#mailingAddress").addClass("ng-invalid ng-touched");
+      // return `Mailing Address is required`;
+    }
+    // city
+    if (
+      this.trip.billingInfo.city === null ||
+      this.trip.billingInfo.city.trim() === ""
+    ) {
+      errQuantity++;
+      $("#city").addClass("ng-invalid ng-touched");
+      // return `City is required`;
+    }
+    // if (this.trip.billingInfo.country && this.trip.billingInfo.country.id < 0) {
+    //   return `Country is required`;
+    // }
+    // provinceStates
+    if (
+      this.trip.billingInfo.provinceStates === null ||
+      this.trip.billingInfo.provinceStates.trim() === ""
+    ) {
+      errQuantity++;
+      $("#provinceStates").addClass("ng-invalid ng-touched");
+      // return `Province or State is required`;
+    }
+    // postalCode
+    if (
+      this.trip.billingInfo.postalCode === null ||
+      this.trip.billingInfo.postalCode.trim() === ""
+    ) {
+      errQuantity++;
+      $("#postalCode").addClass("ng-invalid ng-touched");
+      // return `Postal Code is required`;
+    }
     for (let i = 0; i < this.trip.rooms.length; i++) {
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {

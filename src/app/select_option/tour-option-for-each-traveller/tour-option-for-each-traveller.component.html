@@ -67,8 +67,8 @@
       </tr>
     </tbody>
   </table>
-  <hr />
-  <div class="row">
+  <hr  *ngIf="hasVisaOption"/>
+  <div class="row" *ngIf="hasVisaOption">
     <div class="col-md-12">
       <strong style="font-size: 15px;">Travel Visa:</strong>
     </div>
@@ -96,7 +96,7 @@
       </div>
     </div>
   -->
-  <div class="row">
+  <div class="row" *ngIf="hasVisaOption">
     <div class="col-md-10">
       Canadian citizens using a Canadian passport require a visa to visit China.
     </div>
@@ -121,7 +121,7 @@
     </div>
   </div>
 
-  <table class="table table-bordered table-striped" style="width: 100%;">
+  <table class="table table-bordered table-striped" style="width: 100%;" *ngIf="hasVisaOption">
     <thead>
       <tr>
         <th
@@ -171,8 +171,8 @@
       </tr>
     </tbody>
   </table>
-  <hr />
-  <table class="table table-bordered table-striped" style="width: 100%;">
+  <hr *ngIf="hasExtraHotelOption"/>
+  <table class="table table-bordered table-striped" style="width: 100%;" *ngIf="hasExtraHotelOption">
     <thead>
       <tr>
         <th
@@ -232,7 +232,7 @@
     <div class="col-md-12">
       Travel Insurance is strongly recommended for your travel purchase. Tour
       East Holidays can offer travel insurance through Manulife. You may visit
-      our dedicated Manulife Travel Insurance page HERE or you may contact one
+      our dedicated Manulife Travel Insurance page <a href="#">HERE</a> or you may contact one
       of our Travel Consultants for a free quote at tour@toureast.com.
     </div>
   </div>

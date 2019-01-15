@@ -81,6 +81,7 @@ export class TourReviewPaymentComponent implements OnInit, OnDestroy {
         }
         this.initTrip();
       });
+      window.scrollTo(0, 0);
   }
   onResult(tour: Tour): number {
     this.msg = "";

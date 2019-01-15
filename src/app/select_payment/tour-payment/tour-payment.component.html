@@ -133,10 +133,7 @@
                             >
                           </div>
                         </div>
-                        <div
-                          class="row"
-                          *ngFor="let traveller of room.travellers"
-                        >
+                        <div class="row" *ngFor="let traveller of room.travellers">
                           <div class="col-md-6">
                             &nbsp;&nbsp;{{ traveller.title }}.&nbsp;
                             {{ traveller.firstName }}&nbsp;{{
@@ -150,6 +147,7 @@
                                 | number: "1.2-2"
                             }}
                           </div>
+                          <div class="col-md-12" *ngIf="traveller.specialRequest">{{traveller.specialRequest}}</div>
                         </div>
                         <div class="row">
                           <div class="col-md-12"><hr /></div>

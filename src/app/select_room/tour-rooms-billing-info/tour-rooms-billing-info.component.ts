@@ -18,34 +18,34 @@ export class TourRoomsBillingInfoComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.tour.availabledCountryOrAreas = [
-      { id: -1, code: "", name: "" },
-      ...this.tour.availabledCountryOrAreas
-    ];
+    // this.tour.availabledCountryOrAreas = [
+    //   { id: -1, code: "", name: "" },
+    //   ...this.tour.availabledCountryOrAreas
+    // ];
     this.trip.billingInfo.country = this.tour.availabledCountryOrAreas.find(
       c => c.code === "CA"
     );
 
-    // this.initData();
+    this.initData();
   }
   compareFn(c1: CountryOrArea, c2: CountryOrArea): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
   initData() {
-    this.trip.billingInfo.firstName = "David";
-    this.trip.billingInfo.lastName = "Li";
-    this.trip.billingInfo.email = "david.li@toureast.com";
-    this.trip.billingInfo.primaryPhone = "4169290888";
-    this.trip.billingInfo.secondaryPhone = "123456789";
-    this.trip.billingInfo.mailingAddress = "15 kern rd";
-    this.trip.billingInfo.city = "Toronto";
+    this.trip.billingInfo.firstName = this.trip.rooms[0].travellers[0].firstName;
+    this.trip.billingInfo.lastName = this.trip.rooms[0].travellers[0].lastName;
+    // this.trip.billingInfo.email = "david.li@toureast.com";
+    // this.trip.billingInfo.primaryPhone = "4169290888";
+    // this.trip.billingInfo.secondaryPhone = "123456789";
+    // this.trip.billingInfo.mailingAddress = "15 kern rd";
+    // this.trip.billingInfo.city = "Toronto";
 
-    this.trip.billingInfo.country = new CountryOrArea();
-    this.trip.billingInfo.country.id = 4;
-    this.trip.billingInfo.country.name = "Canada";
-    this.trip.billingInfo.country.code = "CA";
+    // this.trip.billingInfo.country = new CountryOrArea();
+    // this.trip.billingInfo.country.id = 4;
+    // this.trip.billingInfo.country.name = "Canada";
+    // this.trip.billingInfo.country.code = "CA";
 
-    this.trip.billingInfo.provinceStates = "Ontario";
-    this.trip.billingInfo.postalCode = "1d1 4g4";
+    // this.trip.billingInfo.provinceStates = "Ontario";
+    // this.trip.billingInfo.postalCode = "1d1 4g4";
   }
 }
