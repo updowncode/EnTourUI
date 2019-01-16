@@ -29,4 +29,42 @@
       </app-tour-rooms-each-room-each-traveller>
     </div>
   </div>
+  <hr style="margin-bottom: 0px;margin-top: 0px;" />
+   <!-- *ngIf="showRoomInfo" -->
+   <div class="row" style="padding:10px;">
+      <div class="col-md-6">
+        <label style="margin-bottom:0px;">Bedding Configuration</label>
+        <div>
+          <!-- <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
+            <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
+              <option [ngValue]="room">{{room.beddingConfig}}</option>
+            </ng-container>
+          </select> -->
+          <select *ngIf="room.roomCfgList.length > 0" class="form-control" name="roomCfg" [compareWith]="compareFn"
+          [(ngModel)]="room.selectedRoomCfg">
+          <ng-container *ngFor="let roomCfg of room.roomCfgList">
+            <option [ngValue]="roomCfg">{{roomCfg.id === -1 ? "--Select--" : roomCfg.description}}</option>
+          </ng-container>
+        </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label>&nbsp;</label>
+        <div>
+          <label>Non-smoking Room
+            <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.smokingRoom === 0" name="{{'smokingRoom' + room.index }}"
+              (change)="onSmokingSelectionChange(room, 0)">
+          </label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label>&nbsp;</label>
+        <div>
+          <label>Smoking Room
+            <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.smokingRoom === 1" name="{{'smokingRoom' + room.index }}"
+              (change)="onSmokingSelectionChange(room, 1)">
+          </label>
+        </div>
+      </div>
+    </div>
 </div>

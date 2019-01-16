@@ -1,17 +1,15 @@
 <div class="row">
     <div class="col-md-12"  *ngIf="trip">
       <strong style="font-size:18px; color:colour">Trip Summary</strong>
-      <div>- ${{trip.tripCostForDefaultPerTraveller}}/Person</div>
-      <div>- ${{trip.tripSingleSupplement}}/Single Supplement</div>
     </div>
   </div>
   <div class="row"  *ngIf="trip">
     <div class="col-md-12">
       <div style="background-color:#eee;margin-top:10px; padding-top:1em;padding-left: 1em; padding-right: 1em;">
-        <div *ngIf="tour"><strong style="font-size:18px;"></strong>{{$any(tour).name}}</div>
-        <!-- <div *ngIf="trip">{{trip.name}}</div> -->
-        <br>
-        <table style="width:100%;">
+        <div *ngIf="tour"><strong style="font-size:18px;">{{$any(tour).name}}</strong></div>
+        <strong *ngIf="trip">{{trip.name}}</strong>
+
+        <table style="width:100%; margin-top: 15px;">
           <tr>
             <td style="width:5%;vertical-align:middle;">
               <em class="fa fa-star colour">&nbsp;</em>
@@ -41,7 +39,15 @@
             </td>
           </tr>
         </table>
-        <hr />
+        <div class="row" style=" margin-top: 15px;">
+          <div class="col-md-4" style="margin-right: 0px;padding-right: 0px;">
+            Trip Cost:
+          </div>
+          <div class="col-md-8 text-right" style="margin-left: 0px;padding-left: 0px;">
+              <div title="${{trip.tripSingleSupplement}} for Single Supplement">${{trip.tripCostForDefaultPerTraveller}} Per Person</div>
+          </div>
+        </div>
+
         <table style="width:100%;">
           <tr>
             <td style="width:90%">Number of Travellers:</td>

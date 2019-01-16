@@ -1,85 +1,92 @@
 <div style="margin-bottom: 10px;  padding:10px;" *ngIf="traveller">
-  <div class="row">
-    <div class="col-md-12">
-
-      <table style="width:100%;">
-        <tr>
-          <td>
-            <ng-content></ng-content>
-          </td>
-          <td style="width:30%;">
-            <select class="form-control" name="roomsMoveTo" [ngModel]="room.index" required (ngModelChange)="onRoomMovedToModelChange(traveller, $event)">
-              <ng-container *ngFor="let room of roomsMoveTo">
-                <option [ngValue]="room.index">Room: #{{room.index}}</option>
-              </ng-container>
-            </select>
-          </td>
-        </tr>
-      </table>
+  <div class="row" style="margin-bottom: 15px;">
+    <div class="col-md-2" style="padding-top: 5px;">
+        <ng-content></ng-content>
     </div>
+    <div class="col=md-1">
+        <select
+        class="form-control"
+        style="width:30%;"
+        name="roomsMoveTo"
+        [ngModel]="room.index"
+        required
+        (ngModelChange)="onRoomMovedToModelChange(traveller, $event)"
+      >
+        <ng-container *ngFor="let room of roomsMoveTo">
+          <option [ngValue]="room.index">Room: #{{ room.index }}</option>
+        </ng-container>
+      </select>
+    </div>
+    <div class="col-md-9">
+
+      </div>
   </div>
-  <div class="row"[ngClass]="{evenbckcolor: room.index % 2 === 0, oddbckcolor: room.index % 2 !== 0}"  style="margin:5px 0px 5px 0px;padding:5px;">
+  <div
+    class="row"
+    [ngClass]="{
+      evenbckcolor: room.index % 2 === 0,
+      oddbckcolor: room.index % 2 !== 0
+    }"
+    style="margin-top:5px;"
+  >
     <div class="col-md-4">
       <label style="margin-bottom:0px;">First Name*</label>
-      <input type="text" class="form-control" required [(ngModel)]="traveller.firstName" name="psgFirstName">
+      <input
+        type="text"
+        class="form-control"
+        required
+        [(ngModel)]="traveller.firstName"
+        name="psgFirstName"
+      />
     </div>
     <div class="col-md-4">
       <label style="margin-bottom:0px;">Last Name*</label>
-      <input type="text" class="form-control" required [(ngModel)]="traveller.lastName" name="psgLastName">
+      <input
+        type="text"
+        class="form-control"
+        required
+        [(ngModel)]="traveller.lastName"
+        name="psgLastName"
+      />
     </div>
     <div class="col-md-4">
       <label>&nbsp;</label>
       <div class="row">
-        <div class="col-md-6">
-          <label>Adult
-            <input type="radio" style="cursor: pointer;" [value]="false" [checked]="traveller.isChild === false" name="{{'isChild' + traveller.id }}"
-              (change)="onTravellerIsChildChange(traveller, false)">
+        <div class="col-md-5">
+          <label
+            >Adult
+            <input
+              type="radio"
+              style="cursor: pointer;"
+              [value]="false"
+              [checked]="traveller.isChild === false"
+              name="{{ 'isChild' + traveller.id }}"
+              (change)="onTravellerIsChildChange(traveller, false)"
+            />
           </label>
-
         </div>
-        <div class="col-md-6">
-          <label>Child
-            <input type="radio" style="cursor: pointer;" [value]="true" [checked]="traveller.isChild === true" name="{{'isChild' + traveller.id }}"
-              (change)="onTravellerIsChildChange(traveller, true)">
+        <div class="col-md-7">
+          <span
+            class="badge"
+            style="cursor: pointer;position: relative; top:-5px;"
+            title="0-11 years old"
+            >?</span
+          >
+          <label
+            >Child
+            <input
+              type="radio"
+              style="cursor: pointer;"
+              [value]="true"
+              [checked]="traveller.isChild === true"
+              name="{{ 'isChild' + traveller.id }}"
+              (change)="onTravellerIsChildChange(traveller, true)"
+            />
           </label>
-          <span class="badge" style="cursor: pointer;" title="Child age should between 2 and 11">?</span>
+          <label *ngIf="traveller.isChild === true"
+            >(-${{ room.childPromoAmount }})</label
+          >
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row" *ngIf="showRoomInfo" style="margin-top:10px;">
-    <div class="col-md-6">
-      <label style="margin-bottom:0px;">Bedding Configuration</label>
-      <div>
-        <!-- <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
-          <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
-            <option [ngValue]="room">{{room.beddingConfig}}</option>
-          </ng-container>
-        </select> -->
-        <select *ngIf="room.roomCfgList.length > 0" class="form-control" name="roomCfg" [compareWith]="compareFn"
-        [(ngModel)]="room.selectedRoomCfg">
-        <ng-container *ngFor="let roomCfg of room.roomCfgList">
-          <option [ngValue]="roomCfg">{{roomCfg.id === -1 ? "--Select--" : roomCfg.description}}</option>
-        </ng-container>
-      </select>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <label>&nbsp;</label>
-      <div>
-        <label>Non-smoking Room
-          <input type="radio" style="cursor: pointer;" [value]="0" [checked]="room.smokingRoom === 0" name="{{'smokingRoom' + room.index }}"
-            (change)="onSmokingSelectionChange(room, 0)">
-        </label>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <label>&nbsp;</label>
-      <div>
-        <label>Smoking Room
-          <input type="radio" style="cursor: pointer;" [value]="1" [checked]="room.smokingRoom === 1" name="{{'smokingRoom' + room.index }}"
-            (change)="onSmokingSelectionChange(room, 1)">
-        </label>
       </div>
     </div>
   </div>

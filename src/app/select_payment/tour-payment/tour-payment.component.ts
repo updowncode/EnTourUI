@@ -60,6 +60,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   totalOptionPrice: number;
   extraHotelAmount: number;
   totalPaidAmount: number;
+  hasOption: boolean;
   constructor(
     @Inject(APP_BASE_HREF) public baseHref: string,
     private activatedRoute: ActivatedRoute,
@@ -186,7 +187,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     } else {
       this.orderTrip = Object.assign({}, resp.data.trip);
       this.invoiceNumber = resp.data.invoiceNumber;
-
+      this.hasOption = this.orderTrip.rooms.some( c => c.travellers.some(d => d.selectedOptions != null && d.selectedOptions.length > 0));
       this.totalRoomPriceIncludeChild = resp.data.totalRoomPriceIncludeChild;
       this.totalOptionPrice = resp.data.totalOptionPrice;
       this.totalVisaPrice = resp.data.totalVisaPrice;

@@ -17,6 +17,7 @@ import { Tour } from "../../Models/tour";
 
 // tslint:disable-next-line:max-line-length
 import { TourRoomsEachRoomEachTravellerComponent } from "../tour-rooms-each-room-each-traveller/tour-rooms-each-room-each-traveller.component";
+import { RoomCfg } from "src/app/Models/room-cfg";
 
 @Component({
   selector: "app-tour-rooms-each-room",
@@ -55,7 +56,9 @@ export class TourRoomsEachRoomComponent
       }
     );
   }
-
+  compareFn(c1: RoomCfg, c2: RoomCfg): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
   ngOnInit() {
     this.maxCapacity = Math.max(
       ...this.trip.availabledRooms

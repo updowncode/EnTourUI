@@ -187,17 +187,62 @@
   </div>
 -->
   <div class="row">
-    <div class="col-md-11">
+    <div class="col-md-12">
+      <strong style="font-size:18px;">{{ trip.tourName }}</strong>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <hr
+        style="margin-top:5px;margin-bottom: 5px;border-top: 1px solid #aaa;"
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" *ngFor="let room of trip.rooms; let i = index">
       <div class="row">
-        <div class="col-md-10">
-          <strong style="font-size:18px;"
-            >{{ trip.name }} (x {{ trip.rooms.length }} Room)</strong
-          >
+        <div class="col-md-12">
+          <span> Room #{{ room.index }} </span>
+          <span *ngIf="room.selectedRoomCfg.description">&nbsp;-</span>
+          <span>{{ room.selectedRoomCfg.description }}</span>
         </div>
-        <div class="col-md-2 text-right"><strong>Subtotal:</strong></div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" *ngFor="let traveller of room.travellers">
+          <div class="row">
+            <div class="col-md-6">
+              &nbsp;&nbsp;{{ traveller.title }}.&nbsp;
+              {{ traveller.firstName }}&nbsp;{{ traveller.middleName }}&nbsp;{{
+                traveller.lastName
+              }}
+            </div>
+            <div class="col-md-6 text-right">
+              $&nbsp;{{
+                room.roomPriceForPerTraveller -
+                  (traveller.isChild ? room.childPromoAmount : 0)
+                  | number: "1.2-2"
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" style="padding-top:5px;padding-bottom: 5px;">
+          <hr
+            *ngIf="i !== trip.rooms.length - 1"
+            style="margin:0px; padding-top:0px;padding-bottom: 0px;"
+          />
+          <hr
+            *ngIf="i === trip.rooms.length - 1"
+            style="margin:0px; padding-top:0px;padding-bottom: 0px;border-top: 1px solid #aaa;"
+          />
+        </div>
       </div>
     </div>
-
+  </div>
+  <div class="row">
+    <div class="col-md-11 text-right"><strong>Subtotal:</strong></div>
     <div class="col-md-1 text-right" style="padding-left:0px;">
       <strong
         >${{
@@ -207,43 +252,25 @@
       >
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <hr
-        style="margin-top:5px;margin-bottom: 5px;border-top: 1px solid #aaa;"
-      />
-    </div>
-  </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-12">
       Start: {{ trip.startDate | date: "MMMM d, yyyy" }}
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">End: {{ trip.endDate | date: "MMMM d, yyyy" }}</div>
-  </div>
+  </div> -->
   <div *ngIf="reviewInfo.optionSummary.length > 0"><br /></div>
   <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
     <div class="col-md-11">
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <strong style="font-size:18px;">Options</strong>
         </div>
-        <div class="col-md-2 text-right"><strong>Subtotal:</strong></div>
       </div>
     </div>
-
-    <div class="col-md-1 text-right" style="padding-left:0px;">
-      <strong
-        >${{
-          reviewInfo.totalOptionPrice +
-            reviewInfo.totalVisaPrice +
-            reviewInfo.extraHotelAmount | number: "1.2-2"
-        }}</strong
-      >
-    </div>
   </div>
+
   <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
     <div class="col-md-12">
       <hr
@@ -251,8 +278,12 @@
       />
     </div>
   </div>
+
   <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
-    <div class="col-md-12" *ngFor="let option of reviewInfo.optionSummary">
+    <div
+      class="col-md-12"
+      *ngFor="let option of reviewInfo.optionSummary; let i = index"
+    >
       <div class="row">
         <div class="col-md-10">
           {{ option.name }}&nbsp;(${{ option.price | number: "1.2-2" }} x
@@ -263,6 +294,30 @@
           <!-- ({{ option.subTotal }}) -->
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-12" style="padding-top:5px;padding-bottom: 5px;">
+          <hr
+            *ngIf="i !== reviewInfo.optionSummary.length - 1"
+            style="margin:0px; padding-top:0px;padding-bottom: 0px;"
+          />
+          <hr
+            *ngIf="i === reviewInfo.optionSummary.length - 1"
+            style="margin:0px; padding-top:0px;padding-bottom: 0px;border-top: 1px solid #aaa;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="reviewInfo.optionSummary.length > 0">
+    <div class="col-md-11 text-right"><strong>Subtotal:</strong></div>
+    <div class="col-md-1 text-right">
+      <strong
+        >${{
+          reviewInfo.totalOptionPrice +
+            reviewInfo.totalVisaPrice +
+            reviewInfo.extraHotelAmount | number: "1.2-2"
+        }}</strong
+      >
     </div>
   </div>
 </div>
@@ -281,18 +336,20 @@
       }}
     </div>
   </div> -->
-  <div class="row">
-    <div class="col-md-11 text-right">Total Price:</div>
-    <div class="col-md-1  text-right" style="padding-left:0px;">
+  <div class="row" style="font-size: 18px;">
+    <div class="col-md-10 text-right">Total Price:</div>
+    <div class="col-md-2  text-right">
       ${{
         (1 + trip.paymentTypeSurcharges) * trip.totalPriceForPayment
           | number: "1.2-2"
       }}
     </div>
   </div>
-  <div class="row" *ngIf="trip.paidAmounts == null; else paid">
-    <div class="col-md-11  text-right">Minimum Deposit:(After pay minimum deposit amount, our agent will contact you for paying the remaining amount)</div>
-    <div class="col-md-1  text-right" style="padding-left:0px;">
+  <div class="row" style="font-size: 18px;" *ngIf="trip.paidAmounts == null; else paid">
+    <div class="col-md-10  text-right">
+      Minimum Deposit:
+    </div>
+    <div class="col-md-2 text-right">
       ${{
         trip.minimumDeposit * trip.selectedTravellerQuantity.id
           | number: "1.2-2"
@@ -302,7 +359,7 @@
 
   <ng-template #paid>
     <div
-      class="row"
+      class="row"  style="font-size: 18px;"
       *ngFor="let paymentAmount of trip.paidAmounts; let i = index"
     >
       <div class="col-md-11 text-right" *ngIf="i === 0">Deposit:</div>
@@ -311,7 +368,7 @@
         ${{ paymentAmount | number: "1.2-2" }}
       </div>
     </div>
-    <div class="row">
+    <div class="row"  style="font-size: 18px;">
       <div class="col-md-11 text-right">Balance Owing:</div>
       <div class="col-md-1 text-right" style="padding-left:0px;">
         ${{ own | number: "1.2-2" }}

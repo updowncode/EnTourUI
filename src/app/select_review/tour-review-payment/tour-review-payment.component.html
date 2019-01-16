@@ -4,7 +4,7 @@
       <app-tour-nav-bar [actived]="5"></app-tour-nav-bar>
     </div>
   </div>
-  <br />
+  <!-- <br />
   <div class="row">
     <div class="col-md-12">
       <div class="row">
@@ -15,9 +15,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div
-    *ngIf="trip; else: loading"
+    *ngIf="trip; else loading"
     style="border: 1px solid #ccc; padding:30px; margin-top:10px;"
   >
     <div class="row">
@@ -27,17 +27,75 @@
         payment page when ready.
       </div>
     </div>
-    
+
     <app-review *ngIf="trip" [trip]="trip"></app-review>
     <br />
+    <div class="row">
+      <div class="col-md-12">
+        <strong>Deposit & Payment</strong>
+        <div>
+          You only need to pay a deposit to secure your reservation online. A
+          Tour Consultant will contact you after booking online to discuss
+          reservation details and next steps and answer any questions you may
+          have.
+        </div>
+        <br />
+        <strong>How much is the deposit?</strong>
+        <div>
+          A non-refundable deposit of $500 is due at the time of booking online.
+        </div>
+        <br />
+        <strong>Can I pay in full online?</strong>
+        <div>
+          No, only the indicated deposit amount can be paid when booking online.
+          This non-refundable deposit secures your space on the chosen trip.
+        </div>
+        <br />
+        <strong>When is the balance/final payment due?</strong>
+        <div>
+          The balance is due 60 days prior to your trip`s departure. If you are
+          booking online within 60 days of departure, a non-refundable deposit
+          is applicable and a tour consultant will contact you by email within
+          the next business day to process the remaining balance. If you are
+          booking outside of 60 days prior to the trip`s departure date, a tour
+          consultant from Tour East Holidays will contact you to discuss next
+          steps and to finalize a schedule for the balance payment.
+        </div>
+        <br />
+        <strong>Cancellation Policy</strong>
+        <div>
+          More than 60 days prior to departure - loss of deposit 60-31 days
+          prior to departure - 50% of total tour cost Within 30 days prior to
+          departure - 100% of total tour cost (including no shows and after
+          departure)
+        </div>
+        <br />
+        <div>
+          <strong>Email Confirmation</strong> You will receive an email
+          confirmation once your deposit has been charged. A Tour Consultant
+          will contact you after booking to discuss reservation details and next
+          steps and answer any questions you may have.
+        </div>
+      </div>
+    </div>
+    <hr
+          
+            style="border-top: 1px solid #aaa;"
+          />
     <div class="row">
       <div class="col-md-12">
         <strong style="font-size:18px;">How did you hear about us?</strong>
       </div>
       <div class="col-md-3 col-sm-12 col-sm-12">
-        <select class="form-control" [(ngModel)]="trip.selectedInfoSource" [compareWith]="compareFn">
+        <select
+          class="form-control"
+          [(ngModel)]="trip.selectedInfoSource"
+          [compareWith]="compareFn"
+        >
           <ng-container *ngFor="let info of trip.infoSource">
-            <option [ngValue]="info">{{ info.id === -1 ? "--Select--" : info.description }}</option>
+            <option [ngValue]="info">{{
+              info.id === -1 ? "--Select--" : info.description
+            }}</option>
           </ng-container>
         </select>
       </div>
@@ -79,7 +137,7 @@
             "
             [checked]="trip.billingInfo.haveReadTripNotes"
           />&nbsp;I have read the
-          <a class="tecolor" target="_blank" href="/terms">trip notes</a>
+          <a class="tecolor" target="_blank" href="{{'/DesktopModules/EnTourModule/assets/tripnotes_'+ trip.id+'.pdf'}}">trip notes</a>
         </div>
         <div>
           <input
@@ -96,113 +154,6 @@
         </div>
       </div>
     </div>
-    <!--
-      <form (ngSubmit)="onSubmit(heroForm)" ref-heroForm="ngForm" style="background-color:yellow">
-
-
-
-
-
-          <div class="form-group">
-
-
-
-
-
-
-              <label for="name">Name
-
-
-
-
-
-
-                  <select class="form-control" [(ngModel)]="trip.tourInfoSource" name="infoSource"  [ngModelOptions]="{standalone: true}">
-
-
-
-
-
-
-                      <ng-container *ngFor="let info of tourInfoSources">
-
-
-
-
-
-
-                          <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
-
-
-
-
-
-
-                          <option [ngValue]="info" *ngIf="info !== ''">{{info}}</option>
-
-
-
-
-
-
-                      </ng-container>
-
-
-
-
-
-
-                  </select>
-
-
-
-
-
-
-              </label>
-
-
-
-
-
-
-          </div>
-
-
-
-
-
-
-          <button type="submit" [disabled]="!heroForm.form.valid">Submit</button>
-
-
-
-
-
-
-      </form>
-
-
-
-
-
-
-      <div [hidden]="!heroForm.form.valid">
-
-
-
-
-
-
-          {{heroForm.form.valid}}
-
-
-
-
-
-
-      </div>
-    -->
     <br />
     <div class="row">
       <div class="col-md-6 text-left">
@@ -223,7 +174,6 @@
           [class.isVerified]="isVerified"
           class="btn btn-warning btn-lg"
           [style.color]="isVerified ? 'white' : 'white'"
-      
           [style.background-color]="
             isVerified ? '#d47027!important' : '#d47027'
           "
@@ -235,7 +185,7 @@
             !trip.billingInfo.haveReadTripNotes
           "
         >
-          Continue to Payment
+          Pay Deposit
         </button>
         <!---->
       </div>
@@ -250,5 +200,25 @@
     </div>
   </div>
 
-  <ng-template #loading> <app-message></app-message>Wait a moment... </ng-template>
+  <ng-template #loading>
+    <app-message></app-message>Wait a moment...
+  </ng-template>
 </div>
+    <!--
+      <form (ngSubmit)="onSubmit(heroForm)" ref-heroForm="ngForm" style="background-color:yellow">
+          <div class="form-group">
+              <label for="name">Name
+                  <select class="form-control" [(ngModel)]="trip.tourInfoSource" name="infoSource"  [ngModelOptions]="{standalone: true}">
+                      <ng-container *ngFor="let info of tourInfoSources">
+                          <option [ngValue]="info" *ngIf="info === ''">--Select--</option>
+                          <option [ngValue]="info" *ngIf="info !== ''">{{info}}</option>
+                      </ng-container>
+                  </select>
+              </label>
+          </div>
+          <button type="submit" [disabled]="!heroForm.form.valid">Submit</button>
+      </form>
+      <div [hidden]="!heroForm.form.valid">
+          {{heroForm.form.valid}}
+      </div>
+    -->
