@@ -97,6 +97,7 @@ export const MockTours: Tour[] = [
             location: "Beijing",
             name: "Acrobatic Show",
             price: 50.0,
+            description: "",
             enabled: true,
             type: 2,
             tourId: "CHG11",
@@ -129,7 +130,7 @@ export const MockTours: Tour[] = [
         totalPriceForPayment: 0,
         paymentTypeSurcharges: 0,
         minimumDeposit: 100,
-        paidAmounts:[],
+        paidAmounts: [],
         tourId: "CHG11",
         tourName: ""
       }

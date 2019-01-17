@@ -35,6 +35,9 @@ export class TourOptionForEachTravellerComponent implements OnInit {
   //   traveller.needVisa = needVisa;
   //   this.tourService.updateRoomInfo();
   // }
+  displayTitle(title: string) {
+    this.tourService.openNgxModelDlg(title);
+  }
   onInsuanceChanged(traveller: Traveller, needInsuance: boolean) {
     traveller.needInsuance = needInsuance;
     this.tourService.updateRoomInfo();

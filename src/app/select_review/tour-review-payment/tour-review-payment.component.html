@@ -70,18 +70,18 @@
           departure)
         </div>
         <br />
+
+        <strong>Email Confirmation</strong>
         <div>
-          <strong>Email Confirmation</strong> You will receive an email
-          confirmation once your deposit has been charged. A Tour Consultant
-          will contact you after booking to discuss reservation details and next
-          steps and answer any questions you may have.
+          You will receive an email confirmation once your deposit has been
+          charged. A Tour Consultant will contact you after booking to discuss
+          reservation details and next steps and answer any questions you may
+          have.
         </div>
       </div>
     </div>
-    <hr
-          
-            style="border-top: 1px solid #aaa;"
-          />
+
+    <hr style="border-top: 1px solid #aaa;" />
     <div class="row">
       <div class="col-md-12">
         <strong style="font-size:18px;">How did you hear about us?</strong>
@@ -137,7 +137,16 @@
             "
             [checked]="trip.billingInfo.haveReadTripNotes"
           />&nbsp;I have read the
-          <a class="tecolor" target="_blank" href="{{'/DesktopModules/EnTourModule/assets/tripnotes_'+ trip.id+'.pdf'}}">trip notes</a>
+          <a
+            class="tecolor"
+            target="_blank"
+            href="{{
+              '/DesktopModules/EnTourModule/assets/tripnotes_' +
+                trip.id +
+                '.pdf'
+            }}"
+            >trip notes</a
+          >
         </div>
         <div>
           <input
@@ -204,7 +213,8 @@
     <app-message></app-message>Wait a moment...
   </ng-template>
 </div>
-    <!--
+
+<!--
       <form (ngSubmit)="onSubmit(heroForm)" ref-heroForm="ngForm" style="background-color:yellow">
           <div class="form-group">
               <label for="name">Name

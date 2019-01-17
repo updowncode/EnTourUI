@@ -72,7 +72,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
           // this.initData();
         }
       });
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }
   initData() {
     for (let i = 0; i < this.trip.rooms.length; i++) {
@@ -137,6 +137,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     }
   }
   allDataCorrect(): string {
+    let msg = "";
     let errQuantity = 0;
     if (
       this.trip.billingInfo.firstName === null ||
@@ -210,6 +211,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
       $("#postalCode").addClass("ng-invalid ng-touched");
       // return `Postal Code is required`;
     }
+    let elIndex = 0;
     for (let i = 0; i < this.trip.rooms.length; i++) {
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
@@ -249,6 +251,44 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
             // return `Passenger ${
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s date of birth is required`;
+          }
+          $("input[name='passportnumber'").each(function(index, el) {
+            if (index === elIndex) {
+              $(el).removeClass(["ng-invalid", "ng-touched"]);
+            }
+          });
+          if (this.trip.rooms[i].travellers[j].countryOrArea.code === "CA") {
+            if (this.trip.rooms[i].travellers[j].passport.number.length > 0) {
+              if (
+                this.trip.rooms[i].travellers[j].passport.number.length === 1
+              ) {
+                $("input[name='passportnumber'").each(function(index, el) {
+                  if (index === elIndex) {
+                    errQuantity++;
+                    msg = "Canada passport must start with two characters";
+                    $(el).addClass("ng-invalid ng-touched");
+                  }
+                });
+              }
+              if (
+                this.trip.rooms[i].travellers[j].passport.number.length >= 2
+              ) {
+                if (!new RegExp('^[A-Za-z]{2}').test(
+                  this.trip.rooms[i].travellers[j].passport.number.substr(
+                    0,
+                    2
+                  ))
+                ) {
+                  $("input[name='passportnumber'").each(function(index, el) {
+                    if (index === elIndex) {
+                      errQuantity++;
+                      msg = "Canada passport must start with two characters";
+                      $(el).addClass("ng-invalid ng-touched");
+                    }
+                  });
+                }
+              }
+            }
           }
           if (this.trip.rooms[i].travellers[j].placeofbirth.length === 0) {
             $("input[name='placeofbirth'").each(function(index, el) {
@@ -301,11 +341,16 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s passport expiry date is required`;
           }
+          elIndex++;
         }
       }
     }
     if (errQuantity > 0) {
-      return "Please fill all the required fields";
+      if (msg === "") {
+        return "Please fill all the required fields";
+      } else {
+        return msg;
+      }
     }
     return "";
   }

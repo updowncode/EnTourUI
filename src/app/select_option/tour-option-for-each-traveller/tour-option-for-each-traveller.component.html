@@ -52,7 +52,7 @@
             <span style="font-size: 13px;">{{ option.location }}</span>
           </td>
           <td>
-            <span style="font-size: 13px;">{{ option.name }} </span>
+            <span style="font-size: 13px; text-decoration-line: underline; cursor:pointer;" title="{{option.description}}" (click)="displayTitle(option.description)" >{{ option.name }} </span>
           </td>
           <td style="text-align:center;"> 
             <span style="font-size: 13px;">{{ option.price }} </span>

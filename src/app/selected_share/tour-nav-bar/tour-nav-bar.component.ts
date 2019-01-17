@@ -4,7 +4,7 @@ import { APP_BASE_HREF } from '@angular/common';
 @Component({
   selector: 'app-tour-nav-bar',
   templateUrl: './tour-nav-bar.component.html',
-  styleUrls: ['./tour-nav-bar.component.sass']
+  styles: ['td: { padding: 0px; }']
 })
 export class TourNavBarComponent implements OnInit {
   @Input() actived: number;

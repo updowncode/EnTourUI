@@ -4,7 +4,7 @@ import { Trip } from "../../Models/trip";
 @Component({
   selector: "app-trip-details",
   templateUrl: "./trip-details.component.html",
-  styleUrls: ["./trip-details.component.sass"]
+  styles: [" .interp { div p: 'margin-bottom:0px;'}"]
 })
 export class TripDetailsComponent {
   @Input()

@@ -5,6 +5,7 @@ export class Option {
   location: string;
   name: string;
   price: number;
+  description: string;
   enabled: boolean;
   type: number;
   tourId: string;
