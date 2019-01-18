@@ -123,6 +123,9 @@ export class TourRoomsEachRoomComponent
       );
     }
   }
+  onSmokingSelectionChange(room: Room, smokingRoom: number) {
+    room.smokingRoom = smokingRoom;
+  }
   addExtraHotelQuantity(room: Room) {
     room.extraHotelQuantity++;
     this.tourService.updateRoomInfo();
