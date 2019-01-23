@@ -1,5 +1,5 @@
 <div *ngIf="loaded; else loading">
-    <div class="row" style="background-color:white;">
+    <div class="row" style="background-color:#ddd;">
         <!-- <div *ngFor="let tour of ('../../../assets/mockdata.json' | fetch) ">
                 {{tour.name}}
         </div>
@@ -9,7 +9,7 @@
         <!-- <app-my-date-picker [options]="{'dateFormat': 'yyyy-mm-dd', 'showTextBox': true}" [selDate]="''"></app-my-date-picker> -->
         <mat-card class="col-md-4" *ngFor="let tour of tours$ | async">
             <mat-card-content>
-                <img width="200px" src='https://b2b.toureast.com/Content/tourpics/China/{{tour.id}}.jpg' />
+                <img width="200px" height="150px" src='/Content/tourpics/{{tour.id}}.jpg' />
                 <h4 [innerHTML]="tour.name"></h4>
                 <!-- <a class="btn btn-primary" [routerLink]="['/detail', tour.id]"  target="_blank">
                 Select

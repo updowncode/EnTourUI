@@ -39,35 +39,46 @@
         </th>
         <th
           style="text-align: center; vertical-align: middle; background-color: #3f3f3f;width:10%"
-        ><span style="font-size: 13px; color: #ffffff;"
-        >&nbsp;Select <br />
-      </span></th>
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Select <br />
+          </span>
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
-        <ng-container>
-           <!-- *ngIf="option.type !== 10 && option.type !== 20" -->
+      <ng-container
+        *ngFor="let option of options; let i = index"
+        [attr.data-index]="i"
+      >
+        <tr>
           <td>
             <span style="font-size: 13px;">{{ option.location }}</span>
           </td>
           <td>
-            <span style="font-size: 13px; text-decoration-line: underline; cursor:pointer;" title="{{option.description}}" (click)="displayTitle(option.description)" >{{ option.name }} </span>
+            <span
+              style="font-size: 13px; text-decoration-line: underline; cursor:pointer;"
+              (click)="displayTitle(option)"
+              >{{ option.name }}
+            </span>
           </td>
-          <td style="text-align:center;"> 
+          <td style="text-align:center;">
             <span style="font-size: 13px;">{{ option.price }} </span>
           </td>
           <td style="text-align:center;vertical-align: middle;">
             <input
               type="checkbox"
               style="cursor: pointer;"
-              name="{{'Options' + traveller.id + option.id }}"
+              name="{{ 'Options' + traveller.id + option.id }}"
               (change)="changeTravellerOption(traveller, option)"
               [checked]="isTravellerOption(traveller, option)"
             />
           </td>
-        </ng-container>
-      </tr>
+        </tr>
+        <tr *ngIf="option.toggleShowDescription && option.description">
+          <td colspan="4"><div [innerHTML]="option.description | safeHtml"></div></td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 
@@ -80,8 +91,14 @@
     <div class="col-md-12">
       Travel Insurance is strongly recommended for your travel purchase. Tour
       East Holidays can offer travel insurance through Manulife. You may visit
-      our dedicated Manulife Travel Insurance page <a target="_blank" href="https://www.igoinsured.com/Direct/ManulifeGlobal.aspx?ag=tehstba&lang=E">HERE</a> or you may contact one
-      of our Travel Consultants for a free quote at tour@toureast.com.
+      our dedicated Manulife Travel Insurance page
+      <a
+        target="_blank"
+        href="https://www.igoinsured.com/Direct/ManulifeGlobal.aspx?ag=tehstba&lang=E"
+        >HERE</a
+      >
+      or you may contact one of our Travel Consultants for a free quote at
+      tour@toureast.com.
     </div>
   </div>
   <br />
@@ -92,7 +109,7 @@
         style="cursor: pointer;"
         [value]="true"
         [checked]="traveller.needInsuance === true"
-        name="{{'needInsuance' + traveller.id}}"
+        name="{{ 'needInsuance' + traveller.id }}"
         (change)="onInsuanceChanged(traveller, true)"
       />
       &nbsp;I/We have been offered travel insurance by Tour East Holidays and
@@ -107,24 +124,27 @@
         style="cursor: pointer;"
         [value]="false"
         [checked]="traveller.needInsuance === false"
-        name="{{'needInsuance' + traveller.id}}"
+        name="{{ 'needInsuance' + traveller.id }}"
         (change)="onInsuanceChanged(traveller, false)"
       />
       &nbsp;Declined - I/We do not require travel insurance from Tour East
       Holidays and understand that penalties apply for cancellations and/or
       changes according to payment and cancellations policy outlined on the Tour
-      East Holidays Terms & Conditions found <a target="_blank" href="http://iteh.ca/tourae/termsandconditions.pdf">HERE</a>.
+      East Holidays Terms & Conditions found
+      <a target="_blank" href="https://iteh.ca/tourae/termsandconditions.pdf"
+        >HERE</a
+      >.
     </div>
   </div>
 </div>
-  <!-- <hr  *ngIf="hasVisaOption"/>
+<!-- <hr  *ngIf="hasVisaOption"/>
   <div class="row" *ngIf="hasVisaOption">
     <div class="col-md-12">
       <strong style="font-size: 15px;">Travel Visa:</strong>
     </div>
   </div> -->
 
-  <!-- <input
+<!-- <input
   type="radio"
   style="cursor: pointer;"
   [value]="false"
@@ -133,7 +153,7 @@
   (change)="onVisaChanged(traveller, false)"
 /> -->
 
-  <!-- <div class="row" *ngIf="hasVisaOption">
+<!-- <div class="row" *ngIf="hasVisaOption">
     <div class="col-md-10">
       Canadian citizens using a Canadian passport require a visa to visit China.
     </div>
@@ -200,7 +220,7 @@
       </tr>
     </tbody>
   </table> -->
-  <!-- <hr *ngIf="hasExtraHotelOption"/>
+<!-- <hr *ngIf="hasExtraHotelOption"/>
   <table class="table table-bordered table-striped" style="width: 100%;" *ngIf="hasExtraHotelOption">
     <thead>
       <tr>

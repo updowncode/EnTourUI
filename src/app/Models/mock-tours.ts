@@ -98,6 +98,7 @@ export const MockTours: Tour[] = [
             name: "Acrobatic Show",
             price: 50.0,
             description: "",
+            toggleShowDescription: false,
             enabled: true,
             type: 2,
             tourId: "CHG11",

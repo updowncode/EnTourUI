@@ -57,33 +57,26 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = 'dnndev.me';
-
+private siteIPToPublish = 'http://dnndev.me';
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
 
-  private toursUrl =
-    "http://" +
+  private toursUrl = // "https://en.toureast.com/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours";
     this.siteIPToPublish +
-    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours"; // URL to web api
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/entours";
   private bookUrl =
-    "http://" +
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/bookentour1"; // URL to web api
   private verifyfrontendcallbackUrl =
-    "http://" +
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/verifyfrontendcallback"; // URL to web api
   private sendInvoiceEmailUrl =
-    "http://" +
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
     private getReceiptUrl =
-    "http://" +
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/GetReceipt"; // URL to web api
   private sendNoInvoiceEmailUrl =
-    "http://" +
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendEmailWithoutInvoice"; // URL to web api
 
@@ -117,9 +110,18 @@ private siteIPToPublish = 'dnndev.me';
       if (trip) {
         this.toursSubscription = this.getToursAsync().subscribe(tours => {
           this.tours = tours;
-          const tourIndex = this.tours.findIndex(
-            tour => tour.trips.find(d => d.id === trip.id).id === trip.id
-          );
+          let tourIndex = 0;
+          for (let i = 0; i < this.tours.length; i++) {
+              for (let j = 0; j < this.tours[i].trips.length; j++) {
+                if (this.tours[i].trips[j].id === trip.id) {
+                  tourIndex = i;
+                  break;
+                }
+              }
+          }
+          // const tourIndex = this.tours.findIndex(
+          //   tour => tour.trips.find(d => d.id === trip.id).id === trip.id
+          // );
           const tripIndex = this.tours[tourIndex].trips.findIndex(
             d => d.id === trip.id
           );

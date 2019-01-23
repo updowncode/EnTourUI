@@ -53,11 +53,11 @@ const isDirSync = aPath => {
 console.log("🔄 Please wait...\n");
 if (process.argv.length == 3) {
   if (process.argv[2] == "-t") {
-    ModifyAPIAddressAsync("192.168.168.117:8019");
+    ModifyAPIAddressAsync("http://192.168.168.117:8019");
   } else if (process.argv[2] == "-d") {
-    ModifyAPIAddressAsync("dnndev.me");
+    ModifyAPIAddressAsync("http://dnndev.me");
   } else if (process.argv[2] == "-p") {
-    ModifyAPIAddressAsync("en.xxxxxxxx.com");
+    ModifyAPIAddressAsync("https://en.toureast.com");
   }
 }
 console.log("🔄 done\n");
