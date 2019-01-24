@@ -273,16 +273,43 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
               if (
                 this.trip.rooms[i].travellers[j].passport.number.length >= 2
               ) {
-                if (!new RegExp('^[A-Za-z]{2}').test(
-                  this.trip.rooms[i].travellers[j].passport.number.substr(
-                    0,
-                    2
-                  ))
+                if (
+                  !new RegExp("^[A-Za-z]{2}").test(
+                    this.trip.rooms[i].travellers[j].passport.number.substr(
+                      0,
+                      2
+                    )
+                  )
                 ) {
                   $("input[name='passportnumber'").each(function(index, el) {
                     if (index === elIndex) {
                       errQuantity++;
                       msg = "Canada passport must start with two characters";
+                      $(el).addClass("ng-invalid ng-touched");
+                    }
+                  });
+                } else if (
+                  this.trip.rooms[i].travellers[j].passport.number.length !== 8
+                ) {
+                  $("input[name='passportnumber'").each(function(index, el) {
+                    if (index === elIndex) {
+                      errQuantity++;
+                      msg = "Passport number length is not correct";
+                      $(el).addClass("ng-invalid ng-touched");
+                    }
+                  });
+                } else if (
+                  !new RegExp("[0-9]{6}$").test(
+                    this.trip.rooms[i].travellers[j].passport.number.substr(
+                      2,
+                      6
+                    )
+                  )
+                ) {
+                  $("input[name='passportnumber'").each(function(index, el) {
+                    if (index === elIndex) {
+                      errQuantity++;
+                      msg = "Passport number last six character is not number";
                       $(el).addClass("ng-invalid ng-touched");
                     }
                   });

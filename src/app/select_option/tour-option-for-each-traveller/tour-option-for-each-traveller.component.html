@@ -76,7 +76,9 @@
           </td>
         </tr>
         <tr *ngIf="option.toggleShowDescription && option.description">
-          <td colspan="4"><div [innerHTML]="option.description | safeHtml"></div></td>
+          <td colspan="4">
+            <div [innerHTML]="option.description | safeHtml"></div>
+          </td>
         </tr>
       </ng-container>
     </tbody>
@@ -98,7 +100,7 @@
         >HERE</a
       >
       or you may contact one of our Travel Consultants for a free quote at
-      tour@toureast.com.
+      1.877.578.8888 or tour@toureast.com.
     </div>
   </div>
   <br />
@@ -113,8 +115,8 @@
         (change)="onInsuanceChanged(traveller, true)"
       />
       &nbsp;I/We have been offered travel insurance by Tour East Holidays and
-      have been informed of the importance of purchase travel travel insurance
-      after confirming this trips.
+      have been informed of the importance of purchasing travel insurance after
+      confirming this trip.
     </div>
   </div>
   <div class="row">
@@ -129,8 +131,8 @@
       />
       &nbsp;Declined - I/We do not require travel insurance from Tour East
       Holidays and understand that penalties apply for cancellations and/or
-      changes according to payment and cancellations policy outlined on the Tour
-      East Holidays Terms & Conditions found
+      changes according to the payment and cancellation policy as outlined for
+      this trip and on the Tour East Holidays Terms & Conditions found
       <a target="_blank" href="https://iteh.ca/tourae/termsandconditions.pdf"
         >HERE</a
       >.
