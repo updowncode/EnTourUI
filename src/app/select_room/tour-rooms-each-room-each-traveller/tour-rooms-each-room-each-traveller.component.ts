@@ -155,7 +155,10 @@ export class TourRoomsEachRoomEachTravellerComponent
     //   }
     // }
     // return false;
-    if (room.travellers && room.travellers.filter(c => !c.isChild).length === 1) {
+    if (
+      room.travellers &&
+      room.travellers.filter(c => !c.isChild).length === 1
+    ) {
       if (room.travellers.filter(c => !c.isChild)[0].id === traveller.id) {
         return true;
       }
@@ -204,10 +207,19 @@ export class TourRoomsEachRoomEachTravellerComponent
   }
   onRoomMovedToModelChange(traveller: Traveller, roomIndex: number) {
     traveller.roomId = this.room.id;
-    if (this.trip.rooms.find( c => c.id === traveller.roomId).travellers && this.trip.rooms.find( c => c.id === traveller.roomId).travellers.filter(c => !c.isChild).length === 1) {
-      if (this.trip.rooms.find( c => c.id === traveller.roomId).travellers.filter(c => !c.isChild)[0].id === traveller.id) {
-        this.roomMovedToRequest.emit(true); 
-        //Only one adult, so it can not be moved
+    if (
+      this.trip.rooms.find(c => c.id === traveller.roomId).travellers &&
+      this.trip.rooms
+        .find(c => c.id === traveller.roomId)
+        .travellers.filter(c => !c.isChild).length === 1
+    ) {
+      if (
+        this.trip.rooms
+          .find(c => c.id === traveller.roomId)
+          .travellers.filter(c => !c.isChild)[0].id === traveller.id
+      ) {
+        this.roomMovedToRequest.emit(true);
+        // Only one adult, so it can not be moved
         return;
       }
     }
