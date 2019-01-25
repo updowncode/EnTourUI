@@ -476,6 +476,45 @@ private siteIPToPublish = 'http://dnndev.me';
   updateSelectedTour(tour: Tour) {
     this.tourSelected.next(tour);
   }
+  totalTravellersBeforeRoom(index: number): number {
+    let total = 0;
+    if (index > 0) {
+      for (let i = 0; i < index; i++) {
+        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+          total++;
+        }
+      }
+    }
+    return total;
+  }
+  MoveTravellerToRoom(traveller: Traveller, roomIndex: number) {
+    for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
+      this.trip.rooms[i].travellers = this.trip.rooms[i].travellers.filter(c => c.id !== traveller.id);
+      // for (let j = this.trip.rooms[i].travellers.length - 1; j >= 0; j--) {
+      //   if (this.trip.rooms[i].travellers[j].id === traveller.id) {
+      //     this.trip.rooms[i].travellers.splice(j, 1);
+      //   }
+      // }
+    }
+    traveller.roomId = this.trip.rooms.find(c => c.index === roomIndex).id;
+    this.trip.rooms.find(c => c.index === roomIndex).travellers.push(traveller);
+    // for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
+    //   if (this.trip.rooms[i].index === roomIndex) {
+    //     traveller.roomId = this.trip.rooms[i].id;
+    //     this.trip.rooms[i].travellers.push(traveller);
+    //   }
+    // }
+    this.trip.rooms.forEach((r: Room, i: number, s: Room[]) => r.travellers.forEach((t: Traveller, j: number, ts: Traveller[]) => {
+      t.id = this.totalTravellersBeforeRoom(i) + j;
+    }));
+    // for (let i = 0; i < this.trip.rooms.length; i++) {
+    //   for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
+    //     this.trip.rooms[i].travellers[j].id =
+    //       this.totalTravellersBeforeRoom(i) + j;
+    //   }
+    // }
+  }
+
   openNgxModelDlg(message: string, btnName?: string, title?: string) {
     const initialState = {
       msg: message

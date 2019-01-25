@@ -186,29 +186,25 @@
     <div class="col-md-12"><hr style="color: #000;" /></div>
   </div>
 -->
-  <div class="row">
+  <div class="row" style="margin-bottom: 5px;">
     <div class="col-md-12">
-      <strong style="font-size:18px; background-color: yellow;" *ngIf="trip.tourName">{{ trip.tourName }}</strong>
+      <span style="background-color: yellow; display: table-cell;">
+          <div style="font-size:18px;  height: 20px; font-weight: bold;" *ngIf="trip.tourName">{{ trip.tourName }}</div><div *ngIf="trip.name" style="font-size:14px;  padding-bottom:2px; font-weight: bold;">{{ trip.name }}</div>
+      </span>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <strong *ngIf="trip.name" style="background-color: yellow;">{{ trip.name }}</strong>
+
+  <div class="row" style="margin-bottom: 5px;">
+      <div class="col-md-12">
+        <span style="background-color: yellow; display: table-cell;">
+            <div style="font-size:14px; height: 16px;font-weight: bold;" *ngIf="trip.startPlace">Start: {{ trip.startPlace }}</div><div *ngIf="trip.endPlace" style="font-size:14px; padding-bottom:2px; font-weight: bold;">End: {{ trip.endPlace }}</div>
+        </span>
+      </div>
     </div>
-  </div>
+
   <div class="row">
     <div class="col-md-12">
-      <strong *ngIf="trip.startDate" style="background-color: yellow;">Start: {{ trip.startPlace }}</strong>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <strong *ngIf="trip.startDate" style="background-color: yellow;">End: {{ trip.endPlace }}</strong>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <strong *ngIf="trip.startDate" style="background-color: yellow;">Departure: {{ trip.startDate | date: "MMMM d, yyyy" }}</strong>
+      <strong *ngIf="trip.startDate" style="font-size:14px;  background-color: yellow;">Departure: {{ trip.startDate | date: "MMMM d, yyyy" }}</strong>
     </div>
   </div>
   <div class="row">
@@ -237,7 +233,7 @@
               }}
             </div>
             <div class="col-md-6 text-right">
-              $&nbsp;{{
+              ${{
                 room.roomPriceForPerTraveller -
                   (traveller.isChild ? room.childPromoAmount : 0)
                   | number: "1.2-2"

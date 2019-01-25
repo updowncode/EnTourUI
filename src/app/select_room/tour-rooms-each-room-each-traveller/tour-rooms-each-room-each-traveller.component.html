@@ -78,6 +78,7 @@
               type="radio"
               style="cursor: pointer;"
               [value]="true"
+              [disabled]="disabled(traveller)"
               [checked]="traveller.isChild === true"
               name="{{ 'isChild' + traveller.id }}"
               (change)="onTravellerIsChildChange(traveller, true)"

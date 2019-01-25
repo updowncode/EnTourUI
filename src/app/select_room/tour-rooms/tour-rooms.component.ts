@@ -308,6 +308,26 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
       }
       this.assignRoomIndex();
     }
+    for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
+      if (this.trip.rooms[i].travellers.length === 0) {
+        let k = i - 1;
+        let bMoveSuccess = false;
+        while (!bMoveSuccess) {
+          if (this.trip.rooms[k].travellers.length > 1) {
+            this.tourService.MoveTravellerToRoom(
+              this.trip.rooms[k].travellers[
+                this.trip.rooms[k].travellers.length - 1
+              ],
+              this.trip.rooms[i].index
+            );
+            this.onRoomCanbeMovedTo(true);
+            bMoveSuccess = true;
+          } else {
+            k--;
+          }
+        }
+      }
+    }
   }
   private log(message: string) {
     if (message.length > 0) {

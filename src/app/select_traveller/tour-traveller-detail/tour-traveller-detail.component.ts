@@ -139,6 +139,13 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   allDataCorrect(): string {
     let msg = "";
     let errQuantity = 0;
+    $("input[name='passportnumber'").each(function(index, el) {
+      // if (index === elIndex) {
+       // $(el).removeClass(["ng-invalid", "ng-touched"]);
+        $(el).removeClass("ng-invalid");
+        $(el).removeClass("ng-touched");
+      // }
+    });
     if (
       this.trip.billingInfo.firstName === null ||
       this.trip.billingInfo.firstName.trim() === ""
@@ -252,11 +259,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s date of birth is required`;
           }
-          $("input[name='passportnumber'").each(function(index, el) {
-            if (index === elIndex) {
-              $(el).removeClass(["ng-invalid", "ng-touched"]);
-            }
-          });
+
           if (this.trip.rooms[i].travellers[j].countryOrArea.code === "CA") {
             if (this.trip.rooms[i].travellers[j].passport.number.length > 0) {
               if (

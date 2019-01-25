@@ -43,7 +43,7 @@
           <select *ngIf="room.roomCfgList.length > 0" class="form-control" name="roomCfg" [compareWith]="compareFn"
           [(ngModel)]="room.selectedRoomCfg">
           <ng-container *ngFor="let roomCfg of room.roomCfgList">
-            <option [ngValue]="roomCfg">{{roomCfg.id === -1 ? "--Select--" : roomCfg.description}}</option>
+            <option [ngValue]="roomCfg" *ngIf="(room.travellers.length === 1 && roomCfg.id !== 13) || (room.travellers.length === 2 && roomCfg.id !== 10 && roomCfg.id !== 13)  || (room.travellers.length > 2 && roomCfg.id !== 10)">{{roomCfg.id === -1 ? "--Select--" : roomCfg.description}}</option>
           </ng-container>
         </select>
         </div>

@@ -125,14 +125,14 @@ export class TourRoomsEachRoomEachTravellerComponent
       this.room.travellers[i].firstName =
         "firstName" +
         (
-          this.totalTravellersBeforeRoom(this.room.index - 1) +
+          this.tourService.totalTravellersBeforeRoom(this.room.index - 1) +
           i +
           1
         ).toString();
       this.room.travellers[i].lastName =
         "lastName" +
         (
-          this.totalTravellersBeforeRoom(this.room.index - 1) +
+          this.tourService.totalTravellersBeforeRoom(this.room.index - 1) +
           i +
           1
         ).toString();
@@ -144,20 +144,21 @@ export class TourRoomsEachRoomEachTravellerComponent
   onSmokingSelectionChange(room: Room, smokingRoom: number) {
     room.smokingRoom = smokingRoom;
   }
-  onTravellerIsChildChange(traveller: Traveller, isChild: boolean) {
-    if (isChild) {
-      if (
-        this.room.travellers
-          .filter(c => c.id !== traveller.id)
-          .some(c => c.isChild === false)
-      ) {
-        traveller.isChild = isChild;
-        this.tourService.updateRoomInfo();
+  disabled(traveller: Traveller) {
+    const t = this.trip.rooms.reduce(
+      (a, b) => [...a, ...b.travellers],
+      new Array<Traveller>()
+    );
+    if (t.filter(c => !c.isChild).length === 1) {
+      if (t.filter(c => !c.isChild)[0].id === traveller.id) {
+        return true;
       }
-    } else {
-      traveller.isChild = isChild;
-      this.tourService.updateRoomInfo();
     }
+    return false;
+  }
+  onTravellerIsChildChange(traveller: Traveller, isChild: boolean) {
+    traveller.isChild = isChild;
+    this.tourService.updateRoomInfo();
   }
 
   updateRoomInfo() {
@@ -196,50 +197,8 @@ export class TourRoomsEachRoomEachTravellerComponent
     );
   }
   onRoomMovedToModelChange(traveller: Traveller, roomIndex: number) {
-    for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
-      this.trip.rooms[i].travellers = this.trip.rooms[i].travellers.filter(
-        c => c.id !== traveller.id
-      );
-      // for (let j = this.trip.rooms[i].travellers.length - 1; j >= 0; j--) {
-      //   if (this.trip.rooms[i].travellers[j].id === traveller.id) {
-      //     this.trip.rooms[i].travellers.splice(j, 1);
-      //   }
-      // }
-    }
-
-    traveller.roomId = this.trip.rooms.find(c => c.index === roomIndex).id;
-    this.trip.rooms.find(c => c.index === roomIndex).travellers.push(traveller);
-
-    // for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
-    //   if (this.trip.rooms[i].index === roomIndex) {
-    //     traveller.roomId = this.trip.rooms[i].id;
-    //     this.trip.rooms[i].travellers.push(traveller);
-    //   }
-    // }
-
-    this.trip.rooms.forEach((r: Room, i: number, s: Room[]) =>
-      r.travellers.forEach((t: Traveller, j: number, ts: Traveller[]) => {
-        t.id = this.totalTravellersBeforeRoom(i) + j;
-      })
-    );
-    // for (let i = 0; i < this.trip.rooms.length; i++) {
-    //   for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-    //     this.trip.rooms[i].travellers[j].id =
-    //       this.totalTravellersBeforeRoom(i) + j;
-    //   }
-    // }
+    this.tourService.MoveTravellerToRoom(traveller, roomIndex);
 
     this.roomMovedToRequest.emit(true);
-  }
-  totalTravellersBeforeRoom(index: number): number {
-    let total = 0;
-    if (index > 0) {
-      for (let i = 0; i < index; i++) {
-        for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
-          total++;
-        }
-      }
-    }
-    return total;
   }
 }
