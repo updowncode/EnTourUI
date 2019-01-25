@@ -57,7 +57,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = 'http://dnndev.me';
+private siteIPToPublish = 'https://en.toureast.com';
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
 
