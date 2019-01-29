@@ -57,7 +57,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = 'http://dnndev.me';
+  private siteIPToPublish = "http://dnndev.me";
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
 
@@ -73,13 +73,15 @@ private siteIPToPublish = 'http://dnndev.me';
   private sendInvoiceEmailUrl =
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendinvoiceemail"; // URL to web api
-    private getReceiptUrl =
+  private getReceiptUrl =
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/GetReceipt"; // URL to web api
   private sendNoInvoiceEmailUrl =
     this.siteIPToPublish +
     "/DesktopModules/EnTourModule/API/EnTourModuleAPI/sendEmailWithoutInvoice"; // URL to web api
-
+  private gethashUrl =
+    this.siteIPToPublish +
+    "/DesktopModules/EnTourModule/API/EnTourModuleAPI/GetHash"; // URL to web api
   private headers = new Headers({ "Content-Type": "application/json" });
   private tourSelected = new BehaviorSubject<Tour>(null);
   private tripSelected = new BehaviorSubject<Trip>(null);
@@ -112,12 +114,12 @@ private siteIPToPublish = 'http://dnndev.me';
           this.tours = tours;
           let tourIndex = 0;
           for (let i = 0; i < this.tours.length; i++) {
-              for (let j = 0; j < this.tours[i].trips.length; j++) {
-                if (this.tours[i].trips[j].id === trip.id) {
-                  tourIndex = i;
-                  break;
-                }
+            for (let j = 0; j < this.tours[i].trips.length; j++) {
+              if (this.tours[i].trips[j].id === trip.id) {
+                tourIndex = i;
+                break;
               }
+            }
           }
           // const tourIndex = this.tours.findIndex(
           //   tour => tour.trips.find(d => d.id === trip.id).id === trip.id
@@ -363,8 +365,7 @@ private siteIPToPublish = 'http://dnndev.me';
           )
           .reduce((a, b) => [...a, ...b.selectedOptions], [])
       );
-      const groups = options
-      .pipe(
+      const groups = options.pipe(
         groupBy(option => option.name),
         mergeMap(group => group.pipe(toArray()))
       );
@@ -489,7 +490,9 @@ private siteIPToPublish = 'http://dnndev.me';
   }
   MoveTravellerToRoom(traveller: Traveller, roomIndex: number) {
     for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
-      this.trip.rooms[i].travellers = this.trip.rooms[i].travellers.filter(c => c.id !== traveller.id);
+      this.trip.rooms[i].travellers = this.trip.rooms[i].travellers.filter(
+        c => c.id !== traveller.id
+      );
       // for (let j = this.trip.rooms[i].travellers.length - 1; j >= 0; j--) {
       //   if (this.trip.rooms[i].travellers[j].id === traveller.id) {
       //     this.trip.rooms[i].travellers.splice(j, 1);
@@ -504,9 +507,11 @@ private siteIPToPublish = 'http://dnndev.me';
     //     this.trip.rooms[i].travellers.push(traveller);
     //   }
     // }
-    this.trip.rooms.forEach((r: Room, i: number, s: Room[]) => r.travellers.forEach((t: Traveller, j: number, ts: Traveller[]) => {
-      t.id = this.totalTravellersBeforeRoom(i) + j;
-    }));
+    this.trip.rooms.forEach((r: Room, i: number, s: Room[]) =>
+      r.travellers.forEach((t: Traveller, j: number, ts: Traveller[]) => {
+        t.id = this.totalTravellersBeforeRoom(i) + j;
+      })
+    );
     // for (let i = 0; i < this.trip.rooms.length; i++) {
     //   for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
     //     this.trip.rooms[i].travellers[j].id =
@@ -660,10 +665,18 @@ private siteIPToPublish = 'http://dnndev.me';
       .then(resp => (this.tours = Object.assign([], resp)))
       .catch(this.handleError);
   }
-  getReceipt(oid: string) {
-    const url = `${this.getReceiptUrl}?orderNumber=${oid}`;
+  gethashcode(oid: string) {
+    const url = `${this.gethashUrl}?orderNumber=${oid}`;
     return this.httpClient
-      .get(url, { responseType: 'text' })
+      .get(url)
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  getReceipt(oid: string, hashcode: string) {
+    const url = `${this.getReceiptUrl}?orderNumber=${oid}&hashcode=${hashcode}`;
+    return this.httpClient
+      .get(url, { responseType: "text" })
       .toPromise()
       .catch(this.handleError);
   }

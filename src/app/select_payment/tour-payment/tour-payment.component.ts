@@ -1,4 +1,10 @@
-import { Component, OnInit, HostBinding, OnDestroy, Inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostBinding,
+  OnDestroy,
+  Inject
+} from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { EnTourService } from "../../en-tour.service";
 import {
@@ -61,6 +67,7 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   extraHotelAmount: number;
   totalPaidAmount: number;
   hasOption: boolean;
+  hashcode: string;
   constructor(
     @Inject(APP_BASE_HREF) public baseHref: string,
     private activatedRoute: ActivatedRoute,
@@ -187,12 +194,19 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     } else {
       this.orderTrip = Object.assign({}, resp.data.trip);
       this.invoiceNumber = resp.data.invoiceNumber;
-      this.hasOption = this.orderTrip.rooms.some( c => c.travellers.some(d => d.selectedOptions != null && d.selectedOptions.length > 0));
+      this.hasOption = this.orderTrip.rooms.some(c =>
+        c.travellers.some(
+          d => d.selectedOptions != null && d.selectedOptions.length > 0
+        )
+      );
       this.totalRoomPriceIncludeChild = resp.data.totalRoomPriceIncludeChild;
       this.totalOptionPrice = resp.data.totalOptionPrice;
       this.totalVisaPrice = resp.data.totalVisaPrice;
       this.extraHotelAmount = resp.data.extraHotelAmount;
-      this.totalPaidAmount = resp.data.trip.paidAmounts.reduce((a: number, b: number) => a + b, 0);
+      this.totalPaidAmount = resp.data.trip.paidAmounts.reduce(
+        (a: number, b: number) => a + b,
+        0
+      );
       // this.messageService.clearMessage();
       // this.messageService.add(`Order Number: ${this.orderNumber}`);
       // if (this.invoiceNumber.length > 0) {
@@ -276,7 +290,10 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
     } else {
       this.retrievingInfo = true;
       this.orderNumber = params.trnOrderNumber;
-     // this.messageService.add(`Order Number: ${params.trnOrderNumber}`);
+      this.tourService
+        .gethashcode(this.orderNumber)
+        .then(v => (this.hashcode = v.data));
+      // this.messageService.add(`Order Number: ${params.trnOrderNumber}`);
       const req = new FrontEndCallbackModel();
       req.callbackurl = location.href;
       req.orderNumber = this.orderNumber;

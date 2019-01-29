@@ -26,7 +26,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
     );
   }
   onParams(params: Params) {
-    this.tourService.getReceipt(params.orderNumber).then(resp => {
+    this.tourService.getReceipt(params.orderNumber, params.hashcode).then(resp => {
       console.log(JSON.parse(resp));
       this.receipt = JSON.parse(resp).data;
     });
