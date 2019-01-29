@@ -33,17 +33,22 @@
    <!-- *ngIf="showRoomInfo" -->
    <div class="row" style="padding:10px;">
       <div class="col-md-6">
-        <label style="margin-bottom:0px;">Bedding Configuration</label>
+        <label style="margin-bottom:0px;">Bedding Configuration*</label>
         <div>
           <!-- <select class="form-control" [ngModel]="newBedRoom" name="bedRoomsForSelectedTraveller" (ngModelChange)="onBedConfigModelChange(room.index, $event)">
             <ng-container *ngFor="let room of bedRoomsForSelectedTravellers">
               <option [ngValue]="room">{{room.beddingConfig}}</option>
             </ng-container>
           </select> -->
-          <select *ngIf="room.roomCfgList.length > 0" class="form-control" name="roomCfg" [compareWith]="compareFn"
-          [(ngModel)]="room.selectedRoomCfg">
+
+
+          <!-- [(ngModel)]="room.selectedRoomCfg" -->
+          <select *ngIf="room.roomCfgList.length > 0" class="form-control" name="roomCfg" [compareWith]="compareFn"  [ngModel]="room.selectedRoomCfg" (ngModelChange)="onBedChange(room.index, $event)"
+          
+          >
           <ng-container *ngFor="let roomCfg of room.roomCfgList">
-            <option [ngValue]="roomCfg" *ngIf="(room.travellers.length === 1 && roomCfg.id !== 13) || (room.travellers.length === 2 && roomCfg.id !== 10 && roomCfg.id !== 13)  || (room.travellers.length > 2 && roomCfg.id !== 10)">{{roomCfg.id === -1 ? "--Select--" : roomCfg.description}}</option>
+            <!-- <option [ngValue]="roomCfg" *ngIf="(room.travellers.length === 1 && roomCfg.id !== 13) || (room.travellers.length === 2 && roomCfg.id !== 10 && roomCfg.id !== 13)  || (room.travellers.length > 2 && roomCfg.id !== 10)">{{roomCfg.id === -1 ? "--Select--" : roomCfg.description}}</option> -->
+            <option [ngValue]="roomCfg" *ngIf="(roomCfg.id === -1) || (room.travellers.length === 1 && roomCfg.id === 10) || (room.travellers.length === 2 && roomCfg.id !== 10 && roomCfg.id !== 13)  || (room.travellers.length === 3 && roomCfg.id === 13) || (room.travellers.length === 4 && roomCfg.id > 11)">{{roomCfg.id === -1 ? "--Select--" : roomCfg.description}}</option>
           </ng-container>
         </select>
         </div>

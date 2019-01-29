@@ -2,7 +2,7 @@
   <div class="row" style="margin-top:5px;">
     <div class="col-md-12">
       <div style="font-size:18px;">
-      <strong>Passenger {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</strong>
+      <strong>Guest {{index + 1}}&nbsp;-&nbsp;{{traveller.firstName}}&nbsp;{{traveller.lastName}}</strong>
     </div>
     </div>
   </div>
@@ -67,7 +67,15 @@
     </div>
     <div class="col-md-4">
       <label style="margin-bottom: 0px;">Country*</label>
-      <input type="text" class="form-control" required [(ngModel)]="traveller.placeofbirth"  name="placeofbirth"  >
+      <!-- <input type="text" class="form-control" required [(ngModel)]="traveller.placeofbirth"  name="placeofbirth"  > -->
+      <div>
+        <select class="form-control" [(ngModel)]="traveller.placeofbirth" [compareWith]="compareCountry"   name="placeofbirth">
+          <ng-container *ngFor="let countryorarea of availabledCountryOrAreas">
+            <!-- <option [ngValue]="countryorarea" *ngIf="countryorarea.id < 0">--Select--</option> -->
+            <option [ngValue]="countryorarea" *ngIf="countryorarea.id >= 0">{{countryorarea.name}}</option>
+          </ng-container>
+        </select>
+      </div>
     </div>
     <div class="col-md-4">
       <label style="margin-bottom: 0px;">Nationality*</label>

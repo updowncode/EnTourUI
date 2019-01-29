@@ -78,7 +78,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this.trip.rooms.length; i++) {
       for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
         this.trip.rooms[i].travellers[j].title = "Mr";
-        this.trip.rooms[i].travellers[j].placeofbirth = "Toronto";
+        // this.trip.rooms[i].travellers[j].placeofbirth = "Toronto";
 
         this.trip.rooms[i].travellers[j].birthday = new Date(1988, 5, 10);
         // this.trip.rooms[i].travellers[j].birthday.year = new Date().getFullYear();
@@ -139,11 +139,13 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
   allDataCorrect(): string {
     let msg = "";
     let errQuantity = 0;
+    $("input#email").removeClass("ng-invalid");
+    $("input#email").removeClass("ng-touched");
     $("input[name='passportnumber'").each(function(index, el) {
       // if (index === elIndex) {
-       // $(el).removeClass(["ng-invalid", "ng-touched"]);
-        $(el).removeClass("ng-invalid");
-        $(el).removeClass("ng-touched");
+      // $(el).removeClass(["ng-invalid", "ng-touched"]);
+      $(el).removeClass("ng-invalid");
+      $(el).removeClass("ng-touched");
       // }
     });
     if (
@@ -229,7 +231,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${
+            // return `Guest ${
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s first name is required`;
           }
@@ -240,7 +242,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${
+            // return `Guest ${
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s last name is required`;
           }
@@ -255,11 +257,19 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${
+            // return `Guest ${
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s date of birth is required`;
           }
-
+          if (
+            !new RegExp(
+              "^[a-zA-Z0-9._-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"
+            ).test(this.trip.billingInfo.email)
+          ) {
+            errQuantity++;
+            msg = "Please check email format";
+                $("#email").addClass("ng-invalid ng-touched");
+          }
           if (this.trip.rooms[i].travellers[j].countryOrArea.code === "CA") {
             if (this.trip.rooms[i].travellers[j].passport.number.length > 0) {
               if (
@@ -320,14 +330,14 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if (this.trip.rooms[i].travellers[j].placeofbirth.length === 0) {
-            $("input[name='placeofbirth'").each(function(index, el) {
-              if ($(el).val() === "") {
-                errQuantity++;
-                $(el).addClass("ng-invalid ng-touched");
-              }
-            });
-          }
+          // if (this.trip.rooms[i].travellers[j].placeofbirth.) {
+          //   $("input[name='placeofbirth'").each(function(index, el) {
+          //     if ($(el).val() === "") {
+          //       errQuantity++;
+          //       $(el).addClass("ng-invalid ng-touched");
+          //     }
+          //   });
+          // }
           if (this.trip.rooms[i].travellers[j].passport.number.length === 0) {
             $("input[name='passportnumber'").each(function(index, el) {
               if ($(el).val() === "") {
@@ -335,7 +345,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${
+            // return `Guest ${
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s passport number is required`;
           }
@@ -351,7 +361,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${
+            // return `Guest ${
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s passport issue date is required`;
           }
@@ -367,7 +377,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${
+            // return `Guest ${
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s passport expiry date is required`;
           }
@@ -377,7 +387,7 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
     }
     if (errQuantity > 0) {
       if (msg === "") {
-        return "Please fill all the required fields";
+        return "Please fill in all the required fields";
       } else {
         return msg;
       }

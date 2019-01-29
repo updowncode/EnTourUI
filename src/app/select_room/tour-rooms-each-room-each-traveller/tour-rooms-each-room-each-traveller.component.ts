@@ -62,6 +62,7 @@ export class TourRoomsEachRoomEachTravellerComponent
   @Output()
   roomChangedToRequest = new EventEmitter<any>();
   constructor(private tourService: EnTourService) {}
+  totalTravellers: number;
   showRoomInfo: boolean;
   newBedRoom: Room;
   subscription: Subscription;
@@ -87,8 +88,12 @@ export class TourRoomsEachRoomEachTravellerComponent
     // 在 Angular 第一次显示数据绑定和设置指令/组件的输入属性之后，初始化指令/组件。在第一轮 ngOnChanges() 完成之后调用，只调用一次。
     // this.tourId = this.activatedRoute.snapshot.paramMap.get("id");
     this.updateRoomInfo();
-    this.room.selectedRoomCfg = this.room.roomCfgList.find(c => c.id === -1);
+    // this.room.selectedRoomCfg = this.room.roomCfgList.find(c => c.id === -1);
     // this.initData();
+    this.totalTravellers = this.trip.rooms.reduce(
+      (a, b) => [...a, ...b.travellers],
+      new Array<Traveller>()
+    ).length;
   }
   ngDoCheck(): void {
     // 检测，并在发生 Angular 无法或不愿意自己检测的变化时作出反应。在每个 Angular 变更检测周期中调用，ngOnChanges() 和 ngOnInit() 之后。
@@ -105,7 +110,7 @@ export class TourRoomsEachRoomEachTravellerComponent
   ngAfterContentInit(): void {
     // 当把内容投影进组件之后调用。第一次 ngDoCheck() 之后调用，只调用一次。
     // console.log(
-    //   `AfterContentInit: this passenger index: "${
+    //   `AfterContentInit: this guest index: "${
     //     this.contentChild.traveller.id
     //   }"`
     // );
@@ -113,7 +118,7 @@ export class TourRoomsEachRoomEachTravellerComponent
   ngAfterContentChecked(): void {
     // 每次完成被投影组件内容的变更检测之后调用。ngAfterContentInit() 和每次 ngDoCheck() 之后调用
     // console.log(
-    //   `ngAfterContentChecked: this passenger index: "${this.traveller.id}"`
+    //   `ngAfterContentChecked: this guest index: "${this.traveller.id}"`
     // );
   }
 

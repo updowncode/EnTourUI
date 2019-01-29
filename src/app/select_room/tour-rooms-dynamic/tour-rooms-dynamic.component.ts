@@ -435,7 +435,7 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
     traveller.firstName = "";
     traveller.middleName = "";
     traveller.lastName = "";
-    traveller.placeofbirth = "";
+    traveller.placeofbirth = new CountryOrArea();
     traveller.birthday = null;
     traveller.passport = new Passport();
     traveller.passport.number = "";
@@ -569,11 +569,11 @@ export class TourRoomsDynamicComponent implements OnInit, OnChanges, OnDestroy {
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
           if (this.trip.rooms[i].travellers[j].firstName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${this.trip
+            return `Room #${this.trip.rooms[i].index}'s guest ${this.trip
               .rooms[i].travellers[j].id + 1}'s First Name is required`;
           }
           if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
-            return `Room #${this.trip.rooms[i].index}'s passenger ${this.trip
+            return `Room #${this.trip.rooms[i].index}'s guest ${this.trip
               .rooms[i].travellers[j].id + 1}'s Last Name is required`;
           }
         }

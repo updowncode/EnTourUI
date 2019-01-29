@@ -73,6 +73,11 @@ export class TourTravellerDetailEachTravellerComponent
       ...this.availabledCountryOrAreas
     ];
     // this.availabledTitles = ["", ...this.availabledTitles];
+    if (this.traveller.placeofbirth === null || this.traveller.placeofbirth.id < 0) {
+      this.traveller.placeofbirth = this.availabledCountryOrAreas.find(
+        c => c.code === "CA"
+      );
+    }
     if (this.traveller.countryOrArea === null || this.traveller.countryOrArea.id < 0) {
       this.traveller.countryOrArea = this.availabledCountryOrAreas.find(
         c => c.code === "CA"

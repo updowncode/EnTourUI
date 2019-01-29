@@ -3,7 +3,7 @@
     <div class="col-md-2" style="padding-top: 5px;">
         <ng-content></ng-content>
     </div>
-    <div class="col=md-1">
+    <div class="col=md-1" *ngIf="totalTravellers > 3 && trip.rooms.length > 1">
         <select
         class="form-control"
         style="width:30%;"

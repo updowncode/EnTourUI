@@ -32,7 +32,7 @@
       <div class="row" style="margin-top:5px;">
         <div class="col-md-4">
           <label for="email" style="margin-bottom: 0px;">E-Mail*</label>
-          <input type="text" class="form-control" id="email" required [(ngModel)]="trip.billingInfo.email" name="email"
+          <input type="email" class="form-control" id="email" required [(ngModel)]="trip.billingInfo.email" name="email"
             #email="ngModel">
           <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
             E-Mail is required

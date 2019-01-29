@@ -88,6 +88,15 @@ export class TourRoomsEachRoomComponent
   onRoomMovedTo(moved: boolean) {
     this.roomCanbeMovedToRequest.emit(true);
   }
+  onBedChange(roomIndex: number, roomcfg: RoomCfg) {
+    this.room.selectedRoomCfg = roomcfg;
+    $("select[name='roomCfg'").each(function(index, el) {
+      if (index + 1 === roomIndex) {
+        $(el).removeClass("ng-invalid");
+        $(el).removeClass("ng-touched");
+      }
+    });
+  }
   onRoomChangedTo(changed: any) {
     for (let i = this.trip.rooms.length - 1; i >= 0; i--) {
       if (this.trip.rooms[i].index === changed.roomIndex) {

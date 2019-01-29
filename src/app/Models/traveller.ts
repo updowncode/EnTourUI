@@ -10,7 +10,7 @@ export class Traveller {
   middleName: string;
   lastName: string;
   isChild: boolean;
-  placeofbirth: string;
+  placeofbirth: CountryOrArea;
   birthday: Date;
   passport: Passport;
   countryOrArea: CountryOrArea;

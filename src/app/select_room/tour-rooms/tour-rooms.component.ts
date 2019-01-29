@@ -225,7 +225,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     traveller.middleName = "";
     traveller.lastName = "";
     traveller.isChild = false;
-    traveller.placeofbirth = "";
+    traveller.placeofbirth = null;
     traveller.birthday = null;
     traveller.passport = new Passport();
     traveller.passport.number = "";
@@ -269,7 +269,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   roomChange(newValue: Quantity) {
     if (newValue.id < this.trip.minRoomQuantityForTravellers) {
       this.log(
-        `Room(s) quantity should not less than ${
+        `Room(s) quantity should not be less than ${
           this.trip.minRoomQuantityForTravellers
         }`
       );
@@ -352,6 +352,14 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   allDataCorrect(): string {
     let errQuantity = 0;
     for (let i = 0; i < this.trip.rooms.length; i++) {
+      if (this.trip.rooms[i].selectedRoomCfg.id === -1) {
+        $("select[name='roomCfg'").each(function(index, el) {
+          if (index === i) {
+            errQuantity++;
+            $(el).addClass("ng-invalid ng-touched");
+          }
+        });
+      }
       if (this.trip.rooms[i].travellers.length > 0) {
         for (let j = 0; j < this.trip.rooms[i].travellers.length; j++) {
           // firstName
@@ -365,7 +373,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${this.trip.rooms[i].travellers[j].id +
+            // return `Guest ${this.trip.rooms[i].travellers[j].id +
             //   1}'s first name is required`;
           }
           // lastName
@@ -379,14 +387,14 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
                 $(el).addClass("ng-invalid ng-touched");
               }
             });
-            // return `Passenger ${this.trip.rooms[i].travellers[j].id +
+            // return `Guest ${this.trip.rooms[i].travellers[j].id +
             //   1}'s last name is required`;
           }
         }
       }
     }
     if (errQuantity > 0) {
-      return "Please fill all the required fields";
+      return "Please fill in all the required fields";
     }
     return "";
   }

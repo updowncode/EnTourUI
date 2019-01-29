@@ -112,7 +112,7 @@
                       <span *ngIf="traveller.isChild">Yes</span
                       ><span *ngIf="!traveller.isChild">No</span>
                     </td>
-                    <td>{{ traveller.placeofbirth }}</td>
+                    <td>{{ traveller.placeofbirth.name }}</td>
                     <td>
                       <span *ngIf="traveller.passport">
                         {{ traveller.passport.number }}
@@ -188,7 +188,7 @@
 -->
   <div class="row" style="margin-bottom: 5px;">
     <div class="col-md-12">
-      <span style="background-color: yellow; display: table-cell;">
+      <span style="display: table-cell;">
           <div style="font-size:18px;  height: 20px; font-weight: bold;" *ngIf="trip.tourName">{{ trip.tourName }}</div><div *ngIf="trip.name" style="font-size:14px;  padding-bottom:2px; font-weight: bold;">{{ trip.name }}</div>
       </span>
     </div>
@@ -196,7 +196,7 @@
 
   <div class="row" style="margin-bottom: 5px;">
       <div class="col-md-12">
-        <span style="background-color: yellow; display: table-cell;">
+        <span style="display: table-cell;">
             <div style="font-size:14px; height: 16px;font-weight: bold;" *ngIf="trip.startPlace">Start: {{ trip.startPlace }}</div><div *ngIf="trip.endPlace" style="font-size:14px; padding-bottom:2px; font-weight: bold;">End: {{ trip.endPlace }}</div>
         </span>
       </div>
@@ -204,7 +204,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <strong *ngIf="trip.startDate" style="font-size:14px;  background-color: yellow;">Departure: {{ trip.startDate | date: "MMMM d, yyyy" }}</strong>
+      <strong *ngIf="trip.startDate" style="font-size:14px;">Departure: {{ trip.startDate | date: "MMMM d, yyyy" }}</strong>
     </div>
   </div>
   <div class="row">
