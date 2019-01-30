@@ -3,11 +3,11 @@
 >
   <div class="row">
     <div class="col-md-12">
-      <div style="font-size:18px;">
+      <div style="font-size:25px;">
         <strong
-          >Guest {{ index + 1 }}&nbsp;-&nbsp;{{
-            traveller.firstName
-          }}&nbsp;{{ traveller.lastName }}</strong
+          >Guest {{ index + 1 }}&nbsp;-&nbsp;{{ traveller.firstName }}&nbsp;{{
+            traveller.lastName
+          }}</strong
         >
       </div>
     </div>
@@ -51,21 +51,115 @@
         *ngFor="let option of options; let i = index"
         [attr.data-index]="i"
       >
+        <ng-container *ngIf="option.type !== 20 && option.type !== 10">
+          <tr>
+            <td>
+              <span style="font-size: 13px;">{{ option.location }}</span>
+            </td>
+            <td>
+              <span
+                style="font-size: 13px; text-decoration-line: underline; cursor:pointer;"
+                (click)="displayTitle(option)"
+                >{{ option.name }}
+              </span>
+            </td>
+            <td style="text-align:center; width: 10%">
+              <span style="font-size: 13px;">{{ option.price }} </span>
+            </td>
+            <td style="text-align:center;vertical-align: middle; width: 10%">
+              <input
+                type="checkbox"
+                style="cursor: pointer;"
+                name="{{ 'Options' + traveller.id + option.id }}"
+                (change)="changeTravellerOption(traveller, option)"
+                [checked]="isTravellerOption(traveller, option)"
+              />
+            </td>
+          </tr>
+          <tr *ngIf="option.toggleShowDescription && option.description">
+            <td colspan="4">
+              <div [innerHTML]="option.description | safeHtml"></div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </table>
+  <hr *ngIf="hasVisaOption" />
+  <div class="row" *ngIf="hasVisaOption">
+    <div class="col-md-12">
+      <strong style="font-size: 15px;">Travel Visa:</strong>
+    </div>
+  </div>
+
+  <!-- <input
+  type="radio"
+  style="cursor: pointer;"
+  [value]="false"
+  [checked]="traveller.needVisa === false"
+  name="{{'needVisa' + traveller.id}}"
+  (change)="onVisaChanged(traveller, false)"
+/> -->
+
+  <div class="row" *ngIf="hasVisaOption">
+    <div class="col-md-10">
+      Canadian citizens using a Canadian passport require a visa to visit China.
+    </div>
+    <div class="col-md-2">
+      <table style="width:100%">
         <tr>
+          <td style="width:40%;text-align: right;"> </td>
           <td>
-            <span style="font-size: 13px;">{{ option.location }}</span>
+       
+             
           </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <table
+    class="table table-bordered table-striped"
+    style="width: 100%;"
+    *ngIf="hasVisaOption"
+  >
+    <thead>
+      <tr>
+        <th 
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Visa <br />
+          </span>
+        </th>
+
+        <th
+          style="text-align: center; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Price <br />
+          </span>
+        </th>
+        <th
+          style="text-align: center; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        >
+        <span style="font-size: 13px; color: #ffffff;"
+        >Select <br />
+      </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+        <ng-container *ngIf="option.type === 20">
           <td>
-            <span
-              style="font-size: 13px; text-decoration-line: underline; cursor:pointer;"
-              (click)="displayTitle(option)"
-              >{{ option.name }}
-            </span>
+            <span style="font-size: 13px;">{{ option.name }} </span>
           </td>
-          <td style="text-align:center;">
+
+          <td style="text-align:center;vertical-align: middle; width: 10%">
             <span style="font-size: 13px;">{{ option.price }} </span>
           </td>
-          <td style="text-align:center;vertical-align: middle;">
+          <td style="text-align:center;vertical-align: middle; width: 10%">
             <input
               type="checkbox"
               style="cursor: pointer;"
@@ -74,15 +168,64 @@
               [checked]="isTravellerOption(traveller, option)"
             />
           </td>
-        </tr>
-        <tr *ngIf="option.toggleShowDescription && option.description">
-          <td colspan="4">
-            <div [innerHTML]="option.description | safeHtml"></div>
-          </td>
-        </tr>
-      </ng-container>
+        </ng-container>
+      </tr>
     </tbody>
   </table>
+  <hr *ngIf="hasExtraHotelOption" />
+  <table
+    class="table table-bordered table-striped"
+    style="width: 100%;"
+    *ngIf="hasExtraHotelOption"
+  >
+    <thead>
+      <tr>
+        <th
+          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Extra Hotel <br />
+          </span>
+        </th>
+
+        <th
+          style="text-align: center; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        >
+          <span style="font-size: 13px; color: #ffffff;"
+            >&nbsp;Price <br />
+          </span>
+        </th>
+        <th
+          style="text-align: center; vertical-align: middle; background-color: #3f3f3f;width:10%"
+        >    <span style="font-size: 13px; color: #ffffff;"
+        >Select <br />
+      </span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
+        <ng-container *ngIf="option.type === 10">
+          <td>
+            <span style="font-size: 13px;">{{ option.name }} </span>
+          </td>
+
+          <td style="text-align:center;vertical-align: middle; width: 10%">
+            <span style="font-size: 13px;">{{ option.price }} </span>
+          </td>
+          <td style="text-align:center;vertical-align: middle; width: 10%">
+            <input
+              type="checkbox"
+              style="cursor: pointer;"
+              name="{{ 'Options' + traveller.id + option.id }}"
+              (change)="changeTravellerOption(traveller, option)"
+              [checked]="isTravellerOption(traveller, option)"
+            />
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
 
   <div class="row">
     <div class="col-md-12">
@@ -133,145 +276,8 @@
       Holidays and understand that penalties apply for cancellations and/or
       changes according to the payment and cancellation policy as outlined for
       this trip and on the Tour East Holidays Terms & Conditions found
-    <!-- https://iteh.ca/tourae/termsandconditions.pdf -->
-      <a target="_blank" href="/Portals/0/img/terms_conditions.pdf"
-        >HERE</a
-      >.
+      <!-- https://iteh.ca/tourae/termsandconditions.pdf -->
+      <a target="_blank" href="/Portals/0/img/terms_conditions.pdf">HERE</a>.
     </div>
   </div>
 </div>
-<!-- <hr  *ngIf="hasVisaOption"/>
-  <div class="row" *ngIf="hasVisaOption">
-    <div class="col-md-12">
-      <strong style="font-size: 15px;">Travel Visa:</strong>
-    </div>
-  </div> -->
-
-<!-- <input
-  type="radio"
-  style="cursor: pointer;"
-  [value]="false"
-  [checked]="traveller.needVisa === false"
-  name="{{'needVisa' + traveller.id}}"
-  (change)="onVisaChanged(traveller, false)"
-/> -->
-
-<!-- <div class="row" *ngIf="hasVisaOption">
-    <div class="col-md-10">
-      Canadian citizens using a Canadian passport require a visa to visit China.
-    </div>
-    <div class="col-md-2">
-      <table style="width:100%">
-        <tr>
-          <td style="width:40%;text-align: right;">No </td>
-          <td>
-       
-             
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div> -->
-<!-- 
-  <table class="table table-bordered table-striped" style="width: 100%;" *ngIf="hasVisaOption">
-    <thead>
-      <tr>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:30%"
-        >
-          <span style="font-size: 13px; color: #ffffff;"
-            >&nbsp;Visa <br />
-          </span>
-        </th>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
-        >
-          <span style="font-size: 13px; color: #ffffff;">&nbsp;<br /> </span>
-        </th>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-        >
-          <span style="font-size: 13px; color: #ffffff;"
-            >&nbsp;Price <br />
-          </span>
-        </th>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-        >Select</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
-        <ng-container *ngIf="option.type === 20">
-          <td>
-            <span style="font-size: 13px;">{{ option.name }} </span>
-          </td>
-          <td></td>
-          <td>
-            <span style="font-size: 13px;">{{ option.price }} </span>
-          </td>
-          <td style="text-align:center;vertical-align: middle;">
-            <input
-              type="checkbox"
-              style="cursor: pointer;"
-              name="{{'Options' + traveller.id + option.id }}"
-              (change)="changeTravellerOption(traveller, option)"
-              [checked]="isTravellerOption(traveller, option)"
-            />
-          </td>
-        </ng-container>
-      </tr>
-    </tbody>
-  </table> -->
-<!-- <hr *ngIf="hasExtraHotelOption"/>
-  <table class="table table-bordered table-striped" style="width: 100%;" *ngIf="hasExtraHotelOption">
-    <thead>
-      <tr>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f; width:30%"
-        >
-          <span style="font-size: 13px; color: #ffffff;"
-            >&nbsp;Extra Hotel <br />
-          </span>
-        </th>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:50%"
-        >
-          <span style="font-size: 13px; color: #ffffff;">&nbsp; <br /> </span>
-        </th>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-        >
-          <span style="font-size: 13px; color: #ffffff;"
-            >&nbsp;Price <br />
-          </span>
-        </th>
-        <th
-          style="text-align: left; vertical-align: middle; background-color: #3f3f3f;width:10%"
-        ></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let option of options; let i = index" [attr.data-index]="i">
-        <ng-container *ngIf="option.type === 10">
-          <td>
-            <span style="font-size: 13px;">{{ option.name }} </span>
-          </td>
-          <td></td>
-          <td>
-            <span style="font-size: 13px;">{{ option.price }} </span>
-          </td>
-          <td style="text-align:center;vertical-align: middle;">
-            <input
-              type="checkbox"
-              style="cursor: pointer;"
-              name="{{'Options' + traveller.id + option.id }}"
-              (change)="changeTravellerOption(traveller, option)"
-              [checked]="isTravellerOption(traveller, option)"
-            />
-          </td>
-        </ng-container>
-      </tr>
-    </tbody>
-  </table>
-  <hr /> -->

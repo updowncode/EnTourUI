@@ -22,7 +22,7 @@ import {
 } from "rxjs/operators";
 import { MessageService } from "./message.service";
 import { Tour } from "./Models/tour";
-import { MockTours } from "./Models/mock-tours";
+// import { MockTours } from "./Models/mock-tours";
 import { Trip } from "./Models/trip";
 import { Quantity } from "./Models/quantity";
 import { Room } from "./Models/room";
@@ -57,7 +57,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-  private siteIPToPublish = "http://dnndev.me";
+private siteIPToPublish = 'https://en.toureast.com';
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
 
