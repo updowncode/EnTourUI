@@ -28,14 +28,13 @@
                 <div
                   style="font-family: Arial,Helvetica,sans-serif; font-size: 25px; color: rgb(248, 153, 28)"
                   size="25"
-                >
-                  YOUR BOOKING IS COMPLETE
+                >YOUR DEPOSIT HAS BEEN ACCEPTED 
                 </div>
               </td>
             </tr>
             <tr>
               <td style="font-family: Arial,Helvetica,sans-serif; ">
-                Thank you for choosing Tour East Holidays
+                The booking is now confirmed and reserved 
               </td>
             </tr>
           </table>
@@ -241,9 +240,9 @@
                       </div>
                       <div class="col-md-4 text-right">
                         <strong
-                          >$&nbsp;{{
+                          >(-$&nbsp;{{
                             payment | number: "1.2-2"
-                          }}</strong
+                          }})</strong
                         >
                       </div>
                     </div>
@@ -291,7 +290,7 @@
                     <div class="col-md-5">Phone:</div>
                     <div class="col-md-7">
                       {{
-                        orderTrip.billingInfo.primaryPhone +
+                        orderTrip.billingInfo.primaryPhone + 
                           orderTrip.billingInfo.secondaryPhone
                       }}
                     </div>
@@ -299,7 +298,7 @@
                   <div class="row">
                     <div class="col-md-5">Billing Address:</div>
                     <div class="col-md-7">
-                      {{ orderTrip.billingInfo.mailingAddress }}
+                      {{ orderTrip.billingInfo.mailingAddress }}&nbsp;{{ orderTrip.billingInfo.city }},{{ orderTrip.billingInfo.provinceStates }}&nbsp;{{ orderTrip.billingInfo.postalCode }}
                     </div>
                   </div>
                   <div class="row">
@@ -347,6 +346,22 @@
                       Please also take some time to read the 
                       <a class="tecolor" target="_blank" href="{{'/DesktopModules/EnTourModule/assets/TripNotes/tripnotes_'+ orderTrip.tourId+'.pdf'}}">trip notes</a>
                       if you haven't already done so.
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="col-md-12"  *ngIf="orderTrip">
+                      <strong>When is the balance/ﬁnal payment due? </strong>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12"  *ngIf="orderTrip">
+                      The balance is due 60 days prior to your trip`s departure. If you are booking online within 60 days of departure, a non-refundable deposit is applicable and a tour consultant will contact you by email within the next business day to process the remaining balance. 
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12"  *ngIf="orderTrip">
+                      If you are booking outside of 60 days prior to the trip`s departure date, a tour consultant from Tour East Holidays will contact you to discuss next steps and to ﬁnalize a schedule for the balance payment. 
                     </div>
                   </div>
                 </div>
