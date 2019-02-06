@@ -57,7 +57,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = 'http://dnndev.me';
+private siteIPToPublish = 'http://192.168.168.117:8019';
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
 
@@ -227,6 +227,7 @@ private siteIPToPublish = 'http://dnndev.me';
     r.totalChildPromo = 0;
     r.extraHotelAmount = 0;
     r.promoAmountPerChild = 0;
+    r.showSingleSupplment = false;
     r.optionSummary = new Array<OptionSummary>();
 
     if (this.trip && this.trip.rooms) {
@@ -279,6 +280,12 @@ private siteIPToPublish = 'http://dnndev.me';
       r.optionSummary = [...this.setOptionSummary2(t)];
       this.trip.totalPriceForPayment = r.totalPrice;
       r.minimumDepositTotal = this.trip.minimumDeposit * t.length;
+
+      // if (this.trip.rooms.some(c => c.travellers.length === 1)) {
+      //   r.showSingleSupplment = true;
+      // } else {
+      //   r.showSingleSupplment = false;
+      // }
     }
     return r;
 

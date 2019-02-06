@@ -47,7 +47,7 @@
               <div>${{trip.tripCostForDefaultPerTraveller}} Per Person</div>
           </div>
         </div>
-        <div class="row" *ngIf="trip.tripSingleSupplement > 0">
+        <div class="row" *ngIf="trip.tripSingleSupplement > 0 && reviewInfo.showSingleSupplment">
           <div class="col-md-12 text-right" style="margin-left: 0px;padding-left: 0px;">
               <div>${{trip.tripSingleSupplement}} for Single Supplement</div>
           </div>

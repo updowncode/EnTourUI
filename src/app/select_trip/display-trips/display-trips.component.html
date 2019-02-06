@@ -54,7 +54,7 @@
               </span>
             </th>
             <th
-              style="text-align: center; vertical-align: middle; background-color: #3f3f3f;"
+              style="text-align: center; vertical-align: middle; background-color: #3f3f3f;"  *ngIf="showSingleSupplement"
             >
               <span style="font-size: 13px; color: #ffffff;"
                 >&nbsp;Single Supplement {{ trip.currencyCode }} <br />
@@ -83,11 +83,11 @@
                 >{{ t.endDate | date: "EEE, MMM d, yyyy" }}
               </span>
             </td>
-            <td style="text-align:right;">
+            <td style="text-align:right;text-align: center;">
               <span
                 style="font-size: 13px;"
                 *ngIf="t.tripCostForDefaultPerTraveller > 0"
-                >{{ t.tripCostForDefaultPerTraveller }}
+                >${{ t.tripCostForDefaultPerTraveller }}
               </span>
               <span
                 style="font-size: 13px;"
@@ -95,9 +95,9 @@
                 >Sold Out
               </span>
             </td>
-            <td style="text-align:right;">
-              <span style="font-size: 13px;" *ngIf="t.tripSingleSupplement > 0"
-                >{{ t.tripSingleSupplement }}
+            <td style="text-align:right;text-align: center;" *ngIf="showSingleSupplement">
+              <span style="font-size: 13px;" 
+                >${{ t.tripSingleSupplement }}
               </span>
               <span
                 style="font-size: 13px;"

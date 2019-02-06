@@ -1,5 +1,4 @@
 <div *ngIf="trip">
-
   <div *ngIf="trip.includedIn.length">
     <p style="margin-bottom:5px;">
       <strong>
@@ -8,20 +7,24 @@
     </p>
     <ul class="fa-ul">
       <li *ngFor="let in of trip.includedIn">
-        <div class="interp" [innerHTML]="in.text | safeHtml"></div> 
+        <div class="interp" [innerHTML]="in.text | safeHtml"></div>
       </li>
     </ul>
   </div>
   <div *ngIf="trip.notIncludeIn.length">
-      <p style="margin-bottom:5px;">
-        <strong>
-          <span style="font-size: 15px;">&nbsp;Not include in your trip:</span>
-        </strong>
-      </p>
-      <ul class="fa-ul">
-        <li *ngFor="let nIn of trip.notIncludeIn">
-          <div class="interp" [innerHTML]="nIn.text | safeHtml"></div>
-        </li>
-      </ul>
-    </div>
+    <p style="margin-bottom:5px;">
+      <strong>
+        <span style="font-size: 15px;">&nbsp;Not include in your trip:</span>
+      </strong>
+    </p>
+    <ul class="fa-ul">
+      <li *ngFor="let nIn of trip.notIncludeIn">
+        <div class="interp" [innerHTML]="nIn.text | safeHtml"></div>
+      </li>
+    </ul>
+  </div>
+  <br />
+  <div>
+    <div *ngIf="trip.remark.length" [innerHTML]="trip.remark | safeHtml"></div>
+  </div>
 </div>

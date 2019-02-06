@@ -53,6 +53,7 @@ export class DisplayTripsComponent
   tourId: string;
   tripId: string;
   toursSubscription: Subscription;
+  showSingleSupplement: boolean;
   @HostBinding("@routeAnimation")
   routeAnimation = true;
   @HostBinding("style.display")
@@ -118,6 +119,7 @@ export class DisplayTripsComponent
   initTrips() {
     if (this.tour.trips != null) {
       this.trip = Object.assign({}, this.tour.trips[0]);
+      this.showSingleSupplement = this.tour.trips.some( c => c.tripSingleSupplement > 0);
       this.onSelectTrip(this.tour.trips[0]);
     }
   }

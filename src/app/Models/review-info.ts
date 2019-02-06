@@ -11,5 +11,6 @@ export class ReviewInfo {
   extraHotelAmount: number;
   childrenQuantity: number;
   promoAmountPerChild: number;
+  showSingleSupplment: boolean;
   optionSummary: OptionSummary[];
 }

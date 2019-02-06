@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy, AfterViewChecked, AfterContentChecked } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EnTourService } from "../../en-tour.service";
 import { Tour } from "../../Models/tour";
@@ -11,7 +11,7 @@ import { ReviewInfo } from "../../Models/review-info";
   templateUrl: "./tour-summary.component.html",
   styleUrls: ["./tour-summary.component.sass"]
 })
-export class TourSummaryComponent implements OnInit, OnDestroy {
+export class TourSummaryComponent implements OnInit, AfterContentChecked, OnDestroy {
   tour: Tour;
   trip: Trip;
   tourId: string;
@@ -47,6 +47,14 @@ export class TourSummaryComponent implements OnInit, OnDestroy {
       }
     );
   }
+  ngAfterContentChecked(): void {
+    if (this.trip && this.trip.rooms !== null && this.trip.rooms.some(c => c.travellers.length === 1)) {
+      this.reviewInfo.showSingleSupplment = true;
+    } else {
+      this.reviewInfo.showSingleSupplment = false;
+    }
+  }
+
   ngOnDestroy() {
     this.roomInfoSubscription.unsubscribe();
     this.totalPriceSubscription.unsubscribe();
