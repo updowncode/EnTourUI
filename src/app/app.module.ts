@@ -67,6 +67,8 @@ import { ReviewComponent } from "./review/review.component";
 import { NoopInterceptor } from "./share/noop-interceptor";
 import { ReceiptComponent } from './receipt/receipt.component';
 import { SafePipe } from './safe.pipe';
+import { FormatDecimalPipe } from "./share/format-decimal.pipe";
+
 // import { NoopInterceptor } from "../../node_modules/@angular/common/http/src/interceptor";
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
@@ -121,6 +123,7 @@ import { SafePipe } from './safe.pipe';
     SafePipe,
     FetchJsonPipe,
     KeysPipe,
+    FormatDecimalPipe,
     NgbdModalContent
   ],
   imports: [

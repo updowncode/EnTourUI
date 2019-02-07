@@ -10,8 +10,7 @@ import { SimpleHighLightDirective } from "./high-light.directive";
   exports: [
     CommonModule,
     FormsModule,
-    SimpleHighLightDirective,
-    DateFormatPipe
+    SimpleHighLightDirective
   ]
 })
 export class ShareModule {}

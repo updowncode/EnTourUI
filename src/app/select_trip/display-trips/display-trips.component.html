@@ -73,21 +73,21 @@
             (mouseover)="onSelectTrip(t)"
             (click)="onSelectTrip(t)"
           >
-            <td [attr.colspan]="1 + 1" style="text-align:right;">
+            <td [attr.colspan]="1 + 1" style="text-align:center;vertical-align: middle;">
               <span style="font-size: 13px;">{{
                 t.startDate | date: "EEE, MMM d, yyyy"
               }}</span>
             </td>
-            <td style="text-align:right;">
+            <td style="text-align:center;vertical-align: middle;">
               <span style="font-size: 13px;"
                 >{{ t.endDate | date: "EEE, MMM d, yyyy" }}
               </span>
             </td>
-            <td style="text-align:right;text-align: center;">
+            <td style="text-align:center;vertical-align: middle;">
               <span
                 style="font-size: 13px;"
                 *ngIf="t.tripCostForDefaultPerTraveller > 0"
-                >${{ t.tripCostForDefaultPerTraveller }}
+                >${{ t.tripCostForDefaultPerTraveller | formatDecimal }}
               </span>
               <span
                 style="font-size: 13px;"
@@ -95,9 +95,9 @@
                 >Sold Out
               </span>
             </td>
-            <td style="text-align:right;text-align: center;" *ngIf="showSingleSupplement">
+            <td style="text-align:center;vertical-align: middle;" *ngIf="showSingleSupplement">
               <span style="font-size: 13px;" 
-                >${{ t.tripSingleSupplement }}
+                >${{ t.tripSingleSupplement | formatDecimal}}
               </span>
               <span
                 style="font-size: 13px;"

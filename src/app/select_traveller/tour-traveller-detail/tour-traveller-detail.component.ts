@@ -235,6 +235,22 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s first name is required`;
           }
+          if (this.trip.rooms[i].travellers[j].firstName.length > 30) {
+            $("input[name='firstName'").each(function(index, el) {
+              if ($(el).val().toString().length >  30) {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+          }
+          if (this.trip.rooms[i].travellers[j].lastName.length > 30) {
+            $("input[name='lastName'").each(function(index, el) {
+              if ($(el).val().toString().length >  30) {
+                errQuantity++;
+                $(el).addClass("ng-invalid ng-touched");
+              }
+            });
+          }
           if (this.trip.rooms[i].travellers[j].lastName.length === 0) {
             $("input[name='lastName'").each(function(index, el) {
               if ($(el).val() === "") {
@@ -246,7 +262,6 @@ export class TourTravellerDetailComponent implements OnInit, OnDestroy {
             //   this.trip.rooms[i].travellers[j].id + 1
             // }'s last name is required`;
           }
-
           if (
             this.trip.rooms[i].travellers[j].birthday === null ||
             !this.isValidDate(this.trip.rooms[i].travellers[j].birthday)
