@@ -33,7 +33,11 @@
     {
         display: none !important;
     }
+    a[href]:after {
+      content: none !important;
+    }
 }
+
 /* .form-control.ng-valid[required],
 .form-control.ng-valid.required {
   border-left: 5px solid #42a948; 

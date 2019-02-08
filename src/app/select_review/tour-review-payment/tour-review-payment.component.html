@@ -32,7 +32,8 @@
     <br />
     <div class="row">
       <div class="col-md-12">
-        <strong>Deposit & Payment</strong>
+        <div *ngIf="trip" [innerHTML]="trip.guideline | safeHtml"></div>
+        <!-- <strong>Deposit & Payment</strong>
         <div>
           You only need to pay a deposit to secure your reservation online. A
           Tour Consultant will contact you after booking online to discuss
@@ -76,7 +77,7 @@
           charged. A Tour Consultant will contact you after booking to discuss
           reservation details and next steps and answer any questions you may
           have.
-        </div>
+        </div> -->
       </div>
     </div>
 
