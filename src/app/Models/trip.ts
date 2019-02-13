@@ -46,6 +46,8 @@ export class Trip {
   paymentTypeSurcharges: number;
   minimumDeposit: number;
   paidAmounts: number[];
+  soldout: boolean;
+  tripDiscountForDefaultPerTraveller: number;
   tourId: string;
   tourName: string;
 }

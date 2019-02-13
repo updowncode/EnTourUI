@@ -1,113 +1,213 @@
 <div class="row">
-    <div class="col-md-12"  *ngIf="trip">
-      <strong style="font-size:18px; color:colour">Trip Summary</strong>
-    </div>
+  <div class="col-md-12" *ngIf="trip">
+    <strong style="font-size:18px; color:colour">Trip Summary</strong>
   </div>
-  <div class="row"  *ngIf="trip">
-    <div class="col-md-12">
-      <div style="background-color:#eee;margin-top:10px; padding-top:1em;padding-left: 1em; padding-right: 1em;">
-        <div *ngIf="tour"><strong style="font-size:18px;">{{$any(tour).name}}</strong></div>
-        <strong *ngIf="trip">{{trip.name}}</strong>
-
-        <table style="width:100%; margin-top: 15px;">
-          <tr>
-            <td style="width:5%;vertical-align:middle;">
-              <em class="fa fa-star colour">&nbsp;</em>
-            </td>
-            <td style="width:20%;padding-top: 2px;">Start:</td>
-            <td style="text-align: right;width:80%;">{{trip!.startPlace}}</td> 
-            <!-- --strictNullChecks 如果你打开了严格控制检测，那就要用到这个模板操作符，而其它情况下则是可选的-->
-          </tr>
-        </table>
-        <table style="width:100%;">
-          <tr>
-            <td style="width:5%;vertical-align:middle;">
-              <em class="fa fa-star colour">&nbsp;</em>
-            </td>
-            <td style="width:20%;padding-top: 2px;">End:</td>
-            <td style="text-align: right;width:80%;">{{trip && trip.endPlace}}</td>
-          </tr>
-        </table>
-        <table style="width:100%;">
-          <tr>
-            <td style="width:5%;vertical-align:middle;">
-              <em class="fa fa-calendar colour">&nbsp;</em>
-            </td>
-            <td style="width:20%;padding-top: 2px;">Departure:</td>
-            <td style="text-align: right;width:80%;">{{trip?.startDate |  date:'MMM d, yyyy'}}
-              <!-- {{trip?.startDate | date:'longDate'}} -->
-            </td>
-          </tr>
-        </table>
-        <div class="row" style=" margin-top: 15px;">
-          <div class="col-md-4" style="margin-right: 0px;padding-right: 0px;">
-            Trip Cost:
-          </div>
-          <div class="col-md-8 text-right" style="margin-left: 0px;padding-left: 0px;">
-              <div>${{trip.tripCostForDefaultPerTraveller}} Per Person</div>
-          </div>
-        </div>
-        <div class="row" *ngIf="trip.tripSingleSupplement > 0 && reviewInfo.showSingleSupplment">
-          <div class="col-md-12 text-right" style="margin-left: 0px;padding-left: 0px;">
-              <div>${{trip.tripSingleSupplement}} for Single Supplement</div>
-          </div>
-        </div>
-        <table style="width:100%;">
-          <tr>
-            <td style="width:90%">Number of Travelers:</td>
-            <td style="text-align: right;width:10%;" *ngIf="trip">{{trip.selectedTravellerQuantity.id}}</td>
-          </tr>
-        </table>
-        <hr *ngIf="reviewInfo && reviewInfo.totalOptionPrice > 0 && reviewInfo.totalVisaPrice > 0 && reviewInfo.extraHotelAmount > 0"/>
-        <table style="width:100%;" *ngIf="reviewInfo && reviewInfo.totalOptionPrice > 0 ">
-          <tr>
-            <td style="width:90%">Optional Tours:</td>
-            <td style="text-align: right;width:10%;padding-top: 2px;"><span *ngIf="reviewInfo">${{reviewInfo.totalOptionPrice}}</span></td>
-          </tr>
-        </table>
-        <table style="width:100%;" *ngIf="reviewInfo && reviewInfo.totalVisaPrice > 0 ">
-          <tr>
-            <td style="width:90%">Visa:</td>
-            <td style="text-align: right;width:10%;padding-top: 2px;"><span *ngIf="reviewInfo">${{reviewInfo.totalVisaPrice}}</span></td>
-          </tr>
-        </table>
-        <table style="width:100%;" *ngIf="reviewInfo && reviewInfo.extraHotelAmount > 0 ">
-          <tr>
-            <td style="width:90%">Extra Hotel:</td>
-            <td style="text-align: right;width:10%;padding-top: 2px;"><span *ngIf="reviewInfo">${{reviewInfo.extraHotelAmount}}</span></td>
-          </tr>
-        </table>
-        <br />
-        <div class="row" style="background-color:black;padding-top:1em;padding-bottom:1em;">
-          <div class="col-md-6" style="color:lightgray">Total(CAD):</div>
-          <div class="col-md-6 text-right" style="color:white"><span *ngIf="reviewInfo">${{reviewInfo.totalPrice}}</span></div>
-        </div>
+</div>
+<div class="row" *ngIf="trip">
+  <div class="col-md-12">
+    <div
+      style="background-color:#eee;margin-top:10px; padding-top:1em;padding-left: 1em; padding-right: 1em;"
+    >
+      <div *ngIf="tour">
+        <strong style="font-size:18px;">{{ $any(tour).name }}</strong>
       </div>
-    </div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-md-12">
-      <table style="width:100%;">
-        <tr>
-          <td colspan="2">
-            Got a question or need help with your booking? Feel free to give us a call!
-          </td>
-        </tr>
+      <strong *ngIf="trip">{{ trip.name }}</strong>
+
+      <table style="width:100%; margin-top: 15px;">
         <tr>
           <td style="width:5%;vertical-align:middle;">
-            <em class="fa fa-phone colour"></em>
+            <em class="fa fa-star colour">&nbsp;</em>
           </td>
-          <td>
-            <strong style="margin:0px;padding:0px;">1877.578.8888</strong>
-          </td>
+          <td style="width:20%;padding-top: 2px;">Start:</td>
+          <td style="text-align: right;width:80%;">{{ trip!.startPlace }}</td>
+          <!-- --strictNullChecks 如果你打开了严格控制检测，那就要用到这个模板操作符，而其它情况下则是可选的-->
         </tr>
+      </table>
+
+      <table style="width:100%;">
         <tr>
-          <td colspan="2">
-            <div style="font-size:10px;">(Monday-Friday, 9:30am - 6:00pm EST)</div>
+          <td style="width:5%;vertical-align:middle;">
+            <em class="fa fa-star colour">&nbsp;</em>
+          </td>
+          <td style="width:20%;padding-top: 2px;">End:</td>
+          <td style="text-align: right;width:80%;">
+            {{ trip && trip.endPlace }}
           </td>
         </tr>
       </table>
-  
+
+      <table style="width:100%;">
+        <tr>
+          <td style="width:5%;vertical-align:middle;">
+            <em class="fa fa-calendar colour">&nbsp;</em>
+          </td>
+          <td style="width:20%;padding-top: 2px;">Departure:</td>
+          <td style="text-align: right;width:80%;">
+            {{ trip?.startDate | date: "MMM d, yyyy" }}
+            <!-- {{trip?.startDate | date:'longDate'}} -->
+          </td>
+        </tr>
+      </table>
+
+      <div class="row" style=" margin-top: 15px;">
+        <div class="col-md-4" style="margin-right: 0px;padding-right: 0px;">
+          Trip Cost:
+        </div>
+        <div
+          class="col-md-8 text-right"
+          style="margin-left: 0px;padding-left: 0px;"
+        >
+          <div>${{ trip.tripCostForDefaultPerTraveller }} Per Person</div>
+        </div>
+      </div>
+      <div
+        class="row"
+        *ngIf="trip.tripSingleSupplement > 0 && reviewInfo.showSingleSupplment"
+      >
+        <div
+          class="col-md-12 text-right"
+          style="margin-left: 0px;padding-left: 0px;"
+        >
+          <div>${{ trip.tripSingleSupplement }} for Single Supplement</div>
+        </div>
+      </div>
+      <table style="width:100%;">
+        <tr>
+          <td style="width:90%">Number of Travelers:</td>
+          <td style="text-align: right;width:10%;" *ngIf="trip">
+            {{ trip.selectedTravellerQuantity.id }}
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%;" *ngIf="reviewInfo.totalRoomDiscount > 0">
+        <tr>
+          <td style="width:90%">Room Discount:</td>
+          <td style="text-align: right;width:10%;padding-top: 2px;">
+            <span *ngIf="reviewInfo">-${{ reviewInfo.totalRoomDiscount }}</span>
+          </td>
+        </tr>
+      </table>
+
+      <table style="width:100%;" *ngIf="reviewInfo.totalChildPromo > 0">
+        <tr>
+          <td style="width:90%">Child Discount:</td>
+          <td style="text-align: right;width:10%;padding-top: 2px;">
+            <span *ngIf="reviewInfo">-${{ reviewInfo.totalChildPromo }}</span>
+          </td>
+        </tr>
+      </table>
+      <table style="width:100%;" *ngIf="reviewInfo.totalPromoAmount > 0">
+          <tr>
+            <td style="width:90%">Promotion:</td>
+            <td style="text-align: right;width:10%;padding-top: 2px;">
+              <span *ngIf="reviewInfo">-${{ reviewInfo.totalPromoAmount }}</span>
+            </td>
+          </tr>
+        </table>
+      
+      <hr
+        *ngIf="
+          reviewInfo &&
+          reviewInfo.totalOptionPrice > 0 &&
+          reviewInfo.totalVisaPrice > 0 &&
+          reviewInfo.extraHotelAmount > 0
+        "
+      />
+      <table
+        style="width:100%;"
+        *ngIf="reviewInfo && reviewInfo.totalOptionPrice > 0"
+      >
+        <tr>
+          <td style="width:90%">Optional Tours:</td>
+          <td style="text-align: right;width:10%;padding-top: 2px;">
+            <span *ngIf="reviewInfo">${{ reviewInfo.totalOptionPrice }}</span>
+          </td>
+        </tr>
+      </table>
+
+      <table
+        style="width:100%;"
+        *ngIf="reviewInfo && reviewInfo.totalVisaPrice > 0"
+      >
+        <tr>
+          <td style="width:90%">Visa:</td>
+          <td style="text-align: right;width:10%;padding-top: 2px;">
+            <span *ngIf="reviewInfo">${{ reviewInfo.totalVisaPrice }}</span>
+          </td>
+        </tr>
+      </table>
+
+      <table
+        style="width:100%;"
+        *ngIf="reviewInfo && reviewInfo.extraHotelAmount > 0"
+      >
+        <tr>
+          <td style="width:90%">Extra Hotel:</td>
+          <td style="text-align: right;width:10%;padding-top: 2px;">
+            <span *ngIf="reviewInfo">${{ reviewInfo.extraHotelAmount }}</span>
+          </td>
+        </tr>
+      </table>
+
+      <br />
+      <div
+        class="row"
+        style="background-color:black;padding-top:1em;padding-bottom:1em;"
+      >
+        <div class="col-md-6" style="color:lightgray">Total(CAD):</div>
+        <div class="col-md-6 text-right" style="color:white">
+          <span *ngIf="reviewInfo">${{ reviewInfo.totalPrice }}</span>
+        </div>
+      </div>
     </div>
+    
+    <table
+      style="width:100%;"
+      *ngIf="reviewInfo && reviewInfo.showApplyPromoCode"
+    >
+      <tr>
+        <td style="width:40%">Promo Code:</td>
+        <td style="text-align: right;padding-top: 2px;">
+          <div class="input-group" *ngIf="reviewInfo">
+            <input type="text" class="form-control"  [(ngModel)]="reviewInfo.PromoCodeEntered">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-warning" (click)="ApplyPromoCode()">Apply</button>
+            </span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" *ngIf="applyPromoCodeMsg != ''" style="color:red;">{{applyPromoCodeMsg}}</td>
+      </tr>
+    </table>
   </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-12">
+    <table style="width:100%;">
+      <tr>
+        <td colspan="2">
+          Got a question or need help with your booking? Feel free to give us a
+          call!
+        </td>
+      </tr>
+      <tr>
+        <td style="width:5%;vertical-align:middle;">
+          <em class="fa fa-phone colour"></em>
+        </td>
+        <td>
+          <strong style="margin:0px;padding:0px;">1877.578.8888</strong>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div style="font-size:10px;">
+            (Monday-Friday, 9:30am - 6:00pm EST)
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

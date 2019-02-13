@@ -19,10 +19,14 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-6">
               <strong style="font-size:28px;">Total Number of Travelers:</strong>
             </div>
+            <div class="col-md-4  text-right" style="padding-top:7px;">
+                <label for="selectedTravellerQuantity" *ngIf="maxAvailabledTravellerQuantities < 9">Available Space(s):{{maxAvailabledTravellerQuantities}}</label>
+            </div>
             <div class="col-md-2 text-right">
+              
               <select class="form-control" name="selectedTravellerQuantity" *ngIf="trip" [compareWith]="compareFn" [ngModel]="trip.selectedTravellerQuantity"
                 (ngModelChange)="travellerChange($event)">
                 <ng-container *ngIf="trip">
@@ -35,13 +39,17 @@
           </div>
           <hr>
           <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-6">
               <div>
                 <strong style="font-size:28px;">Accommodation:</strong>
               </div>
               <div>How many hotel rooms do you require?</div>
             </div>
+            <div class="col-md-4  text-right" style="padding-top:17px;">
+                <label for="selectedRoomQuantity" *ngIf="maxAvailabledRoomQuantities < 9">Available Room(s):{{maxAvailabledRoomQuantities}}</label>
+            </div>
             <div class="col-md-2 text-right">
+              
               <select style="margin-top:10px;" name="selectedRoomQuantity" *ngIf="trip" class="form-control" [compareWith]="compareFn"
                 [ngModel]="trip.selectedRoomQuantity" (ngModelChange)="roomChange($event)">
                 <ng-container *ngIf="trip">

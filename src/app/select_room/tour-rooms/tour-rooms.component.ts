@@ -47,6 +47,8 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
   toursSubscription: Subscription;
   maxCapacity: number;
   isVerified: boolean;
+  maxAvailabledTravellerQuantities: number;
+  maxAvailabledRoomQuantities: number;
   constructor(
     private tourService: EnTourService,
     private router: Router,
@@ -68,6 +70,12 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
     this.maxCapacity = Math.max(
       ...this.trip.availabledRooms.map(room => room.capacity)
     );
+    this.maxAvailabledTravellerQuantities = this.trip.availabledTravellerQuantities[
+      this.trip.availabledTravellerQuantities.length - 1
+    ].id;
+    this.maxAvailabledRoomQuantities = this.trip.availabledRoomQuantities[
+      this.trip.availabledRoomQuantities.length - 1
+    ].id;
     if (this.trip.rooms.length === 0) {
       this.initRooms();
       this.tourService.updateRoomInfo();

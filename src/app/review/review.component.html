@@ -148,7 +148,9 @@
                     </td>
                   </tr>
                   <tr *ngIf="traveller.specialRequest">
-                    <td colspan="11">Request: {{ traveller.specialRequest }}</td>
+                    <td colspan="11">
+                      Request: {{ traveller.specialRequest }}
+                    </td>
                   </tr>
                 </ng-container>
               </table>
@@ -189,22 +191,46 @@
   <div class="row" style="margin-bottom: 5px;">
     <div class="col-md-12">
       <span style="display: table-cell;">
-          <div style="font-size:18px;  height: 20px; font-weight: bold;" *ngIf="trip.tourName">{{ trip.tourName }}</div><div *ngIf="trip.name" style="font-size:14px;  padding-bottom:2px; font-weight: bold;">{{ trip.name }}</div>
+        <div
+          style="font-size:18px;  height: 20px; font-weight: bold;"
+          *ngIf="trip.tourName"
+        >
+          {{ trip.tourName }}
+        </div>
+        <div
+          *ngIf="trip.name"
+          style="font-size:14px;  padding-bottom:2px; font-weight: bold;"
+        >
+          {{ trip.name }}
+        </div>
       </span>
     </div>
   </div>
 
   <div class="row" style="margin-bottom: 5px;">
-      <div class="col-md-12">
-        <span style="display: table-cell;">
-            <div style="font-size:14px; height: 16px;font-weight: bold;" *ngIf="trip.startPlace">Start: {{ trip.startPlace }}</div><div *ngIf="trip.endPlace" style="font-size:14px; padding-bottom:2px; font-weight: bold;">End: {{ trip.endPlace }}</div>
-        </span>
-      </div>
+    <div class="col-md-12">
+      <span style="display: table-cell;">
+        <div
+          style="font-size:14px; height: 16px;font-weight: bold;"
+          *ngIf="trip.startPlace"
+        >
+          Start: {{ trip.startPlace }}
+        </div>
+        <div
+          *ngIf="trip.endPlace"
+          style="font-size:14px; padding-bottom:2px; font-weight: bold;"
+        >
+          End: {{ trip.endPlace }}
+        </div>
+      </span>
     </div>
+  </div>
 
   <div class="row">
     <div class="col-md-12">
-      <strong *ngIf="trip.startDate" style="font-size:14px;">Departure: {{ trip.startDate | date: "MMMM d, yyyy" }}</strong>
+      <strong *ngIf="trip.startDate" style="font-size:14px;"
+        >Departure: {{ trip.startDate | date: "MMMM d, yyyy" }}</strong
+      >
     </div>
   </div>
   <div class="row">
@@ -349,8 +375,40 @@
       ${{
         (trip.paymentTypeSurcharges * trip.totalPriceForPayment) | number: "1.2-2"
       }}
-    </div>
+    </div>r.totalChildPromo -
+        r.totalRoomDiscount -
+        r.totalPromoAmount;
   </div> -->
+  <div
+    class="row"
+    style="font-size: 18px;"
+    *ngIf="reviewInfo.totalChildPromo > 0"
+  >
+    <div class="col-md-10 text-right">Total Child Discount:</div>
+    <div class="col-md-2  text-right">
+      (${{ reviewInfo.totalChildPromo | number: "1.2-2" }})
+    </div>
+  </div>
+  <div
+    class="row"
+    style="font-size: 18px;"
+    *ngIf="reviewInfo.totalRoomDiscount > 0"
+  >
+    <div class="col-md-10 text-right">Total Room Discount:</div>
+    <div class="col-md-2  text-right">
+      (${{ reviewInfo.totalRoomDiscount | number: "1.2-2" }})
+    </div>
+  </div>
+  <div
+    class="row"
+    style="font-size: 18px;"
+    *ngIf="reviewInfo.totalPromoAmount > 0"
+  >
+    <div class="col-md-10 text-right">Total Promo Amount:</div>
+    <div class="col-md-2  text-right">
+      (${{ reviewInfo.totalPromoAmount | number: "1.2-2" }})
+    </div>
+  </div>
   <div class="row" style="font-size: 18px;">
     <div class="col-md-10 text-right">Total Price:</div>
     <div class="col-md-2  text-right">
@@ -360,7 +418,11 @@
       }}
     </div>
   </div>
-  <div class="row" style="font-size: 18px;" *ngIf="trip.paidAmounts == null; else paid">
+  <div
+    class="row"
+    style="font-size: 18px;"
+    *ngIf="trip.paidAmounts == null; else paid"
+  >
     <div class="col-md-10  text-right">
       Minimum Deposit:
     </div>
@@ -374,7 +436,8 @@
 
   <ng-template #paid>
     <div
-      class="row"  style="font-size: 18px;"
+      class="row"
+      style="font-size: 18px;"
       *ngFor="let paymentAmount of trip.paidAmounts; let i = index"
     >
       <div class="col-md-11 text-right" *ngIf="i === 0">Deposit:</div>
@@ -383,7 +446,7 @@
         (${{ paymentAmount | number: "1.2-2" }})
       </div>
     </div>
-    <div class="row"  style="font-size: 18px;">
+    <div class="row" style="font-size: 18px;">
       <div class="col-md-11 text-right">Balance Owing:</div>
       <div class="col-md-1 text-right" style="padding-left:0px;">
         ${{ own | number: "1.2-2" }}

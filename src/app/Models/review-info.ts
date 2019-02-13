@@ -1,6 +1,6 @@
 import { OptionSummary } from "./option-summary";
 
-export class ReviewInfo {
+export interface ReviewInfo {
   minimumDepositTotal: number;
   totalPrice: number;
   totalRoomPrice: number;
@@ -8,9 +8,13 @@ export class ReviewInfo {
   totalVisaPrice: number;
   totalVisaQuantity: number;
   totalChildPromo: number;
+  totalRoomDiscount: number;
+  totalPromoAmount: number;
   extraHotelAmount: number;
   childrenQuantity: number;
   promoAmountPerChild: number;
   showSingleSupplment: boolean;
+  showApplyPromoCode: boolean;
+  PromoCodeEntered: string;
   optionSummary: OptionSummary[];
 }

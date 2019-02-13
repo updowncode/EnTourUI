@@ -44,6 +44,7 @@ import { EnBook } from "./Models/en-book";
 import { FrontEndCallbackModel } from "./Models/front-end-callback-model";
 import { OrderDetail } from "./Models/order-detail";
 import { OptionSummary } from "./Models/option-summary";
+import { Promotion } from "./Models/promotion";
 const FETCH_LATENCY = 500;
 const httpOptions = {
   headers: new HttpHeaders({
@@ -57,7 +58,7 @@ export class EnTourService implements OnDestroy {
   private tour: Tour;
   private trip: Trip;
 
-private siteIPToPublish = 'https://en.toureast.com';
+private siteIPToPublish = 'http://192.168.168.117:8019';
   // private toursUrl = "http://localhost:51796/api/entours"; // URL to web api
   // private bookUrl = "http://localhost:51796/api/bookentour"; // URL to web api
 
@@ -217,7 +218,10 @@ private siteIPToPublish = 'https://en.toureast.com';
     this.roomsCanbeMovedTo.next(true);
   }
   getTotalPrice(): ReviewInfo {
-    const r: ReviewInfo = new ReviewInfo();
+   // const r: ReviewInfo = new ReviewInfo();
+   const r: ReviewInfo = <ReviewInfo>{
+
+   };
     r.childrenQuantity = 0;
     r.totalPrice = 0;
     r.totalRoomPrice = 0;
@@ -227,24 +231,40 @@ private siteIPToPublish = 'https://en.toureast.com';
     r.totalChildPromo = 0;
     r.extraHotelAmount = 0;
     r.promoAmountPerChild = 0;
+    r.totalRoomDiscount = 0;
+    r.PromoCodeEntered = "";
+    r.totalPromoAmount = 0;
     r.showSingleSupplment = false;
     r.optionSummary = new Array<OptionSummary>();
 
     if (this.trip && this.trip.rooms) {
+      if (this.trip.rooms.some(c => c.selectedPromotion != null)) {
+        r.PromoCodeEntered = this.trip.rooms.find(
+          room => room.selectedPromotion != null
+        ).selectedPromotion.code;
+      }
+      r.totalPromoAmount = this.trip.rooms.reduce(
+        (a, b) =>
+          a + (b.selectedPromotion == null ? 0 : b.selectedPromotion.amount),
+        0
+      );
       r.totalRoomPrice = this.trip.rooms.reduce(
         (a, b) => a + b.roomPriceForPerTraveller * b.travellers.length,
         0
       );
-      this.trip.rooms = this.trip.rooms.map(c => {
-        c.travellers.forEach(d => (d.needVisa = false));
-        return c;
-      });
+      // this.trip.rooms = this.trip.rooms.map(c => {
+      //   c.travellers.forEach(d => (d.needVisa = false));
+      //   return c;
+      // });
       const t = this.trip.rooms.reduce(
         (a, b) => [...a, ...b.travellers],
         new Array<Traveller>()
       );
       r.childrenQuantity = t.filter(c => c.isChild).length;
-
+      r.totalRoomDiscount = this.trip.rooms.reduce(
+        (a, b) => a + b.roomDiscount,
+        0
+      );
       r.totalChildPromo =
         r.childrenQuantity > 0
           ? this.trip.rooms.reduce(
@@ -276,11 +296,19 @@ private siteIPToPublish = 'https://en.toureast.com';
         r.totalOptionPrice +
         r.totalVisaPrice +
         r.extraHotelAmount -
-        r.totalChildPromo;
+        r.totalChildPromo -
+        r.totalRoomDiscount -
+        r.totalPromoAmount;
       r.optionSummary = [...this.setOptionSummary2(t)];
       this.trip.totalPriceForPayment = r.totalPrice;
       r.minimumDepositTotal = this.trip.minimumDeposit * t.length;
-
+      r.showApplyPromoCode =
+        this.trip.rooms.reduce(
+          (c, d) => [...c, ...d.promotionList],
+          new Array<Promotion>()
+        ).length > 0;
+      // r.PromoCodeEntered = "";
+      // r.ApplyPromoCodeMsg = "";
       // if (this.trip.rooms.some(c => c.travellers.length === 1)) {
       //   r.showSingleSupplment = true;
       // } else {

@@ -69,6 +69,7 @@ import { ReceiptComponent } from './receipt/receipt.component';
 import { SafePipe } from './safe.pipe';
 import { FormatDecimalPipe } from "./share/format-decimal.pipe";
 
+
 // import { NoopInterceptor } from "../../node_modules/@angular/common/http/src/interceptor";
 // export function getBaseHref(platformLocation: PlatformLocation): string {
 //   return platformLocation.getBaseHrefFromDOM();
