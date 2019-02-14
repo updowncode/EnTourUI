@@ -106,7 +106,7 @@ export class TourSummaryComponent
         });
         this.applyPromoCodeMsg = "";
       } else {
-        this.applyPromoCodeMsg = "Code is Not Exist";
+        this.applyPromoCodeMsg = "Invalid Promo Code!";
       }
     } else {
       this.trip.rooms.forEach(room => (room.selectedPromotion = null));

@@ -66,6 +66,8 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
   totalOptionPrice: number;
   extraHotelAmount: number;
   totalPaidAmount: number;
+  totalRoomDiscount: number;
+  totalPromoAmount: number;
   hasOption: boolean;
   hashcode: string;
   constructor(
@@ -207,6 +209,10 @@ export class TourPaymentComponent implements OnInit, OnDestroy {
         (a: number, b: number) => a + b,
         0
       );
+
+      this.totalPromoAmount = resp.data.totalPromoAmount;
+
+      this.totalRoomDiscount = resp.data.totalRoomDiscount;
       // this.messageService.clearMessage();
       // this.messageService.add(`Order Number: ${this.orderNumber}`);
       // if (this.invoiceNumber.length > 0) {
