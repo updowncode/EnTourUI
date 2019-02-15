@@ -13,7 +13,10 @@ import { Trip } from "../../Models/trip";
 import { Subscription, BehaviorSubject, of } from "rxjs";
 import { ReviewInfo } from "../../Models/review-info";
 import { Promotion } from "src/app/Models/promotion";
-
+export interface RoomSpacePrice {
+  cap: number;
+  price: number;
+}
 @Component({
   selector: "app-tour-summary",
   templateUrl: "./tour-summary.component.html",
@@ -26,6 +29,7 @@ export class TourSummaryComponent
   tourId: string;
   tripId: string;
   applyPromoCodeMsg: string;
+  roomOriginalPriceForPerTravellerHtml: string;
   reviewInfo: ReviewInfo;
   roomInfoSubscription: Subscription;
   totalPriceSubscription: Subscription;
@@ -67,8 +71,88 @@ export class TourSummaryComponent
     } else {
       this.reviewInfo.showSingleSupplment = false;
     }
-  }
 
+
+
+
+    this.roomOriginalPriceForPerTravellerHtml =
+      "<div>$" +
+      this.trip.tripCostForDefaultPerTraveller.toString() +
+      " Per Person</div>";
+    if (
+      this.trip.rooms.some(
+        c =>
+          c.roomOriginalPriceForPerTraveller !==
+          this.trip.tripCostForDefaultPerTraveller
+      )
+    ) {
+      this.roomOriginalPriceForPerTravellerHtml = "";
+      // distinct
+      const cp = Array.from(
+        new Set(
+          this.trip.rooms.map(
+            (item: any) =>
+              "<div>$" +
+              item.roomOriginalPriceForPerTraveller.toString() +
+              " Per Person" +
+              this.getRoomCapacityName(item.capacity) +
+              "</div>"
+            //   <RoomSpacePrice> { cap: item.capacity, price : item.roomOriginalPriceForPerTraveller}
+          )
+        )
+      );
+      if (cp.length > 1) {
+        cp.forEach(c => {
+          this.roomOriginalPriceForPerTravellerHtml += c.toString();
+        });
+      } else {
+        this.roomOriginalPriceForPerTravellerHtml = "";
+        // distinct
+        Array.from(
+          new Set(
+            this.trip.rooms.map(
+              (item: any) => item.roomOriginalPriceForPerTraveller
+            )
+          )
+        ).forEach(c => {
+          this.roomOriginalPriceForPerTravellerHtml +=
+            "<div>$" + c.toString() + " Per Person"  + "</div>";
+        });
+      }
+
+    }
+  }
+  getRoomCapacityName(capacity: number) {
+    let cpname = capacity.toString() + "Bed Room";
+    switch (capacity) {
+      case 1:
+        {
+          cpname = " in Single Room";
+        }
+        break;
+      case 2:
+        {
+          cpname = " in Double Room";
+        }
+        break;
+      case 3:
+        {
+          cpname = " in Triple Room";
+        }
+        break;
+      case 4:
+        {
+          cpname = " in Quarter Room";
+        }
+        break;
+      default:
+        {
+          cpname = capacity.toString() + " room";
+        }
+        break;
+    }
+    return cpname;
+  }
   ngOnDestroy() {
     this.roomInfoSubscription.unsubscribe();
     this.totalPriceSubscription.unsubscribe();
@@ -98,7 +182,7 @@ export class TourSummaryComponent
           room.promotionList.forEach(promo => {
             if (
               promo.code.trim().toUpperCase() ===
-                this.reviewInfo.PromoCodeEntered.trim().toUpperCase()
+              this.reviewInfo.PromoCodeEntered.trim().toUpperCase()
             ) {
               room.selectedPromotion = promo;
             }

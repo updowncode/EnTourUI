@@ -55,9 +55,9 @@
         </div>
         <div
           class="col-md-8 text-right"
-          style="margin-left: 0px;padding-left: 0px;"
+          style="margin-left: 0px;padding-left: 0px;" [innerHTML]="roomOriginalPriceForPerTravellerHtml | safeHtml"
         >
-          <div>${{ trip.tripCostForDefaultPerTraveller }} Per Person</div>
+          <!-- <div>${{ trip.tripCostForDefaultPerTraveller }} Per Person</div> -->
         </div>
       </div>
       <div

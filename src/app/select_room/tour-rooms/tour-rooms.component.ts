@@ -336,6 +336,7 @@ export class TourRoomsComponent implements OnInit, OnDestroy {
         }
       }
     }
+    this.tourService.updateRoomInfo();
   }
   private log(message: string) {
     if (message.length > 0) {
