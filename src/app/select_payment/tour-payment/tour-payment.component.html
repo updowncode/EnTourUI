@@ -133,13 +133,17 @@
                           </div>
                         </div>
                         <div class="row" *ngFor="let traveller of room.travellers">
-                          <div class="col-md-6">
+                          <div class="col-md-4">
                             &nbsp;&nbsp;{{ traveller.title }}.&nbsp;
                             {{ traveller.firstName }}&nbsp;{{
                               traveller.middleName
                             }}&nbsp;{{ traveller.lastName }}
                           </div>
-                          <div class="col-md-6 text-right">
+                          <div class="col-md-4">
+                            <span *ngIf="traveller.needInsuance">Insurance Accepted</span>
+                            <span *ngIf="!traveller.needInsuance">Insurance Declined</span>
+                          </div>
+                          <div class="col-md-4 text-right">
                             $&nbsp;{{
                               room.roomPriceForPerTraveller -
                                 (traveller.isChild ? room.childPromoAmount : 0)
