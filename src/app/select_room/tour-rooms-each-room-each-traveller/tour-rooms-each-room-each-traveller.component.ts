@@ -75,9 +75,9 @@ export class TourRoomsEachRoomEachTravellerComponent
         const chng = changes[propName];
         const cur = JSON.stringify(chng.currentValue);
         const prev = JSON.stringify(chng.previousValue);
-        console.log(
-          `${propName}: currentValue = ${cur}, previousValue = ${prev}`
-        );
+        // console.log(
+        //   `${propName}: currentValue = ${cur}, previousValue = ${prev}`
+        // );
       }
     }
   }

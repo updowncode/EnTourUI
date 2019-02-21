@@ -69,15 +69,15 @@ export class TourRoomsEachRoomComponent
   }
   ngAfterViewInit(): void {
     // 初始化完组件视图及其子视图之后调用。第一次 ngAfterContentChecked() 之后调用，只调用一次。
-    if (this.room.index > 0) {
-      console.log(`ngAfterViewInit:room index is ${this.room.index}`);
-    }
+    // if (this.room.index > 0) {
+    //   console.log(`ngAfterViewInit:room index is ${this.room.index}`);
+    // }
   }
   ngAfterViewChecked(): void {
     // 每次做完组件视图和子视图的变更检测之后调用。ngAfterViewInit() 和每次 ngAfterContentChecked() 之后调用。
-    if (this.room.index > 0) {
-      console.log(`ngAfterViewChecked:room index is ${this.room.index}`);
-    }
+    // if (this.room.index > 0) {
+    //   console.log(`ngAfterViewChecked:room index is ${this.room.index}`);
+    // }
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

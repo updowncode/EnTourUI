@@ -72,54 +72,52 @@ export class TourSummaryComponent
       this.reviewInfo.showSingleSupplment = false;
     }
 
-
-
-
-    this.roomOriginalPriceForPerTravellerHtml =
-      "<div>$" +
-      this.trip.tripCostForDefaultPerTraveller.toString() +
-      " Per Person</div>";
-    if (
-      this.trip.rooms.some(
-        c =>
-          c.roomOriginalPriceForPerTraveller !==
-          this.trip.tripCostForDefaultPerTraveller
-      )
-    ) {
-      this.roomOriginalPriceForPerTravellerHtml = "";
-      // distinct
-      const cp = Array.from(
-        new Set(
-          this.trip.rooms.map(
-            (item: any) =>
-              "<div>$" +
-              item.roomOriginalPriceForPerTraveller.toString() +
-              " Per Person" +
-              this.getRoomCapacityName(item.capacity) +
-              "</div>"
-            //   <RoomSpacePrice> { cap: item.capacity, price : item.roomOriginalPriceForPerTraveller}
-          )
+    if (this.trip && this.trip.rooms !== null) {
+      this.roomOriginalPriceForPerTravellerHtml =
+        "<div>$" +
+        this.trip.tripCostForDefaultPerTraveller.toString() +
+        " Per Person</div>";
+      if (
+        this.trip.rooms.some(
+          c =>
+            c.roomOriginalPriceForPerTraveller !==
+            this.trip.tripCostForDefaultPerTraveller
         )
-      );
-      if (cp.length > 1) {
-        cp.forEach(c => {
-          this.roomOriginalPriceForPerTravellerHtml += c.toString();
-        });
-      } else {
+      ) {
         this.roomOriginalPriceForPerTravellerHtml = "";
         // distinct
-        Array.from(
+        const cp = Array.from(
           new Set(
             this.trip.rooms.map(
-              (item: any) => item.roomOriginalPriceForPerTraveller
+              (item: any) =>
+                "<div>$" +
+                item.roomOriginalPriceForPerTraveller.toString() +
+                " Per Person" +
+                this.getRoomCapacityName(item.capacity) +
+                "</div>"
+              //   <RoomSpacePrice> { cap: item.capacity, price : item.roomOriginalPriceForPerTraveller}
             )
           )
-        ).forEach(c => {
-          this.roomOriginalPriceForPerTravellerHtml +=
-            "<div>$" + c.toString() + " Per Person"  + "</div>";
-        });
+        );
+        if (cp.length > 1) {
+          cp.forEach(c => {
+            this.roomOriginalPriceForPerTravellerHtml += c.toString();
+          });
+        } else {
+          this.roomOriginalPriceForPerTravellerHtml = "";
+          // distinct
+          Array.from(
+            new Set(
+              this.trip.rooms.map(
+                (item: any) => item.roomOriginalPriceForPerTraveller
+              )
+            )
+          ).forEach(c => {
+            this.roomOriginalPriceForPerTravellerHtml +=
+              "<div>$" + c.toString() + " Per Person" + "</div>";
+          });
+        }
       }
-
     }
   }
   getRoomCapacityName(capacity: number) {
