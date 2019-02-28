@@ -323,16 +323,22 @@
                   <div class="row">
                     <div class="col-md-5">Phone:</div>
                     <div class="col-md-7">
-                      {{
-                        orderTrip.billingInfo.primaryPhone + 
-                          orderTrip.billingInfo.secondaryPhone
-                      }}
+                      <div>
+                        {{
+                          orderTrip.billingInfo.primaryPhone
+                        }}
+                      </div>
+                      <div>
+                          {{
+                            orderTrip.billingInfo.secondaryPhone
+                          }}
+                      </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-5">Billing Address:</div>
                     <div class="col-md-7">
-                      {{ orderTrip.billingInfo.mailingAddress }}&nbsp;{{ orderTrip.billingInfo.city }},{{ orderTrip.billingInfo.provinceStates }}&nbsp;{{ orderTrip.billingInfo.postalCode }}
+                      {{ orderTrip.billingInfo.mailingAddress }}&nbsp;{{ orderTrip.billingInfo.city }},&nbsp;{{ orderTrip.billingInfo.provinceStates }}&nbsp;{{ orderTrip.billingInfo.postalCode }}
                     </div>
                   </div>
                   <div class="row">
